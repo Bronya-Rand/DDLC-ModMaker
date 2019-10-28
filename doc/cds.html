@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Creator-Defined Statements &#8212; Ren&#39;Py Documentation</title>
+    <link rel="stylesheet" href="_static/renpydoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '7.3.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Custom Text Tags" href="custom_text_tags.html" />
+    <link rel="prev" title="Creator-Defined Displayables" href="udd.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Ren&#39;Py Documentation</a>
+        <span class="navbar-text navbar-version pull-left"><b>7.3.4</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="https://www.renpy.org">Home Page</a></li>
+                <li><a href="https://www.renpy.org/doc/html/">Online Documentation</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gui.html">GUI Customization Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="language_basics.html">Language Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="label.html">Labels &amp; Control Flow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dialogue.html">Dialogue and Narration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="displaying_images.html">Displaying Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="menus.html">In-Game Menus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">Python Statements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conditional.html">Conditional Statements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="movie.html">Movie</a></li>
+<li class="toctree-l1"><a class="reference internal" href="voice.html">Voice</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="text.html">Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="translation.html">Translation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="displayables.html">Displayables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transforms.html">Transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transitions.html">Transitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="atl.html">Animation and Transformation Language</a></li>
+<li class="toctree-l1"><a class="reference internal" href="layeredimage.html">Layered Images</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="style.html">Styles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="style_properties.html">Style Properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="screens.html">Screens and Screen Language</a></li>
+<li class="toctree-l1"><a class="reference internal" href="screen_actions.html">Screen Actions, Values, and Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="screen_special.html">Special Screen Names</a></li>
+<li class="toctree-l1"><a class="reference internal" href="screen_optimization.html">Screen Language Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">Configuration Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preferences.html">Preference Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="store_variables.html">Store Variables</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="developer_tools.html">Developer Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="director.html">Interactive Director</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="nvl_mode.html">NVL-Mode Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input.html">Text Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="side_image.html">Side Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rooms.html">Image Gallery, Music Room, and Replay Actions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="drag_drop.html">Drag and Drop</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sprites.html">Sprites</a></li>
+<li class="toctree-l1"><a class="reference internal" href="keymap.html">Customizing the Keymap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="achievement.html">Achievements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">Dialogue History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multiple.html">Multiple Character Dialogue</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="statement_equivalents.html">Statement Equivalents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="save_load_rollback.html">Saving, Loading, and Rollback</a></li>
+<li class="toctree-l1"><a class="reference internal" href="persistent.html">Persistent Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="trans_trans_python.html">Transforms and Transitions in Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gui_advanced.html">Advanced GUI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="screen_python.html">Screens and Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modes.html">Modes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="udd.html">Creator-Defined Displayables</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Creator-Defined Statements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_text_tags.html">Custom Text Tags</a></li>
+<li class="toctree-l1"><a class="reference internal" href="character_callbacks.html">Character Callbacks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file_python.html">File Access</a></li>
+<li class="toctree-l1"><a class="reference internal" href="color_class.html">Color Class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="other.html">Other Functions and Variables</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="build.html">Building Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="updater.html">Web Updater</a></li>
+<li class="toctree-l1"><a class="reference internal" href="android.html">Android</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chromeos.html">Chrome OS / Chrome Browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ios.html">iOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iap.html">In-App Purchasing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gesture.html">Gestures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="raspi.html">Raspberry Pi</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="problems.html">Dealing with Problems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="environment_variables.html">Environment Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="self_voicing.html">Self-Voicing</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="editor.html">Text Editor Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="skins.html">Skins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="translating_renpy.html">Translating Ren'Py</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Full Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="incompatible.html">Incompatible Changes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distributor.html">Distributor Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sponsors.html">Ren'Py Development Sponsors</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="thequestion.html">Script of The Question</a></li>
+<li class="toctree-l1"><a class="reference internal" href="thequestion_nvl.html">NVL-mode script for The Question</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-3">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
+<li><a class="reference internal" href="#">Creator-Defined Statements</a><ul>
+<li><a class="reference internal" href="#lint-utility-functions">Lint Utility Functions</a></li>
+<li><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    <div class="col-md-9 content">
+      
+  <div class="section" id="creator-defined-statements">
+<span id="cds"></span><h1>Creator-Defined Statements<a class="headerlink" href="#creator-defined-statements" title="Permalink to this headline"> link</a></h1>
+<p>Creator-Defined Statements (CDS) allow you to add your own statements to Ren'Py. This
+makes it possible to add things that are not supported by the current syntax of
+Ren'Py. CDS are more flexible than the direct Python code. Most often, CDS are used
+when you have a repeatable construction. For example, calling a function with one argument.
+Ren'Py does not know what this function does and how it should be executed,
+so Ren'Py does not do anything with it until execution and has an error if an exception occurs.
+Using the CDS allows you to check the correctness of the syntax using parse
+(for example, check that the argument is a valid string), to ignore incorrect data
+at execution (for non-critical functions, it is better to skip the execute than
+to throw an exception), predict displayables (if the function uses them),
+and give you addition information during lint (if at runtime it was ignored you
+can have a report here). The CDS does not guarantee that the execution will be successful,
+but the better you code your statement, the better Ren'Py can &quot;understand&quot; what
+you expect from it.</p>
+<p>Creator-defined statements must be defined in a <code class="docutils literal"><span class="pre">python</span> <span class="pre">early</span></code> block. What's more,
+the filename containing the user-defined statement must be be loaded earlier
+than any file that uses it. Since Ren'Py loads files in Unicode sort order, it
+generally makes sense to prefix the name of any file containing a user-defined
+statement with 01, or some other small number.</p>
+<p>A creator-defined statement cannot be used in the file in which it is defined.</p>
+<p>Creator-defined statement are registered using the <a class="reference internal" href="#renpy.register_statement" title="renpy.register_statement"><code class="xref py py-func docutils literal"><span class="pre">renpy.register_statement()</span></code></a>
+function.</p>
+<dl class="function">
+<dt id="renpy.register_statement">
+<code class="descclassname">renpy.</code><code class="descname">register_statement</code><span class="sig-paren">(</span><em>name</em>, <em>parse=None</em>, <em>lint=None</em>, <em>execute=None</em>, <em>predict=None</em>, <em>next=None</em>, <em>scry=None</em>, <em>block=False</em>, <em>init=False</em>, <em>translatable=False</em>, <em>execute_init=None</em>, <em>init_priority=0</em>, <em>label=None</em>, <em>warp=None</em>, <em>translation_strings=None</em>, <em>force_begin_rollback=False</em>, <em>post_execute=None</em>, <em>post_label=None</em>, <em>predict_all=True</em>, <em>predict_next=None</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.register_statement" title="Permalink to this definition"> link</a></dt>
+<dd><p>This registers a user-defined statement.</p>
+<dl class="docutils">
+<dt><cite>name</cite></dt>
+<dd>This is either a space-separated list of names that begin the statement, or the
+empty string to define a new default statement (the default statement will
+replace the say statement).</dd>
+<dt><cite>block</cite></dt>
+<dd>When this is False, the statement does not expect a block. When True, it
+expects a block, but leaves it up to the lexer to parse that block. If the
+string &quot;script&quot;, the block is interpreted as containing one or more
+Ren'Py script language statements. If the string &quot;possible&quot;, the
+block expect condition is determined by the parse function.</dd>
+<dt><cite>parse</cite></dt>
+<dd>This is a function that takes a Lexer object. This function should parse the
+statement, and return an object. This object is passed as an argument to all the
+other functions.</dd>
+<dt><cite>lint</cite></dt>
+<dd>This is called to check the statement. It is passed a single argument, the
+object returned from parse. It should call renpy.error to report errors.</dd>
+<dt><cite>execute</cite></dt>
+<dd>This is a function that is called when the statement executes. It is passed a
+single argument, the object returned from parse.</dd>
+<dt><cite>execute_init</cite></dt>
+<dd>This is a function that is called at init time, at priority 0.</dd>
+<dt><cite>predict</cite></dt>
+<dd>This is a function that is called to predict the images used by the statement.
+It is passed a single argument, the object returned from parse. It should return
+a list of displayables used by the statement.</dd>
+<dt><cite>next</cite></dt>
+<dd><p class="first">This is a function that is called to determine the next statement.</p>
+<p>If <cite>block</cite> is not &quot;script&quot;, this is passed a single argument, the object
+returned from the parse function. If <cite>block</cite> is &quot;script&quot;, an additional
+argument is passed, an object that names the first statement in the block.</p>
+<p class="last">The function should return either a string giving a label to jump to,
+the second argument to transfer control into the block, or None to
+continue to the statement after this one.</p>
+</dd>
+<dt><cite>label</cite></dt>
+<dd>This is a function that is called to determine the label of this
+statement. If it returns a string, that string is used as the statement
+label, which can be called and jumped to like any other label.</dd>
+<dt><cite>warp</cite></dt>
+<dd>This is a function that is called to determine if this statement
+should execute during warping. If the function exists and returns
+true, it's run during warp, otherwise the statement is not run
+during warp.</dd>
+<dt><cite>scry</cite></dt>
+<dd>Used internally by Ren'Py.</dd>
+<dt><cite>init</cite></dt>
+<dd>True if this statement should be run at init-time. (If the statement
+is not already inside an init block, it's automatically placed inside
+an init block.) This calls the execute function, in addition to the
+execute_init function.</dd>
+<dt><cite>init_priority</cite></dt>
+<dd>An integer that determines the priority of initialization of the
+init block.</dd>
+<dt><cite>translation_strings</cite></dt>
+<dd>A function that is called with the parsed block. It's expected to
+return a list of strings, which are then reported as being available
+to be translated.</dd>
+<dt><cite>force_begin_rollback</cite></dt>
+<dd>This should be set to true on statements that are likely to cause the
+end of a fast skip, similar to <code class="docutils literal"><span class="pre">menu</span></code> or <code class="docutils literal"><span class="pre">call</span> <span class="pre">screen</span></code>.</dd>
+<dt><cite>post_execute</cite></dt>
+<dd>A function that is executed as part the next statement after this
+one. (Adding a post_execute function changes the contents of the RPYC
+file, meaning a Force Compile is necessary.)</dd>
+<dt><cite>post_label</cite></dt>
+<dd>This is a function that is called to determine the label of this
+the post execute statement. If it returns a string, that string is used
+as the statement label, which can be called and jumped to like any other
+label. This can be used to create a unique return point.</dd>
+<dt><cite>predict_all</cite></dt>
+<dd>If True, then this predicts all sub-parses of this statement and
+the statement after this statement.</dd>
+<dt><cite>predict_next</cite></dt>
+<dd><p class="first">This is called with a single argument, the label of the statement
+that would run after this statement.</p>
+<p class="last">This should be called to predict the statements that can run after
+this one. It's expected to return a list of of labels or SubParse
+objects. This is not called if <cite>predict_all</cite> is true.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>The parse method takes a Lexer object:</p>
+<dl class="class">
+<dt id="Lexer">
+<em class="property">class </em><code class="descname">Lexer</code><a class="headerlink" href="#Lexer" title="Permalink to this definition"> link</a></dt>
+<dd><dl class="method">
+<dt id="Lexer.error">
+<code class="descname">error</code><span class="sig-paren">(</span><em>msg</em><span class="sig-paren">)</span><a class="headerlink" href="#Lexer.error" title="Permalink to this definition"> link</a></dt>
+<dd><p>Adds a <cite>msg</cite> (with the current position) in the list of detected
+parsing errors. This interrupts the parsing of the current statement,
+but does not prevent further parsing.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Lexer.require">
+<code class="descname">require</code><span class="sig-paren">(</span><em>thing</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#Lexer.require" title="Permalink to this definition"> link</a></dt>
+<dd><p>Tries to parse <cite>thing</cite>, and reports an error if it cannot be done.</p>
+<p>If <cite>thing</cite> is a string, tries to parse it using <a class="reference internal" href="#Lexer.match" title="Lexer.match"><code class="xref py py-func docutils literal"><span class="pre">match()</span></code></a>.
+Otherwise, thing must be a other method on this lexer object,
+which is called without arguments. If <cite>name</cite> is not specified,
+the name of the method will be used in the message
+(or <cite>thing</cite> if it's a string), otherwise the <cite>name</cite> will be used.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Lexer.eol">
+<code class="descname">eol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Lexer.eol" title="Permalink to this definition"> link</a></dt>
+<dd><p>True if the lexer is at the end of the line.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Lexer.expect_eol">
+<code class="descname">expect_eol</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Lexer.expect_eol" title="Permalink to this definition"> link</a></dt>
+<dd><p>If we are not at the end of the line, raise an error.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Lexer.expect_noblock">
+<code class="descname">expect_noblock</code><span class="sig-paren">(</span><em>stmt</em><span class="sig-paren">)</span><a class="headerlink" href="#Lexer.expect_noblock" title="Permalink to this definition"> link</a></dt>
+<dd><p>Called to indicate this statement does not expect a block.
+If a block is found, raises an error. <cite>stmt</cite> should be a string,
+it will be added to the message with an error.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Lexer.expect_block">
+<code class="descname">expect_block</code><span class="sig-paren">(</span><em>stmt</em><span class="sig-paren">)</span><a class="headerlink" href="#Lexer.expect_block" title="Permalink to this definition"> link</a></dt>
+<dd><p>Called to indicate that the statement requires that a non-empty
+block is present. <cite>stmt</cite> should be a string, it will be added
+to the message with an error.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Lexer.has_block">
+<code class="descname">has_block</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Lexer.has_block" title="Permalink to this definition"> link</a></dt>
+<dd><p>True if the current line has a non-empty block.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Lexer.match">
+<code class="descname">match</code><span class="sig-paren">(</span><em>re</em><span class="sig-paren">)</span><a class="headerlink" href="#Lexer.match" title="Permalink to this definition"> link</a></dt>
+<dd><p>Matches an arbitrary regexp string.</p>
+<p>All of the statements in the lexer that match things are implemented
+in terms of this function. They first skip whitespace, then attempt
+to match against the line. If the match succeeds, the matched text
+is returned. Otherwise, None is returned, and the state of the lexer
+is unchanged.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Lexer.keyword">
+<code class="descname">keyword</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="headerlink" href="#Lexer.keyword" title="Permalink to this definition"> link</a></dt>
+<dd><p>Matches <cite>s</cite> as a keyword.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Lexer.name">
+<code class="descname">name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Lexer.name" title="Permalink to this definition"> link</a></dt>
+<dd><p>Matches a name. This does not match built-in keywords.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Lexer.word">
+<code class="descname">word</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Lexer.word" title="Permalink to this definition"> link</a></dt>
+<dd><p>Matches any word, including keywords. Returns the text of the
+matched word.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Lexer.image_name_component">
+<code class="descname">image_name_component</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Lexer.image_name_component" title="Permalink to this definition"> link</a></dt>
+<dd><p>Matches an image name component. Unlike a word, a image name
+component can begin with a number.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Lexer.string">
+<code class="descname">string</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Lexer.string" title="Permalink to this definition"> link</a></dt>
+<dd><p>Matches a Ren'Py string.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Lexer.integer">
+<code class="descname">integer</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Lexer.integer" title="Permalink to this definition"> link</a></dt>
+<dd><p>Matches an integer, returns a string containing the integer.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Lexer.float">
+<code class="descname">float</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Lexer.float" title="Permalink to this definition"> link</a></dt>
+<dd><p>Matches a floating point number, returns a string containing the
+floating point number.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Lexer.label_name">
+<code class="descname">label_name</code><span class="sig-paren">(</span><em>declare=False</em><span class="sig-paren">)</span><a class="headerlink" href="#Lexer.label_name" title="Permalink to this definition"> link</a></dt>
+<dd><p>Matches a label name, either absolute or relative. If <cite>declare</cite>
+is true, then the global label name is set. (Note that this does not
+actually declare the label - the statement is required to do that
+by returning it from the <cite>label</cite> function.)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Lexer.simple_expression">
+<code class="descname">simple_expression</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Lexer.simple_expression" title="Permalink to this definition"> link</a></dt>
+<dd><p>Matches a simple Python expression, returns it as a string.
+This is often used when you expect a variable name.
+It is not recommended to change the result. The correct action is
+to evaluate the result in the future.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Lexer.delimited_python">
+<code class="descname">delimited_python</code><span class="sig-paren">(</span><em>delim</em><span class="sig-paren">)</span><a class="headerlink" href="#Lexer.delimited_python" title="Permalink to this definition"> link</a></dt>
+<dd><p>Matches a Python expression that ends in a <cite>delim</cite>, for example ':'.
+This is often used when you expect a condition until the delimiter.
+It is not recommended to change the result. The correct action is
+to evaluate the result in the future. This raises an error if
+end of line is reached before the delimiter.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Lexer.arguments">
+<code class="descname">arguments</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Lexer.arguments" title="Permalink to this definition"> link</a></dt>
+<dd><p>This must be called before the parentheses with the arguments list,
+if they are not specified returns None, otherwise
+returns an object representing the arguments to a function
+call. This object has an <code class="docutils literal"><span class="pre">evaluate</span></code> method on it that
+takes an optional <cite>scope</cite> dictionary, and returns a tuple
+in which the first component is a tuple of positional arguments,
+and the second component is a dictionary of keyword arguments.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Lexer.rest">
+<code class="descname">rest</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Lexer.rest" title="Permalink to this definition"> link</a></dt>
+<dd><p>Skips whitespace, then returns the rest of the line.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Lexer.checkpoint">
+<code class="descname">checkpoint</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Lexer.checkpoint" title="Permalink to this definition"> link</a></dt>
+<dd><p>Returns an opaque object representing the current state of the lexer.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Lexer.revert">
+<code class="descname">revert</code><span class="sig-paren">(</span><em>o</em><span class="sig-paren">)</span><a class="headerlink" href="#Lexer.revert" title="Permalink to this definition"> link</a></dt>
+<dd><p>When <cite>o</cite> is the object returned from checkpoint(), reverts the state
+of the lexer to what it was when checkpoint() was called. (This is
+used for backtracking.)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Lexer.subblock_lexer">
+<code class="descname">subblock_lexer</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Lexer.subblock_lexer" title="Permalink to this definition"> link</a></dt>
+<dd><p>Return a Lexer for the block associated with the current line.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Lexer.advance">
+<code class="descname">advance</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Lexer.advance" title="Permalink to this definition"> link</a></dt>
+<dd><p>In a subblock lexer, advances to the next line. This must be called
+before the first line, so the first line can be parsed. Returns True
+if we've successfully advanced to a line in the block, or False
+if we have advanced beyond all lines in the block.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Lexer.renpy_statement">
+<code class="descname">renpy_statement</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Lexer.renpy_statement" title="Permalink to this definition"> link</a></dt>
+<dd><p>When called, this parses the current line as a Ren'Py script statement,
+generating an error if this is not possible. This method returns
+an opaque object that can be returned from get_next() or passed
+to <a class="reference internal" href="statement_equivalents.html#renpy.jump" title="renpy.jump"><code class="xref py py-func docutils literal"><span class="pre">renpy.jump()</span></code></a> or <a class="reference internal" href="statement_equivalents.html#renpy.call" title="renpy.call"><code class="xref py py-func docutils literal"><span class="pre">renpy.call()</span></code></a>. This object should
+not be stored except as part of the parse result of the statement.</p>
+<p>When the statement returned from this completes, control is
+transfered to the statement after the creator-defined statement.
+(Which might be the statement created using post_execute).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Lexer.renpy_block">
+<code class="descname">renpy_block</code><span class="sig-paren">(</span><em>empty=False</em><span class="sig-paren">)</span><a class="headerlink" href="#Lexer.renpy_block" title="Permalink to this definition"> link</a></dt>
+<dd><p>This parses all of the remaining lines in the current block
+as Ren'Py script, and returns a SubParse corresponding to the
+first statement in the block. The block is chained together such
+that all statements in the block are run, and then control is
+transferred to the statement after this creator-defined statement.</p>
+<p>Note that this parses the current block. In the more likely
+case that you'd like to parse the subblock of the current
+statement, the correct way to do that is:</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">mystatement_parse</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
+
+    <span class="n">l</span><span class="o">.</span><span class="n">require</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
+    <span class="n">l</span><span class="o">.</span><span class="n">expect_eol</span><span class="p">()</span>
+    <span class="n">l</span><span class="o">.</span><span class="n">expect_block</span><span class="p">(</span><span class="s2">&quot;mystatement&quot;</span><span class="p">)</span>
+
+    <span class="na">child</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">subblock_lexer</span><span class="p">()</span><span class="o">.</span><span class="n">renpy_block</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="p">{</span> <span class="s2">&quot;child&quot;</span> <span class="p">:</span> <span class="na">child</span> <span class="p">}</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt><cite>empty</cite></dt>
+<dd><p class="first">If True, allows an empty block to be parsed. (An empty block
+is equivalent to a block with a single <code class="docutils literal"><span class="pre">pass</span></code> statement.)</p>
+<p class="last">If False, an empty block triggers an error.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="Lexer.catch_error">
+<code class="descname">catch_error</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Lexer.catch_error" title="Permalink to this definition"> link</a></dt>
+<dd><p>This is a context decorator, used in conjunction with the with
+statement, that catches and reports lexer errors inside its
+context block, then continues after the block.</p>
+<p>Here's an example of how it can be used to report multiple errors
+in a single subblock.</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">mystatement_parse</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
+
+    <span class="n">l</span><span class="o">.</span><span class="n">require</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
+    <span class="n">l</span><span class="o">.</span><span class="n">expect_eol</span><span class="p">()</span>
+    <span class="n">l</span><span class="o">.</span><span class="n">expect_block</span><span class="p">(</span><span class="s2">&quot;mystatement&quot;</span><span class="p">)</span>
+
+    <span class="k">strings</span> <span class="o">=</span> <span class="p">[</span> <span class="p">]</span>
+    <span class="n">ll</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">subblock_lexer</span><span class="p">()</span>
+
+    <span class="k">while</span> <span class="n">ll</span><span class="o">.</span><span class="n">advance</span><span class="p">():</span>
+        <span class="k">with</span> <span class="n">ll</span><span class="o">.</span><span class="n">catch_errors</span><span class="p">():</span>
+            <span class="k">strings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ll</span><span class="o">.</span><span class="n">require</span><span class="p">(</span><span class="n">ll</span><span class="o">.</span><span class="n">string</span><span class="p">))</span>
+            <span class="n">ll</span><span class="o">.</span><span class="n">expect_noblock</span><span class="p">(</span><span class="s2">&quot;string inside mystatement&quot;</span><span class="p">)</span>
+            <span class="n">ll</span><span class="o">.</span><span class="n">expect_eol</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="p">{</span> <span class="s2">&quot;strings&quot;</span> <span class="p">:</span> <span class="k">strings</span> <span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<div class="section" id="lint-utility-functions">
+<h2>Lint Utility Functions<a class="headerlink" href="#lint-utility-functions" title="Permalink to this headline"> link</a></h2>
+<p>These functions are useful in writing lint functions.</p>
+<dl class="function">
+<dt id="renpy.check_text_tags">
+<code class="descclassname">renpy.</code><code class="descname">check_text_tags</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.check_text_tags" title="Permalink to this definition"> link</a></dt>
+<dd><p>Checks the text tags in s for correctness. Returns an error string if there is
+an error, or None if there is no error.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="renpy.error">
+<code class="descclassname">renpy.</code><code class="descname">error</code><span class="sig-paren">(</span><em>msg</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.error" title="Permalink to this definition"> link</a></dt>
+<dd><p>Reports <cite>msg</cite>, a string, as as error for the user. This is logged as a
+parse or lint error when approprate, and otherwise it is raised as an
+exception.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="renpy.try_compile">
+<code class="descclassname">renpy.</code><code class="descname">try_compile</code><span class="sig-paren">(</span><em>where</em>, <em>expr</em>, <em>additional=None</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.try_compile" title="Permalink to this definition"> link</a></dt>
+<dd><p>Tries to compile an expression, and writes an error to lint.txt if
+it fails.</p>
+<dl class="docutils">
+<dt><cite>where</cite></dt>
+<dd>A string giving the location the expression is found. Used to
+generate an error message of the form &quot;Could not evaluate <cite>expr</cite>
+in <cite>where</cite>.&quot;</dd>
+<dt><cite>expr</cite></dt>
+<dd>The expression to try compiling.</dd>
+<dt><cite>additional</cite></dt>
+<dd>If given, an additional line of information that is addded to the
+error message.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="renpy.try_eval">
+<code class="descclassname">renpy.</code><code class="descname">try_eval</code><span class="sig-paren">(</span><em>where</em>, <em>expr</em>, <em>additional=None</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.try_eval" title="Permalink to this definition"> link</a></dt>
+<dd><p>Tries to evaluate an expression, and writes an error to lint.txt if
+it fails.</p>
+<dl class="docutils">
+<dt><cite>where</cite></dt>
+<dd>A string giving the location the expression is found. Used to
+generate an error message of the form &quot;Could not evaluate <cite>expr</cite>
+in <cite>where</cite>.&quot;</dd>
+<dt><cite>expr</cite></dt>
+<dd>The expression to try evaluating.</dd>
+<dt><cite>additional</cite></dt>
+<dd>If given, an additional line of information that is addded to the
+error message.</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline"> link</a></h2>
+<p>This creates a new statement <code class="docutils literal"><span class="pre">line</span></code> that allows lines of text to be specified
+without quotes.</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">python</span> <span class="n">early</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">parse_smartline</span><span class="p">(</span><span class="n">lex</span><span class="p">):</span>
+        <span class="n">who</span> <span class="o">=</span> <span class="n">lex</span><span class="o">.</span><span class="n">simple_expression</span><span class="p">()</span>
+        <span class="n">what</span> <span class="o">=</span> <span class="n">lex</span><span class="o">.</span><span class="n">rest</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">who</span><span class="p">,</span> <span class="n">what</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">execute_smartline</span><span class="p">(</span><span class="n">o</span><span class="p">):</span>
+        <span class="n">who</span><span class="p">,</span> <span class="n">what</span> <span class="o">=</span> <span class="n">o</span>
+        <span class="n">renpy</span><span class="o">.</span><span class="n">say</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="n">who</span><span class="p">),</span> <span class="n">what</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">lint_smartline</span><span class="p">(</span><span class="n">o</span><span class="p">):</span>
+        <span class="n">who</span><span class="p">,</span> <span class="n">what</span> <span class="o">=</span> <span class="n">o</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">eval</span><span class="p">(</span><span class="n">who</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">renpy</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Character not defined: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">who</span><span class="p">)</span>
+
+        <span class="n">tte</span> <span class="o">=</span> <span class="n">renpy</span><span class="o">.</span><span class="n">check_text_tags</span><span class="p">(</span><span class="n">what</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">tte</span><span class="p">:</span>
+            <span class="n">renpy</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">tte</span><span class="p">)</span>
+
+    <span class="n">renpy</span><span class="o">.</span><span class="n">register_statement</span><span class="p">(</span><span class="s2">&quot;line&quot;</span><span class="p">,</span> <span class="n">parse</span><span class="o">=</span><span class="n">parse_smartline</span><span class="p">,</span> <span class="n">execute</span><span class="o">=</span><span class="n">execute_smartline</span><span class="p">,</span> <span class="n">lint</span><span class="o">=</span><span class="n">lint_smartline</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This can be used by writing:</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="n">line</span> <span class="n">e</span> <span class="s2">&quot;These quotes will show up,&quot;</span> <span class="n">Eileen</span> <span class="n">said</span><span class="p">,</span> <span class="s2">&quot;and don&#39;t need to be backslashed.&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2012-2019, Tom Rothamel.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Quickstart &#8212; Ren&#39;Py Documentation</title>
+    <link rel="stylesheet" href="_static/renpydoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '7.3.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="GUI Customization Guide" href="gui.html" />
+    <link rel="prev" title="Welcome to Ren&#39;Py&#39;s documentation!" href="index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Ren&#39;Py Documentation</a>
+        <span class="navbar-text navbar-version pull-left"><b>7.3.4</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="https://www.renpy.org">Home Page</a></li>
+                <li><a href="https://www.renpy.org/doc/html/">Online Documentation</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gui.html">GUI Customization Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="language_basics.html">Language Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="label.html">Labels &amp; Control Flow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dialogue.html">Dialogue and Narration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="displaying_images.html">Displaying Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="menus.html">In-Game Menus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">Python Statements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conditional.html">Conditional Statements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="movie.html">Movie</a></li>
+<li class="toctree-l1"><a class="reference internal" href="voice.html">Voice</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="text.html">Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="translation.html">Translation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="displayables.html">Displayables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transforms.html">Transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transitions.html">Transitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="atl.html">Animation and Transformation Language</a></li>
+<li class="toctree-l1"><a class="reference internal" href="layeredimage.html">Layered Images</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="style.html">Styles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="style_properties.html">Style Properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="screens.html">Screens and Screen Language</a></li>
+<li class="toctree-l1"><a class="reference internal" href="screen_actions.html">Screen Actions, Values, and Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="screen_special.html">Special Screen Names</a></li>
+<li class="toctree-l1"><a class="reference internal" href="screen_optimization.html">Screen Language Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">Configuration Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preferences.html">Preference Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="store_variables.html">Store Variables</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="developer_tools.html">Developer Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="director.html">Interactive Director</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="nvl_mode.html">NVL-Mode Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input.html">Text Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="side_image.html">Side Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rooms.html">Image Gallery, Music Room, and Replay Actions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="drag_drop.html">Drag and Drop</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sprites.html">Sprites</a></li>
+<li class="toctree-l1"><a class="reference internal" href="keymap.html">Customizing the Keymap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="achievement.html">Achievements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">Dialogue History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multiple.html">Multiple Character Dialogue</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="statement_equivalents.html">Statement Equivalents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="save_load_rollback.html">Saving, Loading, and Rollback</a></li>
+<li class="toctree-l1"><a class="reference internal" href="persistent.html">Persistent Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="trans_trans_python.html">Transforms and Transitions in Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gui_advanced.html">Advanced GUI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="screen_python.html">Screens and Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modes.html">Modes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="udd.html">Creator-Defined Displayables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cds.html">Creator-Defined Statements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_text_tags.html">Custom Text Tags</a></li>
+<li class="toctree-l1"><a class="reference internal" href="character_callbacks.html">Character Callbacks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file_python.html">File Access</a></li>
+<li class="toctree-l1"><a class="reference internal" href="color_class.html">Color Class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="other.html">Other Functions and Variables</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="build.html">Building Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="updater.html">Web Updater</a></li>
+<li class="toctree-l1"><a class="reference internal" href="android.html">Android</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chromeos.html">Chrome OS / Chrome Browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ios.html">iOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iap.html">In-App Purchasing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gesture.html">Gestures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="raspi.html">Raspberry Pi</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="problems.html">Dealing with Problems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="environment_variables.html">Environment Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="self_voicing.html">Self-Voicing</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="editor.html">Text Editor Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="skins.html">Skins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="translating_renpy.html">Translating Ren'Py</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Full Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="incompatible.html">Incompatible Changes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distributor.html">Distributor Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sponsors.html">Ren'Py Development Sponsors</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="thequestion.html">Script of The Question</a></li>
+<li class="toctree-l1"><a class="reference internal" href="thequestion_nvl.html">NVL-mode script for The Question</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-3">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
+<li><a class="reference internal" href="#">Quickstart</a><ul>
+<li><a class="reference internal" href="#the-ren-py-launcher">The Ren'Py Launcher</a></li>
+<li><a class="reference internal" href="#a-simple-game">A Simple Game</a></li>
+<li><a class="reference internal" href="#characters">Characters</a></li>
+<li><a class="reference internal" href="#images">Images</a></li>
+<li><a class="reference internal" href="#transitions">Transitions</a></li>
+<li><a class="reference internal" href="#positions">Positions</a></li>
+<li><a class="reference internal" href="#music-and-sound">Music and Sound</a></li>
+<li><a class="reference internal" href="#pause-statement">Pause Statement</a></li>
+<li><a class="reference internal" href="#ending-the-game">Ending the Game</a></li>
+<li><a class="reference internal" href="#menus-labels-and-jumps">Menus, Labels, and Jumps</a></li>
+<li><a class="reference internal" href="#supporting-flags-using-the-default-python-and-if-statements">Supporting Flags using the Default, Python and If Statements</a></li>
+<li><a class="reference internal" href="#releasing-your-game">Releasing Your Game</a></li>
+<li><a class="reference internal" href="#script-of-the-question">Script of The Question</a></li>
+<li><a class="reference internal" href="#where-do-we-go-from-here">Where do we go from here?</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    <div class="col-md-9 content">
+      
+  <div class="section" id="quickstart">
+<h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline"> link</a></h1>
+<p>Welcome to the Ren'Py quickstart manual. The purpose of this manual is
+to demonstrate how you can make a Ren'Py game from scratch in a few
+easy steps. We'll do this by showing how to make a simple game,
+<em>The Question</em>.</p>
+<div class="section" id="the-ren-py-launcher">
+<h2>The Ren'Py Launcher<a class="headerlink" href="#the-ren-py-launcher" title="Permalink to this headline"> link</a></h2>
+<p>Before you begin making a game, you should first take some time to
+learn how the Ren'Py launcher works. The launcher lets you create,
+manage, edit, and run Ren'Py projects.</p>
+<p><strong>Getting Started.</strong> To get started you'll want to
+<a class="reference external" href="https://www.renpy.org/latest.html">download Ren'Py</a>.</p>
+<p>Once you've downloaded Ren'Py, you'll want to extract and run it.</p>
+<ul class="simple">
+<li>On Windows, double click on the executable file you download. It will
+extract Ren'Py into a folder named <code class="docutils literal"><span class="pre">renpy-&lt;version&gt;</span></code>. You can change
+into that folder and run <code class="docutils literal"><span class="pre">renpy.exe</span></code>. (The renpy.exe file may be presented
+as renpy if extensions are hidden.)</li>
+<li>On Mac OS X, double-click on the downloaded drive image to mount it as a
+drive. When the drive opens, copy the folder named <code class="docutils literal"><span class="pre">renpy-&lt;version&gt;</span></code>
+somewhere else. (Where does not matter, but it has to be moved out of
+the read-only drive image. Do not move the renpy app out of the folder it's in
+– it won't work elsewhere.) Then change into it, and run the <code class="docutils literal"><span class="pre">renpy</span></code>
+application.</li>
+<li>On Linux, unpack the tarball, change into the <code class="docutils literal"><span class="pre">renpy-&lt;version&gt;</span></code>
+directory, and then run <code class="docutils literal"><span class="pre">renpy.sh</span></code>.</li>
+</ul>
+<p>After running this, the Ren'Py launcher should run.</p>
+<p>The Ren'Py launcher has been translated to multiple languages. To
+change the language, choose &quot;preferences&quot; at the bottom right, and then
+select the language.</p>
+<p><strong>Choosing and Launching a Project.</strong> You should first see what the
+completed <em>The Question</em> game looks like. To do this, start the Ren'Py
+launcher, and choose &quot;The Question&quot; from the first screen. Choose
+&quot;Launch Project&quot; to start <em>The Question</em>.</p>
+<p>You can get back to the Ren'Py demo by doing the same thing, but
+choosing &quot;Tutorial&quot; instead of &quot;The Question&quot;.</p>
+<p><strong>Creating a new Project.</strong>
+Create a new project by choosing &quot;Create New Project&quot; from the
+launcher.</p>
+<p>If this is your first time creating a project, Ren'Py may ask you to
+select the projects directory. This is a directory (also called a folder)
+where new projects are created, and is scanned for existing projects. The
+directory chooser might pop up below Ren'Py, so be sure to look for it
+there.</p>
+<p>The launcher will then ask you for a project name. Since
+&quot;The Question&quot; is already taken, you should enter something different,
+like &quot;My Question&quot;, and type enter.</p>
+<p>After that, the launcher will ask you to select the project resolution. The
+default of 1280x720 is a good compromise between game size and image quality.
+For the purpose of this tutorial, we will select 1280x720 to match
+&quot;The Question&quot; game art, then click &quot;Continue&quot;.</p>
+<p>The launcher will then ask you to choose a color scheme – an accent and
+background color for the new GUI. It doesn't matter what you pick at
+this point, so just pick something you find appealing, and then click
+&quot;Continue&quot;.</p>
+<p>At this point, Ren'Py will process for a bit, and spit out a simple game
+template. The template used placeholder art and text, but is runnable, and
+supports expected features like rollback, loading, and saving. Choose
+&quot;Launch Project&quot; to run it.</p>
+</div>
+<div class="section" id="a-simple-game">
+<h2>A Simple Game<a class="headerlink" href="#a-simple-game" title="Permalink to this headline"> link</a></h2>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">start</span><span class="p">:</span>
+
+    <span class="s2">&quot;Sylvie&quot;</span> <span class="s2">&quot;Hi there! How was class?&quot;</span>
+
+    <span class="s2">&quot;Me&quot;</span> <span class="s2">&quot;Good...&quot;</span>
+
+    <span class="s2">&quot;I can&#39;t bring myself to admit that it all went in one ear and out the other.&quot;</span>
+
+    <span class="s2">&quot;Me&quot;</span> <span class="s2">&quot;Are you going home now? Wanna walk back with me?&quot;</span>
+
+    <span class="s2">&quot;Sylvie&quot;</span> <span class="s2">&quot;Sure!&quot;</span>
+</pre></div>
+</div>
+<p>This is a very simple Ren'Py game. It doesn't include any pictures or
+music, but it does show a conversation between two characters, and a
+line of narration.</p>
+<p>To try this out, from the top screen of the launcher select &quot;My Question&quot;
+project, and then choose &quot;script.rpy&quot; from under Edit File. If this is
+your first time, Ren'Py will ask you to select an editor (we recommend
+Editra for first time creators), and will download the editor you choose.
+Then it will open the script file in the editor.</p>
+<p>Once the editor opens, erase everything in script.rpy. We're starting
+from scratch, so you don't need what's there. Copy the example above into
+script.ry, and save it.</p>
+<p>You're now ready to run this example. Go back to the launcher, and
+choose &quot;Launch Project&quot;. Ren'Py will start up. Notice how, without any
+extra work, Ren'Py has given you menus that let you load and save the
+game, and change various preferences. When ready, click &quot;Launch Project&quot;,
+and play through this example game.</p>
+<p>This example shows some of the commonly-used Ren'Py statements.</p>
+<p>The first line is a label statement. The label statement is used to
+give a name to a place in the program. In this case, we create a label
+named <code class="docutils literal"><span class="pre">start</span></code>. The start label is special, as it's where Ren'Py
+scripts begin running when the user clicks &quot;Start Game&quot; on the main
+menu.</p>
+<p>The other lines are say statements. There are two forms of the say
+statement. The first is a string (beginning with a double-quote,
+containing characters, and ending with a double-quote) on a line by
+itself, which is used for narration, and the thoughts of the main
+character. The second form consists of two strings. It's used for
+dialogue, with the first string being a character name and the second
+being what that character is saying.</p>
+<p>Note that all the say statements are indented by four spaces. This is
+because they are a block underneath the label statement. In Ren'Py,
+blocks must be indented relative to the prior statement, and all of
+the statements in a block must be indented by the same amount.</p>
+<p>When strings contain double-quote characters, those characters need to
+be preceded by a backslash. For example</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span>
+    <span class="s2">&quot;Sylvie&quot;</span> <span class="s2">&quot;Did you ever hear Lincon&#39;s famous saying, </span><span class="se">\&quot;</span><span class="s2">The problem with Internet quotations is that many of them are not genuine.</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+<p>While this simple game isn't much to look at, it's an example of how
+easy it is to get something working in Ren'Py. We'll add the pictures
+in a little bit, but first, let's see how to define characters.</p>
+</div>
+<div class="section" id="characters">
+<h2>Characters<a class="headerlink" href="#characters" title="Permalink to this headline"> link</a></h2>
+<p>One problem with the first example is that it requires you to
+repeatedly type the name of a character each time they speak. In a
+dialogue-heavy game, this might be a lot of typing. Also, both
+character names are displayed in the same way, in the accent color
+selected when starting the game. To fix this, Ren'Py lets you define
+characters in advance. This lets you associate a short name with a
+character, and to change the color of the character's name.</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">s</span> <span class="o">=</span> <span class="n">Character</span><span class="p">(</span><span class="s1">&#39;Sylvie&#39;</span><span class="p">,</span> <span class="na">color</span><span class="o">=</span><span class="s2">&quot;#c8ffc8&quot;</span><span class="p">)</span>
+<span class="k">define</span> <span class="n">m</span> <span class="o">=</span> <span class="n">Character</span><span class="p">(</span><span class="s1">&#39;Me&#39;</span><span class="p">,</span> <span class="na">color</span><span class="o">=</span><span class="s2">&quot;#c8c8ff&quot;</span><span class="p">)</span>
+
+<span class="k">label</span> <span class="n">start</span><span class="p">:</span>
+
+    <span class="n">s</span> <span class="s2">&quot;Hi there! How was class?&quot;</span>
+
+    <span class="n">m</span> <span class="s2">&quot;Good...&quot;</span>
+
+    <span class="s2">&quot;I can&#39;t bring myself to admit that it all went in one ear and out the other.&quot;</span>
+
+    <span class="n">s</span> <span class="s2">&quot;Are you going home now? Wanna walk back with me?&quot;</span>
+
+    <span class="n">m</span> <span class="s2">&quot;Sure!&quot;</span>
+</pre></div>
+</div>
+<p>The first and and second lines define characters. The first line
+defines a character with the short name of &quot;s&quot;, the long name
+&quot;Sylvie&quot;, with a name that is shown in a greenish color. (The colors
+are red-green-blue hex triples, as used in web pages.)</p>
+<p>The second line creates a character with a short name &quot;m&quot;, a long name
+&quot;Me&quot;, with the name shown in a reddish color. Other characters can be
+defined by copying one of the character lines, and changing the short
+name, long name, and color.</p>
+<p>We've also changed the say statements to use character objects instead
+of a character name string. This tells Ren'Py to use the characters
+we defined.</p>
+</div>
+<div class="section" id="images">
+<h2>Images<a class="headerlink" href="#images" title="Permalink to this headline"> link</a></h2>
+<p>A visual novel isn't much of a visual novel without pictures. Here's another
+scene from &quot;The Question&quot;. This also includes statements that show images
+to the player. This can fully replace the previous section of script, if
+you want to try it out.</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">s</span> <span class="o">=</span> <span class="n">Character</span><span class="p">(</span><span class="s1">&#39;Sylvie&#39;</span><span class="p">,</span> <span class="na">color</span><span class="o">=</span><span class="s2">&quot;#c8ffc8&quot;</span><span class="p">)</span>
+<span class="k">define</span> <span class="n">m</span> <span class="o">=</span> <span class="n">Character</span><span class="p">(</span><span class="s1">&#39;Me&#39;</span><span class="p">,</span> <span class="na">color</span><span class="o">=</span><span class="s2">&quot;#c8c8ff&quot;</span><span class="p">)</span>
+
+<span class="k">label</span> <span class="n">start</span><span class="p">:</span>
+
+    <span class="k">scene</span> <span class="n">bg</span> <span class="n">meadow</span>
+
+    <span class="s2">&quot;After a short while, we reach the meadows just outside the neighborhood where we both live.&quot;</span>
+
+    <span class="s2">&quot;It&#39;s a scenic view I&#39;ve grown used to. Autumn is especially beautiful here.&quot;</span>
+
+    <span class="s2">&quot;When we were children, we played in these meadows a lot, so they&#39;re full of memories.&quot;</span>
+
+    <span class="n">m</span> <span class="s2">&quot;Hey... Umm...&quot;</span>
+
+    <span class="k">show</span> <span class="n">sylvie</span> <span class="n">green</span> <span class="n">smile</span>
+
+    <span class="s2">&quot;She turns to me and smiles. She looks so welcoming that I feel my nervousness melt away.&quot;</span>
+
+    <span class="s2">&quot;I&#39;ll ask her...!&quot;</span>
+
+    <span class="n">m</span> <span class="s2">&quot;Ummm... Will you...&quot;</span>
+
+    <span class="n">m</span> <span class="s2">&quot;Will you be my artist for a visual novel?&quot;</span>
+
+    <span class="k">show</span> <span class="n">sylvie</span> <span class="n">green</span> <span class="n">surprised</span>
+
+    <span class="s2">&quot;Silence.&quot;</span>
+</pre></div>
+</div>
+<p>This segment of script introduces two new statements. The <code class="docutils literal"><span class="pre">scene</span></code> statement on
+line 6 clears all images and displays a background image. The <code class="docutils literal"><span class="pre">show</span></code> statements
+on lines 16 and 26 display a sprite on top of the background, and change the
+displaying sprite, respectively.</p>
+<p>In Ren'Py, each image has a name. The name consists of a tag, and optionally
+one or more attributes. Both the tag and attributes should begin with a
+letter, and contain letters, numbers, and underscores. For example:</p>
+<ul class="simple">
+<li>In the scene statement on line 6, the tag is &quot;bg&quot;, and the attribute is
+&quot;meadow.&quot;  By convention, background images should use the tag bg.</li>
+<li>In the first show statement on line 16, the tag is &quot;sylvie&quot;, and the
+attributes are &quot;green&quot; and &quot;smile&quot;.</li>
+<li>In the second show statement on line 26, the tage is &quot;sylvie&quot;, and the
+attributes are &quot;green&quot; and &quot;surprised&quot;.</li>
+</ul>
+<p>Only one image with a given tag can be shown at the same time. When a
+second image with the same tag is show, it replaces the first image, as
+happens on line 26.</p>
+<p>Ren'Py searches for image files in the images directory, which can be
+found by selecting &quot;images&quot; in the &quot;Open Directory&quot; section of the
+launcher. Ren'Py expects character art to be an PNG or WEBP file,
+while background art should be a JPG, JPEG, PNG, or WEBP file.
+The name of a file is very important – the extension is removed, the file
+name is forced to lowercase, and that's used as the image name.</p>
+<p>For example, the following files, placed in the images directory, define the
+following images.</p>
+<ul class="simple">
+<li>&quot;bg meadow.jpg&quot; -&gt; <code class="docutils literal"><span class="pre">bg</span> <span class="pre">meadow</span></code></li>
+<li>&quot;sylvie green smile.png&quot; -&gt; <code class="docutils literal"><span class="pre">sylvie</span> <span class="pre">green</span> <span class="pre">smile</span></code></li>
+<li>&quot;sylvie green surprised.png&quot; -&gt; <code class="docutils literal"><span class="pre">sylvie</span> <span class="pre">green</span> <span class="pre">surprised</span></code></li>
+</ul>
+<p>Since the filenames are lowercase, the following also holds.</p>
+<ul class="simple">
+<li>&quot;Sylvie Green Surprised.png&quot; -&gt; <code class="docutils literal"><span class="pre">sylvie</span> <span class="pre">green</span> <span class="pre">surprised</span></code></li>
+</ul>
+<p>Images can be placed in subdirectories (subfolders) under the images directory.
+The directory name is ignored and only the filename is used to define the
+image name.</p>
+<p><strong>Hide Statement.</strong>
+Ren'Py also supports a <code class="docutils literal"><span class="pre">hide</span></code> statement, which hides the given image.</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">leaving</span><span class="p">:</span>
+
+    <span class="n">s</span> <span class="s2">&quot;I&#39;ll get right on it!&quot;</span>
+
+    <span class="k">hide</span> <span class="n">sylvie</span>
+
+    <span class="s2">&quot;...&quot;</span>
+
+    <span class="n">m</span> <span class="s2">&quot;That wasn&#39;t what I meant!&quot;</span>
+</pre></div>
+</div>
+<p>It's actually pretty rare that you'll need to use hide. Show can be
+used when a character is changing emotions, while scene is used when
+everyone leaves. You only need to use hide when a character leaves and
+the scene stays the same.</p>
+<p><strong>Image Statement.</strong>
+Sometimes, a creator might not want to let Ren'Py define images
+automatically. This is what the <code class="docutils literal"><span class="pre">image</span></code> statement is for. It should
+be at the top level of the file (unindented, and before label start),
+and can be used to map an image name to an image file. For example:</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">logo</span> <span class="o">=</span> <span class="s2">&quot;renpy logo.png&quot;</span>
+<span class="k">image</span> <span class="n">eileen</span> <span class="n">happy</span> <span class="o">=</span> <span class="s2">&quot;eileen_happy_blue_dress.png&quot;</span>
+</pre></div>
+</div>
+<p>The image statement is run at init time, before label start and the rest
+of the game script that interacts with the player.</p>
+<p>The image statement can also be used for more complex tasks, but that's
+discussed <a class="reference internal" href="displaying_images.html#displaying-images"><span class="std std-ref">elsewhere</span></a>.</p>
+</div>
+<div class="section" id="transitions">
+<h2>Transitions<a class="headerlink" href="#transitions" title="Permalink to this headline"> link</a></h2>
+<p>In the script above, pictures pop in and out instantaneously. Since
+changing location or having a character enter or leave a scene is
+important, Ren'Py supports transitions that allow effects to be
+applied when what is being shown changes.</p>
+<p>Transitions change what is displayed from what it was at the end of
+the last interaction (dialogue, menu, or transition – among other
+statements) to what it looks like after scene, show, and hide statements
+have run.</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">start</span><span class="p">:</span>
+
+    <span class="k">scene</span> <span class="n">bg</span> <span class="n">meadow</span>
+    <span class="k">with</span> <span class="n">fade</span>
+
+    <span class="s2">&quot;After a short while, we reach the meadows just outside the neighborhood where we both live.&quot;</span>
+
+    <span class="s2">&quot;It&#39;s a scenic view I&#39;ve grown used to. Autumn is especially beautiful here.&quot;</span>
+
+    <span class="s2">&quot;When we were children, we played in these meadows a lot, so they&#39;re full of memories.&quot;</span>
+
+    <span class="n">m</span> <span class="s2">&quot;Hey... Umm...&quot;</span>
+
+    <span class="k">show</span> <span class="n">sylvie</span> <span class="n">green</span> <span class="n">smile</span>
+    <span class="k">with</span> <span class="n">dissolve</span>
+
+    <span class="s2">&quot;She turns to me and smiles. She looks so welcoming that I feel my nervousness melt away.&quot;</span>
+
+    <span class="s2">&quot;I&#39;ll ask her...!&quot;</span>
+
+    <span class="n">m</span> <span class="s2">&quot;Ummm... Will you...&quot;</span>
+
+    <span class="n">m</span> <span class="s2">&quot;Will you be my artist for a visual novel?&quot;</span>
+</pre></div>
+</div>
+<p>The with statement takes the name of a transition to use. The most
+common one is <code class="docutils literal"><span class="pre">dissolve</span></code> which dissolves from one screen to the
+next. Another useful transition is <code class="docutils literal"><span class="pre">fade</span></code> which fades the
+screen to black, and then fades in the new screen.</p>
+<p>When a transition is placed after multiple scene, show, or hide
+statements, it applies to them all at once. If you were to write:</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span>
+    <span class="k">scene</span> <span class="n">bg</span> <span class="n">meadow</span>
+    <span class="k">show</span> <span class="n">sylvie</span> <span class="n">green</span> <span class="n">smile</span>
+    <span class="k">with</span> <span class="n">dissolve</span>
+</pre></div>
+</div>
+<p>Both the &quot;bg meadow&quot; and &quot;sylvie green smile&quot; images would be dissolved in
+at the same time. To dissolve them in one at a time, you need to write two
+with statements:</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span>
+    <span class="k">scene</span> <span class="n">bg</span> <span class="n">meadow</span>
+    <span class="k">with</span> <span class="n">dissolve</span>
+    <span class="k">show</span> <span class="n">sylvie</span> <span class="n">green</span> <span class="n">smile</span>
+    <span class="k">with</span> <span class="n">dissolve</span>
+</pre></div>
+</div>
+<p>This first dissolves in the meadow, and then dissolves in sylvie. If
+you wanted to instantly show the meadow, and then show sylvie, you
+could write:</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span>
+    <span class="k">scene</span> <span class="n">bg</span> <span class="n">meadow</span>
+    <span class="k">with</span> <span class="bp">None</span>
+    <span class="k">show</span> <span class="n">sylvie</span> <span class="n">smile</span>
+    <span class="k">with</span> <span class="n">dissolve</span>
+</pre></div>
+</div>
+<p>Here, None is used to indicate a special transition that updates
+Ren'Py's idea of what the prior screen was, without actually showing
+anything to the player.</p>
+</div>
+<div class="section" id="positions">
+<h2>Positions<a class="headerlink" href="#positions" title="Permalink to this headline"> link</a></h2>
+<p>By default, images are shown centered horizontally, and with their
+bottom edge touching the bottom of the screen. This is usually okay
+for backgrounds and single characters, but when showing more than one
+character on the screen it probably makes sense to do it at another
+position. It also might make sense to reposition a character for story
+purposes.</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span>
+     <span class="k">show</span> <span class="n">sylvie</span> <span class="n">green</span> <span class="n">smile</span> <span class="k">at</span> <span class="n">right</span>
+</pre></div>
+</div>
+<p>To do this repositioning, add an <code class="docutils literal"><span class="pre">at</span></code> clause to a show statement. The at
+clause takes a position, and shows the image at that position. Ren'Py
+includes several predefined positions: <code class="docutils literal"><span class="pre">left</span></code> for the left side of
+the screen, <code class="docutils literal"><span class="pre">right</span></code> for the right side, <code class="docutils literal"><span class="pre">center</span></code> for centered
+horizontally (the default), and <code class="docutils literal"><span class="pre">truecenter</span></code> for centered
+horizontally and vertically.</p>
+<p>Creators can define their own positions, and event complicated moves,
+but that's outside of the scope of this quickstart.</p>
+</div>
+<div class="section" id="music-and-sound">
+<h2>Music and Sound<a class="headerlink" href="#music-and-sound" title="Permalink to this headline"> link</a></h2>
+<p>Most Ren'Py games play music in the background. Music is played with the
+<code class="docutils literal"><span class="pre">play</span> <span class="pre">music</span></code> statement. The play music statement takes a filename that
+is interpreted as an audio file to play.  Audio filenames are interpreted
+relative to the game directory. Audio files should be in opus, ogg vorbis,
+or mp3 format.</p>
+<p>For example:</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span>
+    <span class="k">play</span> <span class="k">music</span> <span class="s2">&quot;illurock.ogg&quot;</span>
+</pre></div>
+</div>
+<p>When changing music, one can supply a <code class="docutils literal"><span class="pre">fadeout</span></code> and a <code class="docutils literal"><span class="pre">fadein</span></code> clause, which
+are used to fade out the old music and fade in the new music.</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span>
+    <span class="k">play</span> <span class="k">music</span> <span class="s2">&quot;illurock.ogg&quot;</span> <span class="n">fadeout</span> <span class="mf">1.0</span> <span class="n">fadein</span> <span class="mf">1.0</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">queue</span> <span class="pre">music</span></code> statement plays an audio file after the current file
+finishes playing.</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span>
+    <span class="k">queue</span> <span class="k">music</span> <span class="s2">&quot;next_track.opus&quot;</span>
+</pre></div>
+</div>
+<p>Music can be stopped with the <code class="docutils literal"><span class="pre">stop</span> <span class="pre">music</span></code> statement, which can also
+optionally take a fadeout clause.</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span>
+    <span class="k">stop</span> <span class="k">music</span>
+</pre></div>
+</div>
+<p>Sound effects can be played with the <code class="docutils literal"><span class="pre">play</span> <span class="pre">sound</span></code> statement. Unlike music, sound
+effects do not loop.</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span>
+    <span class="k">play</span> <span class="k">sound</span> <span class="s2">&quot;effect.ogg&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="pause-statement">
+<h2>Pause Statement<a class="headerlink" href="#pause-statement" title="Permalink to this headline"> link</a></h2>
+<p>The <code class="docutils literal"><span class="pre">pause</span></code> statement causes Ren'Py to pause until the mouse is clicked.</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span>
+    <span class="k">pause</span>
+</pre></div>
+</div>
+<p>If a number is given, the pause will end when that number of seconds
+have elapsed.</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span>
+    <span class="k">pause</span> <span class="mf">3.0</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ending-the-game">
+<h2>Ending the Game<a class="headerlink" href="#ending-the-game" title="Permalink to this headline"> link</a></h2>
+<p>You can end the game by running the <code class="docutils literal"><span class="pre">return</span></code> statement, without having
+called anything. Before doing this, it's best to put something in the
+game that indicates that the game is ending, and perhaps giving the
+user an ending number or ending name.</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span>
+    <span class="s2">&quot;.:. Good Ending.&quot;</span>
+
+    <span class="k">return</span>
+</pre></div>
+</div>
+<p>That's all you need to make a kinetic novel, a game without any
+choices in it. Now, we'll look at what it takes to make a game that
+presents menus to the user.</p>
+</div>
+<div class="section" id="menus-labels-and-jumps">
+<h2>Menus, Labels, and Jumps<a class="headerlink" href="#menus-labels-and-jumps" title="Permalink to this headline"> link</a></h2>
+<p>The <code class="docutils literal"><span class="pre">menu</span></code> statement lets presents a choice to the player:</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span>
+    <span class="n">s</span> <span class="s2">&quot;Sure, but what&#39;s a </span><span class="se">\&quot;</span><span class="s2">visual novel?</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+
+<span class="k">menu</span><span class="p">:</span>
+
+    <span class="s2">&quot;It&#39;s a videogame.&quot;</span><span class="p">:</span>
+        <span class="k">jump</span> <span class="n">game</span>
+
+    <span class="s2">&quot;It&#39;s an interactive book.&quot;</span><span class="p">:</span>
+        <span class="k">jump</span> <span class="n">book</span>
+
+<span class="k">label</span> <span class="n">game</span><span class="p">:</span>
+
+    <span class="n">m</span> <span class="s2">&quot;It&#39;s a kind of videogame you can play on your computer or a console.&quot;</span>
+
+    <span class="k">jump</span> <span class="n">marry</span>
+
+<span class="k">label</span> <span class="n">book</span><span class="p">:</span>
+
+    <span class="n">m</span> <span class="s2">&quot;It&#39;s like an interactive book that you can read on a computer or a console.&quot;</span>
+
+    <span class="k">jump</span> <span class="n">marry</span>
+
+<span class="k">label</span> <span class="n">marry</span><span class="p">:</span>
+
+    <span class="s2">&quot;And so, we become a visual novel creating duo.&quot;</span>
+</pre></div>
+</div>
+<p>This example shows how a menu can be used with Ren'Py. The menu statement
+introduces an in-game choice. It takes an indented block of lines, each
+consisting of a string followed by a colon. These are the menu choices that are
+presented to the player. Each menu choice takes its own indented block of lines,
+which is run when that menu choices is chosen.</p>
+<p>In this example, each of the two menu choices runs a single <code class="docutils literal"><span class="pre">jump</span></code> statement.
+The jump statement transfers control to the a label defined using the label
+statement. After a jump, script statements following the label are run.</p>
+<p>In the example above, after Sylvie asks her question, the player is presented
+with a menu containing two choices. If the player picked &quot;It's a videogame.&quot;,
+the first jump statement is run, and Ren'Py will jump to the <code class="docutils literal"><span class="pre">game</span></code> label.
+This will cause the POV character to say &quot;It's a story with pictures and music.&quot;,
+after which Ren'Py will jump to the <code class="docutils literal"><span class="pre">marry</span></code> label.</p>
+<p>If there is no jump statement at the end of the block associated with the label,
+Ren'Py will continue on to the next statement. The last jump statement here is
+technically unnecessary, but is included since it makes the flow of the game
+clearer.</p>
+<p>Labels may be defined in any file that is in the game directory, and ends with
+.rpy. The filename doesn't matter to Ren'Py, only the labels contained inside
+it. You can think of all the .rpy files as being equivalent to a single big
+.rpy file, with jumps used to transfer control. This gives you flexibility
+in how you organize the script of a larger game.</p>
+</div>
+<div class="section" id="supporting-flags-using-the-default-python-and-if-statements">
+<h2>Supporting Flags using the Default, Python and If Statements<a class="headerlink" href="#supporting-flags-using-the-default-python-and-if-statements" title="Permalink to this headline"> link</a></h2>
+<p>While some games can be made by only using the statements given above,
+other games requires data to be stored and recalled later. For example,
+it might make sense for a game to remember a choice a player has made,
+return to a common section of the script, and act on the choice later. This
+is one of the reasons why Ren'Py has embedded Python support.</p>
+<p>Here, we'll show how to store a flag containing information about a choice
+the player has made. To initialize the flag, use the default statement, before
+label start.</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="c1"># True if the player has decided to compare a VN to a book.</span>
+<span class="k">default</span> <span class="n">book</span> <span class="o">=</span> <span class="bp">False</span>
+
+<span class="k">label</span> <span class="n">start</span><span class="p">:</span>
+
+    <span class="n">s</span> <span class="s2">&quot;Hi there! How was class?&quot;</span>
+</pre></div>
+</div>
+<p>The book flag starts off initialized to the special value <code class="docutils literal"><span class="pre">False</span></code>
+(as with the rest of Ren'Py, capitalization matters), meaning that
+it is not set. If the book path is chosen, we can set it to True
+using a Python assignment statement.</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">book</span><span class="p">:</span>
+
+    <span class="k">$</span> <span class="n">book</span> <span class="o">=</span> <span class="bp">True</span>
+
+    <span class="n">m</span> <span class="s2">&quot;It&#39;s like an interactive book that you can read on a computer or a console.&quot;</span>
+
+    <span class="k">jump</span> <span class="n">marry</span>
+</pre></div>
+</div>
+<p>Lines beginning with a dollar-sign are interpreted as Python statements. The
+assignment statement here assigns a value to a variable. Ren'Py has support
+for other ways of including Python, such as a multi-line Python statement,
+that are discussed in other sections of this manual. Ren'Py supports Python 2.7,
+though we strongly recommend you write Python that runs in Python 2 and Python 3.</p>
+<p>To check the flag, use the <code class="docutils literal"><span class="pre">if</span></code> statement:</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">book</span><span class="p">:</span>
+
+    <span class="s2">&quot;Our first game is based on one of Sylvie&#39;s ideas, but afterwards I get to come up with stories of my own, too.&quot;</span>
+</pre></div>
+</div>
+<p>If the condition is true, the block of script is run. If not, it is skipped.
+The <code class="docutils literal"><span class="pre">if</span></code> statement can also take an <code class="docutils literal"><span class="pre">else</span></code> clause, that introduced a block of
+script that is run if the condition is false.</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">book</span><span class="p">:</span>
+
+    <span class="s2">&quot;Our first game is based on one of Sylvie&#39;s ideas, but afterwards I get to come up with stories of my own, too.&quot;</span>
+
+<span class="k">else</span><span class="p">:</span>
+
+    <span class="s2">&quot;Sylvie helped with the script on our first video game.&quot;</span>
+</pre></div>
+</div>
+<p>Python variables need not be simple True/False values. Variables can be
+used to store the player's name, a points score, or for any other
+purpose. Since Ren'Py includes the ability to use the full Python
+programming language, many things are possible.</p>
+</div>
+<div class="section" id="releasing-your-game">
+<h2>Releasing Your Game<a class="headerlink" href="#releasing-your-game" title="Permalink to this headline"> link</a></h2>
+<p>Once you've made a game, there are a number of things you should do
+before releasing it:</p>
+<dl class="docutils">
+<dt><strong>Check for a new version of Ren'Py.</strong></dt>
+<dd><p class="first">New versions of Ren'Py are released on a regular basis to fix bugs
+and add new features. Before releasing, you'll want to click update
+in the launcher to update Ren'Py to the latest version. You can also download new
+versions and view a list of changes at <a class="reference external" href="https://www.renpy.org/latest.html">https://www.renpy.org/latest.html</a>.</p>
+<p class="last">Rarely, changes to Ren'Py will require you to make a change to your game's
+script. <a class="reference external" href="https://www.renpy.org/doc/html/incompatible.html">https://www.renpy.org/doc/html/incompatible.html</a> has
+a list of these changes.</p>
+</dd>
+<dt><strong>Check the Script.</strong></dt>
+<dd>From the front page of the launcher, choose &quot;Check Script
+(Lint)&quot;. This will check your games for potential errors. Since some of
+these errors will only affect users on other platforms, it's important
+to understand and usually fix all errors, even if you don't see the problem
+on your computer.</dd>
+<dt><strong>Build Distributions.</strong></dt>
+<dd>From the front page of the launcher, choose &quot;Build Distributions&quot;. Based
+on the information contained in options.rpy, the launcher will build one
+or more archive files containing your game.</dd>
+<dt><strong>Test.</strong></dt>
+<dd>Lint is not a substitute for thorough testing. It's your
+responsibility to check your game before it is released. Consider asking
+friends to help beta-test your game, as often a tester can find problems
+you can't.</dd>
+<dt><strong>Release.</strong></dt>
+<dd><p class="first">Once the game has been finished and tested, you should post the generated
+archive files on the web somewhere people can see them. (If you don't
+have your own website, <a class="reference external" href="https://itch.io">https://itch.io</a> hosts a lot
+of visual novels.) Congratulations, you've released your first visual novel!</p>
+<p>There are a few places where a game can be announced:</p>
+<ul class="last simple">
+<li>The <a class="reference external" href="https://games.renpy.org">Ren'Py Games List</a> helps us keep track of
+Ren'Py games being made.</li>
+<li>The <a class="reference external" href="https://lemmasoft.renai.us/forums/viewforum.php?f=11">Completed Games section of the Lemma Soft Forums</a> is a
+good place to tell fellow creators about your game.</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="script-of-the-question">
+<h2>Script of The Question<a class="headerlink" href="#script-of-the-question" title="Permalink to this headline"> link</a></h2>
+<p>You can view the full script of ''The Question'' <a class="reference internal" href="thequestion.html#thequestion"><span class="std std-ref">here</span></a>.</p>
+</div>
+<div class="section" id="where-do-we-go-from-here">
+<h2>Where do we go from here?<a class="headerlink" href="#where-do-we-go-from-here" title="Permalink to this headline"> link</a></h2>
+<p>This Quickstart barely scratches the surface of what Ren'Py is capable of.
+For brevity's sake, we've omitted many features Ren'Py supports and
+simplified others – focusing on the minimum set of features used to make a
+visual novel.</p>
+<p>To get a feel for what Ren'Py is capable of, please play through the Tutorial,
+and perhaps some of the games featured on the <a class="reference external" href="https://www.renpy.org">Ren'Py website</a>.
+You may also want to read the rest of this manual, starting with the <a class="reference internal" href="gui.html#gui"><span class="std std-ref">GUI Customization
+Guide</span></a>.</p>
+<p>Beyond that, we recommend checking out the Ren'Py section of the <a class="reference external" href="https://lemmasoft.renai.us/forums">Lemma Soft Forums</a>, which
+has a section for asking questions, and a cookbook section with libraries and examples meant for reuse. The Lemma Soft Forums are the
+central hub of the Ren'Py community, where we welcome new creators and the questions they bring.</p>
+<p>Thank you for choosing the Ren'Py visual novel engine. We look forward to seeing
+what you create with it!</p>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2012-2019, Tom Rothamel.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

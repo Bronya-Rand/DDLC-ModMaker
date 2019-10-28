@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Multiple Character Dialogue &#8212; Ren&#39;Py Documentation</title>
+    <link rel="stylesheet" href="_static/renpydoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '7.3.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Statement Equivalents" href="statement_equivalents.html" />
+    <link rel="prev" title="Dialogue History" href="history.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          Ren&#39;Py Documentation</a>
+        <span class="navbar-text navbar-version pull-left"><b>7.3.4</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+                <li><a href="https://www.renpy.org">Home Page</a></li>
+                <li><a href="https://www.renpy.org/doc/html/">Online Documentation</a></li>
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gui.html">GUI Customization Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="language_basics.html">Language Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="label.html">Labels &amp; Control Flow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dialogue.html">Dialogue and Narration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="displaying_images.html">Displaying Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="menus.html">In-Game Menus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">Python Statements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conditional.html">Conditional Statements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="audio.html">Audio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="movie.html">Movie</a></li>
+<li class="toctree-l1"><a class="reference internal" href="voice.html">Voice</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="text.html">Text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="translation.html">Translation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="displayables.html">Displayables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transforms.html">Transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transitions.html">Transitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="atl.html">Animation and Transformation Language</a></li>
+<li class="toctree-l1"><a class="reference internal" href="layeredimage.html">Layered Images</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="style.html">Styles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="style_properties.html">Style Properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="screens.html">Screens and Screen Language</a></li>
+<li class="toctree-l1"><a class="reference internal" href="screen_actions.html">Screen Actions, Values, and Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="screen_special.html">Special Screen Names</a></li>
+<li class="toctree-l1"><a class="reference internal" href="screen_optimization.html">Screen Language Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">Configuration Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preferences.html">Preference Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="store_variables.html">Store Variables</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="developer_tools.html">Developer Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="director.html">Interactive Director</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="nvl_mode.html">NVL-Mode Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input.html">Text Input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="side_image.html">Side Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rooms.html">Image Gallery, Music Room, and Replay Actions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="drag_drop.html">Drag and Drop</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sprites.html">Sprites</a></li>
+<li class="toctree-l1"><a class="reference internal" href="keymap.html">Customizing the Keymap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="achievement.html">Achievements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">Dialogue History</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Multiple Character Dialogue</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="statement_equivalents.html">Statement Equivalents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="save_load_rollback.html">Saving, Loading, and Rollback</a></li>
+<li class="toctree-l1"><a class="reference internal" href="persistent.html">Persistent Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="trans_trans_python.html">Transforms and Transitions in Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gui_advanced.html">Advanced GUI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="screen_python.html">Screens and Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modes.html">Modes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="udd.html">Creator-Defined Displayables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cds.html">Creator-Defined Statements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_text_tags.html">Custom Text Tags</a></li>
+<li class="toctree-l1"><a class="reference internal" href="character_callbacks.html">Character Callbacks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file_python.html">File Access</a></li>
+<li class="toctree-l1"><a class="reference internal" href="color_class.html">Color Class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="other.html">Other Functions and Variables</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="build.html">Building Distributions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="updater.html">Web Updater</a></li>
+<li class="toctree-l1"><a class="reference internal" href="android.html">Android</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chromeos.html">Chrome OS / Chrome Browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ios.html">iOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="iap.html">In-App Purchasing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gesture.html">Gestures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="raspi.html">Raspberry Pi</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="problems.html">Dealing with Problems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="environment_variables.html">Environment Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="self_voicing.html">Self-Voicing</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="editor.html">Text Editor Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="skins.html">Skins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="translating_renpy.html">Translating Ren'Py</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Full Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="incompatible.html">Incompatible Changes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distributor.html">Distributor Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sponsors.html">Ren'Py Development Sponsors</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="thequestion.html">Script of The Question</a></li>
+<li class="toctree-l1"><a class="reference internal" href="thequestion_nvl.html">NVL-mode script for The Question</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-3">
+        <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
+<li><a class="reference internal" href="#">Multiple Character Dialogue</a><ul>
+<li><a class="reference internal" href="#styles">Styles</a></li>
+<li><a class="reference internal" href="#the-multiple-say-screen">The Multiple Say Screen</a></li>
+<li><a class="reference internal" href="#nvl-mode">NVL-Mode</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    <div class="col-md-9 content">
+      
+  <div class="section" id="multiple-character-dialogue">
+<span id="id1"></span><h1>Multiple Character Dialogue<a class="headerlink" href="#multiple-character-dialogue" title="Permalink to this headline"> link</a></h1>
+<p>Ren'Py supports displaying dialogue from multiple characters simultaneously.
+Multiple dialogue is invoked by giving the lines of dialogue the multiple
+argument. For example:</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="n">e</span> <span class="s2">&quot;Ren&#39;Py supports displaying multiple lines of dialogue simultaneously.&quot;</span> <span class="p">(</span><span class="n">multiple</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">l</span> <span class="s2">&quot;About bloody time! I&#39;ve been waiting for this for years.&quot;</span> <span class="p">(</span><span class="n">multiple</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Multiple dialogue is invoked by passing a line of dialogue the <cite>multiple</cite> argument
+with the number of lines of dialogue to combine together. (So if we had <code class="docutils literal"><span class="pre">multiple=3</span></code>,
+three blocks of dialogue would be combined.)</p>
+<p>Multiple dialogue works by showing the say screen more than once, with
+different styles. Each say screen is responsible for showing dialogue from
+a single character.</p>
+<p>There are a few restrictions on multiple dialogue:</p>
+<ul class="simple">
+<li>When displaying multiple dialogue, text tags that cause the text to pause,
+like {p} and {w}, will not function properly. This is because each screen is
+only displayed once, and those tags require screens to be displayed multiple
+times to function.</li>
+<li>Auto-forward mode only works on the last block of text. While this should be
+fine in most cases, it can lead to problems if the last block of text is
+shorter than the rest, as auto-forward may engage early.</li>
+<li>Extend will not work. (It will only apply to the last block of text.)</li>
+</ul>
+<div class="section" id="styles">
+<h2>Styles<a class="headerlink" href="#styles" title="Permalink to this headline"> link</a></h2>
+<p>Generally, the way multiple dialogue works is to display the say screen
+multiple times, with the styles of various displayables systematically
+renamed to reflect the block number and the number of blocks in total.</p>
+<p>Specifically, multiple dialogue uses styles with names of the form
+block`n`_multiple`m`_`style`, where <cite>n</cite> is the one-based number of
+the block, and <cite>m</cite> is the number of blocks of dialogue being
+displayed at once.</p>
+<p>In our example above, the window corresponding to each block of dialogue
+are given the names:</p>
+<ul class="simple">
+<li>block1_multiple2_say_window</li>
+<li>block2_multiple2_say_window</li>
+</ul>
+<p>This naming scheme is used for the dialogue, name, and namebox, as well
+as the window. It's designed so style inheritance is useful here. For
+the window styles we'll have:</p>
+<dl class="docutils">
+<dt>say_window</dt>
+<dd>Used for the normal case of a single dialogue window, this can serve as
+a base for all dialogue windows.</dd>
+<dt>multiple2_say_window</dt>
+<dd>This can be used for properties common to the two dialogue windows,
+like changing the background and reducing the margin and padding.</dd>
+<dt>block1_multiple2_say_window</dt>
+<dd>This could be used to position the first of the two dialogue windows,
+such as using xalign 0.0 to put it on the left side.</dd>
+<dt>block2_multiple2_say_window</dt>
+<dd>Similarly, this can be used to position the second window, with
+xalign 1.0 putting it on the right side.</dd>
+</dl>
+</div>
+<div class="section" id="the-multiple-say-screen">
+<h2>The Multiple Say Screen<a class="headerlink" href="#the-multiple-say-screen" title="Permalink to this headline"> link</a></h2>
+<p>For more control, there is the multiple_say screen. When it exists, the
+multiple_say screen is used in place of the normal say screen. It takes
+a third argument, <cite>multiple</cite>, which is a tuple. The first component of
+the tuple is the block number, and the second is the total number of
+screens.</p>
+</div>
+<div class="section" id="nvl-mode">
+<h2>NVL-Mode<a class="headerlink" href="#nvl-mode" title="Permalink to this headline"> link</a></h2>
+<p>By default, NVL-Mode displays multiple text blocks one on top of another.
+This can be customized by changing the <a class="reference internal" href="screen_special.html#nvl-screen"><span class="std std-ref">nvl screen</span></a>, which is passed
+a list of objects with the multiple argument that can be reorganized and presented.</p>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2012-2019, Tom Rothamel.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
