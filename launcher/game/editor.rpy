@@ -174,37 +174,38 @@ init 1 python in editor:
         fei.append(e)
 
 
-        # Editra.
-        ED  = _("A mature editor. Editra lacks the IME support required for Chinese, Japanese, and Korean text input.")
-        EDL  = _("A mature editor. Editra lacks the IME support required for Chinese, Japanese, and Korean text input. On Linux, Editra requires wxPython.")
+        ## Editra.
+        ## Commented Out Cause This Corrupts .rpy's so often that not recommeneded for DDLC Modding
+        # ED  = _("A mature editor. Editra lacks the IME support required for Chinese, Japanese, and Korean text input.")
+        # EDL  = _("A mature editor. Editra lacks the IME support required for Chinese, Japanese, and Korean text input. On Linux, Editra requires wxPython.")
 
-        if renpy.windows:
-            dlc = "editra-windows"
-            installed = os.path.exists(os.path.join(config.basedir, "editra/editra.exe"))
-            description = ED
-            error_message = None
-        elif renpy.macintosh:
-            dlc = "editra-mac"
-            installed = os.path.exists(os.path.join(config.basedir, "editra/Editra-mac.app"))
-            description = ED
-            error_message = None
-        else:
-            dlc = "editra-linux"
-            installed = os.path.exists(os.path.join(config.basedir, "editra/Editra"))
-            description = EDL
-            error_message = _("This may have occured because wxPython is not installed on this system.")
+        # if renpy.windows:
+        #     dlc = "editra-windows"
+        #     installed = os.path.exists(os.path.join(config.basedir, "editra/editra.exe"))
+        #     description = ED
+        #     error_message = None
+        # elif renpy.macintosh:
+        #     dlc = "editra-mac"
+        #     installed = os.path.exists(os.path.join(config.basedir, "editra/Editra-mac.app"))
+        #     description = ED
+        #     error_message = None
+        # else:
+        #     dlc = "editra-linux"
+        #     installed = os.path.exists(os.path.join(config.basedir, "editra/Editra"))
+        #     description = EDL
+        #     error_message = _("This may have occured because wxPython is not installed on this system.")
 
-        e = FancyEditorInfo(
-            1,
-            "Editra",
-            description,
-            dlc,
-            _("Up to 22 MB download required."),
-            error_message)
+        # e = FancyEditorInfo(
+        #     1,
+        #     "Editra",
+        #     description,
+        #     dlc,
+        #     _("Up to 22 MB download required."),
+        #     error_message)
 
-        e.installed = e.installed and installed
+        # e.installed = e.installed and installed
 
-        fei.append(e)
+        # fei.append(e)
 
         # jEdit
         fei.append(FancyEditorInfo(

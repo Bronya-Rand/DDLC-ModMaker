@@ -118,33 +118,16 @@ screen bottom_info:
                     spacing INDENT
                     textbutton _("Documentation") style "l_link" action interface.OpenDocumentation()
                     textbutton _("Ren'Py Website") style "l_link" action OpenURL(interface.RENPY_URL)
-                    textbutton _("Ren'Py Games List") style "l_link" action OpenURL(interface.RENPY_GAMES_URL)
-                    textbutton _("About") style "l_link" action Jump("about")
 
                 hbox:
                     spacing INDENT
                     xalign 1.0
 
-                    if ability.can_update:
-                        textbutton _("update") action Jump("update") style "l_link"
+                    #if ability.can_update:
+                        #textbutton _("update") action Jump("update") style "l_link"
 
-                    textbutton _("preferences") style "l_link" action Jump("preferences")
-                    textbutton _("quit") style "l_link" action Quit(confirm=False)
-
-            if persistent.sponsor_message:
-
-                textbutton _("Ren'Py Sponsor Information"):
-                    style "l_link"
-                    text_color "#F96854"
-                    text_hover_color Color("#F96854").tint(.8)
-
-                    xalign 0.0
-                    yalign 1.0
-                    yoffset -10
-
-                    action OpenURL(interface.get_sponsor_url())
-
-
+                    textbutton _("Settings") style "l_link" action Jump("preferences")
+                    textbutton _("Exit") style "l_link" action Quit(confirm=False)
 
 screen common:
 
