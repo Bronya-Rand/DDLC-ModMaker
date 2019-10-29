@@ -1,0 +1,28 @@
+﻿
+Ren'Py 7.3.4.596 lint report, generated at: Tue Oct 29 12:12:33 2019
+
+game/definitions.rpy:1339 'define _dismiss_pause' replaces a Ren'Py built-in name, which may cause problems.
+
+game/script-poemresponses.rpy:786 unable to evaluate filename u'"<from " + str(currentpos) + " loop 4.444>bgm/5.ogg"'
+
+game/tutorials.rpy:784 The call is to nonexistent label 'mas_poem_minigame_actone'.
+
+game/tutorials.rpy:799 The call is to nonexistent label 'mas_poem_minigame_acttwo'.
+
+game/tutorials.rpy:815 The call is to nonexistent label 'mas_poem_minigame_actthree'.
+
+game/tutorials.rpy:939 The call is to nonexistent label 'mas_poem_minigame'.
+
+game/tutorials.rpy:1062 Screen mas_pg_textbutton_grid does not exist.
+
+
+Statistics:
+
+The game contains 2,775 dialogue blocks, containing 21,409 words and 116,449
+characters, for an average of 7.7 words and 42 characters per block.
+
+The game contains 21 menus, 999 images, and 27 screens.
+
+
+Lint is not a substitute for thorough testing. Remember to update Ren'Py
+before releasing. New releases fix bugs and improve compatibility.

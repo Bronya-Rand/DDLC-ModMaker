@@ -330,8 +330,7 @@ init -1500 python in build:
 
         packages.append(d)
 
-    package("pc", "zip", "windows linux renpy all", "Windows and Linux")
-    package("mac", "app-zip app-dmg", "mac renpy all", "Mac")
+    package("pc", "zip", "windows linux renpy all", "PC: Windows and Linux")
 
     # Data that we expect the user to set.
 

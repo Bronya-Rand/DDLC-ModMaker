@@ -385,9 +385,7 @@ init python:
     # Packages.
     build.packages = [ ]
 
-    build.package("sdk", "zip tar.bz2 dmg", "source binary")
-    build.package("source", "tar.bz2", "source source_only", update=False)
-    build.package("raspi", "tar.bz2", "raspi", dlc=True, update=False)
+    build.package("sdk", "zip", "source binary")
 
     build.package("jedit", "zip", "jedit", dlc=True)
 

@@ -125,7 +125,7 @@ screen bottom_info:
 
                     #if ability.can_update:
                         #textbutton _("update") action Jump("update") style "l_link"
-
+                    textbutton _("Advanced") style "l_link" action Jump("advanced")
                     textbutton _("Settings") style "l_link" action Jump("preferences")
                     textbutton _("Exit") style "l_link" action Quit(confirm=False)
 
