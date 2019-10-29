@@ -2862,6 +2862,7 @@
       "doc/_static/js", 
       "gui", 
       "gui/game", 
+      "gui/game/audio", 
       "gui/game/images", 
       "launcher", 
       "launcher/game", 
@@ -3034,7 +3035,7 @@
       "tutorial/game/tl/russian", 
       "tutorial/game/tl/spanish"
     ], 
-    "version": "5c77272183edd013ff6ea80ae852102e31f5749a656ca88c4d494e56325c232e", 
+    "version": "c372f05f8d4b230c1cc29ef79d5f7f612e1743767d0b75a4dd4fa8d9eb5648cc", 
     "xbit": [
       "renpy.app/Contents/MacOS/lib", 
       "renpy.app/Contents/MacOS/lib/darwin-x86_64/libz.1.dylib", 
@@ -3483,6 +3484,6 @@
       "lib/linux-x86_64/zsyncmake", 
       "renpy.sh"
     ], 
-    "base_name": "renpy-7.3.4"
+    "base_name": "renpy-7.3.5"
   }
 }

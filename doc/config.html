@@ -12,7 +12,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '7.3.4',
+        VERSION:     '7.3.5',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -49,7 +49,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           Ren&#39;Py Documentation</a>
-        <span class="navbar-text navbar-version pull-left"><b>7.3.4</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>7.3.5</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -1434,6 +1434,23 @@ menus.</p>
 <dt id="var-config.context_clear_layers">
 define <code class="descname">config.context_clear_layers</code> = [ 'screens' ]<a class="headerlink" href="#var-config.context_clear_layers" title="Permalink to this definition"> link</a></dt>
 <dd><p>A list of layers that are cleared when entering a new context.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="var-config.exception_handler">
+define <code class="descname">config.exception_handler</code> = None<a class="headerlink" href="#var-config.exception_handler" title="Permalink to this definition"> link</a></dt>
+<dd><p>If not None, this should be a function that takes three arguments:</p>
+<ul class="simple">
+<li>A string giving the text of a traceback, abbreviated so that it only includes
+creator-written files.</li>
+<li>The full text of the traceback, including both creator-written and Ren'Py
+files.</li>
+<li>The path to a file containing a traceback method.</li>
+</ul>
+<p>This function can present the error to a user in any way fit. If it returns True,
+the exception is ignored and control is transferred to the next statement. If it
+returns False, the built-in exception handler is use. This function may also call
+<a class="reference internal" href="statement_equivalents.html#renpy.jump" title="renpy.jump"><code class="xref py py-func docutils literal"><span class="pre">renpy.jump()</span></code></a> to transfer control to some other label.</p>
 </dd></dl>
 
 <dl class="var">

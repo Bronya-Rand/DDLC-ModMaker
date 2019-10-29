@@ -1,1 +1,1 @@
-vc_version = 596
+vc_version = 606

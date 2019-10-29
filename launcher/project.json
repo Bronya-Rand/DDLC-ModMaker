@@ -1,1 +1,1 @@
-{"type": "hidden", "renamed_all": true, "renamed_steam": true, "force_recompile": true, "build_update": true, "packages": ["sdk", "jedit", "atom-linux", "atom-mac", "atom-windows"], "add_from": true}
+{"android_build": "Release", "add_from": false, "renamed_all": true, "renamed_steam": true, "force_recompile": false, "build_update": true, "packages": ["sdk"], "type": "hidden"}

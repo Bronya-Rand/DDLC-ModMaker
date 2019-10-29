@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -154,7 +154,7 @@ screen build_distributions:
 
             has vbox
 
-            label _("Build Distributions: [project.current.display_name!q]")
+            label _("Build Distributions: [project.current.name!q]")
 
             add HALF_SPACER
 
@@ -193,6 +193,10 @@ screen build_distributions:
                             textbutton _("Edit options.rpy") action editor.Edit("game/options.rpy", check=True)
                             textbutton _("Add from clauses to calls, once") action Jump("add_from")
                             textbutton _("Refresh") action Jump("build_distributions")
+
+                            add HALF_SPACER
+
+                            textbutton _("Upload to itch.io") action Jump("itch")
 
                 # Right side.
                 frame:
