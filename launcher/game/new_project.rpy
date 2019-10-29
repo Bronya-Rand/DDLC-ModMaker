@@ -20,18 +20,51 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 init python:
-    import shutil
-    import os
-    import time
-    import re
+    def zip_extract():
+        import zipfile
+        import shutil
+        try:
+            if renpy.macintosh:
+                zip = "/ddlc-mac.zip"
+            else:
+                zip = "/ddlc-win.zip"
+            with zipfile.ZipFile(persistent.zip_directory + zip, "r") as z:
+                z.extractall(persistent.projects_directory + "/temp")
+                if renpy.macintosh:
+                    ddlc = persistent.projects_directory + '/temp'
+                else:
+                    ddlc = persistent.projects_directory + '/temp' + '/DDLC-1.1.1-pc'
+            shutil.move(ddlc, persistent.project_dir)
+        except:
+            if renpy.macintosh:
+                interface.error(_("Cannot Locate 'ddlc-mac.zip' in [persistent.zip_directory!q]."), _("Make sure you have DDLC downloaded from 'https://ddlc.moe' and check if it exists."),) 
+            else:
+                interface.error(_("Cannot Locate 'ddlc-win.zip' in [persistent.zip_directory!q]."), _("Make sure you have DDLC downloaded from 'https://ddlc.moe' and check if it exists."),)
+    def ddlc_copy():
+        import shutil
+        try:
+            shutil.copytree(persistent.zip_directory + "/ddlc-mac", persistent.project_dir)
+        except:
+            interface.error(_("Cannot find DDLC.app."). _("Please make sure your OS and ZIP Directory are set correctly."),)
+    def template_extract():
+        import zipfile
+        import shutil
+        try:
+            with zipfile.ZipFile(config.basedir + "/templates/DDLCModTemplate-2.2.4-Standard.zip", "r") as z:
+                z.extractall(persistent.projects_directory + "/temp")
+        except:
+            shutil.rmtree(persistent.project_dir)
+            interface.error(_("Template ZIP file missing, or corrupt."), _("Check if the ZIP exists or re-download the tool."))
 
 label new_project:
-
     if persistent.projects_directory is None:
         call choose_projects_directory
-
     if persistent.projects_directory is None:
         $ interface.error(_("The projects directory could not be set. Giving up."))
+    if persistent.zip_directory is None:
+        call choose_zip_directory
+    if persistent.zip_directory is None:
+        $ interface.error(_("The DDLC ZIP directory could not be set. Giving up."))
 
     python:
         project_name = ""
@@ -47,17 +80,17 @@ label new_project:
             project_name = project_name.strip()
             if not project_name:
                 interface.error(_("The project name may not be empty."), label=None)
-                continue
 
-            project_dir = os.path.join(persistent.projects_directory, project_name)
+            persistent.project_dir = os.path.join(persistent.projects_directory, project_name)
 
             if project.manager.get(project_name) is not None:
                 interface.error(_("[project_name!q] already exists. Please choose a different project name."), project_name=project_name, label=None)
-                continue
-
             if os.path.exists(project_dir):
                 interface.error(_("[project_dir!q] already exists. Please choose a different project name."), project_dir=project_dir, label=None)
-                continue
-        
-        zip_extract()
-        template_extract()
+            if persistent.safari == True and renpy.macintosh:
+                ddlc_copy()
+            else:
+                zip_extract()
+            template_extract()
+            persistent.project_dir = None
+    return

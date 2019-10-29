@@ -106,6 +106,28 @@ screen preferences:
                                     action Jump("projects_directory_preference")
                                     alt _("Projects directory: [text]")
 
+                    add SPACER
+                    add SEPARATOR2
+
+                    frame:
+                        style "l_indent"
+                        yminimum 75
+                        has vbox
+
+                        text _("DDLC ZIP Directory:")
+
+                        add HALF_SPACER
+
+
+                        frame style "l_indent":
+                            if persistent.projects_directory:
+                                textbutton _("[persistent.zip_directory!q]"):
+                                    action Jump("zip_directory_preference")
+                                    alt _("DDLC ZIP directory: [text]")
+                            else:
+                                textbutton _("Not Set"):
+                                    action Jump("zip_directory_preference")
+                                    alt _("DDLC ZIP directory: [text]")
 
                     add SPACER
 
@@ -168,18 +190,14 @@ screen preferences:
                         if renpy.windows:
                             textbutton _("Console output") style "l_checkbox" action ToggleField(persistent, "windows_console")
 
-                        if project.manager.get("oldtutorial"):
+                    if renpy.macintosh:
+                        add SPACER
+                        frame:
+                            style "l_indent"
+                            yminimum 75
+                            has vbox
 
-                           textbutton _("Force new tutorial") style "l_checkbox" action [ ToggleField(persistent, "force_new_tutorial"), project.SelectTutorial(True) ]
-
-                        if show_legacy:
-
-                            textbutton _("Legacy options") style "l_checkbox" action ToggleField(persistent, "legacy")
-
-                            if persistent.legacy:
-                                textbutton _("Show templates") style "l_checkbox" action ToggleField(persistent, "show_templates")
-
-                        textbutton _("Sponsor message") style "l_checkbox" action ToggleField(persistent, "sponsor_message")
+                            textbutton _("Change Auto-Extract Setting") style "l_nonbox" action Jump("auto_extract")
 
                 frame:
                     style "l_indent"

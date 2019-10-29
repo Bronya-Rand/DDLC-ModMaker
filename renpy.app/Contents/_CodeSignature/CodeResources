@@ -1,0 +1,1374 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>files</key>
+	<dict>
+		<key>Resources/icon.icns</key>
+		<data>
+		n63JHmtP7cWEx6KarSVc7zrv8/Q=
+		</data>
+	</dict>
+	<key>files2</key>
+	<dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/MacOS.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			KELjTAPY4YxnB3Bkc+8zh/Ct9jQ=
+			</data>
+			<key>requirement</key>
+			<string>identifier MacOS and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/UserDict.pyo</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			jim8d5oDxasXLYD8xuW39M2wENY=
+			</data>
+			<key>requirement</key>
+			<string>identifier UserDict and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/_File.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			mwmQIwKiiPYIVnVX3dZPxo0oIXg=
+			</data>
+			<key>requirement</key>
+			<string>identifier "_File" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/_Res.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			e8sQPu75zdU20hBXka/L/i+GVRk=
+			</data>
+			<key>requirement</key>
+			<string>identifier "_Res" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/_abcoll.pyo</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			hlcPJ70FtyalddipjiBEy74GOrA=
+			</data>
+			<key>requirement</key>
+			<string>identifier "_abcoll" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/_bisect.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			76OVh8R9qN/Hb5Qab53H9D5DVOA=
+			</data>
+			<key>requirement</key>
+			<string>identifier "_bisect" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/_collections.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			9ZAzpUVB53bY8R9bBux4d2XueoU=
+			</data>
+			<key>requirement</key>
+			<string>identifier "_collections" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/_ctypes.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			/2vJ1lD6zgitn6fQmTQQyvFQ5Gw=
+			</data>
+			<key>requirement</key>
+			<string>identifier "_ctypes" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/_functools.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			Yd7qNndOIg3gcKOXU1Fnhwx/EVU=
+			</data>
+			<key>requirement</key>
+			<string>identifier "_functools" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/_heapq.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			sabqZO5ktIxIhzvVICdOeG8rxuM=
+			</data>
+			<key>requirement</key>
+			<string>identifier "_heapq" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/_io.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			x1vttkQp3cBbB32ANiy0ig5eL/w=
+			</data>
+			<key>requirement</key>
+			<string>identifier "_io" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/_json.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			zXwCmXg2nXA0REqkgvJwoVDIGVE=
+			</data>
+			<key>requirement</key>
+			<string>identifier "_json" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/_locale.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			Hj1IirftRr7UJhYsH51j534DRQM=
+			</data>
+			<key>requirement</key>
+			<string>identifier "_locale" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/_lsprof.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			z2QiumicVM2Yb2UNu5MuXY45GZg=
+			</data>
+			<key>requirement</key>
+			<string>identifier "_lsprof" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/_md5.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			eAobmqnOEbk+1bE+JnK9L96l75Y=
+			</data>
+			<key>requirement</key>
+			<string>identifier "_md5" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/_random.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			VSvq4R0GlA13C/l7jxA0xlVhwSk=
+			</data>
+			<key>requirement</key>
+			<string>identifier "_random" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/_renpy.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			ps0RlQzGCDWRgIEHufvseVXIg5o=
+			</data>
+			<key>requirement</key>
+			<string>identifier "_renpy" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/_renpybidi.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			czpuTEBu5VaSV4wod+OuCkwkppw=
+			</data>
+			<key>requirement</key>
+			<string>identifier "_renpybidi" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/_scproxy.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			0AZZOXMufZqAPac0LAqSmKHcn84=
+			</data>
+			<key>requirement</key>
+			<string>identifier "_scproxy" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/_sha.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			6/DroWuKcwB4mNwctuXn5u0E5KY=
+			</data>
+			<key>requirement</key>
+			<string>identifier "_sha" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/_sha256.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			ka0KoYEHeIW8zKgJlr9If/5DStw=
+			</data>
+			<key>requirement</key>
+			<string>identifier "_sha256" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/_sha512.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			lnLgUlIVEsOkM+O9xrCi14gcvEY=
+			</data>
+			<key>requirement</key>
+			<string>identifier "_sha512" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/_socket.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			L5bFDjrmsZMhAWUYvXpS06AC5F4=
+			</data>
+			<key>requirement</key>
+			<string>identifier "_socket" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/_ssl.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			wPv9FCOQIsw19rfrx7ZokkpB9Fo=
+			</data>
+			<key>requirement</key>
+			<string>identifier "_ssl" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/_struct.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			k8PewJ8z6VDdAUJ19Ufmu6lEEPU=
+			</data>
+			<key>requirement</key>
+			<string>identifier "_struct" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/_weakrefset.pyo</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			Y9rma4Hf7VDKaEbjh7UMsZrEnYg=
+			</data>
+			<key>requirement</key>
+			<string>identifier "_weakrefset" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/abc.pyo</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			jypnzMLDVL5KZPvE8m/hJ3O/xkw=
+			</data>
+			<key>requirement</key>
+			<string>identifier abc and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/array.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			sh3/38SSIhVVBZKnKmbkAAjIgew=
+			</data>
+			<key>requirement</key>
+			<string>identifier array and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/audioop.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			GISg7Ezr8/bsEfwu3eOmqTpcJJU=
+			</data>
+			<key>requirement</key>
+			<string>identifier audioop and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/binascii.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			GpAsAgv50GAgHy5/1J1IscH83RI=
+			</data>
+			<key>requirement</key>
+			<string>identifier binascii and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/bz2.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			Jyd/sF8ylUqNdeMSpKGVw+K7wJI=
+			</data>
+			<key>requirement</key>
+			<string>identifier bz2 and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/cPickle.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			0wOGTV1n76A1ubBGumjGigcwYuc=
+			</data>
+			<key>requirement</key>
+			<string>identifier cPickle and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/cStringIO.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			SxE8JCkoJGYUyCT9ORjMzCj4pKw=
+			</data>
+			<key>requirement</key>
+			<string>identifier cStringIO and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/copy_reg.pyo</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			Heob9vPNzcFg5VQ6C8VnDpkEB/U=
+			</data>
+			<key>requirement</key>
+			<string>identifier "copy_reg" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/datetime.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			jQzx/iHGqoBHwgrRIcplnq25k4k=
+			</data>
+			<key>requirement</key>
+			<string>identifier datetime and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/fcntl.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			/cSNqLWf8Y7keAkjyunKHUKSrGI=
+			</data>
+			<key>requirement</key>
+			<string>identifier fcntl and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/genericpath.pyo</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			sZZk6uYeKdYvQXefJHxWHLnzeeg=
+			</data>
+			<key>requirement</key>
+			<string>identifier genericpath and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/gestalt.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			J2bY0bK1BGbxJkXw9R/vOIFeD4s=
+			</data>
+			<key>requirement</key>
+			<string>identifier gestalt and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/grp.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			jgy+n53WNlL1uDUhTGG5ubO5pAg=
+			</data>
+			<key>requirement</key>
+			<string>identifier grp and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/itertools.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			Y5OnilSg5v4aRHLh74zGJbzBc7o=
+			</data>
+			<key>requirement</key>
+			<string>identifier itertools and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/lib-dynload/dynload.txt</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			8If3aXUdkQ4K95AWdp8Pj8wKrEI=
+			</data>
+			<key>requirement</key>
+			<string>identifier dynload and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/linecache.pyo</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			JyY7qv1pvwq1y7bNN5GocetXgDA=
+			</data>
+			<key>requirement</key>
+			<string>identifier linecache and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/math.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			CKH8p6zXZryyN/aDD0h4eTJiDWE=
+			</data>
+			<key>requirement</key>
+			<string>identifier math and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/operator.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			DLBzwpxPfnLjE8VRZPWe4Lq4W3Y=
+			</data>
+			<key>requirement</key>
+			<string>identifier operator and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/os.pyo</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			0EkVaMxTbuE5Kldsl5VkLt0ItUc=
+			</data>
+			<key>requirement</key>
+			<string>identifier os and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/posixpath.pyo</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			xrXsi9UqcudVmCVCXIspTPGjZP0=
+			</data>
+			<key>requirement</key>
+			<string>identifier posixpath and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/pyexpat.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			WItlnGItyXWuNKMUfEUAH4IZ/hw=
+			</data>
+			<key>requirement</key>
+			<string>identifier pyexpat and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/pygame_sdl2/__init__.pyo</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			7Jd1B74hPLZRtFSmKsl4THGwF0o=
+			</data>
+			<key>requirement</key>
+			<string>identifier "__init__" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/pygame_sdl2/color.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			4hiSAb6/cVwP8SU/zddS+6J891Y=
+			</data>
+			<key>requirement</key>
+			<string>identifier color and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/pygame_sdl2/compat.pyo</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			oqpdCarL5IFUaWG7UtvUzOBcSQw=
+			</data>
+			<key>requirement</key>
+			<string>identifier compat and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/pygame_sdl2/controller.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			bP9B0Z0E9iAy9zV+kYJRxocNW7s=
+			</data>
+			<key>requirement</key>
+			<string>identifier controller and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/pygame_sdl2/display.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			zz6hJXJdOaMvijZFflb4JyFw/Zg=
+			</data>
+			<key>requirement</key>
+			<string>identifier display and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/pygame_sdl2/draw.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			rSgYoyaLBza3xPzm848TFMA1BLk=
+			</data>
+			<key>requirement</key>
+			<string>identifier draw and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/pygame_sdl2/error.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			q+0R7A5Al3nWpFQYWExABEI3UIo=
+			</data>
+			<key>requirement</key>
+			<string>identifier error and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/pygame_sdl2/event.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			7B6sa1SGQUN8ZXlX7Xf52BgPNCI=
+			</data>
+			<key>requirement</key>
+			<string>identifier event and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/pygame_sdl2/font.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			Nd/7Nb5cfAk9erpTIMHQafSEOaE=
+			</data>
+			<key>requirement</key>
+			<string>identifier font and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/pygame_sdl2/gfxdraw.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			iNT1wzAvuhTlo/QIMTn4SoXIZ7Y=
+			</data>
+			<key>requirement</key>
+			<string>identifier gfxdraw and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/pygame_sdl2/image.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			t0qqd8BNqUrP3exz73hXBJDUawY=
+			</data>
+			<key>requirement</key>
+			<string>identifier image and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/pygame_sdl2/joystick.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			mgI9VUkQQrZdOVASN9OdVuqFJPQ=
+			</data>
+			<key>requirement</key>
+			<string>identifier joystick and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/pygame_sdl2/key.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			HEOr3CdSLgNNEeatxuhb7f+Sdog=
+			</data>
+			<key>requirement</key>
+			<string>identifier key and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/pygame_sdl2/locals.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			RdcAxD4bZ0SR+yCWUqnljRracI4=
+			</data>
+			<key>requirement</key>
+			<string>identifier locals and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/pygame_sdl2/mouse.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			JF7SNcMcd6aFJuhdoG0spd5PNxI=
+			</data>
+			<key>requirement</key>
+			<string>identifier mouse and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/pygame_sdl2/power.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			KlPP8DEyMntnxKqba9iuR1okDeY=
+			</data>
+			<key>requirement</key>
+			<string>identifier power and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/pygame_sdl2/pygame_time.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			Laj0hu6A5tdF6fxu0hyqu+dqjV8=
+			</data>
+			<key>requirement</key>
+			<string>identifier "pygame_time" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/pygame_sdl2/rect.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			Vlfx1+Sagq9dTyUx4Zv9d00frF8=
+			</data>
+			<key>requirement</key>
+			<string>identifier rect and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/pygame_sdl2/rwobject.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			CJENLFlK30Vn/z/hV78Yzig6h90=
+			</data>
+			<key>requirement</key>
+			<string>identifier rwobject and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/pygame_sdl2/scrap.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			7vcxumHG44K+PSwuqjCrwcid5Co=
+			</data>
+			<key>requirement</key>
+			<string>identifier scrap and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/pygame_sdl2/sprite.pyo</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			XBB7rPSCnFYyjOW/+Jd9fhA09T0=
+			</data>
+			<key>requirement</key>
+			<string>identifier sprite and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/pygame_sdl2/surface.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			EMZK8my+Mkq4IqUnLg1GplzPk3U=
+			</data>
+			<key>requirement</key>
+			<string>identifier surface and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/pygame_sdl2/sysfont.pyo</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			9RouEA/rVnCzRf+uBkoN+t1nho0=
+			</data>
+			<key>requirement</key>
+			<string>identifier sysfont and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/pygame_sdl2/time.pyo</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			KJ+nDPpnVxdHAuEwj0SBklelbZY=
+			</data>
+			<key>requirement</key>
+			<string>identifier time and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/pygame_sdl2/transform.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			TEF0knZLL0KOn3bSe26ZOq5iHtM=
+			</data>
+			<key>requirement</key>
+			<string>identifier transform and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/pygame_sdl2/version.pyo</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			ADNI9jEpqpuSXLmDKMQkiFjwPas=
+			</data>
+			<key>requirement</key>
+			<string>identifier version and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/renpy/__init__.pyo</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			ve8GFND3elj+B8xExBKdZJdLFpY=
+			</data>
+			<key>requirement</key>
+			<string>identifier "__init__" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/renpy/audio/renpysound.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			unnpcLArbTtQaAyCv9XwshCSRJQ=
+			</data>
+			<key>requirement</key>
+			<string>identifier renpysound and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/renpy/display/accelerator.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			iWBIXewuwwIeE5ezGh4DMpTLV4A=
+			</data>
+			<key>requirement</key>
+			<string>identifier accelerator and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/renpy/display/matrix.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			xCC04tDxVOyh+Fs2tL8pjO30Njw=
+			</data>
+			<key>requirement</key>
+			<string>identifier matrix and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/renpy/display/render.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			BLBS3DYxx4Q32sSQ9f0N7mqBAh4=
+			</data>
+			<key>requirement</key>
+			<string>identifier render and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/renpy/gl/gl.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			i49VIDGdZL9D3wqcfGrCC+1+/HM=
+			</data>
+			<key>requirement</key>
+			<string>identifier gl and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/renpy/gl/gl1.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			EaLdJPwif6VWSYtOUn0Y9NwX8nc=
+			</data>
+			<key>requirement</key>
+			<string>identifier gl1 and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/renpy/gl/gldraw.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			iDOCpCsC+1mbTfGShTmOUFbpUqA=
+			</data>
+			<key>requirement</key>
+			<string>identifier gldraw and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/renpy/gl/glenviron_fixed.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			fKI38HZMPjT0SFeOdCRGZblRhzY=
+			</data>
+			<key>requirement</key>
+			<string>identifier "glenviron_fixed" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/renpy/gl/glenviron_limited.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			7i8keqGZMErY1dqguIkeFimHmAE=
+			</data>
+			<key>requirement</key>
+			<string>identifier "glenviron_limited" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/renpy/gl/glenviron_shader.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			WiSjEQ3lvL584uVYrO7QUr8VXzk=
+			</data>
+			<key>requirement</key>
+			<string>identifier "glenviron_shader" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/renpy/gl/glrtt_copy.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			DRF6JRDymlYkP2lhO5acmzdLY2g=
+			</data>
+			<key>requirement</key>
+			<string>identifier "glrtt_copy" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/renpy/gl/glrtt_fbo.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			qZxQbMlbDNZdt7y1da3TAcM10EE=
+			</data>
+			<key>requirement</key>
+			<string>identifier "glrtt_fbo" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/renpy/gl/gltexture.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			mNUn3mMKpjs6n6X0dpJnn2IUXSc=
+			</data>
+			<key>requirement</key>
+			<string>identifier gltexture and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/renpy/parsersupport.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			iiqRE8V3pRFyRzuiF3dc6eM6FHg=
+			</data>
+			<key>requirement</key>
+			<string>identifier parsersupport and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/renpy/pydict.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			Mf+BzSVytBCpcBayHBYsoF0qclc=
+			</data>
+			<key>requirement</key>
+			<string>identifier pydict and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/renpy/style.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			GUIteRiVHGbivBXfPyGZ90WYs6Q=
+			</data>
+			<key>requirement</key>
+			<string>identifier style and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/renpy/styledata/style_activate_functions.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			GhVcR1VpQvslW9Ry19mTvkGIX3M=
+			</data>
+			<key>requirement</key>
+			<string>identifier "style_activate_functions" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/renpy/styledata/style_functions.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			81kkzJB+bGT41R8RhWsTCXZhaoo=
+			</data>
+			<key>requirement</key>
+			<string>identifier "style_functions" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/renpy/styledata/style_hover_functions.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			7enI2vfVY0W8m+uRUCSBZAfbJVA=
+			</data>
+			<key>requirement</key>
+			<string>identifier "style_hover_functions" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/renpy/styledata/style_idle_functions.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			2iY7zD3Swukalnlvl0yj8XNJOqE=
+			</data>
+			<key>requirement</key>
+			<string>identifier "style_idle_functions" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/renpy/styledata/style_insensitive_functions.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			s7tsEDmGyyL+Gbbxdgg87nlMiIs=
+			</data>
+			<key>requirement</key>
+			<string>identifier "style_insensitive_functions" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/renpy/styledata/style_selected_activate_functions.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			CaFnHXvMYqMmdhONaJb8UD6iyHM=
+			</data>
+			<key>requirement</key>
+			<string>identifier "style_selected_activate_functions" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/renpy/styledata/style_selected_functions.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			65W5X1HQ5hEazsaLny7cUwMIN5Q=
+			</data>
+			<key>requirement</key>
+			<string>identifier "style_selected_functions" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/renpy/styledata/style_selected_hover_functions.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			jRE7Ddr4xgeCvBLg+EKhiVkHVSE=
+			</data>
+			<key>requirement</key>
+			<string>identifier "style_selected_hover_functions" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/renpy/styledata/style_selected_idle_functions.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			LxJB83iF2Pjra25UY3J/LrMMWEw=
+			</data>
+			<key>requirement</key>
+			<string>identifier "style_selected_idle_functions" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/renpy/styledata/style_selected_insensitive_functions.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			f7GQ6DK8+Kdgv10WCVx6mSvm0nw=
+			</data>
+			<key>requirement</key>
+			<string>identifier "style_selected_insensitive_functions" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/renpy/styledata/styleclass.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			stiRz1Q2vOgr/RP4Pz931qEJvW8=
+			</data>
+			<key>requirement</key>
+			<string>identifier styleclass and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/renpy/styledata/stylesets.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			ZuW4CBgsg6Vm/tyMdEAsZm2kAwA=
+			</data>
+			<key>requirement</key>
+			<string>identifier stylesets and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/renpy/text/ftfont.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			thUxzYJ/t1tkZ1jGn2ZzslGKhNI=
+			</data>
+			<key>requirement</key>
+			<string>identifier ftfont and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/renpy/text/textsupport.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			jiynknvLncf3sAHiLo6rEyzH2ic=
+			</data>
+			<key>requirement</key>
+			<string>identifier textsupport and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/renpy/text/texwrap.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			PieXQUNq3nE1tmmde41xAf1/JxQ=
+			</data>
+			<key>requirement</key>
+			<string>identifier texwrap and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/select.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			5JQxCeUXP8DCdoM/kI8b2AqBUXA=
+			</data>
+			<key>requirement</key>
+			<string>identifier select and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/site.pyo</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			EjuJP1VWTQ4Z0ShOTnCEnKYRxpU=
+			</data>
+			<key>requirement</key>
+			<string>identifier site and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/ssl.pyo</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			VZ2at/nCPSmD6J92uOYy8R+da+E=
+			</data>
+			<key>requirement</key>
+			<string>identifier ssl and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/stat.pyo</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			ANsRHutoPO/vk94Nm5hlxfBTcCY=
+			</data>
+			<key>requirement</key>
+			<string>identifier stat and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/strop.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			7RkUEgGIZhoV+ydnkAvJnLt8xno=
+			</data>
+			<key>requirement</key>
+			<string>identifier strop and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/time.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			bxpCGTtf04uSYpZVVQNs9Nmrlis=
+			</data>
+			<key>requirement</key>
+			<string>identifier time and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/types.pyo</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			baSBlL2y0lPUq5i8lvKEKe0Ar6Q=
+			</data>
+			<key>requirement</key>
+			<string>identifier types and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/unicodedata.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			NS3sCmbledonXLRLqBX17sIzy2g=
+			</data>
+			<key>requirement</key>
+			<string>identifier unicodedata and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/warnings.pyo</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			SKa+TYvxZ80TwRxPD5K0k6B1BpE=
+			</data>
+			<key>requirement</key>
+			<string>identifier warnings and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Lib/zlib.so</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			Y+7bA2KEO30SWkAfKB/UA6R4Uq8=
+			</data>
+			<key>requirement</key>
+			<string>identifier zlib and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/Modules/Setup</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			ZBPRjVoX7B3AKwaoD5HgAkkIqtw=
+			</data>
+			<key>requirement</key>
+			<string>identifier Setup and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/eggs/pyasn1-0.1.7-py2.7.egg</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			jgKsFTnVt8ySINXNtPH8c/iTFIo=
+			</data>
+			<key>requirement</key>
+			<string>identifier "pyasn1-0.1.7-py2" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/eggs/rsa-3.1.4-py2.7.egg</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			gT50TsDSZbUl1cCc7Lq++X1hj1c=
+			</data>
+			<key>requirement</key>
+			<string>identifier "rsa-3.1.4-py2" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/libGLEW.1.7.0.dylib</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			cR3lB3GNWq8iR3b2i2faHSpeBho=
+			</data>
+			<key>requirement</key>
+			<string>identifier "libGLEW.1" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/libSDL2-2.0.0.dylib</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			8IHYyrUQkn3w6kXt7QkrlPMm/M4=
+			</data>
+			<key>requirement</key>
+			<string>identifier "libSDL2-2" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/libSDL2_image-2.0.0.dylib</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			vPMAfaUB2GICR4xxs/Ipvl6YmW0=
+			</data>
+			<key>requirement</key>
+			<string>identifier "libSDL2_image-2" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/libSDL2_ttf-2.0.0.dylib</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			AIUlqEgpAC8mg79WrIrgMpHhxDY=
+			</data>
+			<key>requirement</key>
+			<string>identifier "libSDL2_ttf-2" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/libavcodec.57.dylib</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			ASweX9LKGUO3e6upcPr4EPCagkk=
+			</data>
+			<key>requirement</key>
+			<string>identifier "libavcodec.57" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/libavformat.57.dylib</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			7ZsEyS3Xymj6Jj74V0U/TWvkP1A=
+			</data>
+			<key>requirement</key>
+			<string>identifier "libavformat.57" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/libavresample.3.dylib</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			f8CxSGEBqqlcxXZXHTPLekyYFL8=
+			</data>
+			<key>requirement</key>
+			<string>identifier "libavresample.3" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/libavutil.55.dylib</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			OMM0TyL56Wjy3rzVrCrryY98S5c=
+			</data>
+			<key>requirement</key>
+			<string>identifier "libavutil.55" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/libfreetype.6.dylib</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			+TfWldLJFsSZ36IAf1hL0CL39Bo=
+			</data>
+			<key>requirement</key>
+			<string>identifier "libfreetype.6" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/libjpeg.62.dylib</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			knHD4n1yApTG4IRFAwTBzdHhnjk=
+			</data>
+			<key>requirement</key>
+			<string>identifier "libjpeg.62" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/libpng12.0.dylib</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			/ecQiW14JqmAGLZqm4Cdun1ZjPY=
+			</data>
+			<key>requirement</key>
+			<string>identifier libpng12 and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/libpython2.7.dylib</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			2Av8TGBqFCPNL1zuFLU+AMS5740=
+			</data>
+			<key>requirement</key>
+			<string>identifier libpython2 and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/libswresample.2.dylib</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			aHF+PWIpEQSPBPBJOxCqDSOYNF0=
+			</data>
+			<key>requirement</key>
+			<string>identifier "libswresample.2" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/libswscale.4.dylib</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			69C+EpprP/J3mzPH5HqPcL9Zi4U=
+			</data>
+			<key>requirement</key>
+			<string>identifier "libswscale.4" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/libz.1.dylib</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			my7AdgeOwHFw1Jxd5XQsi2AcTc4=
+			</data>
+			<key>requirement</key>
+			<string>identifier "libz.1" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/python</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			JdRk7WZeDxHTGCdq4UU4ds34XV8=
+			</data>
+			<key>requirement</key>
+			<string>identifier python and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/pythonw</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			McY0NtzrTr/TLN4mVrU1nEFMjNY=
+			</data>
+			<key>requirement</key>
+			<string>identifier pythonw and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/renpy</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			S+sp8xkQ1xKojwaFy+Yssk0OBuw=
+			</data>
+			<key>requirement</key>
+			<string>identifier renpy and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/zsync</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			g8pf/zfrpPnzmo0Aog41+nACcmk=
+			</data>
+			<key>requirement</key>
+			<string>identifier zsync and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>MacOS/lib/darwin-x86_64/zsyncmake</key>
+		<dict>
+			<key>cdhash</key>
+			<data>
+			tYxGfB7e0k/hhe915w2vMA1FuD4=
+			</data>
+			<key>requirement</key>
+			<string>identifier zsyncmake and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = XHTE5H7Z79</string>
+		</dict>
+		<key>Resources/icon.icns</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			n63JHmtP7cWEx6KarSVc7zrv8/Q=
+			</data>
+			<key>hash2</key>
+			<data>
+			iuwpT9eUsSM4wfJkIiL8dUvyQI/ajTf4Ch+Q68yfs5U=
+			</data>
+		</dict>
+	</dict>
+	<key>rules</key>
+	<dict>
+		<key>^Resources/</key>
+		<true/>
+		<key>^Resources/.*\.lproj/</key>
+		<dict>
+			<key>optional</key>
+			<true/>
+			<key>weight</key>
+			<real>1000</real>
+		</dict>
+		<key>^Resources/.*\.lproj/locversion.plist$</key>
+		<dict>
+			<key>omit</key>
+			<true/>
+			<key>weight</key>
+			<real>1100</real>
+		</dict>
+		<key>^Resources/Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
+		</dict>
+		<key>^version.plist$</key>
+		<true/>
+	</dict>
+	<key>rules2</key>
+	<dict>
+		<key>.*\.dSYM($|/)</key>
+		<dict>
+			<key>weight</key>
+			<real>11</real>
+		</dict>
+		<key>^(.*/)?\.DS_Store$</key>
+		<dict>
+			<key>omit</key>
+			<true/>
+			<key>weight</key>
+			<real>2000</real>
+		</dict>
+		<key>^(Frameworks|SharedFrameworks|PlugIns|Plug-ins|XPCServices|Helpers|MacOS|Library/(Automator|Spotlight|LoginItems))/</key>
+		<dict>
+			<key>nested</key>
+			<true/>
+			<key>weight</key>
+			<real>10</real>
+		</dict>
+		<key>^.*</key>
+		<true/>
+		<key>^Info\.plist$</key>
+		<dict>
+			<key>omit</key>
+			<true/>
+			<key>weight</key>
+			<real>20</real>
+		</dict>
+		<key>^PkgInfo$</key>
+		<dict>
+			<key>omit</key>
+			<true/>
+			<key>weight</key>
+			<real>20</real>
+		</dict>
+		<key>^Resources/</key>
+		<dict>
+			<key>weight</key>
+			<real>20</real>
+		</dict>
+		<key>^Resources/.*\.lproj/</key>
+		<dict>
+			<key>optional</key>
+			<true/>
+			<key>weight</key>
+			<real>1000</real>
+		</dict>
+		<key>^Resources/.*\.lproj/locversion.plist$</key>
+		<dict>
+			<key>omit</key>
+			<true/>
+			<key>weight</key>
+			<real>1100</real>
+		</dict>
+		<key>^Resources/Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
+		</dict>
+		<key>^[^/]+$</key>
+		<dict>
+			<key>nested</key>
+			<true/>
+			<key>weight</key>
+			<real>10</real>
+		</dict>
+		<key>^embedded\.provisionprofile$</key>
+		<dict>
+			<key>weight</key>
+			<real>20</real>
+		</dict>
+		<key>^version\.plist$</key>
+		<dict>
+			<key>weight</key>
+			<real>20</real>
+		</dict>
+	</dict>
+</dict>
+</plist>
