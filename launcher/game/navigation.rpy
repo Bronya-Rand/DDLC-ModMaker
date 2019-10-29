@@ -176,15 +176,15 @@ screen navigation:
 
                     if persistent.navigation != "file":
                         text _("Order: ")
-                        textbutton _("alphabetical") action navigation.ChangeSort("alphabetical")
+                        textbutton _("A-Z") action navigation.ChangeSort("alphabetical")
                         text " | "
-                        textbutton _("by-file") action navigation.ChangeSort("by-file")
+                        textbutton _("By File") action navigation.ChangeSort("by-file")
                         text " | "
-                        textbutton _("natural") action navigation.ChangeSort("natural")
+                        textbutton _("Natural") action navigation.ChangeSort("natural")
 
                         null width HALF_INDENT
 
-                    textbutton _("refresh") action Jump("navigation_refresh")
+                    textbutton _("Refresh") action Jump("navigation_refresh")
 
 
             add HALF_SPACER
@@ -195,12 +195,12 @@ screen navigation:
                     text _("Category:")
                     alt ""
 
-                    textbutton _("files") action navigation.ChangeKind("file")
-                    textbutton _("labels") action navigation.ChangeKind("label")
-                    textbutton _("defines") action navigation.ChangeKind("define")
-                    textbutton _("transforms") action navigation.ChangeKind("transform")
-                    textbutton _("screens") action navigation.ChangeKind("screen")
-                    textbutton _("callables") action navigation.ChangeKind("callable")
+                    textbutton _("Files") action navigation.ChangeKind("file")
+                    textbutton _("Labels") action navigation.ChangeKind("label")
+                    textbutton _("Defines") action navigation.ChangeKind("define")
+                    textbutton _("Transforms") action navigation.ChangeKind("transform")
+                    textbutton _("Screens") action navigation.ChangeKind("screen")
+                    textbutton _("Callables") action navigation.ChangeKind("callable")
                     textbutton _("TODOs") action navigation.ChangeKind("todo")
 
             add SPACER
