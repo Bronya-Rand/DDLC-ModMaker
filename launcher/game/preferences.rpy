@@ -252,8 +252,9 @@ screen preferences:
 label projects_directory_preference:
     call choose_projects_directory
     jump preferences
-
-
+label zip_directory_preference:
+    call ddlc_zip
+    jump preferences
 label preferences:
     call screen preferences
     jump preferences

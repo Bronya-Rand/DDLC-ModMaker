@@ -44,11 +44,11 @@ init -1 python hide:
     # This controls the title of the window, when Ren'Py is
     # running in a window.
 
-    config.window_title = u"Ren'Py Launcher"
+    config.window_title = u"Doki Doki Mod Maker"
 
     # These control the name and version of the game, that are reported
     # with tracebacks and other debugging logs.
-    config.name = "Ren'Py Launcher"
+    config.name = "Doki Doki Mod Maker"
     config.version = renpy.version().split()[1]
 
     #####################
@@ -160,7 +160,7 @@ init -1 python hide:
     # stored. (It needs to be set early, before any other init code
     # is run, so the persistent information can be found by the init code.)
 python early:
-    config.save_directory = "launcher-4"
+    config.save_directory = "DDMMaker"
 
 init -1 python hide:
     #####################
@@ -337,10 +337,6 @@ init python:
     build.classify_renpy("gui/game/gui/", None)
 
     source_and_binary("launcher")
-    source_and_binary("gui", binary=None)
-
-    source_and_binary("the_question")
-    source_and_binary("tutorial")
 
     # docs.
     build.classify_renpy("doc/", "source")
@@ -386,16 +382,6 @@ init python:
     # jedit rules.
     build.classify_renpy("jedit/**", "jedit")
 
-    # editra rules.
-    build.classify_renpy("editra/", "editra-all")
-    build.classify_renpy("editra/Editra.edit.py", "editra-all")
-    build.classify_renpy("editra/Editra/**", "editra-linux editra-windows")
-    build.classify_renpy("editra/Editra-mac.app/**", "editra-mac")
-    build.classify_renpy("editra/lib/**", "editra-windows")
-    build.classify_renpy("editra/editra.exe", "editra-windows")
-    build.executable("editra/Editra/Editra")
-
-
     # Packages.
     build.packages = [ ]
 
@@ -405,18 +391,9 @@ init python:
 
     build.package("jedit", "zip", "jedit", dlc=True)
 
-    build.package("editra-linux", "tar.bz2", "editra-all editra-linux", dlc=True)
-    build.package("editra-mac", "zip", "editra-all editra-mac", dlc=True)
-    build.package("editra-windows", "zip", "editra-all editra-windows", dlc=True)
-
     build.package("atom-linux", "tar.bz2", "atom-all atom-linux", dlc=True)
     build.package("atom-mac", "zip", "atom-all atom-mac", dlc=True)
     build.package("atom-windows", "zip", "atom-all atom-windows", dlc=True)
-
-    build.package("rapt", "zip", "rapt", dlc=True)
-    build.package("renios", "zip", "renios", dlc=True)
-    build.package("web", "zip", "web", dlc=True)
-
 
 # Enable the special launcher translation mode.
 define config.translate_launcher = True
