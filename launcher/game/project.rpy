@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -30,7 +30,7 @@ init python:
     import os
 
 init python in project:
-    from store import persistent, config, Action, renpy
+    from store import persistent, config, Action, renpy, _preferences
     import store.util as util
     import store.interface as interface
 
@@ -43,6 +43,8 @@ init python in project:
 
     if persistent.blurb is None:
         persistent.blurb = 0
+
+    project_filter = [ i.strip() for i in os.environ.get("RENPY_PROJECT_FILTER", "").split(":") if i.strip() ]
 
     LAUNCH_BLURBS = [
         _("After making changes to the script, press shift+R to reload your game."),
@@ -79,6 +81,9 @@ init python in project:
             # Load the data.
             self.load_data()
 
+            # A name to display the project.
+            self.display_name = self.data.get("display_name", self.name)
+
             # The project's temporary directory.
             self.tmp = None
 
@@ -90,6 +95,10 @@ init python in project:
             self.dump_mtime = 0
 
         def get_dump_filename(self):
+
+            if os.path.exists(os.path.join(self.gamedir, "saves")):
+                return os.path.join(self.gamedir, "saves", "navigation.json")
+
             self.make_tmp()
             return os.path.join(self.tmp, "navigation.json")
 
@@ -122,6 +131,7 @@ init python in project:
             data.setdefault("packages", [ "pc", "mac" ])
             data.setdefault("add_from", True)
             data.setdefault("force_recompile", True)
+            data.setdefault("android_build", "Release")
 
             if "renamed_all" not in data:
                 dp = data["packages"]
@@ -136,6 +146,18 @@ init python in project:
                         dp.append("mac")
 
                 data["renamed_all"] = True
+
+            if "renamed_steam" not in data:
+                dp = data["packages"]
+
+                if "steam" in dp:
+                    dp.remove("steam")
+
+                    if "market" not in dp:
+                        dp.append("market")
+
+                data["renamed_steam"] = True
+
 
         def make_tmp(self):
             """
@@ -154,8 +176,23 @@ init python in project:
                 pass
 
             if os.path.isdir(tmp):
-                self.tmp = tmp
-                return
+                try:
+
+                    fn = os.path.join(tmp, "write_test.txt")
+
+                    if os.path.exists(fn):
+                        os.unlink(fn)
+
+                    with open(fn, "w") as f:
+                        f.write("Test")
+
+                    os.unlink(fn)
+
+                    self.tmp = tmp
+                    return
+
+                except:
+                    pass
 
             self.tmp = tempfile.mkdtemp()
 
@@ -223,6 +260,7 @@ init python in project:
                 cmd.append("--json-dump-common")
 
             environ = dict(os.environ)
+            environ["RENPY_LAUNCHER_LANGUAGE"] = _preferences.language or "english"
             environ.update(env)
 
             encoded_environ = { }
@@ -241,6 +279,9 @@ init python in project:
             if wait:
                 if p.wait():
                     interface.error(_("Launching the project failed."), _("Please ensure that your project launches normally before running this command."))
+
+            renpy.not_infinite_loop(30)
+
 
         def update_dump(self, force=False, gui=True, compile=False):
             """
@@ -377,12 +418,18 @@ init python in project:
            # Directories that have been scanned.
            self.scanned = set()
 
+           # The tutorial game, and the language it's for.
+           self.tutoral = None
+           self.tutorial_language = "the meowing of a cat"
+
            self.scan()
 
         def scan(self):
             """
             Scans for projects.
             """
+
+            global current
 
             if (persistent.projects_directory is not None) and not os.path.isdir(persistent.projects_directory):
                 persistent.projects_directory = None
@@ -397,11 +444,23 @@ init python in project:
             if self.projects_directory is not None:
                 self.scan_directory(self.projects_directory)
 
+
             self.scan_directory(config.renpy_base)
             self.scan_directory(os.path.join(config.renpy_base, "templates"))
 
             self.projects.sort(key=lambda p : p.name.lower())
             self.templates.sort(key=lambda p : p.name.lower())
+
+
+            # Select the default project.
+            if persistent.active_project is not None:
+                p = self.get(persistent.active_project)
+
+                if (p is not None) and (p.name not in [ "tutorial", "tutorial_7" ]):
+                    current = p
+                    return
+
+            current = self.get_tutorial()
 
 
         def find_basedir(self, d):
@@ -445,52 +504,60 @@ init python in project:
             for pdir in util.listdir(d):
 
                 ppath = os.path.join(d, pdir)
+                self.scan_directory_direct(ppath, pdir)
 
-                # A project must be a directory.
-                if not os.path.isdir(ppath):
-                    continue
+            # If a file called "projects.txt" exists, include any projects listed in it.
+            extra_projects_fn = os.path.join(d, "projects.txt")
 
-                try:
-                    ppath = self.find_basedir(ppath)
-                except:
-                    continue
+            if os.path.exists(extra_projects_fn):
 
-                if ppath is None:
-                    continue
+                with open(extra_projects_fn, "r") as f:
 
-                if ppath in self.scanned:
-                    continue
+                    for path in f:
+                        path = path.strip()
+                        if len(path) > 0:
+                            self.scan_directory_direct(path)
 
-                self.scanned.add(ppath)
 
-                # We have a project directory, so create a Project.
-                p = Project(ppath, pdir)
+        def scan_directory_direct(self, ppath, name=None):
+            """
+            Checks if there is a project in `ppath` and creates a project
+            object with the name `name` if so.
+            """
 
-                project_type = p.data.get("type", "normal")
-
-                if project_type == "hidden":
-                    pass
-                elif project_type == "template":
-                    self.templates.append(p)
-                else:
-                    self.projects.append(p)
-
-                self.all_projects.append(p)
-
-            # Select the default project.
-            if persistent.active_project is not None:
-                p = self.get(persistent.active_project)
-
-                if p is not None:
-                    current = p
-                    return
-
-            p = self.get("tutorial")
-            if p is not None:
-                current = p
+            # A project must be a directory.
+            if not os.path.isdir(ppath):
                 return
 
-            current = None
+            try:
+                ppath = self.find_basedir(ppath)
+            except:
+                return
+
+            if ppath is None:
+                return
+
+            if ppath in self.scanned:
+                return
+
+            self.scanned.add(ppath)
+
+            # We have a project directory, so create a Project.
+            p = Project(ppath, name)
+
+            if project_filter and (p.name not in project_filter):
+                return
+
+            project_type = p.data.get("type", "normal")
+
+            if project_type == "hidden":
+                pass
+            elif project_type == "template":
+                self.templates.append(p)
+            else:
+                self.projects.append(p)
+
+            self.all_projects.append(p)
 
 
         def get(self, name):
@@ -505,6 +572,37 @@ init python in project:
                     return p
 
             return None
+
+        def get_tutorial(self):
+
+            language = _preferences.language
+            if persistent.force_new_tutorial:
+                language = None
+
+            if language == self.tutorial_language:
+                return self.tutorial
+
+            rv = self.get("oldtutorial")
+            p = self.get("tutorial")
+
+            if p is not None:
+
+                if language is None:
+                    rv = p
+
+                elif rv is None:
+                    rv = p
+
+                elif os.path.exists(os.path.join(p.path, "game", "tl", _preferences.language)):
+                    rv = p
+
+                elif not os.path.exists(os.path.join(rv.path, "game", "tl", _preferences.language)):
+                    rv = p
+
+            self.tutorial_language = language
+            self.tutorial = rv
+
+            return rv
 
     manager = ProjectManager()
 
@@ -557,6 +655,55 @@ init python in project:
             if self.label is not None:
                 renpy.jump(self.label)
 
+    class SelectTutorial(Action):
+        """
+        Selects the tutorial.
+        """
+
+        def __init__(self, if_tutorial=False):
+            """
+            Only selects if we're already in a tutorial.
+            """
+
+            self.if_tutorial = if_tutorial
+
+        def __call__(self):
+
+            p = manager.get_tutorial()
+
+            if p is None:
+                return
+
+            global current
+
+            if self.if_tutorial:
+                if (current is not None) and current.name not in [ "tutorial", "oldtutorial" ]:
+                    return None
+
+            current = p
+            persistent.active_project = p.name
+
+            renpy.restart_interaction()
+
+        def get_sensitive(self):
+            if self.if_tutorial:
+                return True
+
+            return (manager.get_tutorial() is not None)
+
+        def get_selected(self):
+            if self.if_tutorial:
+                return False
+
+            p = manager.get_tutorial()
+
+            if p is None:
+                return False
+
+            if current is None:
+                return False
+
+            return current.path == p.path
 
     class Launch(Action):
         """
@@ -613,7 +760,7 @@ label choose_projects_directory:
 
     python hide:
 
-        interface.interaction(_("PROJECTS DIRECTORY"), _("Please choose the projects directory using the directory chooser.\n{b}The directory chooser may have opened behind this window.{/b}"), _("This launcher will scan for projects in this directory, will create new projects in this directory, and will place built projects into this directory."),)
+        interface.interaction(_("Project Directory"), _("Please choose the projects directory using the directory chooser.\n{b}The directory chooser may have opened behind this window.{/b}"), _("This launcher will scan for projects in this directory, will create new projects in this directory, and will place built projects into this directory."),)
 
         path, is_default = choose_directory(persistent.projects_directory)
 
@@ -623,6 +770,26 @@ label choose_projects_directory:
         persistent.projects_directory = path
 
         project.manager.scan()
+
+    return
+
+label ddlc_zip:
+
+    python hide:
+        if renpy.macintosh == True:
+            if persistent.safari == True:
+                interface.interaction(_("DDLC ZIP Directory"), _("Please choose where the `ddlc-win` folder is located using the directory chooser.\n{b}The directory chooser may have opened behind this window.{/b}"), _("This launcher will scan for projects in this directory, will create new projects in this directory, and will place built projects into this directory."),)
+            else:
+                interface.interaction(_("DDLC ZIP Directory"), _("Please choose where `ddlc-mac.zip` is located using the directory chooser.\n{b}The directory chooser may have opened behind this window.{/b}"), _("This launcher will scan for projects in this directory, will create new projects in this directory, and will place built projects into this directory."),)
+        else:
+            interface.interaction(_("DDLC ZIP Directory"), _("Please choose where `ddlc-win.zip` is located using the directory chooser.\n{b}The directory chooser may have opened behind this window.{/b}"), _("This launcher will scan for projects in this directory, will create new projects in this directory, and will place built projects into this directory."),)
+        
+        path, is_default = choose_directory(persistent.zip_directory)
+
+        if is_default:
+            interface.info(_("Ren'Py has set the DDLC ZIP directory to:"), "[path!q]", path=path)
+
+        persistent.zip_directory = path
 
     return
 

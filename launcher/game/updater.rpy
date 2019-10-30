@@ -47,16 +47,9 @@ init python:
 
         dlc_url = "http://update.renpy.org/{}/updates.json".format(".".join(str(i) for i in version_tuple[:-1]))
 
-        state = updater.get_installed_state()
-
-        if state is not None:
-            base_name = state.get("sdk", {}).get('base_name', '')
-
-            if base_name.startswith("renpy-nightly-"):
-                dlc_url = "http://nightly.renpy.org/{}/updates.json".format(base_name[6:])
-
         return renpy.invoke_in_new_context(updater.update, dlc_url, add=[name], public_key=PUBLIC_KEY, simulate=UPDATE_SIMULATE, restart=restart)
 
+# This should NEVER Happen
 screen update_channel:
 
     frame:
@@ -78,56 +71,12 @@ screen update_channel:
 
                     has vbox
 
-                    text _("The update channel controls the version of Ren'Py the updater will download. Please select an update channel:") style "l_small_text"
+                    text _("Updating this launcher is currently unavailable.") style "l_small_text"
 
                     # Release
                     add SPACER
 
-                    textbutton _("Release") action [ SetField(persistent, "update_channel", "Release"), Jump("preferences") ]
-
-                    add HALF_SPACER
-
-                    frame:
-                        style "l_indent"
-                        text _("{b}Recommended.{/b} The version of Ren'Py that should be used in all newly-released games.") style "l_small_text"
-
-                    # Prerelease
-                    add SPACER
-
-                    textbutton _("Prerelease") action [ SetField(persistent, "update_channel", "Prerelease"), Jump("preferences") ]
-
-                    add HALF_SPACER
-
-                    frame:
-                        style "l_indent"
-                        text _("A preview of the next version of Ren'Py that can be used for testing and taking advantage of new features, but not for final releases of games.") style "l_small_text"
-
-
-                    # Experimental
-                    add SPACER
-
-                    textbutton _("Experimental") action [ SetField(persistent, "update_channel", "Experimental"), Jump("preferences") ]
-
-                    add HALF_SPACER
-
-                    frame:
-                        style "l_indent"
-                        text _("Experimental versions of Ren'Py. You shouldn't select this channel unless asked by a Ren'Py developer.") style "l_small_text"
-
-
-                    # Nightly
-                    add SPACER
-
-                    textbutton _("Nightly") action [ SetField(persistent, "update_channel", "Nightly"), Jump("preferences") ]
-
-                    add HALF_SPACER
-
-                    frame:
-                        style "l_indent"
-                        text _("The bleeding edge of Ren'Py development. This may have the latest features, or might not run at all.") style "l_small_text"
-
-
-    textbutton _("Cancel") action Jump("preferences") style "l_left_button"
+                    textbutton _("Return") action Jump('front_page')
 
 label update_preference:
     call screen update_channel

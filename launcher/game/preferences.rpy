@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -45,17 +45,8 @@ init python:
 
         rv.sort()
 
-        if ("Piglatin", "piglatin") in rv:
-            rv.remove(("Piglatin", "piglatin"))
-            rv.append(("Pig Latin", "piglatin"))
-
         return rv
 
-    show_legacy = os.path.exists(os.path.join(config.renpy_base, "templates", "english", "game", "script.rpy"))
-
-default persistent.legacy = False
-default persistent.force_new_tutorial = False
-default persistent.sponsor_message = True
 
 screen preferences:
 
@@ -105,7 +96,6 @@ screen preferences:
                                 textbutton _("Not Set"):
                                     action Jump("projects_directory_preference")
                                     alt _("Projects directory: [text]")
-
                     add SPACER
                     add SEPARATOR2
 
@@ -120,7 +110,7 @@ screen preferences:
 
 
                         frame style "l_indent":
-                            if persistent.projects_directory:
+                            if persistent.zip_directory:
                                 textbutton _("[persistent.zip_directory!q]"):
                                     action Jump("zip_directory_preference")
                                     alt _("DDLC ZIP directory: [text]")
@@ -148,8 +138,6 @@ screen preferences:
                                 textbutton persistent.editor action Jump("editor_preference") alt _("Text editor: [text]")
                             else:
                                 textbutton _("Not Set") action Jump("editor_preference") alt _("Text editor: [text]")
-
-                    add SPACER
 
                 frame:
                     style "l_indent"
@@ -190,14 +178,6 @@ screen preferences:
                         if renpy.windows:
                             textbutton _("Console output") style "l_checkbox" action ToggleField(persistent, "windows_console")
 
-                    if renpy.macintosh:
-                        add SPACER
-                        frame:
-                            style "l_indent"
-                            yminimum 75
-                            has vbox
-
-                            textbutton _("Change Auto-Extract Setting") style "l_nonbox" action Jump("auto_extract")
 
                 frame:
                     style "l_indent"
@@ -244,17 +224,18 @@ screen preferences:
                                 # frame style "l_indent":
 
                                 for tlname, tlvalue in translations:
-                                    textbutton tlname action [ Language(tlvalue), project.SelectTutorial(True) ] style "l_list"
-
+                                    textbutton tlname action Language(tlvalue) style "l_list"
 
     textbutton _("Return") action Jump("front_page") style "l_left_button"
 
 label projects_directory_preference:
     call choose_projects_directory
     jump preferences
+
 label zip_directory_preference:
     call ddlc_zip
     jump preferences
+
 label preferences:
     call screen preferences
     jump preferences
