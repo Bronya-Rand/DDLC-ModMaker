@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -21,8 +21,6 @@
 
 # This used to hack pygame to support resolution-scaling. Now it just kinda
 # sits here, to provide compatibility with what it used to be.
-
-from __future__ import print_function
 
 import pygame_sdl2 as pygame
 import renpy.display
@@ -68,14 +66,13 @@ def image_load_unscaled(f, hint, convert=True):
 
 
 def image_save_unscaled(surf, filename):
-    pygame.image.save(surf, filename)  # pygame_sdl2 does the filename encoding.
+    pygame.image.save(surf, renpy.exports.fsencode(filename))
 
 # Scales down a surface.
 
 
 def surface_scale(full):
     return full
-
 
 real_renpy_pixellate = _renpy.pixellate
 real_renpy_transform = _renpy.transform
@@ -121,6 +118,5 @@ def real_smoothscale(src, size, dest=None):
                          )
 
     return dest
-
 
 smoothscale = real_smoothscale

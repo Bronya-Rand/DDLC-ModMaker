@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -19,8 +19,6 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-
-from __future__ import print_function
 
 import renpy.display
 import colorsys
@@ -155,7 +153,7 @@ class Color(tuple):
                     b = int(c[2], 16) * 0x11
                     a = int(c[3], 16) * 0x11
                 else:
-                    raise Exception("Color string {!r} must be 3, 4, 6, or 8 hex digits long.".format(c))
+                    raise Exception("Color string must be 3, 4, 6, or 8 hex digits long.")
 
                 return tuple.__new__(cls, (r, g, b, a))
 

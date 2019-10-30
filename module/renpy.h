@@ -49,27 +49,13 @@ void linmap24_core(PyObject *pysrc,
                 int gmap,
                 int bmap);
 
-void blur32_core(PyObject *pysrc,
-                 PyObject *pywrk,
-                 PyObject *pydst,
-                 float xrad,
-                 float yrad);
+#if 0
 
-void blur24_core(PyObject *pysrc,
-                 PyObject *pywrk,
-                 PyObject *pydst,
-                 float xrad,
-                 float yrad);
+void xblur32_core(PyObject *pysrc,
+                  PyObject *pydst,
+                  int radius);
 
-void linblur32_core(PyObject *pysrc,
-                    PyObject *pydst,
-                    int radius,
-                    int vertical);
-
-void linblur24_core(PyObject *pysrc,
-                    PyObject *pydst,
-                    int radius,
-                    int vertical);
+#endif
 
 void alphamunge_core(PyObject *pysrc,
                      PyObject *pydst,

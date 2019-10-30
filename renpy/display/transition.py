@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -23,8 +23,6 @@
 # Transitions need to be able to work even when old_widget and new_widget
 # are None, at least to the point of making it through __init__. This is
 # so that prediction of images works.
-
-from __future__ import print_function
 
 import renpy.display
 from renpy.display.render import render
@@ -317,7 +315,9 @@ class Dissolve(Transition):
         The time the dissolve will take.
 
     `alpha`
-        Ignored.
+        If true, the dissolve will alpha-composite the result of the transition
+        with the screen. If false, the result of the transition will replace the
+        screen, which is more efficient.
 
     `time_warp`
         A function that adjusts the timeline. If not None, this should be a
@@ -363,24 +363,11 @@ class Dissolve(Transition):
         width = min(top.width, bottom.width)
         height = min(top.height, bottom.height)
 
-        rv = renpy.display.render.Render(width, height, opaque=not (self.alpha or renpy.config.dissolve_force_alpha))
+        rv = renpy.display.render.Render(width, height, opaque=not self.alpha)
 
         rv.operation = renpy.display.render.DISSOLVE
-        rv.operation_alpha = self.alpha or renpy.config.dissolve_force_alpha
+        rv.operation_alpha = self.alpha
         rv.operation_complete = complete
-
-        if renpy.display.render.models:
-
-            target = rv.get_size()
-
-            if top.get_size() != target:
-                top = top.subsurface((0, 0, width, height))
-            if bottom.get_size() != target:
-                bottom = bottom.subsurface((0, 0, width, height))
-
-            rv.mesh = True
-            rv.shaders = ( "renpy.dissolve", )
-            rv.uniforms = { "uDissolve" : complete }
 
         rv.blit(bottom, (0, 0), focus=False, main=False)
         rv.blit(top, (0, 0), focus=True, main=True)
@@ -415,10 +402,12 @@ class ImageDissolve(Transition):
         completed one step of dissolving in.
 
     `reverse`
-        If True, black pixels will dissolve in before white pixels.
+        If true, black pixels will dissolve in before white pixels.
 
     `alpha`
-        Ignored.
+        If true, the dissolve will alpha-composite the result of the transition
+        with the screen. If false, the result of the transition will replace the
+        screen, which is more efficient.
 
     `time_warp`
         A function that adjusts the timeline. If not None, this should be a
@@ -510,7 +499,7 @@ class ImageDissolve(Transition):
         width = min(bottom.width, top.width, image.width)
         height = min(bottom.height, top.height, image.height)
 
-        rv = renpy.display.render.Render(width, height, opaque=not (self.alpha or renpy.config.dissolve_force_alpha))
+        rv = renpy.display.render.Render(width, height, opaque=not self.alpha)
 
         complete = st / self.delay
 
@@ -518,35 +507,9 @@ class ImageDissolve(Transition):
             complete = self.time_warp(complete)
 
         rv.operation = renpy.display.render.IMAGEDISSOLVE
-        rv.operation_alpha = self.alpha or renpy.config.dissolve_force_alpha
+        rv.operation_alpha = self.alpha
         rv.operation_complete = complete
         rv.operation_parameter = self.ramplen
-
-        if renpy.display.render.models:
-
-            target = rv.get_size()
-
-            if image.get_size() != target:
-                image = image.subsurface((0, 0, width, height))
-            if top.get_size() != target:
-                top = top.subsurface((0, 0, width, height))
-            if bottom.get_size() != target:
-                bottom = bottom.subsurface((0, 0, width, height))
-
-            ramp = self.ramplen
-
-            # Prevent a DBZ if the user gives us a 0 ramp.
-            if ramp < 1:
-                ramp = 1
-
-            # Compute the offset to apply to the alpha.
-            start = -1.0
-            end = ramp / 256.0
-            offset = start + ( end - start) * complete
-
-            rv.mesh = True
-            rv.shaders = ( "renpy.imagedissolve", )
-            rv.uniforms = { "uDissolveOffset" : offset, "uDissolveMultiplier" : 256.0 / ramp }
 
         rv.blit(image, (0, 0), focus=False, main=False)
         rv.blit(bottom, (0, 0), focus=False, main=False)
@@ -574,7 +537,8 @@ class AlphaDissolve(Transition):
         The time the transition takes, before ending.
 
     `alpha`
-        Ignored.
+        If true, the image is composited with what's behind it. If false,
+        the default, the image is opaque and overwrites what's behind it.
 
     `reverse`
         If true, the alpha channel is reversed. Opaque areas are taken
@@ -626,7 +590,7 @@ class AlphaDissolve(Transition):
         rv = renpy.display.render.Render(width, height, opaque=not self.alpha)
 
         rv.operation = renpy.display.render.IMAGEDISSOLVE
-        rv.operation_alpha = self.alpha or renpy.config.dissolve_force_alpha
+        rv.operation_alpha = self.alpha
         rv.operation_complete = 256.0 / (256.0 + 256.0)
         rv.operation_parameter = 256
 
@@ -650,7 +614,7 @@ class CropMove(Transition):
 
     Returns a transition that works by cropping a scene and positioning it on the
     screen. This can be used to implement a variety of effects, all of which
-    involve changing rectangular slices of scenes.
+    involved changing rectangular slices of scenes.
 
     `time`
         The time the transition takes.
@@ -909,7 +873,7 @@ class PushMove(Transition):
     :name: PushMove
 
     Returns a transition that works by taking the new scene and using it to
-    "push" the old scene off the screen.
+    "push" the old scene off the screen. 
 
     `time`
         The time the transition takes.

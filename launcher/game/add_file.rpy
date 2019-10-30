@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -23,34 +23,24 @@ label add_file:
 
     python hide:
         import os
-        filename = ""
-        while True:
-            filename = interface.input(
-                _("FILENAME"),
-                _("Enter the name of the script file to create."),
-                allow=interface.FILENAME_LETTERS,
-                cancel=Jump("navigation"),
-                default=filename,
-            )
-            filename = filename.strip()
-            if not filename:
-                interface.error(_("The file name may not be empty."), label=None)
-                continue
+        import codecs
 
-            if "." in filename and not filename.endswith(".rpy"):
-                interface.error(_("The filename must have the .rpy extension."), label=None)
-                continue
-            elif "." not in filename:
-                filename += ".rpy"
+        filename = interface.input(_("FILENAME"), _("Enter the name of the script file to create."), filename="withslash", cancel=Jump("navigation"))
 
-            path = os.path.join(project.current.gamedir, filename)
-            dir = os.path.dirname(path)
+        if "." in filename and not filename.endswith(".rpy"):
+            interface.error(_("The filename must have the .rpy extension."), label="navigation")
+        elif "." not in filename:
+            filename += ".rpy"
 
-            if os.path.exists(path):
-                interface.error(_("The file already exists."), label=None)
-                continue
+        path = os.path.join(project.current.gamedir, filename)
+        dir = os.path.dirname(path)
 
-            break
+        if os.path.exists(path):
+            interface.error(_("The file already exists."), label="navigation")
+
+        contents = u"\uFEFF"
+        contents += _("# Ren'Py automatically loads all script files ending with .rpy. To use this\n# file, define a label and jump to it from another file.\n")
+        contents += "\n"
 
         try:
             os.makedirs(dir)
@@ -64,3 +54,4 @@ label add_file:
             f.write(contents.encode("utf-8"))
 
     jump navigation_refresh
+

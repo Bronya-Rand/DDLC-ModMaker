@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -24,8 +24,9 @@
 
 init -1600 python hide:
 
-    # Set to False if you don't want sound to initialize without any mixers.
-    config.force_sound = True
+    # Set to true in the very unlikely event you want to manually init
+    # the sound system.
+    config.force_sound = False
 
     # basics: True if the game will have music.
     config.has_music = True
@@ -78,10 +79,8 @@ init 1600:
 
         else:
             for i, m in enumerate(mixers):
-
                 renpy.sound.set_mixer(i, m, default=True)
-
-                if i >= 3:
+                if m == 'music':
                     renpy.music.set_music(i, True, default=True)
                 else:
                     renpy.music.set_music(i, False, default=True)

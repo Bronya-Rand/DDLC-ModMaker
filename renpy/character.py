@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -21,13 +21,10 @@
 
 # The Character object (and friends).
 
-from __future__ import print_function
-
 import renpy.display
 
 import re
 import os
-import collections
 
 # This matches the dialogue-relevant text tags.
 TAG_RE = re.compile(r'(\{\{)|(\{(p|w|nw|fast)(?:\=([^}]*))?\})', re.S)
@@ -105,7 +102,7 @@ class DialogueTextTags(object):
             self.pause_delay.append(None)
 
 
-def predict_show_display_say(who, what, who_args, what_args, window_args, image=False, two_window=False, side_image=None, screen=None, properties=None, **kwargs):
+def predict_show_display_say(who, what, who_args, what_args, window_args, image=False, two_window=False, side_image=None, screen=None, **kwargs):
     """
     This is the default function used by Character to predict images that
     will be used by show_display_say. It's called with more-or-less the
@@ -126,7 +123,7 @@ def predict_show_display_say(who, what, who_args, what_args, window_args, image=
         kwargs["image"] = image
 
     if screen:
-        props = compute_widget_properties(who_args, what_args, window_args, properties)
+        props = compute_widget_properties(who_args, what_args, window_args)
 
         renpy.display.predict.screen(
             screen,
@@ -140,33 +137,26 @@ def predict_show_display_say(who, what, who_args, what_args, window_args, image=
         return
 
 
-def compute_widget_properties(who_args, what_args, window_args, properties, variant=None, multiple=None):
+def compute_widget_properties(who_args, what_args, window_args, variant=None):
     """
     Computes and returns the widget properties.
     """
 
-    def style_args(d, name):
+    def style_args(d):
 
-        style = d.get("style", None)
-
-        if style is None:
-            if multiple is None:
-                return d
-            else:
-                style = name
+        if "style" not in d:
+            return d
 
         in_rollback = renpy.exports.in_rollback()
 
-        if (not in_rollback) and (not variant) and (not multiple):
+        if (not in_rollback) and (not variant):
             return d
 
         d = d.copy()
 
+        style = d["style"]
+
         if isinstance(style, basestring):
-
-            if multiple is not None:
-                style = "block{}_multiple{}_{}".format(multiple[0], multiple[1], style)
-
             style = getattr(renpy.store.style, style)
 
             if variant is not None:
@@ -179,20 +169,15 @@ def compute_widget_properties(who_args, what_args, window_args, properties, vari
 
         return d
 
-    who_args = style_args(who_args, "who")
-    what_args = style_args(what_args, "what")
-    window_args = style_args(window_args, "window")
+    who_args = style_args(who_args)
+    what_args = style_args(what_args)
+    window_args = style_args(window_args)
 
-    rv = dict(properties)
-
-    for prefix in renpy.config.character_id_prefixes:
-        rv[prefix] = style_args(properties.get(prefix, {}), prefix)
-
-    rv["window"] = window_args
-    rv["what"] = what_args
-    rv["who"] = who_args
-
-    return rv
+    return {
+        "window" : window_args,
+        "what" : what_args,
+        "who" : who_args,
+        }
 
 
 def show_display_say(who, what, who_args={}, what_args={}, window_args={},
@@ -204,8 +189,6 @@ def show_display_say(who, what, who_args={}, what_args={}, window_args={},
                      variant=None,
                      screen=None,
                      layer=None,
-                     properties={},
-                     multiple=None,
                      **kwargs):
     """
     This is called (by default) by renpy.display_say to add the
@@ -240,7 +223,7 @@ def show_display_say(who, what, who_args={}, what_args={}, window_args={},
     displaying the what text.
     """
 
-    props = compute_widget_properties(who_args, what_args, window_args, properties, variant=variant, multiple=multiple)
+    props = compute_widget_properties(who_args, what_args, window_args, variant=variant)
 
     def handle_who():
         if who:
@@ -272,13 +255,9 @@ def show_display_say(who, what, who_args={}, what_args={}, window_args={},
         tag = screen
         index = 0
 
-        if multiple:
-
-            if renpy.display.screen.has_screen("multiple_" + screen):
-                screen = "multiple_" + screen
-                kwargs["multiple"] = multiple
-
-            tag = "block{}_multiple{}_{}".format(multiple[0], multiple[1], tag)
+        while renpy.exports.showing(tag):
+            index += 1
+            tag = "%s%d" % (screen, index)
 
         if image:
             kwargs["image"] = image
@@ -301,7 +280,7 @@ def show_display_say(who, what, who_args={}, what_args={}, window_args={},
 
         renpy.exports.shown_window()
 
-        return (tag, "what", layer)
+        return renpy.display.screen.get_widget(screen, "what", layer)
 
     # Apply the transform.
     if transform:
@@ -341,9 +320,8 @@ def show_display_say(who, what, who_args={}, what_args={}, window_args={},
 
 class SlowDone(object):
     delay = None
-    ctc_kwargs = { }
 
-    def __init__(self, ctc, ctc_position, callback, interact, type, cb_args, delay, ctc_kwargs):  # @ReservedAssignment
+    def __init__(self, ctc, ctc_position, callback, interact, type, cb_args, delay):  # @ReservedAssignment
         self.ctc = ctc
         self.ctc_position = ctc_position
         self.callback = callback
@@ -351,28 +329,25 @@ class SlowDone(object):
         self.type = type
         self.cb_args = cb_args
         self.delay = delay
-        self.ctc_kwargs = ctc_kwargs
 
     def __call__(self):
 
-        if self.interact and self.delay != 0:
+        if renpy.display.screen.has_screen("ctc"):
 
-            if renpy.display.screen.has_screen("ctc"):
+            if self.ctc:
+                args = [ self.ctc ]
+            else:
+                args = [ ]
 
-                if self.ctc:
-                    args = [ self.ctc ]
-                else:
-                    args = [ ]
+            renpy.display.screen.show_screen("ctc", *args, _transient=True)
+            renpy.exports.restart_interaction()
 
-                renpy.display.screen.show_screen("ctc", *args, _transient=True, _ignore_extra_kwargs=True, **self.ctc_kwargs)
-                renpy.exports.restart_interaction()
-
-            elif self.ctc and self.ctc_position == "fixed":
-                renpy.display.screen.show_screen("_ctc", _transient=True, ctc=self.ctc)
-                renpy.exports.restart_interaction()
+        elif self.ctc and self.ctc_position == "fixed":
+            renpy.display.screen.show_screen("_ctc", _transient=True, ctc=self.ctc)
+            renpy.exports.restart_interaction()
 
         if self.delay is not None:
-            renpy.ui.pausebehavior(self.delay, True, voice=True)
+            renpy.ui.pausebehavior(self.delay, True)
             renpy.exports.restart_interaction()
 
         for c in self.callback:
@@ -381,8 +356,6 @@ class SlowDone(object):
 
 # This function takes care of repeatably showing the screen as part of
 # an interaction.
-
-
 def display_say(
         who,
         what,
@@ -400,34 +373,14 @@ def display_say(
         type,  # @ReservedAssignment
         checkpoint=True,
         ctc_timedpause=None,
-        ctc_force=False,
-        advance=True,
-        multiple=None):
+        ctc_force=False):
 
-    # Final is true if this statement should perform an interaction.
-
-    if multiple is None:
-        final = interact
-    else:
-        step, total = multiple
-
-        if step == total:
-            final = interact
-        else:
-            final = False
-
-    if not final:
-        advance = False
-
-    if final and (not renpy.game.preferences.skip_unseen) and (not renpy.game.context().seen_current(True)) and renpy.config.skipping == "fast":
+    if interact and (not renpy.game.preferences.skip_unseen) and (not renpy.game.context().seen_current(True)) and renpy.config.skipping == "fast":
         renpy.config.skipping = None
 
     # If we're in fast skipping mode, don't bother with say
     # statements at all.
-    if advance and renpy.config.skipping == "fast":
-
-        for i in renpy.config.fast_skipping_callbacks:
-            i()
+    if interact and renpy.config.skipping == "fast":
 
         # Clears out transients.
         renpy.exports.with_statement(None)
@@ -449,10 +402,10 @@ def display_say(
     for c in callback:
         c("begin", interact=interact, type=type, **cb_args)
 
-    roll_forward = renpy.exports.roll_forward_info()
-
-    if roll_forward is True:
+    if renpy.exports.roll_forward_info():
         roll_forward = False
+    else:
+        roll_forward = None
 
     # If we're just after a rollback or roll_forward, disable slow.
     after_rollback = renpy.game.after_rollback
@@ -462,7 +415,6 @@ def display_say(
 
     # If we're committed to skipping this statement, disable slow.
     elif (renpy.config.skipping and
-          advance and
           (renpy.game.preferences.skip_unseen or
            renpy.game.context().seen_current(True))):
         slow = False
@@ -484,156 +436,103 @@ def display_say(
         pause_end = dtt.pause_end
         pause_delay = dtt.pause_delay
 
-    exception = None
+    for i, (start, end, delay) in enumerate(zip(pause_start, pause_end, pause_delay)):
 
-    try:
+        last_pause = (i == len(pause_start) - 1)
 
-        for i, (start, end, delay) in enumerate(zip(pause_start, pause_end, pause_delay)):
+        # If we're going to do an interaction, then saybehavior needs
+        # to be here.
+        if interact:
+            behavior = renpy.ui.saybehavior(allow_dismiss=renpy.config.say_allow_dismiss)
+        else:
+            behavior = None
 
-            last_pause = (i == len(pause_start) - 1)
+        # The string to show.
+        what_string = dtt.text
 
-            # If we're going to do an interaction, then saybehavior needs
-            # to be here.
-            if advance:
-                behavior = renpy.ui.saybehavior(allow_dismiss=renpy.config.say_allow_dismiss)
+        # Figure out the CTC to use, if any.
+        if last_pause:
+            what_ctc = ctc
+        else:
+            if delay is not None:
+                what_ctc = ctc_timedpause or ctc_pause
             else:
-                behavior = None
+                what_ctc = ctc_pause
 
-            # The string to show.
-            what_string = dtt.text
+        if not (interact or ctc_force):
+            what_ctc = None
 
-            # Figure out the CTC to use, if any.
-            if last_pause:
-                what_ctc = ctc
-                ctc_kind = "last"
-            else:
-                if delay is not None:
-                    what_ctc = ctc_timedpause or ctc_pause
-                    ctc_kind = "timedpause"
-                else:
-                    what_ctc = ctc_pause
-                    ctc_kind = "pause"
+        what_ctc = renpy.easy.displayable_or_none(what_ctc)
 
-            ctc_kwargs = {
-                "ctc_kind" : ctc_kind,
-                "ctc_last" : ctc,
-                "ctc_pause" : ctc_pause,
-                "ctc_timedpause" : ctc_timedpause,
-            }
+        if (what_ctc is not None) and what_ctc._duplicatable:
+            what_ctc = what_ctc._duplicate(None)
+            what_ctc._unique()
 
-            if not (interact or ctc_force):
-                what_ctc = None
+        if delay == 0:
+            what_ctc = None
 
-            what_ctc = renpy.easy.displayable_or_none(what_ctc)
+        # Create the callback that is called when the slow text is done.
+        slow_done = SlowDone(what_ctc, ctc_position, callback, interact, type, cb_args, delay)
 
-            if (what_ctc is not None) and what_ctc._duplicatable:
-                what_ctc = what_ctc._duplicate(None)
-                what_ctc._unique()
+        # Run the show callback.
+        for c in callback:
+            c("show", interact=interact, type=type, **cb_args)
 
-            if delay == 0:
-                what_ctc = None
+        # Show the text.
+        what_text = show_function(who, what_string)
 
-            # Run the show callback.
-            for c in callback:
-                c("show", interact=interact, type=type, **cb_args)
+        if not isinstance(what_text, renpy.text.text.Text):  # @UndefinedVariable
+            raise Exception("The say screen (or show_function) must return a Text object.")
 
-            # Create the callback that is called when the slow text is done.
-            slow_done = SlowDone(what_ctc, ctc_position, callback, interact, type, cb_args, delay, ctc_kwargs)
+        if what_ctc and ctc_position == "nestled":
+            what_text.set_ctc(what_ctc)
 
-            # Show the text.
-            if multiple:
-                what_text = show_function(who, what_string, multiple=multiple)
-            else:
-                what_text = show_function(who, what_string)
+        # Update the properties of the what_text widget.
+        what_text.start = start
+        what_text.end = end
+        what_text.slow = slow
+        what_text.slow_done = slow_done
 
-            if interact or what_string or (what_ctc is not None) or (behavior and afm):
+        what_text.update()
 
-                if isinstance(what_text, tuple):
-                    what_text = renpy.display.screen.get_widget(what_text[0], what_text[1], what_text[2])
+        for c in callback:
+            c("show_done", interact=interact, type=type, **cb_args)
 
-                if not isinstance(what_text, renpy.text.text.Text):  # @UndefinedVariable
-                    raise Exception("The say screen (or show_function) must return a Text object.")
+        if behavior and afm:
+            behavior.set_text(what_text)
 
-                if what_ctc:
+        if not slow:
+            slow_done()
 
-                    if ctc_position == "nestled":
-                        what_text.set_ctc(what_ctc)
-                    elif ctc_position == "nestled-close":
-                        what_text.set_ctc([ u"\ufeff", what_ctc])
+        if interact:
+            rv = renpy.ui.interact(mouse='say', type=type, roll_forward=roll_forward)
 
-                if what_text.text[0] == what_string:
+            # This is only the case if the user has rolled forward, {nw} happens, or
+            # maybe in some other obscure cases.
+            if rv is False:
+                break
 
-                    # Update the properties of the what_text widget.
-                    what_text.start = start
-                    what_text.end = end
-                    what_text.slow = slow
-                    what_text.slow_done = slow_done
-
-                    what_text.update()
-
-                elif renpy.config.developer:
-                    raise Exception("The displayable with id 'what' was not given the exact contents of the what variable given to the say screen.")
-
-                if behavior and afm:
-                    behavior.set_text(what_text)
-
-            else:
-
-                slow = False
-
-            for c in callback:
-                c("show_done", interact=interact, type=type, **cb_args)
-
-            if not slow:
-                slow_done()
-
-            if final:
-                rv = renpy.ui.interact(mouse='say', type=type, roll_forward=roll_forward)
-
-                # This is only the case if the user has rolled forward, {nw} happens, or
-                # maybe in some other obscure cases.
-                if rv is False:
-                    break
-
-                if isinstance(rv, (renpy.game.JumpException, renpy.game.CallException)):
-                    raise rv
-
-                if not last_pause:
-                    for i in renpy.config.say_sustain_callbacks:
-                        i()
-
-    except (renpy.game.JumpException, renpy.game.CallException) as e:
-
-        exception = e
+            if not last_pause:
+                for i in renpy.config.say_sustain_callbacks:
+                    i()
 
     # Do the checkpoint and with None.
-    if final:
+    if interact:
 
         if not dtt.no_wait:
             if checkpoint:
-                if exception is None:
-                    renpy.exports.checkpoint(True)
-                else:
-                    renpy.exports.checkpoint(exception)
-
+                renpy.exports.checkpoint(True)
         else:
             renpy.game.after_rollback = after_rollback
 
         if with_none is None:
             with_none = renpy.config.implicit_with_none
 
-        renpy.plog(1, "before with none")
-
         if with_none:
             renpy.game.interface.do_with(None, None)
 
-        renpy.plog(1, "after with none")
-
     for c in callback:
         c("end", interact=interact, type=type, **cb_args)
-
-    if exception is not None:
-        raise
 
 
 class HistoryEntry(renpy.object.Object):
@@ -644,19 +543,11 @@ class HistoryEntry(renpy.object.Object):
 
     # See ADVCharacter.add_history for the fields.
 
-    multiple = None
-
     def __repr__(self):
         return "<History {!r} {!r}>".format(self.who, self.what)
 
-
 # This is used to flag values that haven't been set by the user.
 NotSet = renpy.object.Sentinel("NotSet")
-
-
-# The number of multiple characters we've seen during the current
-# interaction.
-multiple_count = 0
 
 
 class ADVCharacter(object):
@@ -679,7 +570,6 @@ class ADVCharacter(object):
         ]
 
     voice_tag = None
-    properties = { }
 
     # When adding a new argument here, remember to add it to copy below.
     def __init__(
@@ -745,10 +635,7 @@ class ADVCharacter(object):
             with_none=d('with_none'),
             callback=d('callback'),
             type=d('type'),
-            advance=d('advance'),
             )
-
-        self.properties = collections.defaultdict(dict)
 
         if kind:
             self.who_args = kind.who_args.copy()
@@ -756,9 +643,6 @@ class ADVCharacter(object):
             self.window_args = kind.window_args.copy()
             self.show_args = kind.show_args.copy()
             self.cb_args = kind.cb_args.copy()
-
-            for k, v in kind.properties.items():
-                self.properties[k] = dict(v)
 
         else:
             self.who_args = { "substitute" : False }
@@ -774,60 +658,50 @@ class ADVCharacter(object):
         if "slow_abortable" in properties:
             self.what_args["slow_abortable"] = properties.pop("slow_abortable")
 
-        prefixes = [ "show", "cb", "what", "window", "who"] + renpy.config.character_id_prefixes
-        split_args = [ i + "_" for i in prefixes ] + [ "" ]
+        for k in list(properties):
 
-        split = renpy.easy.split_properties(properties, *split_args)
+            if "_" in k:
+                prefix, suffix = k.split("_", 1)
 
-        for prefix, d in zip(prefixes, split):
-            self.properties[prefix].update(d)
+                if prefix == "show":
+                    self.show_args[suffix] = properties[k]
+                    continue
+                elif prefix == "cb":
+                    self.cb_args[suffix] = properties[k]
+                    continue
+                elif prefix == "what":
+                    self.what_args[suffix] = properties[k]
+                    continue
+                elif prefix == "window":
+                    self.window_args[suffix] = properties[k]
+                    continue
+                elif prefix == "who":
+                    self.who_args[suffix] = properties[k]
+                    continue
 
-        self.properties["who"].update(split[-1])
-
-        self.show_args.update(self.properties.pop("show"))
-        self.cb_args.update(self.properties.pop("cb"))
-        self.what_args.update(self.properties.pop("what"))
-        self.window_args.update(self.properties.pop("window"))
-        self.who_args.update(self.properties.pop("who"))
+            self.who_args[k] = properties[k]
 
     def copy(self, name=NotSet, **properties):
         return type(self)(name, kind=self, **properties)
 
     # This is called before the interaction.
-    def do_add(self, who, what, multiple=None):
+    def do_add(self, who, what):
         return
 
     # This is what shows the screen for a given interaction.
-    def do_show(self, who, what, multiple=None):
-
-        if multiple is not None:
-
-            return self.show_function(
-                who,
-                what,
-                who_args=self.who_args,
-                what_args=self.what_args,
-                window_args=self.window_args,
-                screen=self.screen,
-                properties=self.properties,
-                multiple=multiple,
-                **self.show_args)
-
-        else:
-
-            return self.show_function(
-                who,
-                what,
-                who_args=self.who_args,
-                what_args=self.what_args,
-                window_args=self.window_args,
-                screen=self.screen,
-                properties=self.properties,
-                **self.show_args)
+    def do_show(self, who, what):
+        return self.show_function(
+            who,
+            what,
+            who_args=self.who_args,
+            what_args=self.what_args,
+            window_args=self.window_args,
+            screen=self.screen,
+            **self.show_args)
 
     # This is called after the last interaction is done.
-    def do_done(self, who, what, multiple=None):
-        self.add_history("adv", who, what, multiple=multiple)
+    def do_done(self, who, what):
+        self.add_history("adv", who, what)
 
     # This is called when an extend occurs, before the usual add/show
     # cycel.
@@ -851,14 +725,15 @@ class ADVCharacter(object):
             what_args=self.what_args,
             window_args=self.window_args,
             screen=self.screen,
-            properties=self.properties,
             **self.show_args)
 
-    def resolve_say_attributes(self, predict, attrs, wanted=[], remove=[]):
+    def resolve_say_attributes(self, predict, wanted=[], remove=[]):
         """
         Deals with image attributes associated with the current say
-        statement. Returns True if an image is shown, None otherwise.
+        statement.
         """
+
+        attrs = renpy.exports.get_say_attributes()
 
         if not (attrs or wanted or remove):
             return
@@ -871,10 +746,8 @@ class ADVCharacter(object):
 
         if attrs is None:
             attrs = ()
-        else:
-            attrs = tuple(attrs)
 
-        tagged_attrs = ( self.image_tag,) + attrs
+        tagged_attrs = (self.image_tag,) + attrs
         images = renpy.game.context().images
 
         layer = renpy.config.tag_layer.get(self.image_tag, "master")
@@ -890,128 +763,23 @@ class ADVCharacter(object):
             if images.showing(layer, new_image, exact=True):
                 return
 
-            show_image = (self.image_tag,) + attrs + tuple(wanted) + tuple( "-" + i for i in remove)
-
             if predict:
-                images.predict_show(layer, show_image)
+                images.predict_show(new_image)
             else:
-                renpy.exports.show(show_image)
-                return True
+                trans = renpy.config.say_attribute_transition
+
+                if trans is not None:
+                    renpy.exports.with_statement(None)
+
+                renpy.exports.show(new_image)
+
+                if trans is not None:
+                    renpy.exports.with_statement(trans)
 
         else:
 
-            if renpy.config.say_attributes_use_side_image:
-
-                tagged_attrs = (renpy.config.side_image_prefix_tag,) + tagged_attrs
-
-                new_image = images.apply_attributes(layer, self.image_tag, tagged_attrs, wanted, remove)
-
-                if new_image is None:
-                    new_image = tagged_attrs
-
-                images.predict_show(layer, new_image[1:], show=False)
-
-            else:
-
-                # Otherwise, just record the attributes of the image.
-                images.predict_show(layer, tagged_attrs, show=False)
-
-    def handle_say_attributes(self, predicting, interact):
-
-        attrs = renpy.game.context().say_attributes
-        renpy.game.context().say_attributes = None
-
-        temporary_attrs = renpy.game.context().temporary_attributes
-        renpy.game.context().say_attributes = None
-
-        if interact:
-            if temporary_attrs:
-                temporary_attrs = list(temporary_attrs)
-            else:
-                temporary_attrs = [ ]
-
-            # Prepend speaking_attribute, if present. This allows it to
-            # be suppressed by a negative temporary_attr, if desired.
-            if renpy.config.speaking_attribute is not None:
-                temporary_attrs.insert(0, renpy.config.speaking_attribute)
-
-        images = renpy.game.context().images
-        before = images.get_attributes(None, self.image_tag)
-        mode = None
-
-        if self.resolve_say_attributes(predicting, attrs):
-            mode = 'permanent'
-
-        # This is so late to give resolve_say_attributes time to do some
-        # error handling.
-        if not self.image_tag:
-            return None
-
-        if temporary_attrs:
-            attrs = images.get_attributes(None, self.image_tag)
-
-            if self.resolve_say_attributes(predicting, temporary_attrs):
-                mode = 'both' if mode else 'temporary'
-
-        if mode:
-            after = images.get_attributes(None, self.image_tag)
-            self.handle_say_transition(mode, before, after)
-
-        if temporary_attrs:
-            return (attrs, images)
-
-    def handle_say_transition(self, mode, before, after):
-
-        before = set(before)
-        after = set(after)
-
-        if before == after:
-            return
-
-        if renpy.config.say_attribute_transition_callback_attrs:
-            delta = (before, after)
-        else:
-            delta = ()
-
-        trans, layer = renpy.config.say_attribute_transition_callback(
-            self.image_tag, mode, *delta)
-        if trans is not None:
-            if layer is None:
-                renpy.exports.with_statement(trans)
-            else:
-                renpy.exports.transition(trans, layer=layer)
-
-    def restore_say_attributes(self, predicting, state, interact):
-
-        if state is None:
-            return
-
-        attrs, images = state
-
-        if not self.image_tag:
-            return
-
-        # This is False when the context changes.
-        if images is not renpy.game.context().images:
-            return
-
-        current_attrs = images.get_attributes(None, self.image_tag)
-
-        if attrs == current_attrs:
-            return
-
-        image_with_attrs = (self.image_tag,) + attrs + tuple("-" + i for i in current_attrs if i not in attrs)
-
-        if images.showing(None, (self.image_tag,)):
-
-            if not predicting:
-                renpy.exports.show(image_with_attrs)
-                return True
-            else:
-                images.predict_show(None, image_with_attrs)
-
-        else:
-            images.predict_show(None, image_with_attrs, show=False)
+            # Otherwise, just record the attributes of the image.
+            images.predict_show("master", tagged_attrs, show=False)
 
     def __unicode__(self):
 
@@ -1032,19 +800,9 @@ class ADVCharacter(object):
         return "<Character: {!r}>".format(self.name)
 
     def empty_window(self):
-        if renpy.config.fast_empty_window and (self.name is None) and not (self.what_prefix or self.what_suffix):
-            self.do_show(None, "")
-            return
-
         self("", interact=False, _call_done=False)
 
-    def __call__(self, what, interact=True, _call_done=True, multiple=None, **kwargs):
-
-        _mode = kwargs.pop("_mode", None)
-        _with_none = kwargs.pop("_with_none", None)
-
-        if kwargs:
-            return Character(kind=self, **kwargs)(what, interact=interact, _call_done=_call_done, multiple=multiple, _mode=_mode, _with_none=_with_none)
+    def __call__(self, what, interact=True, _call_done=True, **kwargs):
 
         # Check self.condition to see if we should show this line at all.
         if not (self.condition is None or renpy.python.py_eval(self.condition)):
@@ -1053,36 +811,21 @@ class ADVCharacter(object):
         if not isinstance(what, basestring):
             raise Exception("Character expects its what argument to be a string, got %r." % (what,))
 
-        # Figure out multiple and final. Multiple is None if this is not a multiple
-        # dialogue, or a step and the total number of steps in a multiple interaction.
-
-        global multiple_count
-
-        if multiple is None:
-            multiple_count = 0
-
+        if interact and (renpy.config.speaking_attribute is not None):
+            speaking = [ renpy.config.speaking_attribute ]
         else:
-            multiple_count += 1
-            multiple = (multiple_count, multiple)
+            speaking = [ ]
 
-            if multiple_count == multiple[1]:
-                multiple_count = 0
+        self.resolve_say_attributes(False, wanted=speaking)
 
-        if multiple is None:
+        old_side_image_attributes = renpy.store._side_image_attributes
 
-            old_attr_state = self.handle_say_attributes(False, interact)
+        if self.image_tag:
+            attrs = (self.image_tag,) + renpy.game.context().images.get_attributes("master", self.image_tag)
+        else:
+            attrs = None
 
-            old_side_image_attributes = renpy.store._side_image_attributes
-
-            if self.image_tag:
-                attrs = (self.image_tag,) + renpy.game.context().images.get_attributes(None, self.image_tag)
-            else:
-                attrs = None
-
-            renpy.store._side_image_attributes = attrs
-
-            if not interact:
-                renpy.store._side_image_attributes_reset = True
+        renpy.store._side_image_attributes = attrs
 
         if renpy.config.voice_tag_callback is not None:
             renpy.config.voice_tag_callback(self.voice_tag)
@@ -1090,29 +833,18 @@ class ADVCharacter(object):
         try:
 
             if interact:
-                mode = _mode or self.mode
-                renpy.exports.mode(mode)
-            else:
-                renpy.game.context().deferred_translate_identifier = renpy.game.context().translate_identifier
+                renpy.exports.mode(self.mode)
 
             # Figure out the arguments to display.
             display_args = self.display_args.copy()
+            display_args.update(kwargs)
             display_args["interact"] = display_args["interact"] and interact
-
-            if multiple is not None:
-                display_args["multiple"] = multiple
-
-            if _with_none is not None:
-                display_args["with_none"] = _with_none
 
             who = self.name
 
             # If dynamic is set, evaluate the name expression.
             if self.dynamic:
-                if callable(who):
-                    who = who()
-                else:
-                    who = renpy.python.py_eval(who)
+                who = renpy.python.py_eval(who)
 
             def sub(s, scope=None, force=False, translate=True):
                 return renpy.substitutions.substitute(s, scope=scope, force=force, translate=translate)[0]
@@ -1124,54 +856,49 @@ class ADVCharacter(object):
                 else:
                     who = self.who_prefix + who + self.who_suffix
 
+            ctx = renpy.game.context()
+
+            if ctx.translate_block_language is not None:
+                translate = False
+            else:
+                translate = True
+
             if renpy.config.new_substitutions:
                 what_pattern = sub(self.what_prefix + "[[what]" + self.what_suffix)
-                what = what_pattern.replace("[what]", sub(what, translate=True))
+                what = what_pattern.replace("[what]", sub(what, translate=translate))
             else:
                 what = self.what_prefix + what + self.what_suffix
 
             # Run the add_function, to add this character to the
             # things like NVL-mode.
-
-            if multiple is not None:
-                self.do_add(who, what, multiple=multiple)
-            else:
-                self.do_add(who, what)
+            self.do_add(who, what)
 
             # Now, display the damned thing.
             self.do_display(who, what, cb_args=self.cb_args, **display_args)
 
             # Indicate that we're done.
             if _call_done:
-
-                if multiple is not None:
-                    self.do_done(who, what, multiple=multiple)
-                else:
-                    self.do_done(who, what)
+                self.do_done(who, what)
 
                 # Finally, log this line of dialogue.
                 if who and isinstance(who, (str, unicode)):
                     renpy.exports.log(who)
-
                 renpy.exports.log(what)
                 renpy.exports.log("")
 
         finally:
 
-            if (multiple is None) and interact:
+            if interact:
                 renpy.store._side_image_attributes = old_side_image_attributes
 
-                if old_attr_state is not None:
-                    _, images = old_attr_state
-                    before = images.get_attributes(None, self.image_tag)
-
-                if self.restore_say_attributes(False, old_attr_state, interact):
-                    after = images.get_attributes(None, self.image_tag)
-                    self.handle_say_transition('restore', before, after)
+                self.resolve_say_attributes(False, remove=speaking)
 
     def predict(self, what):
 
-        old_attr_state = self.handle_say_attributes(True, True)
+        self.resolve_say_attributes(True)
+
+        if renpy.config.speaking_attribute is not None:
+            self.resolve_say_attributes(True, wanted=[ renpy.config.speaking_attribute ])
 
         old_side_image_attributes = renpy.store._side_image_attributes
 
@@ -1193,7 +920,6 @@ class ADVCharacter(object):
 
         finally:
             renpy.store._side_image_attributes = old_side_image_attributes
-            self.restore_say_attributes(True, old_attr_state, True)
 
     def will_interact(self):
 
@@ -1202,7 +928,7 @@ class ADVCharacter(object):
 
         return self.display_args['interact']
 
-    def add_history(self, kind, who, what, multiple=None, **kwargs):
+    def add_history(self, kind, who, what, **kwargs):
         """
         This is intended to be called by subclasses of ADVCharacter to add
         History entries to _history_list.
@@ -1231,8 +957,6 @@ class ADVCharacter(object):
         h.show_args = self.show_args
 
         h.image_tag = self.image_tag
-
-        h.multiple = multiple
 
         if renpy.game.context().rollback:
             h.rollback_identifier = renpy.game.log.current.identifier
@@ -1278,17 +1002,17 @@ def Character(name=NotSet, kind=None, **properties):
 
     `name`
         If a string, the name of the character for dialogue. When
-        ``name`` is None, display of the name is omitted, as for
+        `name` is ``None``, display of the name is omitted, as for
         narration.
 
     `kind`
         The Character to base this Character off of. When used, the
         default value of any argument not supplied to this Character
-        is the value of that argument supplied to ``kind``. This can
+        is the value of that argument supplied to `kind`. This can
         be used to define a template character, and then copy that
         character with changes.
 
-    **Linked Image.**
+    **Linked Image**
     An image tag may be associated with a Character. This allows a
     say statement involving this character to display an image with
     the tag, and also allows Ren'Py to automatically select a side
@@ -1298,7 +1022,7 @@ def Character(name=NotSet, kind=None, **properties):
          A string giving the image tag that is linked with this
          character.
 
-    **Voice Tag.**
+    **Voice Tag**
     If a voice tag is assign to a Character, the voice files that are
     associated with it, can be muted or played in the preference
     screen.
@@ -1332,20 +1056,16 @@ def Character(name=NotSet, kind=None, **properties):
     These options help to control the display of the name.
 
     `dynamic`
-        If true, then `name` should either be a string containing a Python
-        expression, a function, or a callable object. If it's a string,
-        That string will be evaluated before each line of dialogue, and
-        the result used as the name of the character. Otherwise, the
-        function or callable object will be called with no arguments
-        before each line of dialogue, and the return value of the call will
-        be used as the name of the character.
+        If true, then `name` should be a string containing a python
+        expression. That string will be evaluated before each line
+        of dialogue, and the result used as the name of the character.
 
     **Controlling Interactions.**
     These options control if the dialogue is displayed, if an
     interaction occurs, and the mode that is entered upon display.
 
     `condition`
-        If given, this should be a string containing a Python
+        If given, this should be a string containing a python
         expression. If the expression is false, the dialogue
         does not occur, as if the say statement did not happen.
 
@@ -1353,13 +1073,6 @@ def Character(name=NotSet, kind=None, **properties):
         If true, the default, an interaction occurs whenever the
         dialogue is shown. If false, an interaction will not occur,
         and additional elements can be added to the screen.
-
-    `advance`
-        If true, the default, the player can click to advance through
-        the statement, and other means of advancing (such as skip and
-        auto-forward mode) will also work. If false, the player will be
-        unable to move past the say statement unless an alternate means
-        (such as a jump hyperlink or screen) is provided.
 
     `mode`
         A string giving the mode to enter when this character
@@ -1375,25 +1088,23 @@ def Character(name=NotSet, kind=None, **properties):
     finished displaying, to prompt the user to advance.
 
     `ctc`
-        A displayable to use as the click-to-continue indicator, unless
+        A Displayable to use as the click-to-continue indicator, unless
         a more specific indicator is used.
 
     `ctc_pause`
-        A displayable to use a the click-to-continue indicator when the
+        A Displayable to use a the click-to-continue indicator when the
         display of text is paused by the {p} or {w} text tags.
 
     `ctc_timedpause`
-        A displayable to use a the click-to-continue indicator when the
+        A Displayable to use a the click-to-continue indicator when the
         display of text is paused by the {p=} or {w=} text tags. When
-        None, this takes its default from `ctc_pause`, use ``Null()``
-        when you want a `ctc_pause` but no `ctc_timedpause`.
+        None, this takes its default from ctc_pause, use ``Null()``
+        when you want a ctc_pause but no ctc_timedpause.
 
     `ctc_position`
         Controls the location of the click-to-continue indicator. If
         ``"nestled"``, the indicator is displayed as part of the text
-        being shown, immediately after the last character. ``"nestled-close"`` is
-        similar, except a break is not allowed between the text and the CTC
-        indicator. If ``"fixed"``,
+        being shown, immediately after the last character. If ``"fixed"``,
         the indicator is added to the screen, and its position is
         controlled by the position style properties.
 
@@ -1408,18 +1119,18 @@ def Character(name=NotSet, kind=None, **properties):
     Keyword arguments beginning with ``show_`` have the prefix
     stripped off, and are passed to the screen as arguments. For
     example, the value of ``show_myflag`` will become the value of
-    the ``myflag`` variable in the screen. (The ``myflag`` variable isn't
+    the ``myflag`` variable in the screen. (The myflag variable isn't
     used by default, but can be used by a custom say screen.)
 
     One show variable is, for historical reasons, handled by Ren'Py itself:
 
     `show_layer`
         If given, this should be a string giving the name of the layer
-        to show the say screen on.
+        to show the "say" screen on.
 
     **Styling Text and Windows.**
     Keyword arguments beginning with ``who_``, ``what_``, and
-    ``window_`` have their prefix stripped, and are used to :ref:`style
+    `window_`` have their prefix stripped, and are used to :ref:`style
     <styles>` the character name, the spoken text, and the window
     containing both, respectively.
 
@@ -1430,14 +1141,9 @@ def Character(name=NotSet, kind=None, **properties):
     dialogue.
 
     The style applied to the character name, spoken text, and window
-    can also be set this way, using the ``who_style``, ``what_style``, and
-    ``window_style`` arguments, respectively.
-
-    Setting :var:`config.character_id_prefixes` makes it possible to style
-    other displayables as well. For example, when the default GUI is used,
-    styles prefixed with ``namebox_`` are used to style the name of the
-    speaking character.
-    """
+    can also be set this way, using the `who_style`, `what_style`, and
+    `window_style` arguments, respectively.
+     """
 
     if kind is None:
         kind = renpy.store.adv

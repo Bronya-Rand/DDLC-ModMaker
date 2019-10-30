@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 
+
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Screen Actions, Values, and Functions &#8212; Ren&#39;Py Documentation</title>
+    
+    <title>Screen Actions, Values, and Functions &mdash; Ren&#39;Py Documentation</title>
+    
     <link rel="stylesheet" href="_static/renpydoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '7.3.5',
+        VERSION:     '6.99.12',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -26,8 +29,7 @@
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Ren&#39;Py Documentation" href="index.html" />
     <link rel="next" title="Special Screen Names" href="screen_special.html" />
     <link rel="prev" title="Screens and Screen Language" href="screens.html" />
 <meta charset='utf-8'>
@@ -36,7 +38,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -49,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           Ren&#39;Py Documentation</a>
-        <span class="navbar-text navbar-version pull-left"><b>7.3.5</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>6.99.12</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -90,7 +92,6 @@
 <li class="toctree-l1"><a class="reference internal" href="transforms.html">Transforms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transitions.html">Transitions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="atl.html">Animation and Transformation Language</a></li>
-<li class="toctree-l1"><a class="reference internal" href="layeredimage.html">Layered Images</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="style.html">Styles</a></li>
@@ -100,12 +101,7 @@
 <li class="toctree-l1"><a class="reference internal" href="screen_special.html">Special Screen Names</a></li>
 <li class="toctree-l1"><a class="reference internal" href="screen_optimization.html">Screen Language Optimization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">Configuration Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="preferences.html">Preference Variables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="store_variables.html">Store Variables</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="developer_tools.html">Developer Tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="director.html">Interactive Director</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="nvl_mode.html">NVL-Mode Tutorial</a></li>
@@ -115,16 +111,15 @@
 <li class="toctree-l1"><a class="reference internal" href="drag_drop.html">Drag and Drop</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sprites.html">Sprites</a></li>
 <li class="toctree-l1"><a class="reference internal" href="keymap.html">Customizing the Keymap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer_tools.html">Developer Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="achievement.html">Achievements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="history.html">Dialogue History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="multiple.html">Multiple Character Dialogue</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="statement_equivalents.html">Statement Equivalents</a></li>
 <li class="toctree-l1"><a class="reference internal" href="save_load_rollback.html">Saving, Loading, and Rollback</a></li>
 <li class="toctree-l1"><a class="reference internal" href="persistent.html">Persistent Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="trans_trans_python.html">Transforms and Transitions in Python</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gui_advanced.html">Advanced GUI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="screen_python.html">Screens and Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modes.html">Modes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="udd.html">Creator-Defined Displayables</a></li>
@@ -143,12 +138,11 @@
 <li class="toctree-l1"><a class="reference internal" href="ios.html">iOS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="iap.html">In-App Purchasing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gesture.html">Gestures</a></li>
-<li class="toctree-l1"><a class="reference internal" href="raspi.html">Raspberry Pi</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="problems.html">Dealing with Problems</a></li>
 <li class="toctree-l1"><a class="reference internal" href="environment_variables.html">Environment Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="self_voicing.html">Self-Voicing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="self_voicing.html">Self Voicing</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="editor.html">Text Editor Integration</a></li>
@@ -160,8 +154,7 @@
 <li class="toctree-l1"><a class="reference internal" href="incompatible.html">Incompatible Changes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="distributor.html">Distributor Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sponsors.html">Ren'Py Development Sponsors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Documentation and Translation Credits</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="thequestion.html">Script of The Question</a></li>
@@ -212,10 +205,7 @@
 <li><a class="reference internal" href="#gamepad">Gamepad</a></li>
 <li><a class="reference internal" href="#file-functions">File Functions</a></li>
 <li><a class="reference internal" href="#side-image-functions">Side Image Functions</a></li>
-<li><a class="reference internal" href="#tooltips">Tooltips</a><ul>
-<li><a class="reference internal" href="#legacy">Legacy</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#tooltips">Tooltips</a></li>
 </ul>
 </li>
 </ul>
@@ -246,13 +236,6 @@ the list are run in order.</p>
 <h3>Control Actions<a class="headerlink" href="#control-actions" title="Permalink to this headline"> link</a></h3>
 <p>These are actions that manage screens, interaction results, and control flow.</p>
 <dl class="function">
-<dt id="Call">
-<code class="descname">Call</code><span class="sig-paren">(</span><em>label</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#Call" title="Permalink to this definition"> link</a></dt>
-<dd><p>Ends the current statement, and calls <cite>label</cite>. Arguments and
-keyword arguments are passed to <a class="reference internal" href="statement_equivalents.html#renpy.call" title="renpy.call"><code class="xref py py-func docutils literal"><span class="pre">renpy.call()</span></code></a>.</p>
-</dd></dl>
-
-<dl class="function">
 <dt id="Hide">
 <code class="descname">Hide</code><span class="sig-paren">(</span><em>screen</em>, <em>transition=None</em><span class="sig-paren">)</span><a class="headerlink" href="#Hide" title="Permalink to this definition"> link</a></dt>
 <dd><p>This causes the screen named <cite>screen</cite> to be hidden, if it is shown.</p>
@@ -265,12 +248,14 @@ keyword arguments are passed to <a class="reference internal" href="statement_eq
 <dl class="function">
 <dt id="Jump">
 <code class="descname">Jump</code><span class="sig-paren">(</span><em>label</em><span class="sig-paren">)</span><a class="headerlink" href="#Jump" title="Permalink to this definition"> link</a></dt>
-<dd><p>Causes control to transfer to <cite>label</cite>.</p>
+<dd><p>Causes control to transfer to the given label. This can be used in
+conjunction with renpy.run_screen to define an imagemap that jumps
+to a label when run.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="NullAction">
-<code class="descname">NullAction</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#NullAction" title="Permalink to this definition"> link</a></dt>
+<code class="descname">NullAction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#NullAction" title="Permalink to this definition"> link</a></dt>
 <dd><p>Does nothing.</p>
 <p>This can be used to make a button responsive to hover/unhover events,
 without actually doing anything.</p>
@@ -292,27 +277,16 @@ None in this case.)</p>
 <dt id="Show">
 <code class="descname">Show</code><span class="sig-paren">(</span><em>screen</em>, <em>transition=None</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#Show" title="Permalink to this definition"> link</a></dt>
 <dd><p>This causes another screen to be shown. <cite>screen</cite> is a string
-giving the name of the screen. The arguments are
+giving the name of the screen. The keyword arguments are
 passed to the screen being shown.</p>
 <p>If not None, <cite>transition</cite> is use to show the new screen.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="ShowTransient">
-<code class="descname">ShowTransient</code><span class="sig-paren">(</span><em>screen</em>, <em>transition=None</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#ShowTransient" title="Permalink to this definition"> link</a></dt>
+<code class="descname">ShowTransient</code><span class="sig-paren">(</span><em>screen</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#ShowTransient" title="Permalink to this definition"> link</a></dt>
 <dd><p>Shows a transient screen. A transient screen will be hidden when
-the current interaction completes. The arguments are
-passed to the screen being shown.</p>
-<p>If not None, <cite>transition</cite> is use to show the new screen.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="ToggleScreen">
-<code class="descname">ToggleScreen</code><span class="sig-paren">(</span><em>screen</em>, <em>transition=None</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#ToggleScreen" title="Permalink to this definition"> link</a></dt>
-<dd><p>This toggles the visibility of <cite>screen</cite>. If it is not currently
-shown, the screen is shown with the provided arguments. Otherwise,
-the screen is hidden.</p>
-<p>If not None, <cite>transition</cite> is use to show and hide the screen.</p>
+the current interaction completes.</p>
 </dd></dl>
 
 </div>
@@ -325,7 +299,7 @@ the screen is hidden.</p>
 <dd><p>Adds <cite>value</cite> to <cite>set</cite>.</p>
 <dl class="docutils">
 <dt><cite>set</cite></dt>
-<dd>The set to add to. This may be a Python set or list, in which
+<dd>The set to add to. This may be a python set or list, in which
 case the value is appended to the list.</dd>
 <dt><cite>value</cite></dt>
 <dd>The value to add or append.</dd>
@@ -359,20 +333,6 @@ field to set, and <cite>value</cite> is the value to set it to.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="SetLocalVariable">
-<code class="descname">SetLocalVariable</code><span class="sig-paren">(</span><em>name</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#SetLocalVariable" title="Permalink to this definition"> link</a></dt>
-<dd><p>Causes the variable <cite>name</cite> to be set to <cite>value</cite> in the current
-local context.</p>
-<p>This function is only useful in a screen that has been use by
-another scene, as it provides a way of setting the value of a
-variable inside the used screen. In all other cases,
-<a class="reference internal" href="#SetScreenVariable" title="SetScreenVariable"><code class="xref py py-func docutils literal"><span class="pre">SetScreenVariable()</span></code></a> should be preferred, as it allows more
-of the screen to be cached.</p>
-<p>This must be created in the context that the variable is set
-in - it can't be passed in from somewhere else.</p>
-</dd></dl>
-
-<dl class="function">
 <dt id="SetScreenVariable">
 <code class="descname">SetScreenVariable</code><span class="sig-paren">(</span><em>name</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#SetScreenVariable" title="Permalink to this definition"> link</a></dt>
 <dd><p>Causes the variable <cite>name</cite> associated with the current screen to
@@ -381,11 +341,8 @@ be set to <cite>value</cite>.</p>
 
 <dl class="function">
 <dt id="SetVariable">
-<code class="descname">SetVariable</code><span class="sig-paren">(</span><em>name</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#SetVariable" title="Permalink to this definition"> link</a></dt>
-<dd><p>Causes the variable with <cite>name</cite> to be set to <cite>value</cite>.</p>
-<p>The <cite>name</cite> argument must be a string, and can be a simple name like &quot;strength&quot;, or
-one with dots separating the variable from fields, like &quot;hero.strength&quot;
-or &quot;persistent.show_cutscenes&quot;.</p>
+<code class="descname">SetVariable</code><span class="sig-paren">(</span><em>variable</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#SetVariable" title="Permalink to this definition"> link</a></dt>
+<dd><p>Causes <cite>variable</cite> to be set to <cite>value</cite>.</p>
 </dd></dl>
 
 <dl class="function">
@@ -395,9 +352,9 @@ or &quot;persistent.show_cutscenes&quot;.</p>
 value when the action is performed.</p>
 <dl class="docutils">
 <dt><cite>true_value</cite></dt>
-<dd>If not None, then this is the true value used.</dd>
+<dd>If not None, then this is the true value we use.</dd>
 <dt><cite>false_value</cite></dt>
-<dd>If not None, then this is the false value used.</dd>
+<dd>If not None, then this is the false value we use.</dd>
 </dl>
 </dd></dl>
 
@@ -415,33 +372,14 @@ value of that field when the action is performed.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="ToggleLocalVariable">
-<code class="descname">ToggleLocalVariable</code><span class="sig-paren">(</span><em>name</em>, <em>true_value=None</em>, <em>false_value=None</em><span class="sig-paren">)</span><a class="headerlink" href="#ToggleLocalVariable" title="Permalink to this definition"> link</a></dt>
-<dd><p>Toggles the value of <cite>name</cite> in the current local context.</p>
-<p>This function is only useful in a screen that has been use by
-another scene, as it provides a way of setting the value of a
-variable inside the used screen. In all other cases,
-<a class="reference internal" href="#ToggleScreenVariable" title="ToggleScreenVariable"><code class="xref py py-func docutils literal"><span class="pre">ToggleScreenVariable()</span></code></a> should be preferred, as it allows more
-of the screen to be cached.</p>
-<p>This must be created in the context that the variable is set
-in - it can't be passed in from somewhere else.</p>
-<dl class="docutils">
-<dt><cite>true_value</cite></dt>
-<dd>If not None, then this is the true value used.</dd>
-<dt><cite>false_value</cite></dt>
-<dd>If not None, then this is the false value used.</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
 <dt id="ToggleScreenVariable">
 <code class="descname">ToggleScreenVariable</code><span class="sig-paren">(</span><em>name</em>, <em>true_value=None</em>, <em>false_value=None</em><span class="sig-paren">)</span><a class="headerlink" href="#ToggleScreenVariable" title="Permalink to this definition"> link</a></dt>
 <dd><p>Toggles the value of the variable <cite>name</cite> in the current screen.</p>
 <dl class="docutils">
 <dt><cite>true_value</cite></dt>
-<dd>If not None, then this is the true value used.</dd>
+<dd>If not None, then this is the true value we use.</dd>
 <dt><cite>false_value</cite></dt>
-<dd>If not None, then this is the false value used.</dd>
+<dd>If not None, then this is the false value we use.</dd>
 </dl>
 </dd></dl>
 
@@ -465,14 +403,11 @@ case of a list, new items are appended.</dd>
 <dt id="ToggleVariable">
 <code class="descname">ToggleVariable</code><span class="sig-paren">(</span><em>variable</em>, <em>true_value=None</em>, <em>false_value=None</em><span class="sig-paren">)</span><a class="headerlink" href="#ToggleVariable" title="Permalink to this definition"> link</a></dt>
 <dd><p>Toggles <cite>variable</cite>.</p>
-<p>The <cite>variable</cite> argument must be a string, and can be a simple name like &quot;strength&quot;, or
-one with dots separating the variable from fields, like &quot;hero.strength&quot;
-or &quot;persistent.show_cutscenes&quot;.</p>
 <dl class="docutils">
 <dt><cite>true_value</cite></dt>
-<dd>If not None, then this is the true value used.</dd>
+<dd>If not None, then this is the true value we use.</dd>
 <dt><cite>false_value</cite></dt>
-<dd>If not None, then this is the false value used.</dd>
+<dd>If not None, then this is the false value we use.</dd>
 </dl>
 </dd></dl>
 
@@ -574,29 +509,22 @@ current page is used.</dd>
 
 <dl class="function">
 <dt id="FileDelete">
-<code class="descname">FileDelete</code><span class="sig-paren">(</span><em>name</em>, <em>confirm=True</em>, <em>page=None</em>, <em>slot=False</em><span class="sig-paren">)</span><a class="headerlink" href="#FileDelete" title="Permalink to this definition"> link</a></dt>
+<code class="descname">FileDelete</code><span class="sig-paren">(</span><em>name</em>, <em>confirm=True</em>, <em>page=None</em><span class="sig-paren">)</span><a class="headerlink" href="#FileDelete" title="Permalink to this definition"> link</a></dt>
 <dd><p>Deletes the file.</p>
 <dl class="docutils">
-<dt><cite>name</cite></dt>
-<dd>The name of the slot to delete.</dd>
 <dt><cite>confirm</cite></dt>
-<dd>If true and not at the main menu, prompt for confirmation before loading the file.</dd>
-<dt><cite>page</cite></dt>
-<dd>The page that the file will be loaded from. If None, the
-current page is used.</dd>
-<dt><cite>slot</cite></dt>
-<dd>If True, <cite>name</cite> is taken to be a slot name, and <cite>page</cite> is ignored.</dd>
+<dd>If true, prompts before deleting a file.</dd>
 </dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="FileLoad">
-<code class="descname">FileLoad</code><span class="sig-paren">(</span><em>name</em>, <em>confirm=True</em>, <em>page=None</em>, <em>newest=True</em>, <em>cycle=False</em>, <em>slot=False</em><span class="sig-paren">)</span><a class="headerlink" href="#FileLoad" title="Permalink to this definition"> link</a></dt>
+<code class="descname">FileLoad</code><span class="sig-paren">(</span><em>name</em>, <em>confirm=True</em>, <em>page=None</em>, <em>newest=True</em><span class="sig-paren">)</span><a class="headerlink" href="#FileLoad" title="Permalink to this definition"> link</a></dt>
 <dd><p>Loads the file.</p>
 <dl class="docutils">
 <dt><cite>name</cite></dt>
-<dd>The name of the slot to load from. If None, an unused slot will be
-used, and hence the file will not be loadable.</dd>
+<dd>The name of the slot to load from. If None, an unused slot
+the file will not be loadable.</dd>
 <dt><cite>confirm</cite></dt>
 <dd>If true and not at the main menu, prompt for confirmation before loading the file.</dd>
 <dt><cite>page</cite></dt>
@@ -606,8 +534,6 @@ current page is used.</dd>
 <dd>If true, the button is selected if this is the newest file.</dd>
 <dt><cite>cycle</cite></dt>
 <dd>Ignored.</dd>
-<dt><cite>slot</cite></dt>
-<dd>If True, <cite>name</cite> is taken to be a slot name, and <cite>page</cite> is ignored.</dd>
 </dl>
 </dd></dl>
 
@@ -620,27 +546,34 @@ or an integer.</p>
 
 <dl class="function">
 <dt id="FilePageNext">
-<code class="descname">FilePageNext</code><span class="sig-paren">(</span><em>max=None</em>, <em>wrap=False</em>, <em>auto=True</em>, <em>quick=True</em><span class="sig-paren">)</span><a class="headerlink" href="#FilePageNext" title="Permalink to this definition"> link</a></dt>
+<code class="descname">FilePageNext</code><span class="sig-paren">(</span><em>max=None</em>, <em>wrap=False</em><span class="sig-paren">)</span><a class="headerlink" href="#FilePageNext" title="Permalink to this definition"> link</a></dt>
 <dd><p>Goes to the next file page.</p>
 <dl class="docutils">
 <dt><cite>max</cite></dt>
 <dd>If set, this should be an integer that gives the number of
 the maximum file page we can go to.</dd>
 <dt><cite>wrap</cite></dt>
-<dd>If true, we can go to the first page when on the
-last file page if <cite>max</cite> is set.</dd>
-<dt><cite>auto</cite></dt>
-<dd>If true and wrap is set, this can bring the player to
-the page of automatic saves.</dd>
-<dt><cite>quick</cite></dt>
-<dd>If true and wrap is set, this can bring the player to
-the page of automatic saves.</dd>
+<dd>If true, we can go to the first page when on the last file page if max is set.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="FilePagePrevious">
+<code class="descname">FilePagePrevious</code><span class="sig-paren">(</span><em>max=None</em>, <em>wrap=False</em><span class="sig-paren">)</span><a class="headerlink" href="#FilePagePrevious" title="Permalink to this definition"> link</a></dt>
+<dd><p>Goes to the previous file page, if possible.</p>
+<dl class="docutils">
+<dt><cite>max</cite></dt>
+<dd>If set, this should be an integer that gives the number of
+the maximum file page we can go to. This is required to enable
+wrap.</dd>
+<dt><cite>wrap</cite></dt>
+<dd>If true, we can go to the last page when on the first file page if max is set.</dd>
 </dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="FileSave">
-<code class="descname">FileSave</code><span class="sig-paren">(</span><em>name</em>, <em>confirm=True</em>, <em>newest=True</em>, <em>page=None</em>, <em>cycle=False</em>, <em>slot=False</em><span class="sig-paren">)</span><a class="headerlink" href="#FileSave" title="Permalink to this definition"> link</a></dt>
+<code class="descname">FileSave</code><span class="sig-paren">(</span><em>name</em>, <em>confirm=True</em>, <em>newest=True</em>, <em>page=None</em>, <em>cycle=False</em><span class="sig-paren">)</span><a class="headerlink" href="#FileSave" title="Permalink to this definition"> link</a></dt>
 <dd><p>Saves the file.</p>
 <p>The button with this slot is selected if it's marked as the
 newest save file.</p>
@@ -659,14 +592,12 @@ page is used.</dd>
 <dd>If true, then saves on the supplied page will be cycled before
 being shown to the user. <a class="reference internal" href="config.html#var-config.quicksave_slots"><code class="xref std std-var docutils literal"><span class="pre">config.quicksave_slots</span></code></a> slots are
 used in the cycle.</dd>
-<dt><cite>slot</cite></dt>
-<dd>If True, <cite>name</cite> is taken to be a slot name, and <cite>page</cite> is ignored.</dd>
 </dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="FileTakeScreenshot">
-<code class="descname">FileTakeScreenshot</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#FileTakeScreenshot" title="Permalink to this definition"> link</a></dt>
+<code class="descname">FileTakeScreenshot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#FileTakeScreenshot" title="Permalink to this definition"> link</a></dt>
 <dd><p>Take a screenshot to be used when the game is saved. This can
 be used to ensure that the screenshot is accurate, by taking
 a picture of the screen before a file save screen is shown.</p>
@@ -863,7 +794,7 @@ value.</p>
 
 <dl class="function">
 <dt id="HideInterface">
-<code class="descname">HideInterface</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#HideInterface" title="Permalink to this definition"> link</a></dt>
+<code class="descname">HideInterface</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#HideInterface" title="Permalink to this definition"> link</a></dt>
 <dd><p>Causes the interface to be hidden until the user clicks.</p>
 </dd></dl>
 
@@ -915,7 +846,7 @@ this time, the mouse may be unresponsive.</dd>
 
 <dl class="function">
 <dt id="RestartStatement">
-<code class="descname">RestartStatement</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#RestartStatement" title="Permalink to this definition"> link</a></dt>
+<code class="descname">RestartStatement</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RestartStatement" title="Permalink to this definition"> link</a></dt>
 <dd><p>This action causes Ren'Py to rollback to before the current
 statement, and then re-run the current statement. This may be used
 when changing a persistent variable that affects how the statement
@@ -926,18 +857,16 @@ top-level context before performing the rollback.</p>
 
 <dl class="function">
 <dt id="RollForward">
-<code class="descname">RollForward</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#RollForward" title="Permalink to this definition"> link</a></dt>
+<code class="descname">RollForward</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#RollForward" title="Permalink to this definition"> link</a></dt>
 <dd><p>This action causes a rollforward to occur, if a roll forward is
 possible. Otherwise, it is insensitive.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="Rollback">
-<code class="descname">Rollback</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#Rollback" title="Permalink to this definition"> link</a></dt>
+<code class="descname">Rollback</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Rollback" title="Permalink to this definition"> link</a></dt>
 <dd><p>This action causes a rollback to occur, when a rollback is possible.
 Otherwise, nothing happens.</p>
-<p>The arguments are given to <a class="reference internal" href="save_load_rollback.html#renpy.rollback" title="renpy.rollback"><code class="xref py py-func docutils literal"><span class="pre">renpy.rollback()</span></code></a>, except that the
-<cite>force</cite> argument defaults to &quot;menu&quot;.</p>
 </dd></dl>
 
 <dl class="function">
@@ -949,53 +878,34 @@ identifiers are returned as part of HistoryEntry objects.</p>
 
 <dl class="function">
 <dt id="Screenshot">
-<code class="descname">Screenshot</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#Screenshot" title="Permalink to this definition"> link</a></dt>
+<code class="descname">Screenshot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#Screenshot" title="Permalink to this definition"> link</a></dt>
 <dd><p>Takes a screenshot.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="Scroll">
-<code class="descname">Scroll</code><span class="sig-paren">(</span><em>id</em>, <em>direction</em>, <em>amount=u'step'</em><span class="sig-paren">)</span><a class="headerlink" href="#Scroll" title="Permalink to this definition"> link</a></dt>
-<dd><p>Causes a Bar, Viewport, or Vpgrid to scroll.</p>
-<dl class="docutils">
-<dt><cite>id</cite></dt>
-<dd>The id of a bar, viewport, or vpgrid in the current screen.</dd>
-<dt><cite>direction</cite></dt>
-<dd>For a vbar, one of &quot;increase&quot; or &quot;decrease&quot;. For a viewport
-or vpgrid, one of &quot;horizontal increase&quot;, &quot;vertical increase&quot;,
-&quot;horizontal decrease&quot;, or &quot;vertical decrease&quot;.</dd>
-<dt><cite>amount</cite></dt>
-<dd>The amount to scroll by. This can be a number of pixels, or
-else &quot;step&quot; or &quot;page&quot;.</dd>
-</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="SelectedIf">
 <code class="descname">SelectedIf</code><span class="sig-paren">(</span><em>expression</em><span class="sig-paren">)</span><a class="headerlink" href="#SelectedIf" title="Permalink to this definition"> link</a></dt>
-<dd><p>This indicates that one action in a list of actions should be used
-to determine if a button is selected. This only makes sense
-when the button has a list of actions. For example:</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="c1"># The button is selected only if mars_flag is True</span>
+<dd><p>This allows an expression to control if a button should be marked
+as selected. It should be used as part of a list with one or more
+actions. For example:</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="c1"># The button is selected if mars_flag is True</span>
 <span class="k">textbutton</span> <span class="s2">&quot;Marsopolis&quot;</span><span class="p">:</span>
-    <span class="na">action</span> <span class="p">[</span> <span class="n">SelectedIf</span><span class="p">(</span><span class="n">SetVariable</span><span class="p">(</span><span class="s2">&quot;mars_flag&quot;</span><span class="p">,</span> <span class="bp">True</span><span class="p">)),</span> <span class="n">SetVariable</span><span class="p">(</span><span class="s2">&quot;on_mars&quot;</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span> <span class="p">]</span>
+    <span class="na">action</span> <span class="p">[</span> <span class="n">Jump</span><span class="p">(</span><span class="s2">&quot;mars&quot;</span><span class="p">),</span> <span class="n">SelectedIf</span><span class="p">(</span><span class="n">mars_flag</span><span class="p">)</span> <span class="p">]</span>
 </pre></div>
 </div>
-<p>The action inside SelectedIf is run normally when the button is clicked.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="SensitiveIf">
 <code class="descname">SensitiveIf</code><span class="sig-paren">(</span><em>expression</em><span class="sig-paren">)</span><a class="headerlink" href="#SensitiveIf" title="Permalink to this definition"> link</a></dt>
-<dd><p>This indicates that one action in a list of actions should be used
-to determine if a button is sensitive. This only makes sense
-when the button has a list of actions. For example:</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="c1"># The button is sensitive only if mars_flag is True</span>
+<dd><p>This allows an expression to control if a button should be marked
+as sensitive. It should be used as part of a list with one or more
+actions. For example:</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="c1"># The button is sensitive if mars_flag is True</span>
 <span class="k">textbutton</span> <span class="s2">&quot;Marsopolis&quot;</span><span class="p">:</span>
-    <span class="na">action</span> <span class="p">[</span> <span class="n">SensitiveIf</span><span class="p">(</span><span class="n">SetVariable</span><span class="p">(</span><span class="s2">&quot;mars_flag&quot;</span><span class="p">,</span> <span class="bp">True</span><span class="p">)),</span> <span class="n">SetVariable</span><span class="p">(</span><span class="s2">&quot;on_mars&quot;</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span> <span class="p">]</span>
+    <span class="na">action</span> <span class="p">[</span> <span class="n">Jump</span><span class="p">(</span><span class="s2">&quot;mars&quot;</span><span class="p">),</span> <span class="n">SensitiveIf</span><span class="p">(</span><span class="n">mars_flag</span><span class="p">)</span> <span class="p">]</span>
 </pre></div>
 </div>
-<p>The action inside SensitiveIf is run normally when the button is clicked.</p>
 </dd></dl>
 
 <dl class="function">
@@ -1024,8 +934,7 @@ enables skipping.</p>
 <span id="id1"></span><h2>Bar Values<a class="headerlink" href="#bar-values" title="Permalink to this headline"> link</a></h2>
 <p>Bar values are used with bars, to set the bar value, and to allow the bar
 to adjust an underlying property. To create a new bar value, subclass
-the <a class="reference internal" href="screen_python.html#BarValue" title="BarValue"><code class="xref py py-class docutils literal"><span class="pre">BarValue</span></code></a> class. All classes that have the <cite>step</cite> keyword also accept
-the <cite>force_step</cite> keyword which behavior is described in <a class="reference internal" href="screen_python.html#ui.adjustment" title="ui.adjustment"><code class="xref py py-func docutils literal"><span class="pre">ui.adjustment()</span></code></a>.</p>
+the <a class="reference internal" href="screen_python.html#BarValue" title="BarValue"><code class="xref py py-class docutils literal"><span class="pre">BarValue</span></code></a> class.</p>
 <dl class="function">
 <dt id="AnimatedValue">
 <code class="descname">AnimatedValue</code><span class="sig-paren">(</span><em>value=0.0</em>, <em>range=1.0</em>, <em>delay=1.0</em>, <em>old_value=None</em><span class="sig-paren">)</span><a class="headerlink" href="#AnimatedValue" title="Permalink to this definition"> link</a></dt>
@@ -1059,7 +968,7 @@ in <cite>channel</cite>.</p>
 
 <dl class="function">
 <dt id="DictValue">
-<code class="descname">DictValue</code><span class="sig-paren">(</span><em>dict</em>, <em>key</em>, <em>range</em>, <em>max_is_zero=False</em>, <em>style=u'bar'</em>, <em>offset=0</em>, <em>step=None</em>, <em>action=None</em>, <em>force_step=False</em><span class="sig-paren">)</span><a class="headerlink" href="#DictValue" title="Permalink to this definition"> link</a></dt>
+<code class="descname">DictValue</code><span class="sig-paren">(</span><em>dict</em>, <em>key</em>, <em>range</em>, <em>max_is_zero=False</em>, <em>style=u'bar'</em>, <em>offset=0</em>, <em>step=None</em><span class="sig-paren">)</span><a class="headerlink" href="#DictValue" title="Permalink to this definition"> link</a></dt>
 <dd><p>A value that allows the user to adjust the value of a key
 in a dict.</p>
 <dl class="docutils">
@@ -1081,14 +990,12 @@ value of a key is set to 0.</dd>
 <dt><cite>step</cite></dt>
 <dd>The amount to change the bar by. If None, defaults to 1/10th of
 the bar.</dd>
-<dt><cite>action</cite></dt>
-<dd>If not None, an action to call when the field has changed.</dd>
 </dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="FieldValue">
-<code class="descname">FieldValue</code><span class="sig-paren">(</span><em>object</em>, <em>field</em>, <em>range</em>, <em>max_is_zero=False</em>, <em>style=u'bar'</em>, <em>offset=0</em>, <em>step=None</em>, <em>action=None</em>, <em>force_step=False</em><span class="sig-paren">)</span><a class="headerlink" href="#FieldValue" title="Permalink to this definition"> link</a></dt>
+<code class="descname">FieldValue</code><span class="sig-paren">(</span><em>object</em>, <em>field</em>, <em>range</em>, <em>max_is_zero=False</em>, <em>style=u'bar'</em>, <em>offset=0</em>, <em>step=None</em><span class="sig-paren">)</span><a class="headerlink" href="#FieldValue" title="Permalink to this definition"> link</a></dt>
 <dd><p>A bar value that allows the user to adjust the value of a field
 on an object.</p>
 <dl class="docutils">
@@ -1112,8 +1019,6 @@ the maximum, the field is set to 0.</p>
 <dt><cite>step</cite></dt>
 <dd>The amount to change the bar by. If None, defaults to 1/10th of
 the bar.</dd>
-<dt><cite>action</cite></dt>
-<dd>If not None, an action to call when the field has changed.</dd>
 </dl>
 </dd></dl>
 
@@ -1124,14 +1029,14 @@ the bar.</dd>
 <dl class="docutils">
 <dt><cite>mixer</cite></dt>
 <dd>The name of the mixer to adjust. This is usually one of
-&quot;music&quot;, &quot;sfx&quot;, or &quot;voice&quot;, but creators can create new
+&quot;music&quot;, &quot;sfx&quot;, or &quot;voice&quot;, but user code can create new
 mixers.</dd>
 </dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="ScreenVariableValue">
-<code class="descname">ScreenVariableValue</code><span class="sig-paren">(</span><em>variable</em>, <em>range</em>, <em>max_is_zero=False</em>, <em>style=u'bar'</em>, <em>offset=0</em>, <em>step=None</em>, <em>action=None</em>, <em>force_step=False</em><span class="sig-paren">)</span><a class="headerlink" href="#ScreenVariableValue" title="Permalink to this definition"> link</a></dt>
+<code class="descname">ScreenVariableValue</code><span class="sig-paren">(</span><em>variable</em>, <em>range</em>, <em>max_is_zero=False</em>, <em>style=u'bar'</em>, <em>offset=0</em>, <em>step=None</em><span class="sig-paren">)</span><a class="headerlink" href="#ScreenVariableValue" title="Permalink to this definition"> link</a></dt>
 <dd><p>A bar value that adjusts the value of a variable in a screen.</p>
 <dl class="docutils">
 <dt><cite>variable</cite></dt>
@@ -1152,8 +1057,6 @@ the maximum, the field is set to 0.</p>
 <dt><cite>step</cite></dt>
 <dd>The amount to change the bar by. If None, defaults to 1/10th of
 the bar.</dd>
-<dt><cite>action</cite></dt>
-<dd>If not None, an action to call when the field has changed.</dd>
 </dl>
 </dd></dl>
 
@@ -1171,7 +1074,7 @@ the bar.</dd>
 
 <dl class="function">
 <dt id="VariableValue">
-<code class="descname">VariableValue</code><span class="sig-paren">(</span><em>variable</em>, <em>range</em>, <em>max_is_zero=False</em>, <em>style=u'bar'</em>, <em>offset=0</em>, <em>step=None</em>, <em>action=None</em>, <em>force_step=False</em><span class="sig-paren">)</span><a class="headerlink" href="#VariableValue" title="Permalink to this definition"> link</a></dt>
+<code class="descname">VariableValue</code><span class="sig-paren">(</span><em>variable</em>, <em>range</em>, <em>max_is_zero=False</em>, <em>style=u'bar'</em>, <em>offset=0</em>, <em>step=None</em><span class="sig-paren">)</span><a class="headerlink" href="#VariableValue" title="Permalink to this definition"> link</a></dt>
 <dd><p>A bar value that allows the user to adjust the value of a variable
 in the default store.</p>
 <dl class="docutils">
@@ -1193,8 +1096,6 @@ the maximum, the field is set to 0.</p>
 <dt><cite>step</cite></dt>
 <dd>The amount to change the bar by. If None, defaults to 1/10th of
 the bar.</dd>
-<dt><cite>action</cite></dt>
-<dd>If not None, an action to call when the field has changed.</dd>
 </dl>
 </dd></dl>
 
@@ -1316,7 +1217,7 @@ by creation an action or value, as appropriate, based on the
 names used in the default preferences screen.</p>
 <dl class="function">
 <dt id="Preference">
-<code class="descname">Preference</code><span class="sig-paren">(</span><em>name</em>, <em>value=None</em>, <em>range=None</em><span class="sig-paren">)</span><a class="headerlink" href="#Preference" title="Permalink to this definition"> link</a></dt>
+<code class="descname">Preference</code><span class="sig-paren">(</span><em>name</em>, <em>value=None</em><span class="sig-paren">)</span><a class="headerlink" href="#Preference" title="Permalink to this definition"> link</a></dt>
 <dd><p>This constructs the appropriate action or value from a preference.
 The preference name should be the name given in the standard
 menus, while the value should be either the name of a choice,
@@ -1399,18 +1300,6 @@ in the case of buttons.</p>
 <li>Preference(&quot;rollback side&quot;, &quot;left&quot;) - Touching the left side of the screen causes rollback.</li>
 <li>Preference(&quot;rollback side&quot;, &quot;right&quot;) - Touching the right side of the screen causes rollback.</li>
 <li>Preference(&quot;rollback side&quot;, &quot;disable&quot;) - Touching the screen will not cause rollback.</li>
-<li>Preference(&quot;gl powersave&quot;, True) - Drop framerate to allow for power savings.</li>
-<li>Preference(&quot;gl powersave&quot;, False) - Do not drop framerate to allow for power savings.</li>
-<li>Preference(&quot;gl powersave&quot;, &quot;auto&quot;) - Enable powersave when running on battery.</li>
-<li>Preference(&quot;gl framerate&quot;, None) - Runs at the display framerate.</li>
-<li>Preference(&quot;gl framerate&quot;, 60) - Runs at the given framerate.</li>
-<li>Preference(&quot;gl tearing&quot;, True) - Tears rather than skipping frames.</li>
-<li>Preference(&quot;gl tearing&quot;, False) - Skips frames rather than tearing.</li>
-<li>Preference(&quot;font transform&quot;, &quot;opendyslexic&quot;) - Sets the accessibility font transform to opendyslexic.</li>
-<li>Preference(&quot;font transform&quot;, &quot;dejavusans&quot;) - Sets the accessibility font transform to deja vu sans.</li>
-<li>Preference(&quot;font transform&quot;, None) - Disables the accessibility font transform.</li>
-<li>Preference(&quot;font size&quot;, 1.0) - Sets the accessibility font size scaling factor.</li>
-<li>Preference(&quot;font line spacing&quot;, 1.0) - Sets the accessibility font vertical spacing scaling factor.</li>
 </ul>
 <p>Values that can be used with bars are:</p>
 <ul class="simple">
@@ -1420,13 +1309,7 @@ in the case of buttons.</p>
 <li>Preference(&quot;sound volume&quot;)</li>
 <li>Preference(&quot;voice volume&quot;)</li>
 <li>Preference(&quot;mixer &lt;mixer&gt; volume&quot;)</li>
-<li>Preference(&quot;font size&quot;)</li>
-<li>Preference(&quot;font line spacing&quot;)</li>
 </ul>
-<p>The <cite>range</cite> parameter can be given to give the range of certain bars.
-For &quot;text speed&quot;, it defaults to 200 cps. For &quot;auto-forward time&quot;, it
-defaults to 30.0 seconds per chunk of text. (These are maximums, not
-defaults.)</p>
 </dd></dl>
 
 </div>
@@ -1473,7 +1356,7 @@ None, it defaults to <a class="reference internal" href="displayables.html#Null"
 
 <dl class="function">
 <dt id="FileJson">
-<code class="descname">FileJson</code><span class="sig-paren">(</span><em>name</em>, <em>key=None</em>, <em>empty=None</em>, <em>missing=None</em>, <em>page=None</em>, <em>slot=False</em><span class="sig-paren">)</span><a class="headerlink" href="#FileJson" title="Permalink to this definition"> link</a></dt>
+<code class="descname">FileJson</code><span class="sig-paren">(</span><em>name</em>, <em>key=None</em>, <em>empty=None</em>, <em>missing=None</em>, <em>page=None</em><span class="sig-paren">)</span><a class="headerlink" href="#FileJson" title="Permalink to this definition"> link</a></dt>
 <dd><p>Accesses the Json information associated with <cite>name</cite>.</p>
 <p>If <cite>key</cite> is None, returns the entire Json other object, or <cite>empty</cite> if the slot
 is empty.</p>
@@ -1485,14 +1368,14 @@ is empty.</p>
 
 <dl class="function">
 <dt id="FileLoadable">
-<code class="descname">FileLoadable</code><span class="sig-paren">(</span><em>name</em>, <em>page=None</em>, <em>slot=False</em><span class="sig-paren">)</span><a class="headerlink" href="#FileLoadable" title="Permalink to this definition"> link</a></dt>
+<code class="descname">FileLoadable</code><span class="sig-paren">(</span><em>name</em>, <em>page=None</em><span class="sig-paren">)</span><a class="headerlink" href="#FileLoadable" title="Permalink to this definition"> link</a></dt>
 <dd><p>This is a function that returns true
 if the file is loadable, and false otherwise.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="FileNewest">
-<code class="descname">FileNewest</code><span class="sig-paren">(</span><em>name</em>, <em>page=None</em>, <em>slot=False</em><span class="sig-paren">)</span><a class="headerlink" href="#FileNewest" title="Permalink to this definition"> link</a></dt>
+<code class="descname">FileNewest</code><span class="sig-paren">(</span><em>name</em>, <em>page=None</em><span class="sig-paren">)</span><a class="headerlink" href="#FileNewest" title="Permalink to this definition"> link</a></dt>
 <dd><p>Returns True if this is the newest file slot, or False otherwise.</p>
 </dd></dl>
 
@@ -1506,14 +1389,14 @@ page, this returns the page number. Otherwise, it returns
 
 <dl class="function">
 <dt id="FileSaveName">
-<code class="descname">FileSaveName</code><span class="sig-paren">(</span><em>name</em>, <em>empty=u''</em>, <em>page=None</em>, <em>slot=False</em><span class="sig-paren">)</span><a class="headerlink" href="#FileSaveName" title="Permalink to this definition"> link</a></dt>
+<code class="descname">FileSaveName</code><span class="sig-paren">(</span><em>name</em>, <em>empty=u''</em>, <em>page=None</em><span class="sig-paren">)</span><a class="headerlink" href="#FileSaveName" title="Permalink to this definition"> link</a></dt>
 <dd><p>Return the save_name that was in effect when the file was saved,
 or <cite>empty</cite> if the file does not exist.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="FileScreenshot">
-<code class="descname">FileScreenshot</code><span class="sig-paren">(</span><em>name</em>, <em>empty=None</em>, <em>page=None</em>, <em>slot=False</em><span class="sig-paren">)</span><a class="headerlink" href="#FileScreenshot" title="Permalink to this definition"> link</a></dt>
+<code class="descname">FileScreenshot</code><span class="sig-paren">(</span><em>name</em>, <em>empty=None</em>, <em>page=None</em><span class="sig-paren">)</span><a class="headerlink" href="#FileScreenshot" title="Permalink to this definition"> link</a></dt>
 <dd><p>Returns the screenshot associated with the given file. If the
 file is not loadable, then <cite>empty</cite> is returned, unless it's None,
 in which case, a Null displayable is created.</p>
@@ -1550,7 +1433,7 @@ giving the page prefix, and an integer giving the slot number.</dd>
 
 <dl class="function">
 <dt id="FileTime">
-<code class="descname">FileTime</code><span class="sig-paren">(</span><em>name</em>, <em>format=u'%b %d</em>, <em>%H:%M'</em>, <em>empty=u''</em>, <em>page=None</em>, <em>slot=False</em><span class="sig-paren">)</span><a class="headerlink" href="#FileTime" title="Permalink to this definition"> link</a></dt>
+<code class="descname">FileTime</code><span class="sig-paren">(</span><em>name</em>, <em>format=u'%b %d</em>, <em>%H:%M'</em>, <em>empty=u''</em>, <em>page=None</em><span class="sig-paren">)</span><a class="headerlink" href="#FileTime" title="Permalink to this definition"> link</a></dt>
 <dd><p>Returns the time the file was saved, formatted according
 to the supplied <cite>format</cite>. If the file is not found, <cite>empty</cite> is
 returned.</p>
@@ -1584,55 +1467,7 @@ or a Null displayable if no such side image exists.</p>
 
 </div>
 <div class="section" id="tooltips">
-<span id="id3"></span><h3>Tooltips<a class="headerlink" href="#tooltips" title="Permalink to this headline"> link</a></h3>
-<p>Tooltips can now be accessed by the tooltip property available on all
-displayables, and the GetTooltip function. The GetTooltip function
-returns the value of the tooltip property when the displayable
-gains focus.</p>
-<p>Here's an example:</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">screen</span> <span class="n">tooltip_example</span><span class="p">():</span>
-    <span class="k">vbox</span><span class="p">:</span>
-        <span class="k">textbutton</span> <span class="s2">&quot;North&quot;</span><span class="p">:</span>
-            <span class="na">action</span> <span class="n">Return</span><span class="p">(</span><span class="s2">&quot;n&quot;</span><span class="p">)</span>
-            <span class="na">tooltip</span> <span class="s2">&quot;To meet a polar bear.&quot;</span>
-
-        <span class="k">textbutton</span> <span class="s2">&quot;South&quot;</span><span class="p">:</span>
-            <span class="na">action</span> <span class="n">Return</span><span class="p">(</span><span class="s2">&quot;s&quot;</span><span class="p">)</span>
-            <span class="na">tooltip</span> <span class="s2">&quot;All the way to the tropics.&quot;</span>
-
-        <span class="k">textbutton</span> <span class="s2">&quot;East&quot;</span><span class="p">:</span>
-            <span class="na">action</span> <span class="n">Return</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">)</span>
-            <span class="na">tooltip</span> <span class="s2">&quot;So we can embrace the dawn.&quot;</span>
-
-        <span class="k">textbutton</span> <span class="s2">&quot;West&quot;</span><span class="p">:</span>
-            <span class="na">action</span> <span class="n">Return</span><span class="p">(</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
-            <span class="na">tooltip</span> <span class="s2">&quot;Where to go to see the best sunsets.&quot;</span>
-
-        <span class="k">$</span> <span class="na">tooltip</span> <span class="o">=</span> <span class="n">GetTooltip</span><span class="p">()</span>
-
-        <span class="k">if</span> <span class="na">tooltip</span><span class="p">:</span>
-            <span class="k">text</span> <span class="s2">&quot;[tooltip]&quot;</span>
-</pre></div>
-</div>
-<dl class="function">
-<dt id="GetTooltip">
-<code class="descname">GetTooltip</code><span class="sig-paren">(</span><em>screen=None</em><span class="sig-paren">)</span><a class="headerlink" href="#GetTooltip" title="Permalink to this definition"> link</a></dt>
-<dd><p>Returns the tooltip of the currently focused displayable, or None
-if no displatable is focused.</p>
-<dl class="docutils">
-<dt><cite>screen</cite></dt>
-<dd>If not None, this should be the name or tag of a screen. If
-given, this function only returns the tooltip if the focused
-displayable is part of the screen.</dd>
-</dl>
-</dd></dl>
-
-<div class="section" id="legacy">
-<h4>Legacy<a class="headerlink" href="#legacy" title="Permalink to this headline"> link</a></h4>
-<div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">This has been obsoleted by the above, but you might see it in older projects.</p>
-</div>
+<h3>Tooltips<a class="headerlink" href="#tooltips" title="Permalink to this headline"> link</a></h3>
 <p>The tooltip class changes the screen when a button is hovered.</p>
 <dl class="class">
 <dt id="Tooltip">
@@ -1657,7 +1492,7 @@ value field of this tooltip reverts to the default.</p>
 <p>When using a tooltip with a screen, the usual behavior is to create a
 tooltip object in a default statement. The value of the tooltip and
 the action method can then be used within the screen. The order of
-use within a screen doesn't matter – it's possible to use the value
+use within a screen doesn't matter - it's possible to use the value
 before an action is used.</p>
 <p>Tooltips can take on any value. While in the example below we use the
 text statement to display a string on the screen, it's also possible
@@ -1665,7 +1500,7 @@ to use the add statement to add a displayable. More complex behavior
 is also possible.</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">screen</span> <span class="n">tooltip_test</span><span class="p">:</span>
 
-    <span class="k">default</span> <span class="n">tt</span> <span class="o">=</span> <span class="n">Tooltip</span><span class="p">(</span><span class="s2">&quot;No button selected.&quot;</span><span class="p">)</span>
+    <span class="na">default</span> <span class="n">tt</span> <span class="o">=</span> <span class="n">Tooltip</span><span class="p">(</span><span class="s2">&quot;No button selected.&quot;</span><span class="p">)</span>
 
     <span class="k">frame</span><span class="p">:</span>
         <span class="na">xfill</span> <span class="bp">True</span>
@@ -1690,7 +1525,6 @@ is also possible.</p>
 </div>
 </div>
 </div>
-</div>
 
 
     </div>
@@ -1704,8 +1538,8 @@ is also possible.</p>
       
     </p>
     <p>
-        &copy; Copyright 2012-2019, Tom Rothamel.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.<br/>
+        &copy; Copyright 2012-2017, Tom Rothamel.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.<br/>
     </p>
   </div>
 </footer>

@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -21,8 +21,6 @@
 
 # This file was responsible for joystick support in Ren'Py, which has
 # been removed, save for a few compatibility functions.
-
-from __future__ import print_function
 
 import renpy.display
 import pygame_sdl2

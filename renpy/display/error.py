@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -20,8 +20,6 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 # This file contains code to handle GUI-based error reporting.
-
-from __future__ import print_function
 
 import renpy.display
 import os
@@ -56,9 +54,6 @@ def init_display():
     """
     The minimum amount of code required to init the display.
     """
-
-    # Ensure we have correctly-typed preferences.
-    renpy.game.preferences.check()
 
     if renpy.config.init_system_styles is not None:
         renpy.config.init_system_styles()
@@ -139,9 +134,6 @@ def report_exception(short, full, traceback_fn):
             ignore_action=ignore_action,
             traceback_fn=traceback_fn,
             )
-
-        if renpy.store._ignore_action is not None:
-            renpy.display.behavior.run(renpy.store._ignore_action)
 
     except renpy.game.CONTROL_EXCEPTIONS:
         raise

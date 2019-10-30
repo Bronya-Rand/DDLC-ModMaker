@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -19,8 +19,6 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from __future__ import print_function
-
 # This file contains displayables that move, zoom, rotate, or otherwise
 # transform displayables. (As well as displayables that support them.)
 import math
@@ -40,7 +38,6 @@ def get_null():
 
     if null is None:
         null = renpy.display.layout.Null()
-        renpy.display.motion.null = null
 
     return null
 
@@ -109,8 +106,6 @@ class TransformState(renpy.object.Object):
     ypan = None
     xtile = 1
     ytile = 1
-    last_angle = None
-    maxsize = None
 
     def __init__(self):
         self.alpha = 1
@@ -147,7 +142,6 @@ class TransformState(renpy.object.Object):
         self.corner1 = None
         self.corner2 = None
         self.size = None
-        self.maxsize = None
 
         self.delay = 0
 
@@ -192,14 +186,11 @@ class TransformState(renpy.object.Object):
         self.corner1 = ts.corner1
         self.corner2 = ts.corner2
         self.size = ts.size
-        self.maxsize = ts.maxsize
 
         self.xpan = ts.xpan
         self.ypan = ts.ypan
         self.xtile = ts.xtile
         self.ytile = ts.ytile
-
-        self.last_angle = ts.last_angle
 
         self.debug = ts.debug
         self.events = ts.events
@@ -264,7 +255,6 @@ class TransformState(renpy.object.Object):
         diff2("corner1", newts.corner1, self.corner1)
         diff2("corner2", newts.corner2, self.corner2)
         diff2("size", newts.size, self.size)
-        diff2("maxsize", newts.maxsize, self.maxsize)
 
         diff4("xpos", newts.xpos, newts.inherited_xpos, self.xpos, self.inherited_xpos)
         diff4("xanchor", newts.xanchor, newts.inherited_xanchor, self.xanchor, self.inherited_xanchor)
@@ -477,7 +467,6 @@ class Transform(Container):
     corner1 = Proxy("corner1")
     corner2 = Proxy("corner2")
     size = Proxy("size")
-    maxsize = Proxy("maxsize")
 
     delay = Proxy("delay")
 
@@ -556,7 +545,8 @@ class Transform(Container):
     def __init__(self,
                  child=None,
                  function=None,
-                 style="default",
+
+                 style='transform',
                  focus=None,
                  default=False,
                  _args=None,
@@ -675,7 +665,6 @@ class Transform(Container):
     def set_transform_event(self, event):
         if self.child is not None:
             self.child.set_transform_event(event)
-            self.last_child_transform_event = event
 
         super(Transform, self).set_transform_event(event)
 
@@ -691,13 +680,6 @@ class Transform(Container):
             return
 
         self.state.take_state(t.state)
-
-        if isinstance(self.child, Transform) and isinstance(t.child, Transform):
-            self.child.take_state(t.child)
-
-        if (self.child is None) and (t.child is not None):
-            self.add(t.child)
-            self.child_st_base = t.child_st_base
 
         # The arguments will be applied when the default function is
         # called.
@@ -749,15 +731,6 @@ class Transform(Container):
 
         return rv
 
-    def _handles_event(self, event):
-        if self.function is not None:
-            return True
-
-        if self.child and self.child._handles_event(event):
-            return True
-
-        return False
-
     def _hide(self, st, at, kind):
 
         if not self.child:
@@ -781,9 +754,6 @@ class Transform(Container):
         d.st_offset = self.st_offset
         d.at_offset = self.at_offset
 
-        if not (self.hide_request or self.replaced_request):
-            d.atl_st_offset = None
-
         if kind == "hide":
             d.hide_request = True
         else:
@@ -794,8 +764,6 @@ class Transform(Container):
 
         if d.function is not None:
             d.function(d, st + d.st_offset, at + d.at_offset)
-        elif isinstance(d, ATLTransform):
-            d.execute(d, st + d.st_offset, at + d.at_offset)
 
         new_child = d.child._hide(st, at, kind)
 
@@ -833,8 +801,6 @@ class Transform(Container):
         """
         This updates the state to that at self.st, self.at.
         """
-
-        # NOTE: This function is duplicated (more or less) in ATLTransform.
 
         self.hide_response = True
         self.replaced_response = True
@@ -890,8 +856,12 @@ class Transform(Container):
         if child is None:
             child = self.child
 
-        if (child is not None) and (child._duplicatable):
-            child = child._duplicate(_args)
+        # If we don't have a child for some reason, set it to null.
+        if child is None:
+            child = get_null()
+        else:
+            if child._duplicatable:
+                child = child._duplicate(_args)
 
         rv = Transform(
             child=child,
@@ -983,9 +953,6 @@ class Transform(Container):
 
     def _duplicate(self, args):
 
-        if args and args.args:
-            args.extraneous()
-
         if not self._duplicatable:
             return self
 
@@ -1013,7 +980,6 @@ class Transform(Container):
     def _show(self):
         self.update_state()
 
-
 Transform.render = types.MethodType(renpy.display.accelerator.transform_render, None, Transform)
 
 
@@ -1021,25 +987,9 @@ class ATLTransform(renpy.atl.ATLTransformBase, Transform):
 
     def __init__(self, atl, child=None, context={}, parameters=None, **properties):
         renpy.atl.ATLTransformBase.__init__(self, atl, context, parameters)
-        Transform.__init__(self, child=child, **properties)
+        Transform.__init__(self, child=child, function=self.execute, **properties)
 
         self.raw_child = self.child
-
-    def update_state(self):
-        """
-        This updates the state to that at self.st, self.at.
-        """
-
-        self.hide_response = True
-        self.replaced_response = True
-
-        fr = self.execute(self, self.st, self.at)
-
-        # Order a redraw, if necessary.
-        if fr is not None:
-            renpy.display.render.redraw(self, fr)
-
-        self.active = True
 
     def __repr__(self):
         return "<ATL Transform {:x} {!r}>".format(id(self), self.atl.loc)

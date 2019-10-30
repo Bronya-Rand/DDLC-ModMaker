@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -51,7 +51,6 @@ def sorted_dict(**kwargs):
 # Prefixes
 ################################################################################
 
-
 # A map from prefix name to Prefix object.
 prefixes = collections.OrderedDict()
 
@@ -69,10 +68,7 @@ class Prefix(object):
 
         # The priority of this prefix. When added at the same time, higher
         # priority prefixes take precendence over lower priority prefixes.
-        #
-        # We double the priority here so we have room for the special priority
-        # stuff below.
-        self.priority = priority * 2
+        self.priority = priority
 
         # A list of prefix indexes that should be updated when this prefix is
         # updated, including this prefix.
@@ -89,9 +85,8 @@ class Prefix(object):
 
         prefixes[name] = self
 
-
-# The number of priority levels we have. Double the number given below, due to the doubling above.
-PRIORITY_LEVELS = 8
+# The number of priority levels we have.
+PRIORITY_LEVELS = 4
 
 # The number of prefixes we have.
 PREFIX_COUNT = 6
@@ -134,7 +129,6 @@ style_properties = sorted_dict(
     aft_bar='none_is_null',
     aft_gutter=None,
     alt=None,
-    altruby_style=None,
     antialias=None,
     vertical=None,
     background='renpy.easy.displayable_or_none',
@@ -149,7 +143,6 @@ style_properties = sorted_dict(
     box_layout=None,
     box_reverse=None,
     box_wrap=None,
-    box_wrap_spacing=None,
     caret='renpy.easy.displayable_or_none',
     child='renpy.easy.displayable_or_none',
     clipping=None,
@@ -186,7 +179,6 @@ style_properties = sorted_dict(
     newline_indent=None,
     order_reverse=None,
     outlines='expand_outlines',
-    outline_scaling=None,
     rest_indent=None,
     right_margin=None,
     right_padding=None,
@@ -216,7 +208,6 @@ style_properties = sorted_dict(
     xminimum=None,
     xoffset=None,
     xpos=None,
-    xspacing=None,
     yanchor='expand_anchor',
     yfill=None,
     yfit=None,
@@ -224,7 +215,6 @@ style_properties = sorted_dict(
     yminimum=None,
     yoffset=None,
     ypos=None,
-    yspacing=None,
     )
 
 # Properties that take displayables that should be given the right set
@@ -239,7 +229,6 @@ displayable_properties = {
     "thumb_shadow",
     }
 
-
 # A map from a style property to its index in the order of style_properties.
 style_property_index = collections.OrderedDict()
 for i, name in enumerate(style_properties):
@@ -249,33 +238,6 @@ style_property_count = len(style_properties)
 
 # print("{} properties * {} prefixes = {} cache entries".format(
 #     style_property_count, PREFIX_COUNT, style_property_count * PREFIX_COUNT))
-
-
-# Special priority properties - these take a +1 compared to others. Generally,
-# these would be listed in the tuples in synthetic_properies, below.
-property_priority = sorted_dict(
-    left_margin=1,
-    top_margin=1,
-    right_margin=1,
-    bottom_margin=1,
-    xpos=1,
-    xanchor=1,
-    ypos=1,
-    yanchor=1,
-    left_padding=1,
-    top_padding=1,
-    right_padding=1,
-    bottom_padding=1,
-    xoffset=1,
-    yoffset=1,
-    xminimum=1,
-    yminimum=1,
-    xmaximum=1,
-    ymaximum=1,
-    xfill=1,
-    yfill=1,
-)
-
 
 # A list of synthetic style properties, where each property is expanded into
 # multiple style properties. Each property are mapped into a list of tuples,
@@ -516,7 +478,7 @@ def generate_property_function(g, prefix, propname, properties):
     g.write("cdef int {name}_property(PyObject **cache, int *cache_priorities, int priority, object value) except -1:", name=name)
     g.indent()
 
-    g.write("priority += {}", prefix.priority + property_priority.get(propname, 0))
+    g.write("priority += {}", prefix.priority)
 
     for stylepropname, func in properties:
         value = "value"
@@ -646,7 +608,6 @@ def generate_sets():
     g.write("prefix_priority = {}", prefix_priority)
     g.write("prefix_alts = {}", prefix_alts)
     g.write("prefix_search = {}", PREFIX_SEARCH)
-    g.write("property_priority = {}", property_priority)
     g.write('"""')
     g.close()
 
@@ -656,7 +617,6 @@ def generate():
     generate_property_functions()
     generate_properties()
     generate_sets()
-
 
 if __name__ == "__main__":
     generate()

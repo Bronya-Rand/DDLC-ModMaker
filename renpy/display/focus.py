@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -20,8 +20,6 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 # This file contains code to manage focus on the display.
-
-from __future__ import print_function
 
 import pygame_sdl2 as pygame
 import renpy.display
@@ -81,10 +79,6 @@ focus_type = "mouse"
 # the focus to change.
 pending_focus_type = "mouse"
 
-
-# The current tooltip and tooltip screen.
-tooltip = None
-
 # Sets the currently focused widget.
 
 
@@ -99,58 +93,21 @@ def set_focused(widget, arg, screen):
 
     renpy.display.tts.displayable(widget)
 
-    global tooltip
-
-    # Figure out the tooltip.
-
-    if widget is None:
-        new_tooltip = None
-    else:
-        new_tooltip = widget._get_tooltip()
-
-    if tooltip != new_tooltip:
-        tooltip = new_tooltip
-        renpy.exports.restart_interaction()
+# Gets the currently focused widget.
 
 
 def get_focused():
-    """
-    Gets the currently focused displayable.
-    """
-
     return renpy.game.context().scene_lists.focused
+
+# Get the mouse cursor for the focused widget.
 
 
 def get_mouse():
-    """
-    Gets the mouse associated with the currently focused displayable.
-    """
-
     focused = get_focused()
     if focused is None:
         return None
     else:
         return focused.style.mouse
-
-
-def get_tooltip(screen=None):
-    """
-    Gets the tooltip information.
-    """
-
-    if screen is None:
-        return tooltip
-
-    if screen_of_focused is None:
-        return None
-
-    if screen_of_focused.screen_name[0] == screen:
-        return tooltip
-
-    if screen_of_focused.tag == screen:
-        return tooltip
-
-    return None
 
 
 def set_grab(widget):
@@ -162,7 +119,6 @@ def set_grab(widget):
 
 def get_grab():
     return grab
-
 
 # The current list of focuses that we know about.
 focus_list = [ ]
@@ -179,19 +135,9 @@ def take_focuses():
     global default_focus
     default_focus = None
 
-    global grab
-
-    grab_found = False
-
     for f in focus_list:
         if f.x is None:
             default_focus = f
-
-        if f.widget is grab:
-            grab_found = True
-
-    if not grab_found:
-        grab = None
 
     if (default_focus is not None) and (get_focused() is None):
         change_focus(default_focus, True)
@@ -276,31 +222,21 @@ def before_interact(roots):
         for f, n, screen in fwn:
             if f.full_focus_name == current_name:
                 current = f
-                set_focused(f, argument, screen)
+                set_focused(f, None, screen)
                 break
         else:
             current = None
 
-    # Otherwise, focus the default widget.
+    # Otherwise, focus the default widget, or nothing.
     if current is None:
-
-        defaults = [ ]
 
         for f, n, screen in fwn:
             if f.default:
-                defaults.append((f.default, f, screen))
-
-        if defaults:
-            if len(defaults) > 1:
-                defaults.sort()
-
-            _, f, screen = defaults[-1]
-
-            current = f
-            set_focused(f, None, screen)
-
-    if current is None:
-        set_focused(None, None, None)
+                current = f
+                set_focused(f, None, screen)
+                break
+        else:
+            set_focused(None, None, None)
 
     # Finally, mark the current widget as the focused widget, and
     # all other widgets as unfocused.

@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -20,8 +20,6 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 # The public API for music in games.
-
-from __future__ import print_function
 
 import renpy.audio
 
@@ -85,56 +83,48 @@ def play(filenames, channel="music", loop=None, fadeout=None, synchro_start=Fals
     if isinstance(filenames, basestring):
         filenames = [ filenames ]
 
-    with renpy.audio.audio.lock:
+    try:
+        c = get_channel(channel)
+        ctx = c.context
 
-        try:
-            c = get_channel(channel)
-            ctx = c.context
+        if loop is None:
+            loop = c.default_loop
 
-            if loop is None:
-                loop = c.default_loop
+        if (tight is None) and renpy.config.tight_loop_default:
+            tight = loop
 
-            if (tight is None) and renpy.config.tight_loop_default:
-                tight = loop
+        loop_is_filenames = (c.loop == filenames)
 
-            loop_is_filenames = (c.loop == filenames)
+        c.dequeue()
 
-            c.dequeue()
+        if fadeout is None:
+            fadeout = renpy.config.fade_music
 
-            if fadeout is None:
-                fadeout = renpy.config.fade_music
+        if if_changed and c.get_playing() in filenames:
+            fadein = 0
+            loop_only = loop_is_filenames
+        else:
+            c.fadeout(fadeout)
+            loop_only = False
 
-            if if_changed and c.get_playing() in filenames:
-                fadein = 0
-                loop_only = loop_is_filenames
-            else:
-                c.fadeout(fadeout)
-                loop_only = False
+        c.enqueue(filenames, loop=loop, synchro_start=synchro_start, fadein=fadein, tight=tight, loop_only=loop_only)
 
-            if renpy.config.skip_sounds and renpy.config.skipping and (not loop):
-                enqueue = False
-            else:
-                enqueue = True
+        t = get_serial()
+        ctx.last_changed = t
+        c.last_changed = t
 
-            if enqueue:
-                c.enqueue(filenames, loop=loop, synchro_start=synchro_start, fadein=fadein, tight=tight, loop_only=loop_only)
+        if loop:
+            ctx.last_filenames = filenames
+            ctx.last_tight = tight
+        else:
+            ctx.last_filenames = [ ]
+            ctx.last_tight = False
 
-            t = get_serial()
-            ctx.last_changed = t
-            c.last_changed = t
+        ctx.pause = False
 
-            if loop:
-                ctx.last_filenames = filenames
-                ctx.last_tight = tight
-            else:
-                ctx.last_filenames = [ ]
-                ctx.last_tight = False
-
-            ctx.pause = False
-
-        except:
-            if renpy.config.debug_sound:
-                raise
+    except:
+        if renpy.config.debug_sound:
+            raise
 
 
 def queue(filenames, channel="music", loop=None, clear_queue=True, fadein=0, tight=None):
@@ -180,49 +170,38 @@ def queue(filenames, channel="music", loop=None, clear_queue=True, fadein=0, tig
     if isinstance(filenames, basestring):
         filenames = [ filenames ]
 
-    if renpy.config.skipping == "fast":
-        stop(channel)
+    try:
 
-    with renpy.audio.audio.lock:
+        c = get_channel(channel)
+        ctx = c.context
 
-        try:
+        if loop is None:
+            loop = c.default_loop
 
-            c = get_channel(channel)
-            ctx = c.context
+        if (tight is None) and renpy.config.tight_loop_default:
+            tight = loop
 
-            if loop is None:
-                loop = c.default_loop
+        if clear_queue:
+            c.dequeue(True)
 
-            if (tight is None) and renpy.config.tight_loop_default:
-                tight = loop
+        c.enqueue(filenames, loop=loop, fadein=fadein, tight=tight)
 
-            if clear_queue:
-                c.dequeue(True)
+        t = get_serial()
+        ctx.last_changed = t
+        c.last_changed = t
 
-            if renpy.config.skip_sounds and renpy.config.skipping and (not loop):
-                enqueue = False
-            else:
-                enqueue = True
+        if loop:
+            ctx.last_filenames = filenames
+            ctx.last_tight = tight
+        else:
+            ctx.last_filenames = [ ]
+            ctx.last_tight = False
 
-            if enqueue:
-                c.enqueue(filenames, loop=loop, fadein=fadein, tight=tight)
+        ctx.pause = False
 
-            t = get_serial()
-            ctx.last_changed = t
-            c.last_changed = t
-
-            if loop:
-                ctx.last_filenames = filenames
-                ctx.last_tight = tight
-            else:
-                ctx.last_filenames = [ ]
-                ctx.last_tight = False
-
-            ctx.pause = False
-
-        except:
-            if renpy.config.debug_sound:
-                raise
+    except:
+        if renpy.config.debug_sound:
+            raise
 
 
 def playable(filename, channel="music"):
@@ -263,26 +242,24 @@ def stop(channel="music", fadeout=None):
     if renpy.game.context().init_phase:
         return
 
-    with renpy.audio.audio.lock:
+    try:
+        c = get_channel(channel)
+        ctx = c.context
 
-        try:
-            c = get_channel(channel)
-            ctx = c.context
+        if fadeout is None:
+            fadeout = renpy.config.fade_music
 
-            if fadeout is None:
-                fadeout = renpy.config.fade_music
+        c.fadeout(fadeout)
 
-            c.fadeout(fadeout)
+        t = get_serial()
+        ctx.last_changed = t
+        c.last_changed = t
+        ctx.last_filenames = [ ]
+        ctx.last_tight = False
 
-            t = get_serial()
-            ctx.last_changed = t
-            c.last_changed = t
-            ctx.last_filenames = [ ]
-            ctx.last_tight = False
-
-        except:
-            if renpy.config.debug_sound:
-                raise
+    except:
+        if renpy.config.debug_sound:
+            raise
 
 
 def set_music(channel, flag, default=False):
@@ -341,7 +318,7 @@ def get_pos(channel="music"):
     seconds. Returns None if no audio is playing on `channel`.
 
     As this may return None before a channel starts playing, or if the audio
-    channel involved has been muted, callers of this function should
+    channel involved has been muted, code that calls this function should
     always handle a None value.
     """
 

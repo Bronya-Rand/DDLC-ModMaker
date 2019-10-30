@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -19,13 +19,11 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from __future__ import print_function
-
 include "linebreak.pxi"
 
 cdef class Glyph:
 
-    def __cinit__(self):
+    def __init__(self):
         self.delta_x_offset = 0
 
     def __repr__(self):
@@ -157,7 +155,6 @@ for i in range(0, 65536):
 def language_tailor(chars, cls):
     """
     :doc: other
-    :args: (chars, cls)
 
     This can be used to override the line breaking class of a character. For
     example, the linebreaking class of a character can be set to ID to
@@ -165,10 +162,10 @@ def language_tailor(chars, cls):
     character.
 
     `chars`
-        A string containing each of the characters to tailor.
+        A list of characters to tailor.
 
     `cls`
-        A string giving a character class. This should be one of the classes defined in Table
+        The character class. This should be one of the classes defined in Table
         1 of `UAX #14: Unicode Line Breaking Algorithm <http://www.unicode.org/reports/tr14/tr14-30.html>`_.
     """
 
@@ -243,7 +240,7 @@ def annotate_unicode(list glyphs, bint no_ideographs, int cjk):
             new_type = BC_AL
 
         # Normalize the class by turning various groups into AL.
-        if (new_type >= BC_PITCH and new_type != BC_SP and new_type != BC_CB):
+        if (new_type >= BC_PITCH and new_type != BC_SP):
             new_type = BC_AL
 
         if tailor_type != BC_XX:
@@ -258,22 +255,6 @@ def annotate_unicode(list glyphs, bint no_ideographs, int cjk):
         # If we have a combining mark, continue.
         if new_type == BC_CM:
             g.split = SPLIT_NONE
-            continue
-
-        if new_type == BC_CB:
-            if old_type == BC_WJ or old_type == BC_GL:
-                g.split = SPLIT_NONE
-            else:
-                g.split = SPLIT_BEFORE
-
-            continue
-
-        if old_type == BC_CB:
-            if new_type == BC_WJ or new_type == BC_GL:
-                g.split = SPLIT_NONE
-            else:
-                g.split = SPLIT_BEFORE
-
             continue
 
         # Figure out the type of break opportunity we have here.
@@ -315,7 +296,7 @@ def annotate_unicode(list glyphs, bint no_ideographs, int cjk):
         if g.character == 0:
             g.split = SPLIT_BEFORE
 
-        if g.ruby == RUBY_TOP or g.ruby == RUBY_ALT:
+        if g.ruby == RUBY_TOP:
             g.split = SPLIT_NONE
 
         elif g.ruby == RUBY_BOTTOM and old_g.ruby == RUBY_BOTTOM:
@@ -352,9 +333,6 @@ def linebreak_greedy(list glyphs, int first_width, int rest_width):
     for g in glyphs:
 
         if g.ruby == RUBY_TOP:
-            continue
-
-        if g.ruby == RUBY_ALT:
             continue
 
         # If the x coordinate is greater than the width of the screen,
@@ -469,9 +447,6 @@ def place_horizontal(list glyphs, float start_x, float first_indent, float rest_
         if g.ruby == RUBY_TOP:
             continue
 
-        if g.ruby == RUBY_ALT:
-            continue
-
         if g.split != SPLIT_NONE and old_g:
             # When a glyph is at the end of the line, set its advance to
             # be its width. (This makes things like strikeout and underline
@@ -543,9 +518,6 @@ def place_vertical(list glyphs, int y, int spacing, int leading):
                 gg = glyphs[i]
 
                 if gg.ruby == RUBY_TOP:
-                    continue
-
-                if gg.ruby == RUBY_ALT:
                     continue
 
                 if gg.ascent:
@@ -626,13 +598,12 @@ def assign_times(float t, float gps, list glyphs):
 
     for g in glyphs:
 
-        if (g.ruby == RUBY_TOP) or (g.ruby == RUBY_ALT):
-            g.time = -1
+        if g.ruby == RUBY_TOP:
+            g.time = t
             continue
 
         t += tpg
         g.time = t
-
 
     return t
 
@@ -721,14 +692,6 @@ def mark_ruby_top(list l):
     for g in l:
         g.ruby = RUBY_TOP
 
-def mark_altruby_top(list l):
-
-    cdef Glyph g
-
-    for g in l:
-        g.ruby = RUBY_ALT
-
-
 def mark_ruby_bottom(list l):
 
     cdef Glyph g
@@ -737,7 +700,7 @@ def mark_ruby_bottom(list l):
         g.ruby = RUBY_BOTTOM
 
 
-def place_ruby(list glyphs, int ruby_offset, int altruby_offset, int surf_width, int surf_height):
+def place_ruby(list glyphs, int ruby_offset, int surf_width, int surf_height):
 
     cdef Glyph g
     cdef ruby_t last_ruby = RUBY_NONE
@@ -776,18 +739,16 @@ def place_ruby(list glyphs, int ruby_offset, int altruby_offset, int surf_width,
             pos += 1
             continue
 
-        # Otherwise, we have RUBY_TOP or RUBY_ALT
+        # Otherwise, we have RUBY_TOP.
 
         # Find the run of RUBY_TOP. When this is done, the run will be in
         # glyphs[start_top:pos].
         start_top = pos
 
-        last_ruby = g.ruby
-
         while pos < len_glyphs:
 
             g = glyphs[pos]
-            if g.ruby != last_ruby:
+            if g.ruby != RUBY_TOP:
                 break
 
             pos += 1
@@ -808,14 +769,11 @@ def place_ruby(list glyphs, int ruby_offset, int altruby_offset, int surf_width,
         for i from start_top <= i < pos:
             g = glyphs[i]
             g.x = <int> (x + .5)
-
-            if g.ruby == RUBY_TOP:
-                g.y = y + ruby_offset
-            else:
-                g.y = y + altruby_offset
+            g.y = y + ruby_offset
 
             x += g.advance
 
+        last_ruby = RUBY_TOP
 
 def align_and_justify(list lines, int width, float text_align, bint justify):
     """
@@ -847,9 +805,6 @@ def align_and_justify(list lines, int width, float text_align, bint justify):
             if g.ruby == RUBY_TOP:
                 continue
 
-            if g.ruby == RUBY_ALT:
-                continue
-
             if g.character == 0x20:
                 spaces += 1
 
@@ -869,9 +824,6 @@ def align_and_justify(list lines, int width, float text_align, bint justify):
                 if g.ruby == RUBY_TOP:
                     continue
 
-                if g.ruby == RUBY_ALT:
-                    continue
-
                 if g.character == 0x20:
                     justify_offset += justify_per_space
 
@@ -883,9 +835,6 @@ def align_and_justify(list lines, int width, float text_align, bint justify):
             for g in l.glyphs:
 
                 if g.ruby == RUBY_TOP:
-                    continue
-
-                if g.ruby == RUBY_ALT:
                     continue
 
                 g.x += offset
@@ -936,22 +885,21 @@ def copy_splits(list source, list dest):
 
         d.split = s.split
 
-
 def tweak_glyph_spacing(list glyphs, list lines, double dx, double dy, double w, double h):
     cdef Glyph g
 
     if w <= 0 or h <= 0:
         return
 
-    cdef short old_x_offset = 0
-    cdef short x_offset
+
+    old_x_offset = 0
 
     for g in glyphs:
 
-        x_offset = <short> (dx * g.x / w)
+        x_offset = int(dx * g.x / w)
 
         g.x += x_offset
-        g.y += <short> (dy * g.y / h)
+        g.y += int(dy * g.y / h)
 
         if x_offset > old_x_offset:
             g.delta_x_offset = x_offset - old_x_offset
@@ -965,15 +913,3 @@ def tweak_glyph_spacing(list glyphs, list lines, double dx, double dy, double w,
         end += int(dy * end / h)
 
         l.height = end - l.y
-
-def offset_glyphs(list glyphs, short x, short y):
-    cdef Glyph g
-
-    if x == 0 and y == 0:
-        return
-
-    for g in glyphs:
-        g.x += x
-        g.y += y
-
-

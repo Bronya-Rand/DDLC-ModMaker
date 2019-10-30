@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -18,13 +18,6 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-
-# Allow pickling NoneType.
-from __future__ import print_function
-
-import __builtin__
-__builtin__.NoneType = type(None)
 
 
 class Object(object):
@@ -64,7 +57,6 @@ class Object(object):
 
 # We don't handle slots with this mechanism, since the call to vars should
 # throw an error.
-
 
 sentinels = { }
 

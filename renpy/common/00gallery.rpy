@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -41,9 +41,6 @@ init -1500 python:
 
         def check(self, all_prior):
             for i in self.images:
-
-                print(i, renpy.seen_image(i))
-
                 if not renpy.seen_image(i):
                     return False
 
@@ -94,8 +91,6 @@ init -1500 python:
                     d = transform(d)
                 else:
                     d = config.default_transform(d)
-
-                d = renpy.display.layout.AdjustTimes(d, None, None)
 
                 displayables.append(d)
 
@@ -226,8 +221,6 @@ init -1500 python:
 
             self.slideshow_delay = 5
 
-            self.slideshow = False
-
         def button(self, name):
             """
             :doc: gallery method
@@ -291,7 +284,7 @@ init -1500 python:
             A condition that is satisfied when an expression evaluates to true.
 
             `expression`
-                A string giving a Python expression.
+                A string giving a python expression.
             """
 
             if not isinstance(expression, basestring):
@@ -341,7 +334,7 @@ init -1500 python:
             else:
                 return None
 
-        def make_button(self, name, unlocked, locked=None, hover_border=None, idle_border=None, style=None, **properties):
+        def make_button(self, name, unlocked, locked=None, hover_border=None, idle_border=None, **properties):
             """
             :doc: gallery method
 
@@ -370,11 +363,6 @@ init -1500 python:
                 it is unlocked but unfocused. If None, the idle_border
                 field of the gallery object is used.
 
-            `style`
-                The style the button inherits from. When None, defaults
-                to the "empty" style, so as not to inherit borders and
-                so on.
-
             Additional keyword arguments become style properties of the
             created button object.
             """
@@ -390,14 +378,7 @@ init -1500 python:
             if idle_border is None:
                 idle_border = self.idle_border
 
-            if style is None:
-
-                if (config.script_version is not None) and (config.script_version <= (7, 0, 0)):
-                    style = "button"
-                else:
-                    style = "empty"
-
-            return Button(action=action, child=unlocked, insensitive_child=locked, hover_foreground=hover_border, idle_foreground=idle_border, style=style, **properties)
+            return Button(action=action, child=unlocked, insensitive_child=locked, hover_foreground=hover_border, idle_foreground=idle_border, **properties)
 
         def get_fraction(self, name, format="{seen}/{total}"):
             """
@@ -407,7 +388,7 @@ init -1500 python:
             named `name`.
 
             `format`
-                A Python format string that's used to format the numbers. This has three values that
+                A python format string that's used to format the numbers. This has three values that
                 can be substituted in:
 
                 {seen}
@@ -463,22 +444,12 @@ init -1500 python:
                     else:
                         all_unlocked = False
 
-                        if self.unlocked_advance and (button == bi) and (image == ii):
-                            image += 1
-
             self.slideshow = False
 
             # Loop, displaying the images.
             while True:
 
-                if button >= len(self.button_list):
-                    break
-
                 b = self.button_list[button]
-
-                if image >= len(b.images):
-                    break
-
                 i = b.images[image]
 
                 result = i.show((button, image) not in unlocked_images, image, len(b.images))

@@ -1,5 +1,5 @@
 #cython: profile=False
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -19,8 +19,6 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-from __future__ import print_function
 
 from gl1 cimport *
 from gldraw cimport *
@@ -319,7 +317,7 @@ cdef class FixedFunctionEnviron(Environ):
         else:
             glDisableClientState(GL_TEXTURE_COORD_ARRAY)
 
-    cdef void set_color(self, double r, double g, double b, double a):
+    cdef void set_color(self, float r, float g, float b, float a):
         glColor4f(r, g, b, a)
 
     cdef void ortho(self, double left, double right, double bottom, double top, double near, double far):
@@ -335,10 +333,10 @@ cdef class FixedFunctionEnviron(Environ):
 
         minx, miny, maxx, maxy = clip_box
 
-        gl_clip(GL_CLIP_PLANE0, 1.0, 0.0, 0.0, -minx - .01)
-        gl_clip(GL_CLIP_PLANE1, 0.0, 1.0, 0.0, -miny - .01)
-        gl_clip(GL_CLIP_PLANE2, -1.0, 0.0, 0.0, maxx + .01)
-        gl_clip(GL_CLIP_PLANE3, 0.0, -1.0, 0.0, maxy + .01)
+        gl_clip(GL_CLIP_PLANE0, 1.0, 0.0, 0.0, -minx)
+        gl_clip(GL_CLIP_PLANE1, 0.0, 1.0, 0.0, -miny)
+        gl_clip(GL_CLIP_PLANE2, -1.0, 0.0, 0.0, maxx)
+        gl_clip(GL_CLIP_PLANE3, 0.0, -1.0, 0.0, maxy)
 
     cdef void unset_clip(self, GLDraw draw):
         glDisable(GL_CLIP_PLANE0)

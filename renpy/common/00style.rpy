@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -24,7 +24,7 @@
 
 init -1800 python:
 
-    # The style hierarchy root has to be initialized through Python
+    # The style hierarchy root has to be initialized through python
     # code.
     style.default = Style(None)
     style.empty = Style(None)
@@ -150,7 +150,6 @@ init -1800:
         drop_shadow None
         drop_shadow_color (0, 0, 0, 255)
         outlines [ ]
-        outline_scaling "step"
         minwidth 0
         text_align 0
         justify False
@@ -166,7 +165,6 @@ init -1800:
         slow_cps_multiplier 1.0
         slow_abortable False
         ruby_style style.ruby_text
-        altruby_style style.altruby_text
         # hyperlink_functions is set in 00defaults.rpy
         hinting "auto"
         adjust_spacing True
@@ -204,7 +202,6 @@ init -1800:
         first_spacing None
         box_layout None
         box_wrap False
-        box_wrap_spacing 0
         box_reverse False
         order_reverse False
         xfit False
@@ -232,10 +229,6 @@ init -1800:
 
         # Viewport properties
         clipping False
-
-        # Grid properties
-        xspacing None
-        yspacing None
 
     style empty:
         take default
@@ -332,10 +325,6 @@ init -1800:
     # Ruby text (Furigana)
 
     style ruby_text:
-        size 22
-        xoffset 0
-
-    style altruby_text:
         size 22
         xoffset 0
 
@@ -444,3 +433,4 @@ init label _style_reset:
 # Older init code doesn't necessarily like defer styles.
 init 1001 python:
     config.defer_styles = False
+

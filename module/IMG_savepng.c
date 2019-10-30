@@ -34,7 +34,7 @@
 #define png_voidp voidp
 #endif
 
-int renpy_IMG_SavePNG(const char *file, SDL_Surface *surf,int compression){
+int IMG_SavePNG(const char *file, SDL_Surface *surf,int compression){
 	SDL_RWops *fp;
 	int ret;
 
@@ -44,7 +44,7 @@ int renpy_IMG_SavePNG(const char *file, SDL_Surface *surf,int compression){
 		return (-1);
 	}
 
-	ret=renpy_IMG_SavePNG_RW(fp,surf,compression);
+	ret=IMG_SavePNG_RW(fp,surf,compression);
 	SDL_RWclose(fp);
 	return ret;
 }
@@ -54,12 +54,12 @@ static void png_write_data(png_structp png_ptr,png_bytep data, png_size_t length
 	SDL_RWwrite(rp,data,1,length);
 }
 
-int renpy_IMG_SavePNG_RW(SDL_RWops *src, SDL_Surface *surf,int compression){
+int IMG_SavePNG_RW(SDL_RWops *src, SDL_Surface *surf,int compression){
 	png_structp png_ptr;
 	png_infop info_ptr;
 	SDL_PixelFormat *fmt=NULL;
 	SDL_Surface *tempsurf=NULL;
-	int ret;
+	int ret,funky_format;
 	unsigned int i;
 	png_colorp palette;
 	Uint8 *palette_alpha=NULL;

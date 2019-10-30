@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -18,8 +18,6 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-from __future__ import print_function
 
 from cpython.ref cimport PyObject, Py_XDECREF
 from libc.string cimport memset
@@ -194,11 +192,6 @@ class StyleManager(object):
     def __setattr__(self, name, value):
 
         if not isinstance(value, StyleCore):
-
-            if getattr(value, "_is_style_compat", False):
-                self.__dict__[name] = value
-                return
-
             raise Exception("Value is not a style.")
 
         cdef StyleCore style = value
@@ -297,11 +290,6 @@ cdef class StyleCore:
                 properties = dict(properties)
 
             self.properties.append(properties)
-
-        if properties and ("insensitive_child" in properties):
-            if properties["insensitive_child"] is False:
-                import traceback
-                traceback.print_stack()
 
         self.parent = get_tuple_name(parent)
         self.name = name
@@ -528,7 +516,7 @@ cdef class StyleCore:
         return self._get(index - self.prefix_offset)
 
 
-    def _visit_window(self, pd):
+    def _predict_window(self, pd):
         """
         Predicts properties for a window.
 
@@ -542,7 +530,7 @@ cdef class StyleCore:
                 if v is not None:
                     pd(v)
 
-    def _visit_bar(self, pd):
+    def _predict_bar(self, pd):
         """
         Predicts properties for a window.
 
@@ -556,7 +544,7 @@ cdef class StyleCore:
                 if v is not None:
                     pd(v)
 
-    def _visit_frame(self, pd):
+    def _predict_frame(self, pd):
         """
         Predicts properties for a Frame.
 
@@ -599,8 +587,7 @@ cdef class StyleCore:
             for pdict in reversed(s.properties):
 
                 propnames = list(pdict)
-                propnames.sort(key=lambda pn : priority.get(pn, 100))
-                propnames.reverse()
+                propnames.sort(key=lambda pn : -priority.get(pn, -100))
 
                 for propname in propnames:
                     prop_affects = affects.get(propname, [ ])
@@ -646,7 +633,7 @@ cdef class StyleCore:
 # This will be replaced when renpy.styledata.import_style_functions is called.
 Style = StyleCore
 
-from renpy.styledata.stylesets import all_properties, prefix_priority, prefix_alts, property_priority
+from renpy.styledata.stylesets import all_properties, prefix_priority, prefix_alts
 
 # The set of all prefixed properties we know about.
 prefixed_all_properties = {
@@ -696,7 +683,6 @@ cpdef build_style(StyleCore s):
 
         for d in s.properties:
             for k, v in d.items():
-
                 pfw = property_functions.get(k, None)
 
                 if pfw is None:
@@ -758,7 +744,7 @@ def init_inspect():
 
     for prefixname, pri in prefix_priority.items():
         for propname, proplist in all_properties.items():
-            priority[prefixname + propname] = pri + property_priority.get(propname, 0)
+            priority[prefixname + propname] = pri
             affects[prefixname + propname] = [ a + i for a in prefix_alts[prefixname] for i in proplist ]
 
 

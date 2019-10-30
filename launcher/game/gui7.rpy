@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -290,7 +290,6 @@ screen choose_gui_color():
 
     if gui_color:
         textbutton _("Continue") action Return(True) style "l_right_button"
-        key "input_enter" action Return(True)
 
 
 label change_gui:
@@ -327,6 +326,25 @@ label new_gui_project:
 
     python:
         gui_new = True
+
+        project_name = interface.input(
+            _("PROJECT NAME"),
+            _("Please enter the name of your project:"),
+            filename=True,
+            cancel=Jump("front_page"))
+
+        project_name = project_name.strip()
+        if not project_name:
+            interface.error(_("The project name may not be empty."))
+
+        project_dir = os.path.join(persistent.projects_directory, project_name)
+
+        if project.manager.get(project_name) is not None:
+            interface.error(_("[project_name!q] already exists. Please choose a different project name."), project_name=project_name)
+
+        if os.path.exists(project_dir):
+            interface.error(_("[project_dir!q] already exists. Please choose a different project name."), project_dir=project_dir)
+
         gui_replace_images = True
         gui_replace_code = True
         gui_update_code = True
@@ -342,48 +360,10 @@ label gui_project_size:
                 ((1066, 600), "1066x600"),
                 ((1280, 720), "1280x720"),
                 ((1920, 1080), "1920x1080"),
-                ("custom", _("Custom. The GUI is optimized for a 16:9 aspect ratio.")),
             ],
             (1280, 720),
             cancel=Jump("front_page"),
         )
-
-        if gui_size == "custom":
-
-            gui_width = ""
-            while True:
-                gui_width = interface.input(
-                    _("WIDTH"),
-                    _("Please enter the width of your game, in pixels."),
-                    cancel=Jump("front_page"),
-                    allow=interface.DIGITS_LETTERS,
-                )
-
-                try:
-                    gui_width = int(gui_width)
-                except:
-                    interface.error(_("The width must be a number."), label=None)
-                    continue
-                break
-
-            gui_height = ""
-            while True:
-                gui_height = interface.input(
-                    _("HEIGHT"),
-                    _("Please enter the height of your game, in pixels."),
-                    cancel=Jump("front_page"),
-                    allow=interface.DIGITS_LETTERS,
-                )
-
-                try:
-                    gui_height = int(gui_height)
-                except:
-                    interface.error(_("The height must be a number."), label=None)
-                    continue
-                break
-
-            gui_size = (gui_width, gui_height)
-
 
 label gui_project_common:
 
@@ -426,22 +406,21 @@ label gui_project_common:
         else:
             interface.processing(_("Updating the project..."))
 
-        with interface.error_handling(_("creating a new project")):
+        with interface.error_handling("creating a new project"):
             gui7.generate_gui(p)
 
         # Activate the project.
-        with interface.error_handling(_("activating the new project")):
+        with interface.error_handling("activating the new project"):
             project.manager.scan()
             project.Select(project.manager.get(project_name))()
 
     if gui_new:
-
-        call update_renpy_strings_common
+        call update_renpy_strings
 
         python hide:
             if gui.project_system_font:
                 with open(os.path.join(project.current.gamedir, "tl/None/common.rpym"), "ab") as f:
-                    f.write("define gui.system_font = {!r}\r\n".format(gui.project_system_font).encode("utf-8"))
+                    f.write("define gui.system_font = {!r}\r\n".format(gui.project_system_font))
 
 
 label gui_generate_images:
@@ -449,7 +428,6 @@ label gui_generate_images:
     python:
 
         interface.processing(_("Updating the project..."))
-        project.current.launch([ 'gui_images' ], env={ "RENPY_VARIANT" : "small phone" }, wait=True)
-        project.current.launch([ 'gui_images' ], wait=True)
+        project.current.launch([ 'gui_images' ])
 
     jump front_page

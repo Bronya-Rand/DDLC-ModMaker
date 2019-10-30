@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -22,8 +22,6 @@
 # This file contains code to write the reflect.json file. This file contains
 # information about the game that's used to reflect on the contents,
 # including how to navigate around the game.
-
-from __future__ import print_function
 
 import inspect
 import json
@@ -244,14 +242,7 @@ def dump(error):
         pass
 
     if args.json_dump != "-":
-        new = args.json_dump + ".new"
-
-        with file(new, "w") as f:
+        with file(args.json_dump, "w") as f:
             json.dump(result, f)
-
-        if os.path.exists(args.json_dump):
-            os.unlink(args.json_dump)
-
-        os.rename(new, args.json_dump)
     else:
         json.dump(result, sys.stdout, indent=2)

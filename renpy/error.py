@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -27,10 +27,9 @@ import sys
 import cStringIO
 import platform
 import linecache
-import time
-import os
 
 import renpy
+import os
 
 FSENCODING = sys.getfilesystemencoding() or "utf-8"
 
@@ -160,12 +159,11 @@ def report_exception(e, editor=True):
     a simple message, and the second being a full traceback.
     """
 
-    # Note: Doki Doki Literature club calls this as ("Words...", False).
-    # For what it's worth.
-
     import codecs
 
     type, _value, tb = sys.exc_info()  # @ReservedAssignment
+
+    print((repr(e)))
 
     def safe_utf8(e):
         try:
@@ -207,20 +205,16 @@ def report_exception(e, editor=True):
     print(safe_utf8(e), file=full)
 
     # Write to stdout/stderr.
-    try:
-        sys.stdout.write("\n")
-        sys.stdout.write(full.getvalue())
-        sys.stdout.write("\n")
-        sys.stdout.write(simple.getvalue())
-    except:
-        pass
+    sys.stdout.write("\n")
+    sys.stdout.write(full.getvalue())
+    sys.stdout.write("\n")
+    sys.stdout.write(simple.getvalue())
 
     print(file=full)
     try:
         print(platform.platform(), file=full)
         print(renpy.version, file=full)
         print(safe_utf8(renpy.config.name + " " + renpy.config.version), file=full)
-        print(time.ctime(), file=full)
     except:
         pass
 
@@ -252,6 +246,11 @@ def report_exception(e, editor=True):
         except:
             pass
 
+    except:
+        pass
+
+    try:
+        renpy.display.log.exception()  # @UndefinedVariable
     except:
         pass
 

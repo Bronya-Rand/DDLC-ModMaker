@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -47,7 +47,7 @@ init label _errorhandling:
         from store import config
 
         def _scale(n):
-            return int(min(n * config.screen_width / 960, n * config.screen_height / 720))
+            return int(n * config.screen_height / 720)
 
         _wide = (config.screen_width >  (config.screen_height * 1.5))
 
@@ -68,7 +68,6 @@ init label _errorhandling:
         drop_shadow None
         drop_shadow_color (0, 0, 0, 255)
         outlines [ ]
-        outline_scaling "step"
         minwidth 0
         text_align 0
         justify False
@@ -117,7 +116,6 @@ init label _errorhandling:
         first_spacing None
         box_layout None
         box_wrap False
-        box_wrap_spacing 0
         box_reverse False
         order_reverse False
         xfit False
@@ -145,10 +143,6 @@ init label _errorhandling:
         # Viewport properties
         clipping False
 
-        # Grid properties
-        xspacing None
-        yspacing None
-
     init python:
         # Temporarily, until the real styles can be defined.
         style.default = style._default
@@ -166,7 +160,6 @@ init label _errorhandling:
 
     style _text is _default
     style _fixed is _default
-    style _input is _default
 
     style _hbox is _default:
         box_layout 'horizontal'
@@ -177,19 +170,17 @@ init label _errorhandling:
     style _grid is _default
     style _side is _default
 
-    style _drag is _default
-
     style _viewport is _default:
         xfill True
         yfill True
 
     style _button is _default:
-        ypadding gui._scale(6)
+        ypadding gui._scale(2)
 
     style _button_text is _default:
-        size gui._scale(22)
-        color "#468"
-        hover_color "#24c"
+        size gui._scale(26)
+        color "#405060"
+        hover_color "#048"
         insensitive_color "#00000020"
 
     style _small_button is _button
@@ -198,34 +189,29 @@ init label _errorhandling:
         size gui._scale(16)
 
     style _radio_button is _button:
-        selected_background Solid("#468", xsize=gui._scale(5), ysize=gui._scale(22), yalign=0.5)
-        selected_hover_background Solid("#24C", xsize=gui._scale(5), ysize=gui._scale(22), yalign=0.5)
+        selected_background Solid("#048", xsize=gui._scale(5), ysize=gui._scale(22), yalign=0.5)
         left_padding gui._scale(15)
-        ypadding gui._scale(2)
+
+    style _radio_button_text is _button_text
 
     style _label is _default:
         top_margin gui._scale(10)
         bottom_margin gui._scale(15)
 
     style _label_text is _default:
-        size gui._scale(30)
+        size gui._scale(40)
         kerning -1
 
     style _bar is _default:
-        left_bar "#468"
-        hover_left_bar "#24C"
+        left_bar "#048"
         right_bar "#b0b0b0"
         ysize gui._scale(20)
 
     style _vbar is _default:
-        bottom_bar "#468"
-        hover_bottom_bar "#24C"
+        bottom_bar "#048"
         top_bar "#b0b0b0"
         xsize gui._scale(20)
         bar_vertical True
-
-    style _slider is _bar
-    style _vslider is _vbar
 
     style _scrollbar is _default:
         thumb "#808080"
@@ -244,37 +230,35 @@ init label _errorhandling:
         bar_invert True
 
     style _hyperlink is _default:
-        color "#468"
-        hover_color Color("#24C")
+        color "#405060"
+        hover_color Color("#048")
+
+    # Early hyperlink support.
+    python hide:
+        def hyperlink_styler(target):
+            return style._hyperlink
+
+        def hyperlink_function(target):
+            if target.startswith("http:"):
+                try:
+                    import webbrowser
+                    webbrowser.open(target)
+                except:
+                    pass
+
+            if target.startswith("edit:"):
+                prefix, line, filename = target.split(":", 2)
+                line = int(line)
+
+                renpy.launch_editor([ filename ], line)
+
+        style._default.hyperlink_functions = (hyperlink_styler, hyperlink_function, None)
 
     return
 
 # Invokes _errorhanding when this is first loaded.
 init:
     call _errorhandling
-
-# Early hyperlink support.
-init python:
-
-    def _error_hyperlink_styler(target):
-        return style._hyperlink
-
-    def _error_hyperlink_function(target):
-        if target.startswith("http:") or target.startswith("https:"):
-            try:
-                import webbrowser
-                webbrowser.open(target)
-            except:
-                pass
-
-        if target.startswith("edit:"):
-            prefix, line, filename = target.split(":", 2)
-            line = int(line)
-
-            renpy.launch_editor([ filename ], line)
-
-    style._default.hyperlink_functions = (_error_hyperlink_styler, _error_hyperlink_function, None)
-
 
 init python:
 
@@ -308,8 +292,6 @@ init python:
         viewport_wheeldown = [ 'mousedown_5' ],
         viewport_drag_start = [ 'mousedown_1' ],
         viewport_drag_end = [ 'mouseup_1' ],
-        viewport_pageup = [  'K_PAGEUP', 'repeat_K_PAGEUP' ],
-        viewport_pagedown = [  'K_PAGEDOWN', 'repeat_K_PAGEDOWN' ],
 
         # These control the bar.
         bar_activate = [ 'mousedown_1', 'K_RETURN', 'K_KP_ENTER', 'K_SELECT' ],
@@ -433,16 +415,15 @@ init python:
                 pass
 
     class _CopyFile(Action):
-        def __init__(self, filename, template):
+        def __init__(self, filename):
             self.filename = filename
-            self.template = template
 
         def __call__(self):
             import pygame.scrap
 
             with open(self.filename, "rb") as f:
                 f.read(3) # skip the BOM.
-                s = self.template.format(f.read().decode("utf-8"))
+                s = u"[code]\n{}[/code]\n".format(f.read().decode("utf-8"))
 
             s = s.replace("\n", "\r\n")
             s = s.replace("\r\r", "\r")
@@ -539,23 +520,10 @@ screen _exception_actions(traceback_fn, tt, *args):
         action _EditFile(traceback_fn)
         hovered tt.action(_("Opens the traceback.txt file in a text editor."))
 
-    textbutton _("Copy BBCode"):
-        action _CopyFile(traceback_fn, u"[code]\n{}[/code]\n")
-        hovered tt.action(_("Copies the traceback.txt file to the clipboard as BBcode for forums like https://lemmasoft.renai.us/."))
+    textbutton _("Copy"):
+        action _CopyFile(traceback_fn)
+        hovered tt.action(_("Copies the traceback.txt file to the clipboard."))
 
-    textbutton __("Copy Markdown"):
-        action _CopyFile(traceback_fn, u"```\n{}```\n")
-        hovered tt.action(_("Copies the traceback.txt file to the clipboard as Markdown for Discord."))
-
-
-
-python early in _errorhandling:
-
-    # These enable various error handling modes.
-    rollback = True
-    ignore = True
-    reload = True
-    console = True
 
 # The screen that is used for error handling.
 screen _exception:
@@ -572,10 +540,7 @@ screen _exception:
         has side "t c b":
             spacing gui._scale(10)
 
-        side "c r":
-            xfill True
-            label _("An exception has occurred.") text_size gui._scale(40)
-            text "{size=-3}[config.version!q]\n[renpy.version_only!q]\n[renpy.platform!q]{/size}" text_align 1.0 yalign 0.5
+        label _("An exception has occurred.")
 
         viewport:
             id "viewport"
@@ -593,30 +558,26 @@ screen _exception:
             hbox:
                 spacing gui._scale(25)
 
-                if rollback_action and _errorhandling.rollback:
+                if rollback_action:
                     textbutton _("Rollback"):
                         action rollback_action
                         hovered tt.action(_("Attempts a roll back to a prior time, allowing you to save or choose a different choice."))
 
-                if ignore_action and _errorhandling.ignore:
+                if ignore_action:
                     textbutton _("Ignore"):
                         action ignore_action
-
-                        if _ignore_action:
-                            hovered tt.action(_("Ignores the exception, allowing you to continue."))
-                        else:
-                            hovered tt.action(_("Ignores the exception, allowing you to continue. This often leads to additional errors."))
+                        hovered tt.action(_("Ignores the exception, allowing you to continue. This often leads to additional errors."))
 
                 if config.developer and not renpy.mobile:
-                    if _errorhandling.reload:
-                        textbutton _("Reload"):
-                            action reload_action
-                            hovered tt.action(_("Reloads the game from disk, saving and restoring game state if possible."))
+                    textbutton _("Reload"):
+                        action reload_action
+                        hovered tt.action(_("Reloads the game from disk, saving and restoring game state if possible."))
 
-                    if _errorhandling.console:
-                        textbutton _("Console") :
-                            action __EnterConsole()
-                            hovered tt.action(_("Opens a console to allow debugging the problem."))
+                    textbutton _("Console"):
+                        action __EnterConsole()
+                        hovered tt.action(_("Opens a console to allow debugging the problem."))
+
+
 
                 use _exception_actions(traceback_fn, tt)
 
@@ -650,7 +611,7 @@ screen _parse_errors:
         has side "t c b":
             spacing gui._scale(10)
 
-        label _("Parsing the script failed.") text_size gui._scale(40)
+        label _("Parsing the script failed.")
 
         viewport:
             id "viewport"
@@ -678,13 +639,9 @@ screen _parse_errors:
                     action _EditFile(error_fn)
                     hovered tt.action(_("Opens the errors.txt file in a text editor."))
 
-                textbutton _("Copy BBCode"):
-                    action _CopyFile(error_fn, u"[code]\n{}[/code]\n")
-                    hovered tt.action(_("Copies the errors.txt file to the clipboard as BBcode for forums like https://lemmasoft.renai.us/."))
-
-                textbutton __("Copy Markdown"):
-                    action _CopyFile(error_fn, u"```\n{}```\n")
-                    hovered tt.action(_("Copies the errors.txt file to the clipboard as Markdown for Discord."))
+                textbutton _("Copy"):
+                    action _CopyFile(error_fn)
+                    hovered tt.action(_("Copies the errors.txt file to the clipboard."))
 
                 vbox:
                     xfill True
@@ -699,3 +656,4 @@ screen _parse_errors:
 
     if config.developer and reload_action:
         key "R" action reload_action
+

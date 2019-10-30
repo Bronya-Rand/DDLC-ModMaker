@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -170,8 +170,8 @@ init -1500 python:
         :doc: voice_action
 
         This allows the volume of each characters to be adjusted.
-        If `volume` is None, this returns a BarValue that
-        controls the value of `voice_tag`. Otherwise, this set it to `volume`.
+        If `volume` is None, this returns the value of volume of `voice_tag`.
+        Otherwise, this set it to `volume`.
 
         `volume` is a number between 0.0 and 1.0, and is interpreted as a
         fraction of the mixer volume for `voice` channel.
@@ -185,19 +185,8 @@ init -1500 python:
         else:
             return SetDict(persistent._character_volume, voice_tag, volume)
 
-    def GetCharacterVolume(voice_tag):
-        """
-        :doc: preference_functions
-
-        This returns the volume associated with voice tag, a number
-        between 0.0 and 1.0, which is interpreted as a fraction of the
-        mixer volume for the `voice` channel.
-        """
-
-        return persistent._character_volume.get(voice_tag, 1.0)
-
     @renpy.pure
-    class PlayCharacterVoice(Action, FieldEquality):
+    class PlayCharacterVoice(Action):
         """
         :doc: voice_action
 
@@ -207,22 +196,11 @@ init -1500 python:
         `sample`
             The full path to a sound file. No voice-related handling
             of this file is done.
-
-        `selected`
-            If True, buttons using this action will be marked as selected
-            while the sample is playing.
         """
 
-        equality_fields = [ "voice_tag", "sample", "can_be_selected" ]
-
-        can_be_selected = False
-        selected = False
-
-        def __init__(self, voice_tag, sample, selected=False):
+        def __init__(self, voice_tag, sample):
             self.voice_tag = voice_tag
             self.sample = sample
-
-            self.can_be_selected = selected
 
         def __call__(self):
             if self.voice_tag in persistent._voice_mute:
@@ -232,29 +210,6 @@ init -1500 python:
             renpy.music.get_channel("voice").set_volume(volume)
 
             renpy.sound.play(self.sample, channel="voice")
-            renpy.restart_interaction()
-            self.periodic(0)
-
-        def get_selected(self):
-
-            if not self.can_be_selected:
-                return False
-
-            return renpy.sound.get_playing(channel="voice") == self.sample
-
-        def periodic(self, st):
-
-            if not self.can_be_selected:
-                return None
-
-            old_selected = self.selected
-            new_selected = self.get_selected()
-
-            if old_selected != new_selected:
-                renpy.restart_interaction()
-                self.selected = new_selected
-
-            return .1
 
     @renpy.pure
     class ToggleVoiceMute(Action, DictEquality):
@@ -316,22 +271,16 @@ init -1500 python:
             self.tag = _voice.tag
 
             if not self.filename and config.auto_voice:
+                tlid = renpy.game.context().translate_identifier
 
-                for tlid in [
-                    renpy.game.context().translate_identifier,
-                    renpy.game.context().alternate_translate_identifier,
-                    renpy.game.context().deferred_translate_identifier,
-                    ]:
-
-                    if tlid is None:
-                        continue
+                if tlid is not None:
 
                     if isinstance(config.auto_voice, (str, unicode)):
                         fn = config.auto_voice.format(id=tlid)
                     else:
                         fn = config.auto_voice(tlid)
 
-                    self.auto_filename = fn
+                    _voice.auto_filename = fn
 
                     if fn and renpy.loadable(fn):
 
@@ -340,15 +289,7 @@ init -1500 python:
                         else:
                             self.filename = fn
 
-                        break
-
-            self.tlid = renpy.game.context().translate_identifier or renpy.game.context().deferred_translate_identifier
-
-            if self.filename:
-                self.sustain = False
-            elif self.sustain and (self.sustain != "preference"):
-                self.filename = _last_voice_play
-
+                self.tlid = tlid
 
     def _get_voice_info():
         """
@@ -373,12 +314,6 @@ init -1500 python:
         .. attribute:: VoiceInfo.tag
 
             The voice_tag parameter supplied to the speaking Character.
-
-        .. attribute:: VoiceInfo.sustain
-
-            False if the file was played as part of this interaction. True if
-            it was sustained from a previous interaction.
-
         """
 
         vi = VoiceInfo()
@@ -419,33 +354,18 @@ init -1500 python hide:
         if _voice.ignore_interaction:
             return
 
-        mode = renpy.get_mode()
-
-        if (mode is None) or (mode == "with"):
+        if renpy.get_mode() == "with":
             return
 
-        if getattr(renpy.context(), "_menu", False):
+        if _menu:
             renpy.sound.stop(channel="voice")
             return
 
-        if _preferences.voice_sustain and not _voice.sustain:
-            _voice.sustain = "preference"
-
-        if _voice.play:
-            _voice.sustain = False
-
         vi = VoiceInfo()
-
         if not _voice.sustain:
             _voice.info = vi
 
-        if not vi.sustain:
-            _voice.play = vi.filename
-        else:
-            _voice.play = None
-
-        renpy.game.context().deferred_translate_identifier = None
-
+        _voice.play = vi.filename
         _voice.auto_file = vi.auto_filename
         _voice.sustain = vi.sustain
         _voice.tlid = vi.tlid
@@ -473,8 +393,10 @@ init -1500 python hide:
         _voice.sustain = False
         _voice.tag = None
 
+        if _preferences.voice_sustain:
+            _voice.sustain = True
+
     config.start_interact_callbacks.append(voice_interact)
-    config.fast_skipping_callbacks.append(voice_interact)
     config.say_sustain_callbacks.append(voice_sustain)
     config.afm_voice_delay = .5
 
@@ -531,7 +453,7 @@ python early hide:
         return fn
 
     def execute_voice(fn):
-        fn = _audio_eval(fn)
+        fn = eval(fn)
         voice(fn)
 
     def lint_voice(fn):

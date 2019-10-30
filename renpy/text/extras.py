@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -25,7 +25,7 @@ from __future__ import print_function
 
 import renpy.text
 
-from renpy.text.textsupport import TAG, PARAGRAPH
+from renpy.text.textsupport import TAG
 import renpy.text.textsupport as textsupport
 
 
@@ -33,7 +33,6 @@ import renpy.text.textsupport as textsupport
 # requires a closing tag.
 text_tags = dict(
     alpha=True,
-    art=True,
     image=False,
     p=False,
     w=False,
@@ -45,7 +44,6 @@ text_tags = dict(
     plain=True,
     font=True,
     color=True,
-    outlinecolor=True,
     size=True,
     nw=False,
     s=True,
@@ -70,20 +68,15 @@ def check_text_tags(s):
     an error, or None if there is no error.
     """
 
-    all_tags = dict(text_tags)
-
     custom_tags = renpy.config.custom_text_tags
+
     if custom_tags:
-        all_tags.update(custom_tags)
+        all_tags = dict(text_tags)
+        all_tags.update(renpy.config.custom_text_tags)
+    else:
+        all_tags = text_tags
 
-    self_closing_custom_tags = renpy.config.self_closing_custom_text_tags
-    if self_closing_custom_tags:
-        all_tags.update(dict.fromkeys(self_closing_custom_tags, False))
-
-    try:
-        tokens = textsupport.tokenize(unicode(s))
-    except Exception as e:
-        return e.args[0]
+    tokens = textsupport.tokenize(unicode(s))
 
     tag_stack = [ ]
 
@@ -121,55 +114,8 @@ def check_text_tags(s):
     return None
 
 
-def filter_text_tags(s, allow=None, deny=None):
-    """
-    :doc: text_utility
-
-    Returns a copy of `s` with the text tags filtered. Exactly one of the `allow` and `deny` keyword
-    arguments must be given.
-
-    `allow`
-        A set of tags that are allowed. If a tag is not in this list, it is removed.
-
-    `deny`
-        A set of tags that are denied. If a tag is not in this list, it is kept in the string.
-    """
-
-    if (allow is None) and (deny is None):
-        raise Exception("Only one of the allow and deny keyword arguments should be given to filter_text_tags.")
-
-    if (allow is not None) and (deny is not None):
-        raise Exception("Only one of the allow and deny keyword arguments should be given to filter_text_tags.")
-
-    tokens = textsupport.tokenize(unicode(s))
-
-    rv = [ ]
-
-    for tokentype, text in tokens:
-
-        if tokentype == PARAGRAPH:
-            rv.append("\n")
-        elif tokentype == TAG:
-            kind = text.partition("=")[0]
-
-            if kind and (kind[0] == "/"):
-                kind = kind[1:]
-
-            if allow is not None:
-                if kind in allow:
-                    rv.append("{" + text + "}")
-            else:
-                if kind not in deny:
-                    rv.append("{" + text + "}")
-        else:
-            rv.append(text)
-
-    return "".join(rv)
-
-
 class ParameterizedText(object):
     """
-    :name: ParameterizedText
     :doc: text
 
     This is a displayable that can be shown with an additional string
@@ -198,10 +144,10 @@ class ParameterizedText(object):
 
     def _duplicate(self, args):
 
-        if len(args.args) == 0:
+        if len(args.args) != 1:
             raise Exception("'%s' takes a single string parameter." % ' '.join(args.name))
 
-        param = "".join(args.args)
+        param = args.args[0]
         string = renpy.python.py_eval(param)
 
         return renpy.text.text.Text(string, style=self.style, **self.properties)

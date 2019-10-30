@@ -108,8 +108,6 @@ init -1500 python:
     config.console = False
 
     config.console_history_size = 100
-    config.console_history_lines = 1000
-
     config.console_commands = { }
 
     # If not None, this is called with the command that's about to be run
@@ -118,30 +116,12 @@ init -1500 python:
     # be actually run.
     config.console_callback = None
 
-default persistent._console_short = True
-
 init -1500 python in _console:
     from store import config, persistent, NoRollback
     import sys
     import traceback
     import store
 
-    import repr as reprlib
-    aRepr = reprlib.Repr()
-    aRepr.maxtuple = 20
-    aRepr.maxlist = 20
-    aRepr.maxarray = 20
-    aRepr.maxdict = 10
-    aRepr.maxset = 20
-    aRepr.maxfrozenset = 20
-    aRepr.maxstring = 60
-    aRepr.maxother = 200
-
-    aRepr.repr_RevertableList = aRepr.repr_list
-    aRepr.repr_RevertableDict = aRepr.repr_dict
-    aRepr.repr_RevertableSet = aRepr.repr_set
-    aRepr.repr_defaultdict = aRepr.repr_dict
-    aRepr.repr_OrderedDict = aRepr.repr_dict
 
     # The list of traced expressions.
     class TracedExpressionsList(NoRollback, list):
@@ -152,19 +132,14 @@ init -1500 python in _console:
         A list that's bounded at a certain size.
         """
 
-        def __init__(self, size, lines=None):
+        def __init__(self, size):
             self.size = size
-            self.lines = lines
 
         def append(self, value):
             super(BoundedList, self).append(value)
 
             while len(self) >= self.size:
                 self.pop(0)
-
-            if self.lines is not None:
-                while (len(self) > 1) and (sum(i.lines for i in self) > self.lines):
-                    self.pop(0)
 
         def clear(self):
             self[:] = [ ]
@@ -174,50 +149,12 @@ init -1500 python in _console:
         Represents an entry in the history list.
         """
 
-        lines = 0
-
         def __init__(self, command, result=None, is_error=False):
             self.command = command
             self.result = result
             self.is_error = is_error
 
-        def update_lines(self):
-
-            if self.result is None:
-                return
-
-            lines = self.result.split("\n")
-            lines = lines[-config.console_history_lines:]
-            self.result = "\n".join(lines)
-            self.lines = len(lines)
-
     HistoryEntry = ConsoleHistoryEntry
-
-
-    stdio_lines = _list()
-
-    def stdout_line(l):
-        if not config.developer:
-            return
-
-        stdio_lines.append((False, l))
-
-        while len(stdio_lines) > config.console_history_lines:
-            stdio_lines.pop(0)
-
-    def stderr_line(l):
-        if not config.developer:
-            return
-
-        stdio_lines.append((True, l))
-
-        while len(stdio_lines) > config.console_history_lines:
-            stdio_lines.pop(0)
-
-
-    config.stdout_callbacks.append(stdout_line)
-    config.stderr_callbacks.append(stderr_line)
-
 
     class ScriptErrorHandler(object):
         """
@@ -242,15 +179,13 @@ init -1500 python in _console:
 
         def __init__(self):
 
-            self.history = BoundedList(config.console_history_size, config.console_history_lines + config.console_history_size)
+            self.history = BoundedList(config.console_history_size)
             self.line_history = BoundedList(config.console_history_size)
             self.line_index = 0
 
             if persistent._console_history is not None:
                 for i in persistent._console_history:
-                    he = ConsoleHistoryEntry(i[0], i[1], i[2])
-                    he.update_lines()
-                    self.history.append(he)
+                    self.history.append(ConsoleHistoryEntry(i[0], i[1], i[2]))
 
             if persistent._console_line_history is not None:
                 self.line_history.extend(persistent._console_line_history)
@@ -279,7 +214,6 @@ init -1500 python in _console:
                 message += __("Ren'Py script disabled.")
 
             he.result = message
-            he.update_lines()
             self.history.append(he)
 
         def reset(self):
@@ -313,8 +247,6 @@ init -1500 python in _console:
             self.recall_line(1)
 
         def interact(self):
-
-            self.show_stdio()
 
             def get_indent(s):
                 """
@@ -366,32 +298,6 @@ init -1500 python in _console:
             finally:
                 self.backup()
 
-        def show_stdio(self):
-
-            old_entry = None
-
-            if persistent._console_short:
-                if len(stdio_lines) > 30:
-                    stdio_lines[:] = stdio_lines[:10] + [ (False, " ... ") ] + stdio_lines[-20:]
-
-            for error, l in stdio_lines:
-                if persistent._console_short:
-                    if len(l) > 200:
-                        l = l[:100] + "..." + l[-100:]
-
-                if (old_entry is not None) and (error == old_entry.is_error):
-                    old_entry.result += "\n" + l
-                else:
-                    e = ConsoleHistoryEntry(None, l, error)
-                    e.update_lines()
-                    self.history.append(e)
-                    old_entry = e
-
-            if old_entry is not None:
-                old_entry.update_lines()
-
-            stdio_lines[:] = _list()
-
         def can_renpy(self):
             """
             Returns true if we can run Ren'Py code.
@@ -420,13 +326,12 @@ init -1500 python in _console:
                     l.advance()
 
                     # Command can be None, but that's okay, since the lookup will fail.
-                    command = l.word()
+                    command = l.name()
 
                     command_fn = config.console_commands.get(command, None)
 
                     if command_fn is not None:
                         he.result = command_fn(l)
-                        he.update_lines()
                         return
 
                 error = None
@@ -450,12 +355,7 @@ init -1500 python in _console:
                     pass
                 else:
                     result = renpy.python.py_eval(code)
-                    if persistent._console_short:
-                        he.result = aRepr.repr(result)
-                    else:
-                        he.result = repr(result)
-
-                    he.update_lines()
+                    he.result = repr(result)
                     return
 
                 # Try to exec it.
@@ -470,7 +370,6 @@ init -1500 python in _console:
 
                 if error is not None:
                     he.result = error
-                    he.update_lines()
                     he.is_error = True
 
             except renpy.game.CONTROL_EXCEPTIONS:
@@ -481,7 +380,6 @@ init -1500 python in _console:
                 traceback.print_exc()
 
                 he.result = self.format_exception().rstrip()
-                he.update_lines()
                 he.is_error = True
 
 
@@ -499,7 +397,7 @@ init -1500 python in _console:
 
         if renpy.game.context().rollback:
             try:
-                renpy.rollback(checkpoints=0, force=True, greedy=False, current_label="_console")
+                renpy.rollback(checkpoints=0, force=True, greedy=False, label="_console")
             except renpy.game.CONTROL_EXCEPTIONS:
                 raise
             except:
@@ -606,7 +504,7 @@ init -1500 python in _console:
         :name: renpy.watch
         :doc: debug
 
-        This watches the given Python expression, by displaying it in the
+        This watches the given python expression, by displaying it in the
         upper-right corner of the screen.
         """
 
@@ -637,7 +535,7 @@ init -1500 python in _console:
         :name: renpy.unwatch
         :doc: debug
 
-        Stops watching the given Python expression.
+        Stops watching the given python expression.
         """
 
         block = [ ( "<console>", 1, expr, [ ]) ]
@@ -659,7 +557,7 @@ init -1500 python in _console:
         :name: renpy.unwatch
         :doc: debug
 
-        Stops watching all Python expressions.
+        Stops watching all python expressions.
         """
 
         unwatchall(None)
@@ -668,10 +566,7 @@ init -1500 python in _console:
 
     @command(_("jump <label>: jumps to label"))
     def jump(l):
-        label = l.label_name()
-
-        if label is None:
-            raise Exception("Could not parse label. (Unqualified local labels are not allowed.)")
+        label = l.name()
 
         if not console.can_renpy():
             raise Exception("Ren'Py script not enabled. Not jumping.")
@@ -681,15 +576,6 @@ init -1500 python in _console:
 
         renpy.pop_call()
         renpy.jump(label)
-
-    @command(_("short: Shorten the representation of objects on the console (default)."))
-    def short(l):
-        persistent._console_short = True
-
-
-    @command(_("long: Print the full representation of objects on the console."))
-    def long(l):
-        persistent._console_short = False
 
 
 screen _console:
@@ -768,7 +654,7 @@ screen _console:
                 else:
                     text "... " style "_console_prompt"
 
-                input default default style "_console_input_text" exclude "" copypaste True
+                input default default style "_console_input_text" exclude ""
 
 
     key "game_menu" action Jump("_console_return")

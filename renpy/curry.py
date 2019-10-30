@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -20,17 +20,12 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-from __future__ import print_function
-
-
 class Curry(object):
     """
     Stores a callable and some arguments. When called, calls the
     callable with the stored arguments and the additional arguments
     supplied to the call.
     """
-
-    hash = None
 
     def __init__(self, callable, *args, **kwargs):  # @ReservedAssignment
         self.callable = callable
@@ -53,18 +48,8 @@ class Curry(object):
             self.args == other.args and
             self.kwargs == other.kwargs)
 
-    def __ne__(self, other):
-        return not (self == other)
-
     def __hash__(self):
-
-        if self.hash is None:
-            self.hash ^= hash(self.callable) ^ hash(self.args)
-
-            for i in self.kwargs.items():
-                self.hash ^= hash(i)
-
-        return self.hash
+        return hash(self.callable) ^ hash(self.args) ^ hash(self.kwargs)
 
 
 def curry(fn):

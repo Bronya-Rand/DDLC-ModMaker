@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 
+
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Screens and Screen Language &#8212; Ren&#39;Py Documentation</title>
+    
+    <title>Screens and Screen Language &mdash; Ren&#39;Py Documentation</title>
+    
     <link rel="stylesheet" href="_static/renpydoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '7.3.5',
+        VERSION:     '6.99.12',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -26,8 +29,7 @@
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Ren&#39;Py Documentation" href="index.html" />
     <link rel="next" title="Screen Actions, Values, and Functions" href="screen_actions.html" />
     <link rel="prev" title="Style Properties" href="style_properties.html" />
 <meta charset='utf-8'>
@@ -36,7 +38,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -49,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           Ren&#39;Py Documentation</a>
-        <span class="navbar-text navbar-version pull-left"><b>7.3.5</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>6.99.12</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -90,7 +92,6 @@
 <li class="toctree-l1"><a class="reference internal" href="transforms.html">Transforms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transitions.html">Transitions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="atl.html">Animation and Transformation Language</a></li>
-<li class="toctree-l1"><a class="reference internal" href="layeredimage.html">Layered Images</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="style.html">Styles</a></li>
@@ -100,12 +101,7 @@
 <li class="toctree-l1"><a class="reference internal" href="screen_special.html">Special Screen Names</a></li>
 <li class="toctree-l1"><a class="reference internal" href="screen_optimization.html">Screen Language Optimization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">Configuration Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="preferences.html">Preference Variables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="store_variables.html">Store Variables</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="developer_tools.html">Developer Tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="director.html">Interactive Director</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="nvl_mode.html">NVL-Mode Tutorial</a></li>
@@ -115,16 +111,15 @@
 <li class="toctree-l1"><a class="reference internal" href="drag_drop.html">Drag and Drop</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sprites.html">Sprites</a></li>
 <li class="toctree-l1"><a class="reference internal" href="keymap.html">Customizing the Keymap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer_tools.html">Developer Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="achievement.html">Achievements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="history.html">Dialogue History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="multiple.html">Multiple Character Dialogue</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="statement_equivalents.html">Statement Equivalents</a></li>
 <li class="toctree-l1"><a class="reference internal" href="save_load_rollback.html">Saving, Loading, and Rollback</a></li>
 <li class="toctree-l1"><a class="reference internal" href="persistent.html">Persistent Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="trans_trans_python.html">Transforms and Transitions in Python</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gui_advanced.html">Advanced GUI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="screen_python.html">Screens and Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modes.html">Modes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="udd.html">Creator-Defined Displayables</a></li>
@@ -143,12 +138,11 @@
 <li class="toctree-l1"><a class="reference internal" href="ios.html">iOS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="iap.html">In-App Purchasing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gesture.html">Gestures</a></li>
-<li class="toctree-l1"><a class="reference internal" href="raspi.html">Raspberry Pi</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="problems.html">Dealing with Problems</a></li>
 <li class="toctree-l1"><a class="reference internal" href="environment_variables.html">Environment Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="self_voicing.html">Self-Voicing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="self_voicing.html">Self Voicing</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="editor.html">Text Editor Integration</a></li>
@@ -160,8 +154,7 @@
 <li class="toctree-l1"><a class="reference internal" href="incompatible.html">Incompatible Changes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="distributor.html">Distributor Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sponsors.html">Ren'Py Development Sponsors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Documentation and Translation Credits</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="thequestion.html">Script of The Question</a></li>
@@ -213,8 +206,8 @@
 <li><a class="reference internal" href="#input">Input</a></li>
 <li><a class="reference internal" href="#key">Key</a></li>
 <li><a class="reference internal" href="#label">Label</a></li>
-<li><a class="reference internal" href="#sl-mousearea">Mousearea</a></li>
 <li><a class="reference internal" href="#null">Null</a></li>
+<li><a class="reference internal" href="#sl-mousearea">Mousearea</a></li>
 <li><a class="reference internal" href="#side">Side</a></li>
 <li><a class="reference internal" href="#text">Text</a></li>
 <li><a class="reference internal" href="#textbutton">Textbutton</a></li>
@@ -297,11 +290,11 @@ and invoke many other actions. A game-maker can also write new actions
 in Python.</p>
 <p>Screens are updated at the start of each interaction, and each time an
 interaction is restarted.</p>
-<p><strong>Screens must not cause side effects that are visible from
-outside the screen.</strong> Ren'Py will run a screen multiple times, as
-it deems necessary. It runs a screen as part of the image
+<p><strong>Screen code must not cause side effects that are visible from
+outside the screen.</strong> Ren'Py will run screen code multiple times, as
+it deems necessary. It runs screen code as part of the image
 prediction process, before the screen is first shown. As a result, if
-running a screen has side effects, those side effects may occur at
+screen code has side effects, those side effects may occur at
 unpredictable times.</p>
 <p>A screen has a scope associated with it, giving values to some
 variables. When a variable is accessed by a screen, it's first looked
@@ -312,7 +305,7 @@ up in the scope, and then looked up as a global variable.</p>
 screens. It consists of a statement that declares a new screen,
 statements that add displayables to that screen, and control
 statements.</p>
-<p>Here's an example of a screen:</p>
+<p>Here's an example of a screen.:</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">screen</span> <span class="n">say</span><span class="p">(</span><span class="n">who</span><span class="p">,</span> <span class="n">what</span><span class="p">):</span>
     <span class="k">window</span> <span class="na">id</span> <span class="s2">&quot;window&quot;</span><span class="p">:</span>
         <span class="k">vbox</span><span class="p">:</span>
@@ -342,7 +335,7 @@ otherwise noted.</p>
 consists of the property name, followed by the value of that
 property. Property values are simple expressions, unless otherwise
 noted. A property list is a space-separated list of these properties.</p>
-<p>If a statement ends with a colon <code class="docutils literal"><span class="pre">:</span></code>, then it takes a block. Each line
+<p>If a statement ends with a colon (:), then it takes a block. Each line
 in a block may be one of two things:</p>
 <ul class="simple">
 <li>A property list.</li>
@@ -351,7 +344,7 @@ in a block may be one of two things:</p>
 </div>
 <div class="section" id="screen-statement">
 <h3>Screen Statement<a class="headerlink" href="#screen-statement" title="Permalink to this headline"> link</a></h3>
-<p>The <code class="docutils literal"><span class="pre">screen</span></code> statement is a Ren'Py script language statement that is
+<p>The <cite>screen</cite> statement is a Ren'Py script language statement that is
 used to declare a new screen. It is parsed using the screen language
 common syntax.</p>
 <p>It takes one parameter, the name of the screen. This is a name, not an
@@ -361,9 +354,6 @@ expression. It takes the following properties:</p>
 <dd>If True, the screen is modal. A modal screen prevents the user
 from interacting with displayables below it, except
 for the default keymap.</dd>
-<dt><cite>sensitive</cite></dt>
-<dd>An expression that determines whether the screen is sensitive or not.
-This expression is evaluated at least once per interaction.</dd>
 <dt><cite>tag</cite></dt>
 <dd>Parsed as a name, not an expression. This specifies a tag
 associated with this screen. Showing a screen replaces other
@@ -379,12 +369,9 @@ variant of screen to be defined. See <a class="reference internal" href="#screen
 <dt><cite>style_prefix</cite></dt>
 <dd>A string that's used to provide a prefix for the style for the
 children of this screen, as <a class="reference internal" href="#style-prefix"><span class="std std-ref">described below</span></a>.</dd>
-<dt><cite>layer</cite></dt>
-<dd>A string giving the name of the layer the screen is shown on by
-default.</dd>
 </dl>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">screen</span> <span class="n">hello_world</span><span class="p">():</span>
-     <span class="k">tag</span> <span class="n">example</span>
+     <span class="n">tag</span> <span class="n">example</span>
      <span class="k">zorder</span> <span class="mi">1</span>
      <span class="na">modal</span> <span class="bp">False</span>
 
@@ -407,42 +394,29 @@ allow the game to react to various events.</p>
 <p id="common-properties">All user interface statements take the following common properties:</p>
 <dl class="docutils">
 <dt><cite>at</cite></dt>
-<dd><p class="first">This can be a transform, or a list of transforms, or an anonymous
-transform (a transform that is defined directly in at)</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">transform</span> <span class="n">hello_t</span><span class="p">:</span>
-    <span class="na">align</span> <span class="p">(</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span> <span class="na">alpha</span> <span class="mf">0.0</span>
-    <span class="n">linear</span> <span class="mf">0.5</span> <span class="na">alpha</span> <span class="mf">1.0</span>
-
-<span class="k">screen</span> <span class="n">hello_title</span><span class="p">():</span>
-    <span class="k">text</span> <span class="s2">&quot;Hello.&quot;</span> <span class="k">at</span> <span class="n">hello_t</span>
-    <span class="k">text</span> <span class="s2">&quot;Hello.&quot;</span><span class="p">:</span>
-        <span class="k">at</span> <span class="k">transform</span><span class="p">:</span>
-            <span class="na">align</span> <span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span> <span class="na">alpha</span> <span class="mf">0.0</span>
-            <span class="n">linear</span> <span class="mf">0.5</span> <span class="na">alpha</span> <span class="mf">1.0</span>
-</pre></div>
-</div>
-<p>This transforms are used to wrap this displayable. The show, hide,
-replace, and replaced external events are delivered to a transform
-if and only if it is added directly to the screen.</p>
+<dd><p class="first">A transform, or list of transforms, that are used to wrap this
+displayable. The show, hide, replace, and replaced external events
+are delivered to a transform if and only if it is added directly
+to the screen.</p>
 <p class="last">For example, if a vbox is wrapped in a transform, and added directly
 to the screen, then events are delivered to that transform. But if
 a transform wraps a textbutton that is added to the vbox, this
 second transform is not given events.</p>
 </dd>
-<dt><cite>default_focus</cite></dt>
-<dd>If given and true, the displayable is focused by default. When
-multiple displayables have this, the values are compared and the
-displayable with the greatest default focus becomes the default.</dd>
+<dt><cite>default</cite></dt>
+<dd>If given and true, the displayable is focused by default. Only one
+displayable should have this.</dd>
 <dt><cite>id</cite></dt>
 <dd><p class="first">An identifier for the user-interface statement. When a screen is
 shown, property values can be supplied for the displayables with a
 given identifier. Some screens will require that a displayable
 with a given identifier is created.</p>
-<p class="last">By default, the <code class="docutils literal"><span class="pre">id</span></code> is automatically-generated.</p>
+<p class="last">By default, the id is automatically-generated.</p>
 </dd>
 <dt><cite>style</cite></dt>
-<dd>A string giving the name of the style applied to this displayable. The
-style gives default values for style properties.</dd>
+<dd>The name of the style applied to this displayable. This may be a
+string name, or a style object. The style gives default
+values for style properties.</dd>
 <dt><cite>style_prefix</cite></dt>
 <dd><p class="first" id="style-prefix">Provides a prefix to the style of this displayable and all of its
 children, unless those children have a more specific style or
@@ -459,7 +433,7 @@ does not exist. Setting a prefix of <code class="docutils literal"><span class="
 this displayable and its children.</p>
 </dd>
 <dt><cite>style_group</cite></dt>
-<dd>An alias for <cite>style_prefix</cite>, used in older versions of Ren'Py.</dd>
+<dd>An alias for <cite>style_prefix</cite>, used in older code.</dd>
 <dt><cite>style_suffix</cite></dt>
 <dd><p class="first">Specifies the suffix that is combined with the <cite>style_prefix</cite> to
 generate a style name. If this is <code class="docutils literal"><span class="pre">&quot;small_button&quot;</span></code> and the
@@ -477,35 +451,17 @@ start of an interaction. If a box is given a focus name, and the
 third button in that box is focused at the end of an interaction,
 the third button of a box with the same will be highlighted at
 the start of the next interaction.</dd>
-<dt><cite>tooltip</cite></dt>
-<dd><p class="first">Assigns a tooltip to this displayable. When the displayable gains
-focus, the value of this property will be made available from the
-<a class="reference internal" href="screen_actions.html#GetTooltip" title="GetTooltip"><code class="xref py py-func docutils literal"><span class="pre">GetTooltip()</span></code></a> function. See the <a class="reference internal" href="screen_actions.html#tooltips"><span class="std std-ref">Tooltips</span></a> section for
-more details.</p>
-<p class="last">Objects passed to tooltip must support equality. If equality is
-not supported, an infinite loop may occur.</p>
-</dd>
-<dt><cite>arguments</cite></dt>
-<dd>A tuple or list containing additional positional arguments that
-are given to the displayable.</dd>
-<dt><cite>properties</cite></dt>
-<dd>A dictionary containing additional properties given to the
-displayable.</dd>
 </dl>
 <p>Many user interface statements take classes of style properties, or
 transform properties. These properties can have a style prefix
 associated with them, that determines when they apply. For example, if
-text is given the <code class="docutils literal"><span class="pre">hover_size</span></code> property, it sets the text size when the
+text is given the hover_size property, it sets the text size when the
 text is hovered.</p>
-<p>User interface statements take an <code class="docutils literal"><span class="pre">as</span></code> clause, which takes a variable
-name, without any quotes. The displayable that the statement creates is
-assigned to the variable. (An example can be found in <a class="reference internal" href="drag_drop.html#as-example"><span class="std std-ref">the drag and drop
-documentation</span></a>.)</p>
 <div class="section" id="add">
 <span id="sl-add"></span><h3>Add<a class="headerlink" href="#add" title="Permalink to this headline"> link</a></h3>
 <p>Adds an image or other displayable to the screen. This optionally
 takes <a class="reference internal" href="atl.html#transform-properties"><span class="std std-ref">transform properties</span></a>. If at least
-one transform property is given, a <a class="reference internal" href="trans_trans_python.html#Transform" title="Transform"><code class="xref py py-class docutils literal"><span class="pre">Transform</span></code></a> is created to wrap the
+one transform property is given, a Transform is created to wrap the
 image, and the properties are given to the transform.</p>
 <p>If the displayable is None, nothing is added to the screen.</p>
 <p>This does not take any children.</p>
@@ -528,7 +484,7 @@ number.</dd>
 <dt><cite>adjustment</cite></dt>
 <dd>A <a class="reference internal" href="screen_python.html#ui.adjustment" title="ui.adjustment"><code class="xref py py-func docutils literal"><span class="pre">ui.adjustment()</span></code></a> object that this bar adjusts.</dd>
 <dt><cite>changed</cite></dt>
-<dd>If given, this should be a Python function. The function is called
+<dd>If given, this should be a python function. The function is called
 with the value of the adjustment when the adjustment is changed.</dd>
 <dt><cite>hovered</cite></dt>
 <dd>An action to run when the bar gains focus.</dd>
@@ -663,14 +619,15 @@ following property:</p>
 <dt><cite>transpose</cite></dt>
 <dd>If False (the default), rows are filled before columns. If True,
 then columns are filled before rows.</dd>
+<dt><cite>spacing</cite></dt>
+<dd>The spacing between the rows and columns of the grid.</dd>
 </dl>
 <p>It also takes:</p>
 <ul class="simple">
 <li><a class="reference internal" href="#common-properties"><span class="std std-ref">Common Properties</span></a></li>
 <li><a class="reference internal" href="style_properties.html#position-style-properties"><span class="std std-ref">Position Style Properties</span></a></li>
-<li><a class="reference internal" href="style_properties.html#grid-style-properties"><span class="std std-ref">Grid Style Properties</span></a></li>
 </ul>
-<p>This must be given (columns * rows) children. Giving it a different
+<p>This must be given columns * rows children. Giving it a different
 number of children is an error.</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">screen</span> <span class="n">grid_test</span><span class="p">:</span>
      <span class="k">grid</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">:</span>
@@ -768,10 +725,10 @@ when pressed, invokes the alternate action of this button.</dd>
 <p>This takes no children.</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">screen</span> <span class="n">gui_game_menu</span><span class="p">():</span>
      <span class="k">vbox</span> <span class="na">xalign</span> <span class="mf">1.0</span> <span class="na">yalign</span> <span class="mf">1.0</span><span class="p">:</span>
-          <span class="k">imagebutton</span> <span class="k">auto</span> <span class="s2">&quot;save_</span><span class="si">%s</span><span class="s2">.png&quot;</span> <span class="na">action</span> <span class="n">ShowMenu</span><span class="p">(</span><span class="s1">&#39;save&#39;</span><span class="p">)</span>
-          <span class="k">imagebutton</span> <span class="k">auto</span> <span class="s2">&quot;prefs_</span><span class="si">%s</span><span class="s2">.png&quot;</span> <span class="na">action</span> <span class="n">ShowMenu</span><span class="p">(</span><span class="s1">&#39;preferences&#39;</span><span class="p">)</span>
-          <span class="k">imagebutton</span> <span class="k">auto</span> <span class="s2">&quot;skip_</span><span class="si">%s</span><span class="s2">.png&quot;</span> <span class="na">action</span> <span class="n">Skip</span><span class="p">()</span>
-          <span class="k">imagebutton</span> <span class="k">auto</span> <span class="s2">&quot;afm_</span><span class="si">%s</span><span class="s2">.png&quot;</span> <span class="na">action</span> <span class="n">Preference</span><span class="p">(</span><span class="s2">&quot;auto-forward mode&quot;</span><span class="p">,</span> <span class="s2">&quot;toggle&quot;</span><span class="p">)</span>
+          <span class="k">imagebutton</span> <span class="na">auto</span> <span class="s2">&quot;save_</span><span class="si">%s</span><span class="s2">.png&quot;</span> <span class="na">action</span> <span class="n">ShowMenu</span><span class="p">(</span><span class="s1">&#39;save&#39;</span><span class="p">)</span>
+          <span class="k">imagebutton</span> <span class="na">auto</span> <span class="s2">&quot;prefs_</span><span class="si">%s</span><span class="s2">.png&quot;</span> <span class="na">action</span> <span class="n">ShowMenu</span><span class="p">(</span><span class="s1">&#39;preferences&#39;</span><span class="p">)</span>
+          <span class="k">imagebutton</span> <span class="na">auto</span> <span class="s2">&quot;skip_</span><span class="si">%s</span><span class="s2">.png&quot;</span> <span class="na">action</span> <span class="n">Skip</span><span class="p">()</span>
+          <span class="k">imagebutton</span> <span class="na">auto</span> <span class="s2">&quot;afm_</span><span class="si">%s</span><span class="s2">.png&quot;</span> <span class="na">action</span> <span class="n">Preference</span><span class="p">(</span><span class="s2">&quot;auto-forward mode&quot;</span><span class="p">,</span> <span class="s2">&quot;toggle&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -803,15 +760,12 @@ this input. (By default, allow all characters.)</dd>
 <dt><cite>exclude</cite></dt>
 <dd>A string containing characters that are disallowed from being
 typed into this input. (By default, &quot;{}&quot;.)</dd>
-<dt><cite>copypaste</cite></dt>
-<dd>If True, it becomes possible to copy and paste
-into this input. (By default, disabled.)</dd>
 <dt><cite>prefix</cite></dt>
 <dd>An immutable string to prepend to what the user has typed.</dd>
 <dt><cite>suffix</cite></dt>
 <dd>An immutable string to append to what the user has typed.</dd>
 <dt><cite>changed</cite></dt>
-<dd>A Python function that is called with what the user has typed,
+<dd>A python function that is called with what the user has typed,
 when the string changes.</dd>
 </dl>
 <p>It also takes:</p>
@@ -826,7 +780,7 @@ when the string changes.</dd>
         <span class="k">has</span> <span class="k">vbox</span>
 
         <span class="k">text</span> <span class="s2">&quot;Enter your name.&quot;</span>
-        <span class="nb">input</span> <span class="k">default</span> <span class="s2">&quot;Joseph P. Blow, ESQ.&quot;</span>
+        <span class="nb">input</span> <span class="na">default</span> <span class="s2">&quot;Joseph P. Blow, ESQ.&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -884,12 +838,37 @@ are then passed to the text displayable.</dd>
 </pre></div>
 </div>
 </div>
+<div class="section" id="null">
+<span id="sl-null"></span><h3>Null<a class="headerlink" href="#null" title="Permalink to this headline"> link</a></h3>
+<p>The null statement inserts an empty area on the screen. This can be
+used to space things out. The null statement takes no parameters, and
+the following properties:</p>
+<dl class="docutils">
+<dt><cite>width</cite></dt>
+<dd>The width of the empty area, in pixels.</dd>
+<dt><cite>height</cite></dt>
+<dd>The height of the empty area, in pixels.</dd>
+</dl>
+<p>It also takes:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#common-properties"><span class="std std-ref">Common Properties</span></a></li>
+<li><a class="reference internal" href="style_properties.html#position-style-properties"><span class="std std-ref">Position Style Properties</span></a></li>
+</ul>
+<p>It does not take children.</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">screen</span> <span class="n">text_box</span><span class="p">():</span>
+    <span class="k">vbox</span><span class="p">:</span>
+         <span class="k">text</span> <span class="s2">&quot;The title.&quot;</span>
+         <span class="k">null</span> <span class="na">height</span> <span class="mi">20</span>
+         <span class="k">text</span> <span class="s2">&quot;This body text.&quot;</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="sl-mousearea">
 <span id="mousearea"></span><span id="id1"></span><h3>Mousearea<a class="headerlink" href="#sl-mousearea" title="Permalink to this headline"> link</a></h3>
 <p>A mouse area is an area of the screen that can react to the mouse
 entering or leaving it. Unlike a button, a mouse area does not take
 focus, so it's possible to have a mouse area with buttons inside it.
-The <code class="docutils literal"><span class="pre">mousearea</span></code> statement takes no parameters, and the following properties:</p>
+The mousearea statement takes no parameters, and the following properties:</p>
 <dl class="docutils">
 <dt><cite>hovered</cite></dt>
 <dd>An action to run when the mouse enters the mouse area.</dd>
@@ -918,7 +897,7 @@ often makes sense to duplicate mousearea functionality by some other
 means.</p>
 </div>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">screen</span> <span class="n">button_overlay</span><span class="p">():</span>
-    <span class="k">mousearea</span><span class="p">:</span>
+    <span class="n">mousearea</span><span class="p">:</span>
         <span class="na">area</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
         <span class="na">hovered</span> <span class="n">Show</span><span class="p">(</span><span class="s2">&quot;buttons&quot;</span><span class="p">,</span> <span class="n">transition</span><span class="o">=</span><span class="n">dissolve</span><span class="p">)</span>
         <span class="na">unhovered</span> <span class="n">Hide</span><span class="p">(</span><span class="s2">&quot;buttons&quot;</span><span class="p">,</span> <span class="n">transition</span><span class="o">=</span><span class="n">dissolve</span><span class="p">)</span>
@@ -932,31 +911,6 @@ means.</p>
 
 <span class="k">label</span> <span class="n">start</span><span class="p">:</span>
     <span class="k">show</span> <span class="k">screen</span> <span class="n">button_overlay</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="null">
-<span id="sl-null"></span><h3>Null<a class="headerlink" href="#null" title="Permalink to this headline"> link</a></h3>
-<p>The null statement inserts an empty area on the screen. This can be
-used to space things out. The null statement takes no parameters, and
-the following properties:</p>
-<dl class="docutils">
-<dt><cite>width</cite></dt>
-<dd>The width of the empty area, in pixels.</dd>
-<dt><cite>height</cite></dt>
-<dd>The height of the empty area, in pixels.</dd>
-</dl>
-<p>It also takes:</p>
-<ul class="simple">
-<li><a class="reference internal" href="#common-properties"><span class="std std-ref">Common Properties</span></a></li>
-<li><a class="reference internal" href="style_properties.html#position-style-properties"><span class="std std-ref">Position Style Properties</span></a></li>
-</ul>
-<p>It does not take children.</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">screen</span> <span class="n">text_box</span><span class="p">():</span>
-    <span class="k">vbox</span><span class="p">:</span>
-         <span class="k">text</span> <span class="s2">&quot;The title.&quot;</span>
-         <span class="k">null</span> <span class="na">height</span> <span class="mi">20</span>
-         <span class="k">text</span> <span class="s2">&quot;This body text.&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -983,11 +937,7 @@ one of:</p>
 then the center. The corners and sides are rendered with an available
 area of 0, so it may be necessary to supply them a minimum size (using
 <a class="reference internal" href="style_properties.html#style-property-xminimum"><code class="xref std std-propref docutils literal"><span class="pre">xminimum</span></code></a> or <a class="reference internal" href="style_properties.html#style-property-yminimum"><code class="xref std std-propref docutils literal"><span class="pre">yminimum</span></code></a>) to ensure they render at
-all.
-The order of placing children is controlled from top to bottom when
-adding them (i.e. also in the order of substrings in the argument),
-the latter will be the highest. This is may be disabled by
-<a class="reference internal" href="config.html#var-config.keep_side_render_order"><code class="xref std std-var docutils literal"><span class="pre">config.keep_side_render_order</span></code></a>.</p>
+all.</p>
 <p>Children correspond to entries in the places list, so this must have
 the same number of children as there are entries in the places list.</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">screen</span> <span class="n">side_test</span><span class="p">():</span>
@@ -1095,7 +1045,7 @@ property is mandatory.</dd>
 <div class="section" id="transform">
 <span id="sl-transform"></span><h3>Transform<a class="headerlink" href="#transform" title="Permalink to this headline"> link</a></h3>
 <p>Applies a transform to its child. This takes no parameters, and the
-following property groups:</p>
+following property groups :</p>
 <ul class="simple">
 <li><a class="reference internal" href="#common-properties"><span class="std std-ref">Common Properties</span></a></li>
 <li><a class="reference internal" href="atl.html#transform-properties"><span class="std std-ref">Transform Properties</span></a></li>
@@ -1212,15 +1162,6 @@ scrollbars are created.</p>
 <p class="last">If <cite>scrollbars</cite> is not None, the viewport takes properties prefixed
 with &quot;<a class="reference internal" href="#side">side</a>&quot;. These are passed to the created side layout.</p>
 </dd>
-<dt><cite>arrowkeys</cite></dt>
-<dd>If true, the viewport can be scrolled with the left, right, up, and down
-arrow keys. This takes precedence over the usual function of these keys,
-which is changing focus. However, the arrow keys will change focus when the
-viewport reaches its limits.</dd>
-<dt><cite>pagekeys</cite></dt>
-<dd>If true, the viewport can be scrolled up and down by the pageup and
-pagedown keys. This disables the usual functionality of these keys,
-which is to cause rollback and rollforward.</dd>
 </dl>
 <p>In addition, it takes the following groups of style properties:</p>
 <ul class="simple">
@@ -1249,16 +1190,15 @@ id.</p>
 <div class="section" id="vpgrid">
 <span id="sl-vpgrid"></span><h3>Vpgrid<a class="headerlink" href="#vpgrid" title="Permalink to this headline"> link</a></h3>
 <p>A vpgrid (viewport grid) combines a viewport and grid into a single
-displayable. The vpgrid takes multiple children (like a grid) and is
-optimized so that only the children being displayed within the viewport
-are rendered.</p>
-<p>A vpgrid assumes that all children are the same size, the size being taken
-from the dimensions of the first child. If a vpgrid appears to be rendering
-incorrectly, please ensure that all children are of the same size.</p>
-<p>A vpgrid must be given at least one of the <cite>cols</cite> and <cite>rows</cite> properties.
-If one is omitted or None, the other is automatically determined from the
-size, spacing, and number of children. If there are not enough children to
-fill all cells, any empty cells will not be rendered.</p>
+displayable. The vpgrid takes multiple children, like a grid, and
+rendering of those children is optimized so that only children
+being displayed within the viewport are rendered.</p>
+<p>A vpgrid assumes all the cells are the same size, and the size of
+the first child. If a vpgrid appears to be rendering incorrectly,
+please check that all children have of the same side.</p>
+<p>A vpgrid must be given at least one of the <cite>cols</cite> and <cite>rows</cite> properties,
+but may be given both. If one is omitted or None, it is automatically
+determind from the other and the number of children.</p>
 <p>Vpgrids take the the following properties:</p>
 <dl class="docutils">
 <dt><cite>cols</cite></dt>
@@ -1267,19 +1207,18 @@ fill all cells, any empty cells will not be rendered.</p>
 <dd>The number of rows in the grid.</dd>
 <dt><cite>transpose</cite></dt>
 <dd>If true, columns are filled before rows. The default of this depends
-on the <cite>cols</cite> and <cite>rows</cite> properties. If <cite>cols</cite> is given, columns
+on the <cite>cols</cite> ans <cite>rows</cite> properties. If <cite>cols</cite> is given, columns
 are filled before rows, otherwise rows are filled before columns.</dd>
 </dl>
-<p>In addition, a vpgrid takes all properties a <a class="reference internal" href="#sl-viewport"><span class="std std-ref">viewport</span></a> can,
-and the following groups of style properties:</p>
-<ul class="simple">
-<li><a class="reference internal" href="#common-properties"><span class="std std-ref">Common Properties</span></a></li>
-<li><a class="reference internal" href="style_properties.html#position-style-properties"><span class="std std-ref">Position Style Properties</span></a></li>
-<li><a class="reference internal" href="style_properties.html#grid-style-properties"><span class="std std-ref">Grid Style Properties</span></a></li>
-</ul>
+<p><cite>spacing</cite></p>
+<blockquote>
+<div>The spacing between columns in pixels.</div></blockquote>
+<p>In addition, a vpgrid takes all properties a <a class="reference internal" href="#sl-viewport"><span class="std std-ref">viewport</span></a> can.
+It takes multiple children, up to the size of the grid. If there are not
+enough children to fill all cells, some cells are not rendered.</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">screen</span> <span class="n">vpgrid_test</span><span class="p">():</span>
 
-    <span class="k">vpgrid</span><span class="p">:</span>
+    <span class="n">vpgrid</span><span class="p">:</span>
 
         <span class="na">cols</span> <span class="mi">2</span>
         <span class="na">spacing</span> <span class="mi">5</span>
@@ -1326,18 +1265,18 @@ a fixed is created to contain them.</p>
 <div class="section" id="imagemap-statements">
 <h2>Imagemap Statements<a class="headerlink" href="#imagemap-statements" title="Permalink to this headline"> link</a></h2>
 <p>A convenient way of creating a screen, especially for those who think
-visually, is to create an imagemap. When creating an imagemap, the
+visually is to create an imagemap. When creating an imagemap, the
 imagemap statement is used to specify up to six images. The hotspot
 and hotbar images are used to carve rectangular areas out of the
 image, and apply actions and values to those areas.</p>
 <p>Here's an example of a preferences screen that uses imagemaps.</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">screen</span> <span class="n">preferences</span><span class="p">():</span>
 
-    <span class="k">tag</span> <span class="k">menu</span>
+    <span class="n">tag</span> <span class="k">menu</span>
     <span class="k">use</span> <span class="n">navigation</span>
 
     <span class="k">imagemap</span><span class="p">:</span>
-        <span class="k">auto</span> <span class="s2">&quot;gui_set/gui_prefs_</span><span class="si">%s</span><span class="s2">.png&quot;</span>
+        <span class="na">auto</span> <span class="s2">&quot;gui_set/gui_prefs_</span><span class="si">%s</span><span class="s2">.png&quot;</span>
 
         <span class="k">hotspot</span> <span class="p">(</span><span class="mi">740</span><span class="p">,</span> <span class="mi">232</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">73</span><span class="p">)</span> <span class="na">action</span> <span class="n">Preference</span><span class="p">(</span><span class="s2">&quot;display&quot;</span><span class="p">,</span> <span class="s2">&quot;fullscreen&quot;</span><span class="p">)</span> <span class="na">alt</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Display Fullscreen&quot;</span><span class="p">)</span>
         <span class="k">hotspot</span> <span class="p">(</span><span class="mi">832</span><span class="p">,</span> <span class="mi">232</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">73</span><span class="p">)</span> <span class="na">action</span> <span class="n">Preference</span><span class="p">(</span><span class="s2">&quot;display&quot;</span><span class="p">,</span> <span class="s2">&quot;window&quot;</span><span class="p">)</span> <span class="na">alt</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Display Window&quot;</span><span class="p">)</span>
@@ -1536,14 +1475,16 @@ container.</p>
 <h2>Control Statements<a class="headerlink" href="#control-statements" title="Permalink to this headline"> link</a></h2>
 <p>The screen language includes control statements for conditional
 execution, iteration, including other screens, executing actions when
-events occur, and executing arbitrary Python.</p>
+events occur, and executing arbitrary python code.</p>
 <div class="section" id="default">
 <span id="sl-default"></span><h3>Default<a class="headerlink" href="#default" title="Permalink to this headline"> link</a></h3>
-<p>The <code class="docutils literal"><span class="pre">default</span></code> statement sets the default value of a variable, if it is not
+<p>The default statement sets the default value of a variable when the
+screen is first one. <a class="reference internal" href="screen_actions.html#SetScreenVariable" title="SetScreenVariable"><code class="xref py py-func docutils literal"><span class="pre">SetScreenVariable()</span></code></a></p>
+<p>The default statement sets the default value of a variable, if it is not
 passed as an argument to the screen, or inherited from a screen that calls
 us using the use statement.</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">screen</span> <span class="n">scheduler</span><span class="p">():</span>
-    <span class="k">default</span> <span class="n">club</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="na">default</span> <span class="n">club</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="k">vbox</span><span class="p">:</span>
          <span class="k">text</span> <span class="s2">&quot;What would you like to do?&quot;</span>
          <span class="k">textbutton</span> <span class="s2">&quot;Art Club&quot;</span> <span class="na">action</span> <span class="n">SetScreenVariable</span><span class="p">(</span><span class="s2">&quot;club&quot;</span><span class="p">,</span> <span class="s2">&quot;art&quot;</span><span class="p">)</span>
@@ -1556,8 +1497,8 @@ us using the use statement.</p>
 </div>
 <div class="section" id="for">
 <span id="sl-for"></span><h3>For<a class="headerlink" href="#for" title="Permalink to this headline"> link</a></h3>
-<p>The <code class="docutils literal"><span class="pre">for</span></code> statement is similar to the Python <code class="docutils literal"><span class="pre">for</span></code> statement, except that
-it does not support the <code class="docutils literal"><span class="pre">else</span></code> clause. It supports assignment to
+<p>The for statement is similar to the Python for statement, except that
+it does not support the else clause. It supports assignment to
 (optionally nested) tuple patterns, as well as variables.</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">numerals</span> <span class="o">=</span> <span class="p">[</span> <span class="s1">&#39;I&#39;</span><span class="p">,</span> <span class="s1">&#39;II&#39;</span><span class="p">,</span> <span class="s1">&#39;III&#39;</span><span class="p">,</span> <span class="s1">&#39;IV&#39;</span><span class="p">,</span> <span class="s1">&#39;V&#39;</span> <span class="p">]</span>
 
@@ -1567,24 +1508,11 @@ it does not support the <code class="docutils literal"><span class="pre">else</s
             <span class="k">textbutton</span> <span class="n">numeral</span> <span class="na">action</span> <span class="n">Return</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The for statement takes an index clause:</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">screen</span> <span class="n">five_buttons</span><span class="p">():</span>
-    <span class="k">vbox</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">numeral</span> <span class="k">index</span> <span class="n">numeral</span> <span class="k">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">numerals</span><span class="p">):</span>
-            <span class="k">textbutton</span> <span class="n">numeral</span> <span class="na">action</span> <span class="n">Return</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>If given, the <code class="docutils literal"><span class="pre">index</span></code> clause should consist of an expression that returns
-a hashable and comparable value that is unique for each row in the list.
-Ren'Py uses this value to make sure that transforms and other state wind
-up associated with the correct iteration. If you're seeing weird behavior
-when elements are added to or removed from a list you're iterating over,
-you might want to use an index clause.</p>
 </div>
 <div class="section" id="if">
 <span id="sl-if"></span><h3>If<a class="headerlink" href="#if" title="Permalink to this headline"> link</a></h3>
-<p>The screen language <code class="docutils literal"><span class="pre">if</span></code> statement is the same as the Python/Ren'Py <code class="docutils literal"><span class="pre">if</span></code>
-statement. It supports the <code class="docutils literal"><span class="pre">if</span></code>, <code class="docutils literal"><span class="pre">elif</span></code>, and <code class="docutils literal"><span class="pre">else</span></code> clauses.</p>
+<p>The screen language if statement is the same as the Python/Ren'Py if
+statement. It supports the if, elif, and else clauses.</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">screen</span> <span class="n">skipping_indicator</span><span class="p">():</span>
     <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">skipping</span><span class="p">:</span>
          <span class="k">text</span> <span class="s2">&quot;Skipping.&quot;</span>
@@ -1595,7 +1523,7 @@ statement. It supports the <code class="docutils literal"><span class="pre">if</
 </div>
 <div class="section" id="on">
 <span id="sl-on"></span><h3>On<a class="headerlink" href="#on" title="Permalink to this headline"> link</a></h3>
-<p>The <code class="docutils literal"><span class="pre">on</span></code> statement allows the screen to execute an action when an event
+<p>The on statement allows the screen to execute an action when an event
 occurs. It takes one parameter, a string giving the name of an
 event. This should be one of:</p>
 <ul class="simple">
@@ -1621,10 +1549,10 @@ occurs.</p>
 </div>
 <div class="section" id="use">
 <span id="sl-use"></span><h3>Use<a class="headerlink" href="#use" title="Permalink to this headline"> link</a></h3>
-<p>The <code class="docutils literal"><span class="pre">use</span></code> statement allows a screen to include another. The use
+<p>The use statement allows a screen to include another. The use
 statement takes the name of the screen to use. This can optionally be
 followed by an argument list, in parenthesis.</p>
-<p>If the used screen includes parameters, its scope is initialized to the
+<p>If the used screen include parameters, its scope is initialized to the
 result of assigning the arguments to those parameters. Otherwise, it
 is passed the scope of the current screen, updated with any keyword
 arguments passed to the screen.</p>
@@ -1659,12 +1587,12 @@ is transfered from old to new.</p>
     <span class="k">text</span> <span class="s2">&quot;Test&quot;</span> <span class="k">at</span> <span class="n">t1</span>
 
 <span class="k">screen</span> <span class="n">s1</span><span class="p">():</span>
-    <span class="k">tag</span> <span class="n">s</span>
+    <span class="n">tag</span> <span class="n">s</span>
     <span class="k">use</span> <span class="n">common</span> <span class="na">id</span> <span class="s2">&quot;common&quot;</span>
     <span class="k">text</span> <span class="s2">&quot;s1&quot;</span> <span class="na">ypos</span> <span class="mi">100</span>
 
 <span class="k">screen</span> <span class="n">s2</span><span class="p">():</span>
-    <span class="k">tag</span> <span class="n">s</span>
+    <span class="n">tag</span> <span class="n">s</span>
     <span class="k">use</span> <span class="n">common</span> <span class="na">id</span> <span class="s2">&quot;common&quot;</span>
     <span class="k">text</span> <span class="s2">&quot;s2&quot;</span> <span class="na">ypos</span> <span class="mi">100</span>
 
@@ -1676,46 +1604,23 @@ is transfered from old to new.</p>
     <span class="k">return</span>
 </pre></div>
 </div>
-<p>Instead of the name of the screen, the keyword <code class="docutils literal"><span class="pre">expression</span></code> can be
-given, followed by an expression giving the name of the screen to use.
-If parameters are required, the <code class="docutils literal"><span class="pre">pass</span></code> keyword must be given to separate
-them from the expression.</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">screen</span> <span class="n">ed</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
-    <span class="k">text</span> <span class="s2">&quot;Ed&quot;</span>
-    <span class="k">text</span> <span class="s2">&quot;Captain&quot;</span>
-
-<span class="k">screen</span> <span class="n">kelly</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
-    <span class="k">text</span> <span class="s2">&quot;Kelly&quot;</span>
-    <span class="k">text</span> <span class="s2">&quot;First Officer&quot;</span>
-
-<span class="k">screen</span> <span class="n">bortus</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
-    <span class="k">text</span> <span class="s2">&quot;Bortus&quot;</span>
-    <span class="k">text</span> <span class="s2">&quot;Second Officer&quot;</span>
-
-<span class="k">screen</span> <span class="n">crew</span><span class="p">():</span>
-    <span class="k">hbox</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">member</span> <span class="k">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">party</span><span class="p">):</span>
-            <span class="k">vbox</span><span class="p">:</span>
-                <span class="k">use</span> <span class="k">expression</span> <span class="n">member</span><span class="o">.</span><span class="k">screen</span> <span class="k">pass</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-</pre></div>
-</div>
 <div class="section" id="use-and-transclude">
 <h4>Use and Transclude<a class="headerlink" href="#use-and-transclude" title="Permalink to this headline"> link</a></h4>
 <p>A use statement may also take a block containing screen language statements.
 When a block is given, the screen that is used may contain the <code class="docutils literal"><span class="pre">transclude</span></code>
-statement. The <code class="docutils literal"><span class="pre">transclude</span></code> statement is replaced with the statements
+statement. The <code class="docutils literal"><span class="pre">transclude</span></code> statement is replaces with the statements
 contained within the use statement's block.</p>
 <p>This makes it possible to define reusable layouts using screens. For example,
 the screen:</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">screen</span> <span class="n">movable_frame</span><span class="p">(</span><span class="na">pos</span><span class="p">):</span>
-    <span class="k">drag</span><span class="p">:</span>
+    <span class="n">drag</span><span class="p">:</span>
         <span class="na">pos</span> <span class="na">pos</span>
 
         <span class="k">frame</span><span class="p">:</span>
             <span class="na">background</span> <span class="n">Frame</span><span class="p">(</span><span class="s2">&quot;movable_frame.png&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
             <span class="na">top_padding</span> <span class="mi">20</span>
 
-            <span class="k">transclude</span>
+            <span class="n">transclude</span>
 </pre></div>
 </div>
 <p>is meant to be a reusable component that wraps other components. Here's
@@ -1736,13 +1641,13 @@ an example of how it can be used:</p>
 </div>
 <div class="section" id="python">
 <span id="sl-python"></span><h3>Python<a class="headerlink" href="#python" title="Permalink to this headline"> link</a></h3>
-<p>The screen language also includes single-line and multiple-line Python
-statements, which can execute Python. The Python runs in the scope
+<p>The screen language also includes single-line and multiple-line python
+statements, which can execute python code. This code runs in the scope
 of the screen.</p>
-<p><strong>Python must not cause side effects that are visible from
-outside the screen.</strong> Ren'Py will run a screen multiple times, as it
-deems necessary. It runs a screen as part of the image prediction
-process, before the screen is first shown. As a result, if a screen
+<p><strong>Python code must not cause side effects that are visible from
+outside the screen.</strong> Ren'Py will run screen code multiple times, as it
+deems necessary. It runs screen code as part of the image prediction
+process, before the screen is first shown. As a result, if screen code
 has side effects, those side effects may occur at unpredictable times.</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">screen</span> <span class="n">python_screen</span><span class="p">:</span>
     <span class="k">python</span><span class="p">:</span>
@@ -1759,16 +1664,14 @@ has side effects, those side effects may occur at unpredictable times.</p>
 </div>
 <div class="section" id="showif-statement">
 <span id="sl-showif"></span><h2>Showif Statement<a class="headerlink" href="#showif-statement" title="Permalink to this headline"> link</a></h2>
-<p>The <code class="docutils literal"><span class="pre">showif</span></code> statement takes a condition. It shows its children when the
+<p>The showif statement takes a condition. It shows its children when the
 condition is true, and hides the children when the condition is false.
 When showif's children have transforms, it will supply them with ATL
 events to manage the show and hide process, so that Ren'Py can animate
 the show and hide process.</p>
-<p>The <code class="docutils literal"><span class="pre">showif</span></code> statement wraps its children in a displayable that manages
-the show and hide process.</p>
 <p>Multiple showif statements can be grouped together into a single
-<code class="docutils literal"><span class="pre">showif</span></code>/<code class="docutils literal"><span class="pre">elif</span></code>/<code class="docutils literal"><span class="pre">else</span></code> construct, similiar to an if statement.
-<strong>Unlike the if statement, showif executes all of its blocks, including Python, even if the condition is false.</strong>
+showif/elif/else construct, similiar to an if statement.
+<strong>Unlike the if statement, showif executes all of its blocks, including python code, even if the condition is false.</strong>
 This is because the showif statement needs to create the children that it is
 hiding.</p>
 <p>Showif delivers three events to its children:</p>
@@ -1781,7 +1684,7 @@ to instantly show the child.</dd>
 <dt><code class="docutils literal"><span class="pre">hide</span></code></dt>
 <dd>Is delivered when the condition changes from true to false.</dd>
 </dl>
-<p>For these purposes, the condition of an <code class="docutils literal"><span class="pre">elif</span></code> clause is always false if any
+<p>For these purposes, the condition of an elif clause is always false if any
 prior condition is true, while the condition of an else clause is only true
 when all prior conditions are false.</p>
 <p>For example:</p>
@@ -1798,7 +1701,7 @@ when all prior conditions are false.</p>
         <span class="n">linear</span> <span class="o">.</span><span class="mi">25</span> <span class="na">zoom</span> <span class="mf">1.25</span> <span class="na">alpha</span> <span class="mf">0.0</span>
 
 <span class="k">screen</span> <span class="n">countdown</span><span class="p">():</span>
-    <span class="k">default</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="na">default</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">3</span>
 
     <span class="k">vbox</span><span class="p">:</span>
         <span class="k">textbutton</span> <span class="s2">&quot;3&quot;</span> <span class="na">action</span> <span class="n">SetScreenVariable</span><span class="p">(</span><span class="s2">&quot;n&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
@@ -1806,7 +1709,7 @@ when all prior conditions are false.</p>
         <span class="k">textbutton</span> <span class="s2">&quot;1&quot;</span> <span class="na">action</span> <span class="n">SetScreenVariable</span><span class="p">(</span><span class="s2">&quot;n&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="k">textbutton</span> <span class="s2">&quot;0&quot;</span> <span class="na">action</span> <span class="n">SetScreenVariable</span><span class="p">(</span><span class="s2">&quot;n&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
-    <span class="k">showif</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+    <span class="n">showif</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
         <span class="k">text</span> <span class="s2">&quot;Three&quot;</span> <span class="na">size</span> <span class="mi">100</span> <span class="k">at</span> <span class="n">cd_transform</span>
     <span class="k">elif</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">text</span> <span class="s2">&quot;Two&quot;</span> <span class="na">size</span> <span class="mi">100</span> <span class="k">at</span> <span class="n">cd_transform</span>
@@ -1824,13 +1727,16 @@ when all prior conditions are false.</p>
 <h2>Screen Statements<a class="headerlink" href="#screen-statements" title="Permalink to this headline"> link</a></h2>
 <p>In addition to the screen statement, there are three Ren'Py script
 language statements that involve screens.</p>
+<p>Two of these statements take a keyword argument list. This is a python
+argument list, in parenthesis, consisting of only keyword
+arguments. Positional arguments, extra positional arguments (*), and
+extra keyword arguments (**) are not allowed.</p>
 <div class="section" id="show-screen">
 <h3>Show Screen<a class="headerlink" href="#show-screen" title="Permalink to this headline"> link</a></h3>
-<p>The <code class="docutils literal"><span class="pre">show</span> <span class="pre">screen</span></code> statement causes a screen to be shown. It takes an
-screen name, and an optional Python argument list. If present, the arguments
-are used to initialize the scope of the screen. There are also some
-specific keywords passed to <code class="xref py py-func docutils literal"><span class="pre">show_screen()</span></code> and <code class="xref py py-func docutils literal"><span class="pre">call_screen()</span></code>.</p>
-<p>The show screen statement takes an optional <code class="docutils literal"><span class="pre">nopredict</span></code> keyword, that
+<p>The show screen statement causes a screen to be shown. It takes an
+screen name, and an optional argument list. If present, the arguments
+are used to initialize the scope of the screen.</p>
+<p>The show screen statement takes an optional nopredict keyword, that
 prevents screen prediction from occurring. During screen prediction,
 arguments to the screen are evaluated. Please ensure that evaluating
 the screen arguments does not cause unexpected side-effects to occur.</p>
@@ -1848,40 +1754,28 @@ hidden. This allows them to be used for overlay purposes.</p>
     <span class="k">show</span> <span class="n">rare_screen</span> <span class="n">nopredict</span>
 </pre></div>
 </div>
-<p>The <code class="docutils literal"><span class="pre">show</span> <span class="pre">screen</span></code> statement takes a with clause, which is interpreted in the
-same way that the with clause of a <code class="docutils literal"><span class="pre">show</span></code> statement is.</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">show</span> <span class="k">screen</span> <span class="n">clock_screen</span> <span class="k">with</span> <span class="n">dissolve</span>
-</pre></div>
-</div>
 </div>
 <div class="section" id="hide-screen">
 <h3>Hide Screen<a class="headerlink" href="#hide-screen" title="Permalink to this headline"> link</a></h3>
-<p>The <code class="docutils literal"><span class="pre">hide</span> <span class="pre">screen</span></code> statement is used to hide a screen that is currently
-being shown. If the screen is not being shown, nothing happens. The with
-clause is interpreted the same way the <code class="docutils literal"><span class="pre">with</span></code> clause of a show statement
-is.</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">hide</span> <span class="k">screen</span> <span class="n">rare_screen</span>
-<span class="k">hide</span> <span class="k">screen</span> <span class="n">clock_screen</span> <span class="k">with</span> <span class="n">dissolve</span>
-<span class="k">hide</span> <span class="k">screen</span> <span class="n">overlay_screen</span>
+<p>The hide screen statement is used to hide a screen that is currently
+being shown. If the screen is not being shown, nothing happens.</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">hide</span> <span class="k">screen</span> <span class="n">overlay_screen</span>
+<span class="k">hide</span> <span class="k">screen</span> <span class="n">clock</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="call-screen">
 <h3>Call Screen<a class="headerlink" href="#call-screen" title="Permalink to this headline"> link</a></h3>
-<p>The <code class="docutils literal"><span class="pre">call</span> <span class="pre">screen</span></code> statement shows a screen, and then hides it again at
+<p>The call screen statement shows a screen, and then hides it again at
 the end of the current interaction. If the screen returns a value,
-then the value is placed in <code class="docutils literal"><span class="pre">_return</span></code>.</p>
+then the value is placed in <cite>_return</cite>.</p>
 <p>This can be used to display an imagemap. The imagemap can place a
-value into the <code class="docutils literal"><span class="pre">_return</span></code> variable using the <a class="reference internal" href="screen_actions.html#Return" title="Return"><code class="xref py py-func docutils literal"><span class="pre">Return()</span></code></a> action,
+value into the <cite>_return</cite> variable using the <a class="reference internal" href="screen_actions.html#Return" title="Return"><code class="xref py py-func docutils literal"><span class="pre">Return()</span></code></a> action,
 or can jump to a label using the <a class="reference internal" href="screen_actions.html#Jump" title="Jump"><code class="xref py py-func docutils literal"><span class="pre">Jump()</span></code></a> action.</p>
-<p>The call screen statement takes an optional <code class="docutils literal"><span class="pre">nopredict</span></code> keyword, that
+<p>The call screen statement takes an optional nopredict keyword, that
 prevents screen prediction from occurring. During screen prediction,
 arguments to the screen are evaluated. Please ensure that evaluating
 the screen arguments does not cause unexpected side-effects to occur.</p>
-<p>The call screen statement takes an optional <code class="docutils literal"><span class="pre">with</span></code> keyword, followed
-by a transition. The transition takes place when the screen is first
-displayed. A with statement after the transition runs after the screen
-is hidden, provided control is not transferred.</p>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
 <p class="last">If evaluating the arguments to a screen causes side-effects to occur,
@@ -1890,10 +1784,6 @@ your game may behave in unexpected ways.</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="k">screen</span> <span class="n">my_imagemap</span>
 
 <span class="k">call</span> <span class="k">screen</span> <span class="n">my_screen</span><span class="p">(</span><span class="n">side_effect_function</span><span class="p">())</span> <span class="n">nopredict</span>
-
-<span class="c1"># Shows the screen with dissolve and hides it with fade.</span>
-<span class="k">call</span> <span class="k">screen</span> <span class="n">my_other_screen</span> <span class="k">with</span> <span class="n">dissolve</span>
-<span class="k">with</span> <span class="n">fade</span>
 </pre></div>
 </div>
 </div>
@@ -1954,13 +1844,11 @@ them. (In general, <code class="docutils literal"><span class="pre">&quot;small&
 are also defined) and the iPhone (where <code class="docutils literal"><span class="pre">&quot;phone&quot;</span></code> and <code class="docutils literal"><span class="pre">&quot;small&quot;</span></code> are
 also defined).</dd>
 <dt><code class="docutils literal"><span class="pre">&quot;mobile&quot;</span></code></dt>
-<dd>Defined on mobile platforms, such as Android, iOS and mobile web browsers.</dd>
+<dd>Defined on mobile platforms, such as Android and iOS.</dd>
 <dt><code class="docutils literal"><span class="pre">&quot;pc&quot;</span></code></dt>
 <dd>Defined on Windows, Mac OS X, and Linux. A PC is expected to have
 a mouse and keyboard present, to allow buttons to be hovered, and
 to allow precise pointing.</dd>
-<dt><code class="docutils literal"><span class="pre">&quot;web&quot;</span></code></dt>
-<dd>Defined when running inside a web browser.</dd>
 <dt><code class="docutils literal"><span class="pre">None</span></code></dt>
 <dd>Always defined.</dd>
 </dl>
@@ -1968,7 +1856,7 @@ to allow precise pointing.</dd>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="c1"># A variant hello_world screen, used on small touch-based</span>
 <span class="c1"># devices.</span>
 <span class="k">screen</span> <span class="n">hello_world</span><span class="p">():</span>
-     <span class="k">tag</span> <span class="n">example</span>
+     <span class="n">tag</span> <span class="n">example</span>
      <span class="k">zorder</span> <span class="mi">1</span>
      <span class="na">modal</span> <span class="bp">False</span>
      <span class="na">variant</span> <span class="s2">&quot;small&quot;</span>
@@ -1991,8 +1879,8 @@ to allow precise pointing.</dd>
       
     </p>
     <p>
-        &copy; Copyright 2012-2019, Tom Rothamel.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.<br/>
+        &copy; Copyright 2012-2017, Tom Rothamel.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.<br/>
     </p>
   </div>
 </footer>

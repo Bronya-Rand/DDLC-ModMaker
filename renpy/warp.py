@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -23,9 +23,8 @@
 # the Ren'Py source code, given the filename and line number of the
 # location.
 
-from __future__ import print_function
-
 import renpy
+import sets
 
 warp_spec = None
 
@@ -53,48 +52,24 @@ def warp():
     if not renpy.config.developer:
         raise Exception("Can't warp, developer mode disabled.")
 
-    if not filename.startswith("game/"):
-        filename = "game/" + filename
-
     # First, compute for each statement reachable from a scene statement,
     # one statement that reaches that statement.
 
     prev = { }
 
-    seenset = set(renpy.game.script.namemap.values())
+    workset = sets.Set([ n for n in renpy.game.script.namemap.itervalues() if isinstance(n, renpy.ast.Scene) ])
+    seenset = sets.Set(workset)
 
     # This is called to indicate that next can be executed following node.
     def add(node, next):  # @ReservedAssignment
-
-        if next not in prev:
+        if next not in seenset:
+            seenset.add(next)
+            workset.add(next)
             prev[next] = node
-            return
 
-        # Try to figure out which node to use.
+    while workset:
 
-        old = prev[next]
-
-        def prefer(fn):
-            if fn(node, old):
-                return node
-
-            if fn(old, node):
-                return old
-
-            return None
-
-        n = None
-        n = n or prefer(lambda a, b : (a.filename == next.filename) and (b.filename != next.filename))
-        n = n or prefer(lambda a, b : (a.linenumber <= next.linenumber) and (b.linenumber > next.linenumber))
-        n = n or prefer(lambda a, b : (a.linenumber >= b.linenumber))
-        n = n or node
-
-        prev[next] = n
-
-    for n in seenset:
-
-        if isinstance(n, renpy.ast.Translate) and n.language:
-            continue
+        n = workset.pop()
 
         if isinstance(n, renpy.ast.Menu):
             for i in n.items:
@@ -124,6 +99,7 @@ def warp():
 
         if isinstance(n, renpy.ast.UserStatement):
             add(n, n.get_next())
+
         elif getattr(n, 'next', None) is not None:
             add(n, n.next)
 
@@ -132,12 +108,11 @@ def warp():
 
     candidates = [ (n.linenumber, n)
                    for n in seenset
-                   if n.filename == filename and n.linenumber <= line
-                   ]
+                   if n.filename.endswith('/' + filename) and n.linenumber <= line ]
 
     # We didn't find any candidate statements, so give up the warp.
     if not candidates:
-        raise Exception("Could not find a statement to warp to. ({})".format(spec))
+        return
 
     # Sort the list of candidates, so they're ordered by linenumber.
     candidates.sort()
@@ -152,38 +127,22 @@ def warp():
     while True:
         n = prev.get(n, None)
         if n:
-            del prev[n]
             run.append(n)
         else:
             break
 
     run.reverse()
 
-    run = run[-renpy.config.warp_limit:]
-
-    renpy.config.skipping = "fast"
-
     # Determine which statements we want to execute, and then run
     # only them.
 
+    toexecute = ( renpy.ast.Scene, renpy.ast.Show, renpy.ast.Hide )
+
     for n in run:
-
-        if n.can_warp():
-
-            # Execute, if possible.
-            try:
-                n.execute()
-            except:
-                pass
+        if isinstance(n, toexecute):
+            n.execute()
 
     # Now, return the name of the place where we will warp to. This
     # becomes the new starting point of the game.
 
-    renpy.config.skipping = None
-    renpy.game.after_rollback = True
-
-    renpy.exports.block_rollback()
-
-    renpy.game.context().goto_label(node.name)
-    renpy.game.context().come_from(node.name, "_after_warp")
-    raise renpy.game.RestartContext()
+    return node.name

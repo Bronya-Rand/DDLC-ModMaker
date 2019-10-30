@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -30,9 +30,9 @@ import renpy.translation
 ################################################################################
 
 STRING_RE = r"""(?x)
-\b_[_p]?\s*\(\s*[uU]?(
-\"\"\"(?:\\.|\\\n|\"{1,2}|[^\\"])*?\"\"\"
-|'''(?:\\.|\\\n|\'{1,2}|[^\\'])*?'''
+\b__?\s*\(\s*[uU]?(
+\"\"\"(?:\\.|\"{1,2}|[^\\"])*?\"\"\"
+|'''(?:\\.|\'{1,2}|[^\\'])*?'''
 |"(?:\\.|[^\\"])*"
 |'(?:\\.|[^\\'])*'
 )\s*\)
@@ -127,15 +127,10 @@ def scan_strings(filename):
         for m in re.finditer(STRING_RE, text):
 
             s = m.group(1)
-            s = s.replace('\\\n', "")
-
             if s is not None:
                 s = s.strip()
                 s = "u" + s
                 s = eval(s)
-
-                if m.group(0).startswith("_p"):
-                    s = renpy.minstore._p(s)
 
                 if s:
                     rv.append(String(filename, lineno, s, False))

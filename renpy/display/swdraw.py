@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -19,8 +19,6 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from __future__ import print_function
-
 import renpy.display
 import pygame_sdl2 as pygame
 import math
@@ -28,7 +26,7 @@ import weakref
 import time
 import os
 
-from renpy.display.render import blit_lock, IDENTITY, BLIT, DISSOLVE, IMAGEDISSOLVE, PIXELLATE, FLATTEN
+from renpy.display.render import blit_lock, IDENTITY, BLIT, DISSOLVE, IMAGEDISSOLVE, PIXELLATE
 
 # A map from cached surface to rle version of cached surface.
 rle_cache = weakref.WeakKeyDictionary()
@@ -234,7 +232,6 @@ class Clipper(object):
 
         return (x0, y0, x1 - x0, y1 - y0), updates
 
-
 clippers = [ Clipper() ]
 
 
@@ -338,10 +335,6 @@ def draw_special(what, dest, x, y):
             dest.subsurface((0, 0, w, h)),
             px, px, px, px)
 
-    elif what.operation == FLATTEN:
-        surf = what.children[0][0].render_to_texture(dest.get_masks()[3])
-        dest.subsurface((0, 0, w, h)).blit(surf, (0, 0))
-
     else:
         raise Exception("Unknown operation: %d" % what.operation)
 
@@ -441,7 +434,7 @@ def draw(dest, clip, what, xo, yo, screen):
         return
 
     # Deal with clipping, if necessary.
-    if what.xclipping or what.yclipping:
+    if what.clipping:
 
         if clip:
             cx0, cy0, cx1, cy1 = clip
@@ -574,7 +567,7 @@ def draw_transformed(dest, clip, what, xo, yo, alpha, forward, reverse):
     if what.text_input:
         renpy.display.interface.text_rect = what.screen_rect(xo, yo, reverse)
 
-    if what.xclipping or what.yclipping:
+    if what.clipping:
 
         if reverse.xdy or reverse.ydx:
             draw_transformed(dest, clip, what.pygame_surface(True), xo, yo, alpha, forward, reverse)
@@ -639,8 +632,8 @@ def draw_transformed(dest, clip, what, xo, yo, alpha, forward, reverse):
         cxo, cyo = reverse.transform(cxo, cyo)
 
         if what.forward:
-            child_forward = what.forward * forward
-            child_reverse = reverse * what.reverse
+            child_forward = forward * what.forward
+            child_reverse = what.reverse * reverse
         else:
             child_forward = forward
             child_reverse = reverse
@@ -729,9 +722,6 @@ class SWDraw(object):
 
         # Did we show fullscreen video in the last frame?
         self.showing_video = False
-
-    def get_texture_size(self):
-        return 0, 0
 
     def set_mode(self, virtual_size, physical_size, fullscreen):
 
@@ -924,10 +914,7 @@ class SWDraw(object):
 
         return self.window
 
-    def can_block(self):
-        return True
-
-    def should_redraw(self, needs_redraw, first_pass, can_block):
+    def should_redraw(self, needs_redraw, first_pass):
         """
         Uses the framerate to determine if we can and should redraw.
         """
@@ -1052,9 +1039,6 @@ class SWDraw(object):
                 cx = int(cx)
                 cy = int(cy)
 
-                if cx < 0 or cy < 0:
-                    return False
-
                 cw, ch = child.get_size()
                 if cx >= cw or cy >= ch:
                     return False
@@ -1095,9 +1079,6 @@ class SWDraw(object):
 
         return rle_surf
 
-    def ready_one_texture(self):
-        return False
-
     def solid_texture(self, w, h, color):
         """
         Creates a texture filled to the edges with color.
@@ -1112,12 +1093,21 @@ class SWDraw(object):
         self.mutated_surface(surf)
         return surf
 
-    def kill_textures(self):
+    def free_memory(self):
         """
-        Kills all textures and caches of textures.
+        Frees up memory.
         """
 
         rle_cache.clear()
+
+    def deinit(self):
+        """
+        Called when we're restarted.
+        """
+
+        renpy.display.render.free_memory()
+
+        return
 
     def quit(self):  # @ReservedAssignment
         """

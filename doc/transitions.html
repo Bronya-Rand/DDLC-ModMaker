@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 
+
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Transitions &#8212; Ren&#39;Py Documentation</title>
+    
+    <title>Transitions &mdash; Ren&#39;Py Documentation</title>
+    
     <link rel="stylesheet" href="_static/renpydoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '7.3.5',
+        VERSION:     '6.99.12',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -26,8 +29,7 @@
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Ren&#39;Py Documentation" href="index.html" />
     <link rel="next" title="Animation and Transformation Language" href="atl.html" />
     <link rel="prev" title="Transforms" href="transforms.html" />
 <meta charset='utf-8'>
@@ -36,7 +38,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -49,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           Ren&#39;Py Documentation</a>
-        <span class="navbar-text navbar-version pull-left"><b>7.3.5</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>6.99.12</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -90,7 +92,6 @@
 <li class="toctree-l1"><a class="reference internal" href="transforms.html">Transforms</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Transitions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="atl.html">Animation and Transformation Language</a></li>
-<li class="toctree-l1"><a class="reference internal" href="layeredimage.html">Layered Images</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="style.html">Styles</a></li>
@@ -100,12 +101,7 @@
 <li class="toctree-l1"><a class="reference internal" href="screen_special.html">Special Screen Names</a></li>
 <li class="toctree-l1"><a class="reference internal" href="screen_optimization.html">Screen Language Optimization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">Configuration Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="preferences.html">Preference Variables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="store_variables.html">Store Variables</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="developer_tools.html">Developer Tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="director.html">Interactive Director</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="nvl_mode.html">NVL-Mode Tutorial</a></li>
@@ -115,16 +111,15 @@
 <li class="toctree-l1"><a class="reference internal" href="drag_drop.html">Drag and Drop</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sprites.html">Sprites</a></li>
 <li class="toctree-l1"><a class="reference internal" href="keymap.html">Customizing the Keymap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer_tools.html">Developer Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="achievement.html">Achievements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="history.html">Dialogue History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="multiple.html">Multiple Character Dialogue</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="statement_equivalents.html">Statement Equivalents</a></li>
 <li class="toctree-l1"><a class="reference internal" href="save_load_rollback.html">Saving, Loading, and Rollback</a></li>
 <li class="toctree-l1"><a class="reference internal" href="persistent.html">Persistent Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="trans_trans_python.html">Transforms and Transitions in Python</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gui_advanced.html">Advanced GUI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="screen_python.html">Screens and Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modes.html">Modes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="udd.html">Creator-Defined Displayables</a></li>
@@ -143,12 +138,11 @@
 <li class="toctree-l1"><a class="reference internal" href="ios.html">iOS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="iap.html">In-App Purchasing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gesture.html">Gestures</a></li>
-<li class="toctree-l1"><a class="reference internal" href="raspi.html">Raspberry Pi</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="problems.html">Dealing with Problems</a></li>
 <li class="toctree-l1"><a class="reference internal" href="environment_variables.html">Environment Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="self_voicing.html">Self-Voicing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="self_voicing.html">Self Voicing</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="editor.html">Text Editor Integration</a></li>
@@ -160,8 +154,7 @@
 <li class="toctree-l1"><a class="reference internal" href="incompatible.html">Incompatible Changes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="distributor.html">Distributor Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sponsors.html">Ren'Py Development Sponsors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Documentation and Translation Credits</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="thequestion.html">Script of The Question</a></li>
@@ -199,7 +192,6 @@
 <li><a class="reference internal" href="#pre-defined-transitions">Pre-Defined Transitions</a></li>
 <li><a class="reference internal" href="#transition-classes">Transition Classes</a></li>
 <li><a class="reference internal" href="#transition-families">Transition Families</a></li>
-<li><a class="reference internal" href="#dict-transitions">Dict Transitions</a></li>
 </ul>
 </li>
 </ul>
@@ -399,7 +391,8 @@ opaque, and the old image is used when it is transparent.</p>
 <dt><cite>delay</cite></dt>
 <dd>The time the transition takes, before ending.</dd>
 <dt><cite>alpha</cite></dt>
-<dd>Ignored.</dd>
+<dd>If true, the image is composited with what's behind it. If false,
+the default, the image is opaque and overwrites what's behind it.</dd>
 <dt><cite>reverse</cite></dt>
 <dd>If true, the alpha channel is reversed. Opaque areas are taken
 from the old image, while transparent areas are taken from the
@@ -425,7 +418,7 @@ to the <cite>trans</cite> transition.</p>
 <code class="descname">CropMove</code><span class="sig-paren">(</span><em>time</em>, <em>mode=&quot;slideright&quot;</em>, <em>startcrop=(0.0</em>, <em>0.0</em>, <em>0.0</em>, <em>1.0)</em>, <em>startpos=(0.0</em>, <em>0.0)</em>, <em>endcrop=(0.0</em>, <em>0.0</em>, <em>1.0</em>, <em>1.0)</em>, <em>endpos=(0.0</em>, <em>0.0)</em>, <em>topnew=True</em><span class="sig-paren">)</span><a class="headerlink" href="#CropMove" title="Permalink to this definition"> link</a></dt>
 <dd><p>Returns a transition that works by cropping a scene and positioning it on the
 screen. This can be used to implement a variety of effects, all of which
-involve changing rectangular slices of scenes.</p>
+involved changing rectangular slices of scenes.</p>
 <dl class="docutils">
 <dt><cite>time</cite></dt>
 <dd>The time the transition takes.</dd>
@@ -499,7 +492,9 @@ the other scene) is the new scene. If false, it is the old scene.</dd>
 <dt><cite>time</cite></dt>
 <dd>The time the dissolve will take.</dd>
 <dt><cite>alpha</cite></dt>
-<dd>Ignored.</dd>
+<dd>If true, the dissolve will alpha-composite the result of the transition
+with the screen. If false, the result of the transition will replace the
+screen, which is more efficient.</dd>
 <dt><cite>time_warp</cite></dt>
 <dd>A function that adjusts the timeline. If not None, this should be a
 function that takes a fractional time between 0.0 and 1.0, and returns
@@ -544,9 +539,11 @@ of 2. When this is the default value of 8, when a white pixel
 is fully dissolved, a pixel 8 shades of gray darker will have
 completed one step of dissolving in.</dd>
 <dt><cite>reverse</cite></dt>
-<dd>If True, black pixels will dissolve in before white pixels.</dd>
+<dd>If true, black pixels will dissolve in before white pixels.</dd>
 <dt><cite>alpha</cite></dt>
-<dd>Ignored.</dd>
+<dd>If true, the dissolve will alpha-composite the result of the transition
+with the screen. If false, the result of the transition will replace the
+screen, which is more efficient.</dd>
 <dt><cite>time_warp</cite></dt>
 <dd>A function that adjusts the timeline. If not None, this should be a
 function that takes a fractional time between 0.0 and 1.0, and returns
@@ -690,11 +687,11 @@ the appropriate side.</li>
 <dl class="docutils">
 <dt><cite>time_warp</cite>, <cite>in_time_warp</cite>, <cite>out_time_warp</cite></dt>
 <dd><p class="first">Time warp functions that are given a time from 0.0 to 1.0 representing
-the fraction of the move that is complete, and return a value in the same
+the fraction of the move complete, and return a value in the same
 range giving the fraction of a linear move that is complete.</p>
 <p>This can be used to define functions that ease the images around,
 rather than moving them at a constant speed.</p>
-<p class="last">The three arguments are used for images remaining on the screen,
+<p class="last">The three argument are used for images remaining on the screen,
 newly shown images, and newly hidden images, respectively.</p>
 </dd>
 <dt><cite>old</cite></dt>
@@ -711,47 +708,6 @@ newly shown images, and newly hidden images, respectively.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="dict-transitions">
-<span id="id2"></span><h2>Dict Transitions<a class="headerlink" href="#dict-transitions" title="Permalink to this headline"> link</a></h2>
-<p>In many places where Ren'Py takes a transition, it's possible to instead
-specify a dictionary that maps layer names to this transition. When this
-is the case, Ren'Py applies each transition to the appropriate layer.</p>
-<p>When a dict is used, the pause that usually occurs when a transition takes
-place does not occur. Instead, the statement taking the dictionary returns
-immediately, and the transitions are scheduled to occur at the start of the
-next interaction.</p>
-<p>This can be used with the master layer to cause transitions to occur while
-dialogue is being shown on the screen. For example, if we wrote:</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">dis</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;master&quot;</span> <span class="p">:</span> <span class="n">Dissolve</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span> <span class="p">}</span>
-</pre></div>
-</div>
-<p>and:</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">show</span> <span class="n">eileen</span> <span class="n">happy</span>
-<span class="k">with</span> <span class="n">dis</span>
-
-<span class="n">e</span> <span class="s2">&quot;Hello, world.&quot;</span>
-</pre></div>
-</div>
-<p>The dissolve will take place while the text is displayed on the screen.</p>
-<p>Dict layer transitions can't be used every place a transition can be used,
-only places where applying transitions to a layer is possible. It can be
-used with the <code class="docutils literal"><span class="pre">with</span></code> statement and <code class="docutils literal"><span class="pre">with</span></code> cause of the scene, show, and
-hide statements. It can also be used with <a class="reference internal" href="statement_equivalents.html#renpy.with_statement" title="renpy.with_statement"><code class="xref py py-func docutils literal"><span class="pre">renpy.with_statement()</span></code></a> and
-<a class="reference internal" href="other.html#renpy.transition" title="renpy.transition"><code class="xref py py-func docutils literal"><span class="pre">renpy.transition()</span></code></a>, the <a class="reference internal" href="screen_actions.html#Show" title="Show"><code class="xref py py-func docutils literal"><span class="pre">Show()</span></code></a> and <a class="reference internal" href="screen_actions.html#Hide" title="Hide"><code class="xref py py-func docutils literal"><span class="pre">Hide()</span></code></a> actions, and
-various config variables that take transitions. Dict layer transitions <em>will not</em>
-work inside things that don't work with layers, such as ATL, <a class="reference internal" href="#ComposeTransition" title="ComposeTransition"><code class="xref py py-func docutils literal"><span class="pre">ComposeTransition()</span></code></a>
-and <a class="reference internal" href="#MultipleTransition" title="MultipleTransition"><code class="xref py py-func docutils literal"><span class="pre">MultipleTransition()</span></code></a>.</p>
-<p>This can interact poorly with statements that cause a transition to occur
-themselves, like the transitions caused by <code class="docutils literal"><span class="pre">window</span> <span class="pre">auto</span></code>. That can often be
-solved with a second dict transition that applies to a different layer.
-For example, if you are seeing weird blinking when the dialogue window shows
-and hides, consider changing options.rpy to have:</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">config</span><span class="o">.</span><span class="n">window_show_transition</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;screens&quot;</span> <span class="p">:</span> <span class="n">Dissolve</span><span class="p">(</span><span class="o">.</span><span class="mi">25</span><span class="p">)</span> <span class="p">}</span>
-<span class="k">define</span> <span class="n">config</span><span class="o">.</span><span class="n">window_hide_transition</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;screens&quot;</span> <span class="p">:</span> <span class="n">Dissolve</span><span class="p">(</span><span class="o">.</span><span class="mi">25</span><span class="p">)</span> <span class="p">}</span>
-</pre></div>
-</div>
-<p>This works because the dialogue window exists entirely on the screens layer.</p>
-</div>
 </div>
 
 
@@ -766,8 +722,8 @@ and hides, consider changing options.rpy to have:</p>
       
     </p>
     <p>
-        &copy; Copyright 2012-2019, Tom Rothamel.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.<br/>
+        &copy; Copyright 2012-2017, Tom Rothamel.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.<br/>
     </p>
   </div>
 </footer>

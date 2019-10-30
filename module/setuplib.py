@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -36,27 +36,13 @@ android = "RENPY_ANDROID" in os.environ
 # True if we're building on ios.
 ios = "RENPY_IOS" in os.environ
 
-# True of we're building on raspberry pi.
-raspi = "RENPY_RASPBERRY_PI" in os.environ
-
-# True of we're building with emscripten.
-emscripten = "RENPY_EMSCRIPTEN" in os.environ
-
 # Is coverage enabled?
 coverage = "RENPY_COVERAGE" in os.environ
-
-# Are we doing a static build?
-static = "RENPY_STATIC" in os.environ
 
 if coverage:
     gen = "gen.coverage"
 else:
     gen = "gen"
-
-
-if static:
-    gen += "-static"
-
 
 # The cython command.
 cython_command = os.environ.get("RENPY_CYTHON", "cython")
@@ -69,12 +55,7 @@ cython_command = os.environ.get("RENPY_CYTHON", "cython")
 # dependencies installed in them.
 if not (android or ios):
     install = os.environ.get("RENPY_DEPS_INSTALL", "/usr")
-
-    if "::" in install:
-        install = install.split("::")
-    else:
-        install = install.split(os.pathsep)
-
+    install = install.split("::")
     install = [ os.path.abspath(i) for i in install ]
 
     if "VIRTUAL_ENV" in os.environ:
@@ -103,7 +84,7 @@ def include(header, directory=None, optional=True):
         If given, returns False rather than abandoning the process.
     """
 
-    if android or ios or emscripten:
+    if android or ios:
         return True
 
     for i in install:
@@ -142,7 +123,7 @@ def library(name, optional=False):
         rather than reporting an error.
     """
 
-    if android or ios or emscripten:
+    if android or ios:
         return True
 
     for i in install:
@@ -166,7 +147,6 @@ def library(name, optional=False):
     print("Could not find required library {0}.".format(name))
     sys.exit(-1)
 
-
 # A list of extension objects that we use.
 extensions = [ ]
 
@@ -174,7 +154,7 @@ extensions = [ ]
 global_macros = [ ]
 
 
-def cmodule(name, source, libs=[], define_macros=[], includes=[], language="c"):
+def cmodule(name, source, libs=[], define_macros=[], language="c"):
     """
     Compiles the python module `name` from the files given in
     `source`, and the libraries in `libs`.
@@ -188,7 +168,7 @@ def cmodule(name, source, libs=[], define_macros=[], includes=[], language="c"):
     extensions.append(distutils.core.Extension(
         name,
         source,
-        include_dirs=include_dirs + includes,
+        include_dirs=include_dirs,
         library_dirs=library_dirs,
         extra_compile_args=eca,
         extra_link_args=extra_link_args,
@@ -201,7 +181,7 @@ def cmodule(name, source, libs=[], define_macros=[], includes=[], language="c"):
 necessary_gen = [ ]
 
 
-def cython(name, source=[], libs=[], includes=[], compile_if=True, define_macros=[], pyx=None, language="c"):
+def cython(name, source=[], libs=[], compile_if=True, define_macros=[], pyx=None, language="c"):
     """
     Compiles a cython module. This takes care of regenerating it as necessary
     when it, or any of the files it depends on, changes.
@@ -325,19 +305,7 @@ def cython(name, source=[], libs=[], includes=[], compile_if=True, define_macros
                 "-o",
                 c_fn])
 
-            # Fix-up source for static loading
-            if static and (len(split_name) > 1):
-                parent_module = '.'.join(split_name[:-1])
-                parent_module_identifier = parent_module.replace('.', '_')
-                with open(c_fn, 'r') as f:
-                    ccode = f.read()
-                ccode = re.sub('Py_InitModule4\("([^"]+)"', 'Py_InitModule4("'+parent_module+'.\\1"', ccode)
-                ccode = re.sub('^__Pyx_PyMODINIT_FUNC init', '__Pyx_PyMODINIT_FUNC init'+parent_module_identifier+'_', ccode, 0, re.MULTILINE)  # Cython 0.28.2
-                ccode = re.sub('^PyMODINIT_FUNC init', 'PyMODINIT_FUNC init'+parent_module_identifier+'_', ccode, 0, re.MULTILINE)  # Cython 0.25.2
-                with open(c_fn, 'w') as f:
-                    f.write(ccode)
-
-        except subprocess.CalledProcessError as e:
+        except subprocess.CalledProcessError, e:
             print()
             print(str(e))
             print()
@@ -349,7 +317,7 @@ def cython(name, source=[], libs=[], includes=[], compile_if=True, define_macros
         if mod_coverage:
             define_macros = define_macros + [ ("CYTHON_TRACE", "1") ]
 
-        cmodule(name, [ c_fn ] + source, libs=libs, includes=includes, define_macros=define_macros, language=language)
+        cmodule(name, [ c_fn ] + source, libs=libs, define_macros=define_macros, language=language)
 
 
 def find_unnecessary_gen():
@@ -418,7 +386,6 @@ def setup(name, version):
         ext_modules=extensions,
         py_modules=py_modules,
         )
-
 
 # Ensure the gen directory exists.
 if not os.path.exists(gen):

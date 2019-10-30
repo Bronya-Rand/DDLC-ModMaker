@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -20,8 +20,6 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 # This file contains the routines that manage image prediction.
-
-from __future__ import print_function
 
 import renpy.display
 
@@ -65,7 +63,7 @@ def screen(_screen_name, *args, **kwargs):
 
 def reset():
     global image
-    image = renpy.display.im.cache.get_texture
+    image = renpy.display.im.cache.get
     predicted.clear()
     del screens[:]
 
@@ -86,11 +84,11 @@ def prediction_coroutine(root_widget):
 
     global predicting
 
-    # Start the prediction thread (to clean out the cache).
-    renpy.display.im.cache.start_prediction()
-
     # Wait to be told to start.
     yield True
+
+    # Start the prediction thread (to clean out the cache).
+    renpy.display.im.cache.start_prediction()
 
     # Set up the image prediction method.
     global image
@@ -135,7 +133,7 @@ def prediction_coroutine(root_widget):
 
     predicting = False
 
-    while not (yield False):
+    while not (yield True):
         continue
 
     # Predict screens given with renpy.start_predict_screen.
@@ -145,7 +143,7 @@ def prediction_coroutine(root_widget):
         renpy.display.screen.predict_screen(name, *args, **kwargs)
 
         predicting = False
-        yield False
+        yield True
         predicting = True
 
     # Predict things (especially screens) that are reachable through
@@ -164,7 +162,7 @@ def prediction_coroutine(root_widget):
     # Predict the screens themselves.
     for t in screens:
 
-        while not (yield False):
+        while not (yield True):
             continue
 
         if t in predicted_screens:
@@ -173,9 +171,6 @@ def prediction_coroutine(root_widget):
         predicted_screens.append(t)
 
         name, args, kwargs = t
-
-        if name.startswith("_"):
-            continue
 
         predicting = True
 
@@ -188,4 +183,4 @@ def prediction_coroutine(root_widget):
 
         predicting = False
 
-    yield None
+    yield False

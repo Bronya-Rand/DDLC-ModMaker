@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -99,7 +99,6 @@ class ScriptTranslator(object):
         TranslateBlock = renpy.ast.TranslateBlock
         TranslateEarlyBlock = renpy.ast.TranslateEarlyBlock
         Menu = renpy.ast.Menu
-        UserStatement = renpy.ast.UserStatement
         Translate = renpy.ast.Translate
 
         filename = renpy.exports.unelide_filename(nodes[0].filename)
@@ -141,16 +140,6 @@ class ScriptTranslator(object):
 
                     self.additional_strings[filename].append((n.linenumber, s))
 
-            elif type_n is UserStatement:
-
-                strings = n.call("translation_strings")
-
-                if strings is None:
-                    continue
-
-                for s in strings:
-                    self.additional_strings[filename].append((n.linenumber, s))
-
             elif type_n is Translate:
 
                 if n.language is None:
@@ -181,17 +170,13 @@ class ScriptTranslator(object):
 
         self.chain_worklist = unchained
 
-    def lookup_translate(self, identifier, alternate=None):
+    def lookup_translate(self, identifier):
 
         identifier = identifier.replace('.', '_')
         language = renpy.game.preferences.language
 
         if language is not None:
             tl = self.language_translates.get((identifier, language), None)
-
-            if (tl is None) and alternate:
-                tl = self.language_translates.get((identifier, language), None)
-
         else:
             tl = None
 
@@ -218,8 +203,6 @@ class Restructurer(object):
 
     def __init__(self, children):
         self.label = None
-        self.alternate = None
-
         self.identifiers = set()
         self.callback(children)
 
@@ -232,12 +215,22 @@ class Restructurer(object):
 
         return False
 
-    def unique_identifier(self, label, digest):
+    def create_translate(self, block):
+        """
+        Creates an ast.Translate that wraps `block`. The block may only contain
+        translatable statements.
+        """
 
-        if label is None:
-            base = digest
+        md5 = hashlib.md5()
+
+        for i in block:
+            code = i.get_code()
+            md5.update(code.encode("utf-8") + "\r\n")
+
+        if self.label:
+            base = self.label.replace('.', '_') + "_" + md5.hexdigest()[:8]
         else:
-            base = label.replace(".", "_") + "_" + digest
+            base = md5.hexdigest()[:8]
 
         i = 0
         suffix = ""
@@ -252,34 +245,10 @@ class Restructurer(object):
             i += 1
             suffix = "_{0}".format(i)
 
-        return identifier
-
-    def create_translate(self, block):
-        """
-        Creates an ast.Translate that wraps `block`. The block may only contain
-        translatable statements.
-        """
-
-        md5 = hashlib.md5()
-
-        for i in block:
-            code = i.get_code()
-            md5.update(code.encode("utf-8") + "\r\n")
-
-        digest = md5.hexdigest()[:8]
-
-        identifier = self.unique_identifier(self.label, digest)
         self.identifiers.add(identifier)
-
-        if self.alternate is not None:
-            alternate = self.unique_identifier(self.alternate, digest)
-            self.identifiers.add(alternate)
-        else:
-            alternate = None
-
         loc = (block[0].filename, block[0].linenumber)
 
-        tl = renpy.ast.Translate(loc, identifier, None, block, alternate=alternate)
+        tl = renpy.ast.Translate(loc, identifier, None, block)
         tl.name = block[0].name + ("translate",)
 
         ed = renpy.ast.EndTranslate(loc)
@@ -300,12 +269,7 @@ class Restructurer(object):
 
             if isinstance(i, renpy.ast.Label):
                 if not i.hide:
-
-                    if i.name.startswith("_"):
-                        self.alternate = i.name
-                    else:
-                        self.label = i.name
-                        self.alternate = None
+                    self.label = i.name
 
             if not isinstance(i, renpy.ast.Translate):
                 i.restructure(self.callback)
@@ -380,20 +344,10 @@ class StringTranslator(object):
 
     def add(self, old, new, newloc):
         if old in self.translations:
-
-            if old in self.translation_loc:
-                print(newloc, self.translation_loc[old])
-                fn, line = self.translation_loc[old]
-                raise Exception("A translation for \"{}\" already exists at {}:{}.".format(
-                    quote_unicode(old), fn, line))
-            else:
-                raise Exception("A translation for \"{}\" already exists.".format(
-                    quote_unicode(old)))
+            raise Exception("A translation for %r already exists." % old)
 
         self.translations[old] = new
-
-        if newloc is not None:
-            self.translation_loc[old] = newloc
+        self.translation_loc[old] = newloc
 
     def translate(self, old):
 
@@ -449,18 +403,13 @@ def add_string_translation(language, old, new, newloc):
     tl.languages.add(language)
     stl.add(old, new, newloc)
 
-
 Default = renpy.object.Sentinel("default")
 
 
 def translate_string(s, language=Default):
     """
-    :doc: translate_string
-    :name: renpy.translate_string
-
-    Translates interface string `s` to `language`. If `language` is Default,
-    uses the language set in the preferences. This does not mark `s` to be
-    translated.
+    Translates interface string `s` to `language`. If `languages` is Default,
+    uses the language set in the preferences.
     """
 
     if language is Default:
@@ -519,7 +468,7 @@ def load_rpt(fn):
             if old is None:
                 raise Exception("{0} translation {1!r} doesn't belong to a string.".format(language, s))
 
-            add_string_translation(language, old, s, None)
+            add_string_translation(language, old, s)
             old = None
 
     f.close()
@@ -541,7 +490,6 @@ def load_all_rpts():
 # Changing language
 ################################################################################
 
-
 style_backup = None
 
 
@@ -556,7 +504,6 @@ def init_translation():
     load_all_rpts()
 
     renpy.store._init_language()  # @UndefinedVariable
-
 
 old_language = "language never set"
 
@@ -588,6 +535,8 @@ def old_change_language(tl, language):
 
 def new_change_language(tl, language):
 
+    renpy.config.init_system_styles()
+
     for i in tl.python[language]:
         renpy.python.py_exec_bytecode(i.code.bytecode)
 
@@ -609,10 +558,8 @@ def new_change_language(tl, language):
 
     renpy.game.invoke_in_new_context(run_blocks)
 
-    renpy.config.init_system_styles()
 
-
-def change_language(language, force=False):
+def change_language(language):
     """
     :doc: translation_functions
 
@@ -623,9 +570,7 @@ def change_language(language, force=False):
     global old_language
 
     renpy.game.preferences.language = language
-    if old_language == language and not force:
-        return
-    
+
     tl = renpy.game.script.translator
 
     renpy.style.restore(style_backup)  # @UndefinedVariable
@@ -639,18 +584,19 @@ def change_language(language, force=False):
     else:
         old_change_language(tl, language)
 
-    renpy.store._history_list = renpy.store.list()
-    renpy.store.nvl_list = renpy.store.list()
-
     for i in renpy.config.change_language_callbacks:
         i()
 
-    # Reset various parts of the system. Most notably, this clears the image
-    # cache, letting us load translated images.
-    renpy.exports.free_memory()
+    if old_language != language:
 
-    # Rebuild the styles.
-    renpy.style.rebuild()  # @UndefinedVariable
+        # Reset various parts of the system. Most notably, this clears the image
+        # cache, letting us load translated images.
+        renpy.exports.free_memory()
+
+        # Rebuild the styles.
+        renpy.style.rebuild()  # @UndefinedVariable
+
+        old_language = language
 
     for i in renpy.config.translate_clean_stores:
         renpy.python.reset_store_changes(i)
@@ -661,7 +607,6 @@ def change_language(language, force=False):
     if language != old_language:
         renpy.exports.block_rollback()
 
-        old_language = language
 
 def check_language():
     """
@@ -694,222 +639,3 @@ def known_languages():
     """
 
     return { i for i in renpy.game.script.translator.languages if i is not None }  # @UndefinedVariable
-
-################################################################################
-# Detect language
-################################################################################
-
-
-locales = {
-    "ab": "abkhazian",
-    "aa": "afar",
-    "af": "afrikaans",
-    "ak": "akan",
-    "sq": "albanian",
-    "am": "amharic",
-    "ar": "arabic",
-    "an": "aragonese",
-    "hy": "armenian",
-    "as": "assamese",
-    "av": "avaric",
-    "ae": "avestan",
-    "ay": "aymara",
-    "az": "azerbaijani",
-    "bm": "bambara",
-    "ba": "bashkir",
-    "eu": "basque",
-    "be": "belarusian",
-    "bn": "bengali",
-    "bh": "bihari",
-    "bi": "bislama",
-    "bs": "bosnian",
-    "br": "breton",
-    "bg": "bulgarian",
-    "my": "burmese",
-    "ca": "catalan",
-    "ch": "chamorro",
-    "ce": "chechen",
-    "ny": "chewa",
-    "cv": "chuvash",
-    "kw": "cornish",
-    "co": "corsican",
-    "cr": "cree",
-    "hr": "croatian",
-    "cs": "czech",
-    "da": "danish",
-    "dv": "maldivian",
-    "nl": "dutch",
-    "dz": "dzongkha",
-    "en": "english",
-    "et": "estonian",
-    "ee": "ewe",
-    "fo": "faroese",
-    "fj": "fijian",
-    "fi": "finnish",
-    "fr": "french",
-    "ff": "fulah",
-    "gl": "galician",
-    "ka": "georgian",
-    "de": "german",
-    "el": "greek",
-    "gn": "guaran",
-    "gu": "gujarati",
-    "ht": "haitian",
-    "ha": "hausa",
-    "he": "hebrew",
-    "hz": "herero",
-    "hi": "hindi",
-    "ho": "hiri_motu",
-    "hu": "hungarian",
-    "id": "indonesian",
-    "ga": "irish",
-    "ig": "igbo",
-    "ik": "inupiaq",
-    "is": "icelandic",
-    "it": "italian",
-    "iu": "inuktitut",
-    "ja": "japanese",
-    "jv": "javanese",
-    "kl": "greenlandic",
-    "kn": "kannada",
-    "kr": "kanuri",
-    "ks": "kashmiri",
-    "kk": "kazakh",
-    "km": "khmer",
-    "ki": "kikuyu",
-    "rw": "kinyarwanda",
-    "ky": "kirghiz",
-    "kv": "komi",
-    "kg": "kongo",
-    "ko": "korean",
-    "ku": "kurdish",
-    "kj": "kuanyama",
-    "la": "latin",
-    "lb": "luxembourgish",
-    "lg": "ganda",
-    "li": "limburgan",
-    "ln": "lingala",
-    "lo": "lao",
-    "lt": "lithuanian",
-    "lv": "latvian",
-    "gv": "manx",
-    "mk": "macedonian",
-    "mg": "malagasy",
-    "ms": "malay",
-    "ml": "malayalam",
-    "mt": "maltese",
-    "mi": "maori",
-    "mr": "marathi",
-    "mh": "marshallese",
-    "mn": "mongolian",
-    "na": "nauru",
-    "nv": "navaho",
-    "ne": "nepali",
-    "ng": "ndonga",
-    "no": "norwegian",
-    "ii": "nuosu",
-    "nr": "ndebele",
-    "oc": "occitan",
-    "oj": "ojibwa",
-    "om": "oromo",
-    "or": "oriya",
-    "os": "ossetian",
-    "pa": "panjabi",
-    "pi": "pali",
-    "fa": "persian",
-    "pl": "polish",
-    "ps": "pashto",
-    "pt": "portuguese",
-    "qu": "quechua",
-    "rm": "romansh",
-    "rn": "rundi",
-    "ro": "romanian",
-    "ru": "russian",
-    "sa": "sanskrit",
-    "sc": "sardinian",
-    "sd": "sindhi",
-    "se": "sami",
-    "sm": "samoan",
-    "sg": "sango",
-    "sr": "serbian",
-    "gd": "gaelic",
-    "sn": "shona",
-    "si": "sinhala",
-    "sk": "slovak",
-    "sl": "slovene",
-    "so": "somali",
-    "st": "sotho",
-    "es": "spanish",
-    "su": "sundanese",
-    "sw": "swahili",
-    "ss": "swati",
-    "sv": "swedish",
-    "ta": "tamil",
-    "te": "telugu",
-    "tg": "tajik",
-    "th": "thai",
-    "ti": "tigrinya",
-    "bo": "tibetan",
-    "tk": "turkmen",
-    "tl": "tagalog",
-    "tn": "tswana",
-    "to": "tongan",
-    "tr": "turkish",
-    "ts": "tsonga",
-    "tt": "tatar",
-    "tw": "twi",
-    "ty": "tahitian",
-    "ug": "uighur",
-    "uk": "ukrainian",
-    "ur": "urdu",
-    "uz": "uzbek",
-    "ve": "venda",
-    "vi": "vietnamese",
-    "wa": "walloon",
-    "cy": "welsh",
-    "wo": "wolof",
-    "fy": "frisian",
-    "xh": "xhosa",
-    "yi": "yiddish",
-    "yo": "yoruba",
-    "za": "zhuang",
-    "zu": "zulu",
-    "chs": "simplified_chinese",
-    "cht": "traditional_chinese",
-    "zh": "traditional_chinese",
-}
-
-
-def detect_user_locale():
-    import locale
-    if renpy.windows:
-        import ctypes
-        windll = ctypes.windll.kernel32
-        locale_name = locale.windows_locale.get(windll.GetUserDefaultUILanguage())
-    elif renpy.android:
-        from jnius import autoclass
-        Locale = autoclass('java.util.Locale')
-        locale_name = str(Locale.getDefault().getLanguage())
-    elif renpy.ios:
-        import pyobjus
-        NSLocale = pyobjus.autoclass("NSLocale")
-        languages = NSLocale.preferredLanguages()
-        locale_name = languages.objectAtIndex_(0).UTF8String().decode("utf-8")
-        locale_name.replace("-", "_")
-    else:
-        locale_name = locale.getdefaultlocale()
-        if locale_name is not None:
-            locale_name = locale_name[0]
-
-    if locale_name is None:
-        return None, None
-
-    normalize = locale.normalize(locale_name)
-    if normalize == locale_name:
-        language = region = locale_name
-    else:
-        locale_name = normalize
-        if '.' in locale_name:
-            locale_name, _ = locale_name.split('.', 1)
-        language, region = locale_name.lower().split("_")
-    return language, region

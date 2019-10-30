@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 
+
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Store Variables &#8212; Ren&#39;Py Documentation</title>
+    
+    <title>Store Variables &mdash; Ren&#39;Py Documentation</title>
+    
     <link rel="stylesheet" href="_static/renpydoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '7.3.5',
+        VERSION:     '6.99.12',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -26,17 +29,16 @@
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Developer Tools" href="developer_tools.html" />
-    <link rel="prev" title="Preference Variables" href="preferences.html" />
+    <link rel="top" title="Ren&#39;Py Documentation" href="index.html" />
+    <link rel="next" title="NVL-Mode Tutorial" href="nvl_mode.html" />
+    <link rel="prev" title="Configuration Variables" href="config.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -49,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           Ren&#39;Py Documentation</a>
-        <span class="navbar-text navbar-version pull-left"><b>7.3.5</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>6.99.12</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -90,7 +92,6 @@
 <li class="toctree-l1"><a class="reference internal" href="transforms.html">Transforms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transitions.html">Transitions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="atl.html">Animation and Transformation Language</a></li>
-<li class="toctree-l1"><a class="reference internal" href="layeredimage.html">Layered Images</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="style.html">Styles</a></li>
@@ -100,12 +101,7 @@
 <li class="toctree-l1"><a class="reference internal" href="screen_special.html">Special Screen Names</a></li>
 <li class="toctree-l1"><a class="reference internal" href="screen_optimization.html">Screen Language Optimization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">Configuration Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="preferences.html">Preference Variables</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Store Variables</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="developer_tools.html">Developer Tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="director.html">Interactive Director</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="nvl_mode.html">NVL-Mode Tutorial</a></li>
@@ -115,16 +111,15 @@
 <li class="toctree-l1"><a class="reference internal" href="drag_drop.html">Drag and Drop</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sprites.html">Sprites</a></li>
 <li class="toctree-l1"><a class="reference internal" href="keymap.html">Customizing the Keymap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer_tools.html">Developer Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="achievement.html">Achievements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="history.html">Dialogue History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="multiple.html">Multiple Character Dialogue</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="statement_equivalents.html">Statement Equivalents</a></li>
 <li class="toctree-l1"><a class="reference internal" href="save_load_rollback.html">Saving, Loading, and Rollback</a></li>
 <li class="toctree-l1"><a class="reference internal" href="persistent.html">Persistent Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="trans_trans_python.html">Transforms and Transitions in Python</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gui_advanced.html">Advanced GUI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="screen_python.html">Screens and Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modes.html">Modes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="udd.html">Creator-Defined Displayables</a></li>
@@ -143,12 +138,11 @@
 <li class="toctree-l1"><a class="reference internal" href="ios.html">iOS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="iap.html">In-App Purchasing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gesture.html">Gestures</a></li>
-<li class="toctree-l1"><a class="reference internal" href="raspi.html">Raspberry Pi</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="problems.html">Dealing with Problems</a></li>
 <li class="toctree-l1"><a class="reference internal" href="environment_variables.html">Environment Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="self_voicing.html">Self-Voicing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="self_voicing.html">Self Voicing</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="editor.html">Text Editor Integration</a></li>
@@ -160,8 +154,7 @@
 <li class="toctree-l1"><a class="reference internal" href="incompatible.html">Incompatible Changes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="distributor.html">Distributor Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sponsors.html">Ren'Py Development Sponsors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Documentation and Translation Credits</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="thequestion.html">Script of The Question</a></li>
@@ -256,15 +249,6 @@ information.</p>
 </dd></dl>
 
 <dl class="var">
-<dt id="var-_ignore_action">
-<code class="descname">_ignore_action</code> = None<a class="headerlink" href="#var-_ignore_action" title="Permalink to this definition"> link</a></dt>
-<dd><p>When this is not None, it's an action that is run after clicking Ignore
-on the error handling screen. The action is usually <a class="reference internal" href="screen_actions.html#Jump" title="Jump"><code class="xref py py-func docutils literal"><span class="pre">Jump()</span></code></a>, to jump
-the game to a place that can recover from an error. If None, control
-continues with the next Ren'Py statement.</p>
-</dd></dl>
-
-<dl class="var">
 <dt id="var-main_menu">
 <code class="descname">main_menu</code> = False<a class="headerlink" href="#var-main_menu" title="Permalink to this definition"> link</a></dt>
 <dd><p>Ren'Py sets this variable to True while in the main menu. This can be used
@@ -281,8 +265,8 @@ context.</p>
 <dl class="var">
 <dt id="var-menu">
 <code class="descname">menu</code> = renpy.display_menu<a class="headerlink" href="#var-menu" title="Permalink to this definition"> link</a></dt>
-<dd><p>The function that's called to display the in-game menu. It should take the same
-arguments as <a class="reference internal" href="statement_equivalents.html#renpy.display_menu" title="renpy.display_menu"><code class="xref py py-func docutils literal"><span class="pre">renpy.display_menu()</span></code></a>. Assigning <a class="reference internal" href="nvl_mode.html#nvl_menu" title="nvl_menu"><code class="xref py py-func docutils literal"><span class="pre">nvl_menu()</span></code></a> to this
+<dd><p>The function that's called to display the in-gamemenu. It should take the same
+arguments as :func`renpy.display_menu`. Assigning <code class="xref py py-func docutils literal"><span class="pre">nvl_menu()</span></code> to this
 will display an nvl-mode menu.</p>
 </dd></dl>
 
@@ -297,7 +281,7 @@ entering the standard game menus.</p>
 <dt id="var-name_only">
 <code class="descname">name_only</code> = Character(...)<a class="headerlink" href="#var-name_only" title="Permalink to this definition"> link</a></dt>
 <dd><p>This is a template character that is used when a string is given as the
-character name in a say statement. This:</p>
+character name in a say statement. The code:</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="s2">&quot;Eileen&quot;</span> <span class="s2">&quot;Hello, world.&quot;</span>
 </pre></div>
 </div>
@@ -306,14 +290,14 @@ character name in a say statement. This:</p>
 <span class="n">temp_char</span> <span class="s2">&quot;Hello, world.&quot;</span>
 </pre></div>
 </div>
-<p>except that the <code class="docutils literal"><span class="pre">temp_char</span></code> variable is not used.</p>
+<p>except that the temp_char variable is not used.</p>
 </dd></dl>
 
 <dl class="var">
 <dt id="var-narrator">
 <code class="descname">narrator</code> = Character(...)<a class="headerlink" href="#var-narrator" title="Permalink to this definition"> link</a></dt>
 <dd><p>This is the character that speaks narration (say statements that do not
-give a character or character name). This:</p>
+give a character or character name). The code:</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="s2">&quot;Hello, world.&quot;</span>
 </pre></div>
 </div>
@@ -321,13 +305,6 @@ give a character or character name). This:</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="n">narrator</span> <span class="s2">&quot;Hello, world.&quot;</span>
 </pre></div>
 </div>
-</dd></dl>
-
-<dl class="var">
-<dt id="var-_quit_slot">
-<code class="descname">_quit_slot</code> = None<a class="headerlink" href="#var-_quit_slot" title="Permalink to this definition"> link</a></dt>
-<dd><p>If not None, this should be a string giving the name of a file slot.
-When Ren'Py quits, the game will be saved in this slot.</p>
 </dd></dl>
 
 <dl class="var">
@@ -341,7 +318,7 @@ When Ren'Py quits, the game will be saved in this slot.</p>
 <code class="descname">say</code> = ...<a class="headerlink" href="#var-say" title="Permalink to this definition"> link</a></dt>
 <dd><p>A function that is called by Ren'Py to display dialogue. This is called
 with three arguments. The first argument (<cite>who</cite>) is the character saying the
-dialogue (or None for the narrator). The second argument (<cite>what</cite>) is what dialogue
+dialogue (or None for the narrator). The second argument(<cite>what</cite>) is what dialogue
 is being said.</p>
 <p>The third argument must be a keyword argument named <cite>interact</cite> and defaulting
 to True. If true, the say function will wait for a click. If false, it will
@@ -360,17 +337,7 @@ hooking the say statement.</p>
 <dl class="var">
 <dt id="var-_skipping">
 <code class="descname">_skipping</code> = True<a class="headerlink" href="#var-_skipping" title="Permalink to this definition"> link</a></dt>
-<dd><p>Controls if skipping is allowed.</p>
-</dd></dl>
-
-<dl class="var">
-<dt id="var-_version">
-<code class="descname">_version</code> = ...<a class="headerlink" href="#var-_version" title="Permalink to this definition"> link</a></dt>
-<dd><p>This is set to <a class="reference internal" href="config.html#var-config.version"><code class="xref std std-var docutils literal"><span class="pre">config.version</span></code></a> when a new game is started. It can be
-used by the <code class="docutils literal"><span class="pre">after_load</span></code> label or <a class="reference internal" href="config.html#var-config.after_load_callbacks"><code class="xref std std-var docutils literal"><span class="pre">config.after_load_callbacks</span></code></a> to
-determine which upgrades need to be done.</p>
-<p>This is only set once, upon the initial start. After that, the game is
-responsible for updating _version as necessary.</p>
+<dd><p>Controls of if skipping is allowed.</p>
 </dd></dl>
 
 <dl class="var">
@@ -410,8 +377,8 @@ the game menu.</p>
       
     </p>
     <p>
-        &copy; Copyright 2012-2019, Tom Rothamel.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.<br/>
+        &copy; Copyright 2012-2017, Tom Rothamel.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.<br/>
     </p>
   </div>
 </footer>

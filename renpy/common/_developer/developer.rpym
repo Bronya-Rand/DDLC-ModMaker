@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -30,7 +30,7 @@ screen _developer:
     modal True
 
     frame:
-        style_prefix ""
+        style_group ""
 
         has side "t c b":
             spacing gui._scale(10)
@@ -40,28 +40,25 @@ screen _developer:
         fixed:
             vbox:
 
-                textbutton _("Interactive Director (D)"):
-                    action [ director.Start(), Hide("_developer") ]
                 textbutton _("Reload Game (Shift+R)"):
                     action ui.callsinnewcontext("_save_reload_game")
                 textbutton _("Console (Shift+O)"):
                     action [ Hide("_developer"), _console.enter ]
                 textbutton _("Variable Viewer"):
                     action ui.callsinnewcontext("_debugger_screen")
+                textbutton _("Theme Test"):
+                    action ui.callsinnewcontext("_theme_test")
                 textbutton _("Image Location Picker"):
                     action ui.callsinnewcontext("_image_location_picker")
                 textbutton _("Filename List"):
                     action ui.callsinnewcontext("_filename_list")
 
                 if not renpy.get_screen("_image_load_log"):
-                    textbutton _("Show Image Load Log (F4)"):
+                    textbutton _("Show Image Load Log"):
                         action Show("_image_load_log")
                 else:
-                    textbutton _("Hide Image Load Log (F4)"):
+                    textbutton _("Hide Image Load Log"):
                         action Hide("_image_load_log")
-
-                textbutton _("Image Attributes"):
-                    action ui.callsinnewcontext("_image_attributes")
 
         hbox:
             spacing gui._scale(25)
@@ -71,58 +68,13 @@ screen _developer:
                 size_group "developer"
 
 
-screen _image_attributes():
-
-    frame:
-        style_prefix ""
-        right_padding 0
-
-        has side "c b":
-            spacing gui._scale(10)
-
-
-        vbox:
-            label _("Image Attributes")
-
-
-            for name in renpy.get_hidden_tags():
-                $ attributes = " ".join(renpy.get_attributes(name))
-                text _("[name] [attributes] (hidden)")
-
-            for name in renpy.get_showing_tags():
-                $ attributes = " ".join(renpy.get_attributes(name))
-                text _("[name] [attributes]")
-
-        hbox:
-            spacing gui._scale(25)
-
-            textbutton _(u"Return"):
-                action Return(True)
-
-
-    pass
-
-label _image_attributes:
-
-    call _enter_game_menu
-
-    call screen _image_attributes
-
-    return
-
-screen _variable_viewer(all_entries, deleted_entries):
+screen _variable_viewer(entries):
 
     zorder 1010
     modal True
-    default show_deleted = True
-    python:
-        if show_deleted:
-            entries = all_entries
-        else:
-            entries = [(n, v) for n, v in all_entries if n not in deleted_entries]
 
     frame:
-        style_prefix ""
+        style_group ""
         right_padding 0
 
         has side "t c b":
@@ -150,9 +102,6 @@ screen _variable_viewer(all_entries, deleted_entries):
 
             textbutton _(u"Return"):
                 action Return(True)
-            if all_entries and deleted_entries:
-                textbutton (_(u"Hide deleted") if show_deleted else _(u"Show deleted")):
-                    action ToggleScreenVariable("show_deleted")
 
 
 label _debugger_screen:
@@ -166,13 +115,8 @@ label _debugger_screen:
         aRepr.maxstring = 120
 
         entries = [ ]
-        deleted_entries = set()
 
         for sn, d in renpy.python.store_dicts.items():
-
-            if sn.startswith("store._"):
-                continue
-
             for vn in d.ever_been_changed:
 
                 if vn.startswith("__00"):
@@ -191,14 +135,9 @@ label _debugger_screen:
 
                 name = (sn + "." + vn)[6:]
 
-                if vn not in d:
-                    deleted_entries.add(name)
-
                 entries.append((name, value))
 
-        entries.sort(key=lambda e : e[0])
-
-        renpy.call_screen("_variable_viewer", all_entries=entries, deleted_entries=deleted_entries)
+        renpy.call_screen("_variable_viewer", entries=entries)
 
     return
 
@@ -327,14 +266,9 @@ init 1050 python:
 
             return True
 
-        if config.missing_scene is None:
-            config.missing_scene = __missing_scene_callback
-
-        if config.missing_show is None:
-            config.missing_show = __missing_show_callback
-
-        if config.missing_hide is None:
-            config.missing_hide = __missing_hide_callback
+        config.missing_scene = __missing_scene_callback
+        config.missing_show = __missing_show_callback
+        config.missing_hide = __missing_hide_callback
 
 
 init -1050 python:
@@ -492,20 +426,13 @@ init python:
 
 screen _image_location_picker(image_files):
 
-    default filter = ""
-
     frame:
-        style_prefix ""
+        style_group ""
 
         has side "t c b":
             spacing gui._scale(10)
 
-        vbox:
-            label _(u"Image Location Picker")
-
-            hbox:
-                text _("Type to filter: ")
-                input value ScreenVariableInputValue("filter")
+        label _(u"Image Location Picker")
 
         viewport:
             xfill True
@@ -515,7 +442,7 @@ screen _image_location_picker(image_files):
 
             has vbox
 
-            for fn in [ i for i in image_files if filter.lower() in i.lower() ]:
+            for fn in image_files:
 
                 textbutton "[fn!q]":
                     action Return(fn)
@@ -536,19 +463,12 @@ label _image_location_picker:
 
     python hide:
 
-        extensions = [ ".jpg", ".jpeg", ".png", ".webp" ]
-
-        image_files = [ ]
-
-        for fn in renpy.list_files():
-            if fn[0] == "_":
-                continue
-
-            lfn = fn.lower()
-
-            for i in extensions:
-                if fn.endswith(i):
-                    image_files.append(fn)
+        image_files = [
+            fn
+            for dir, fn in renpy.loader.listdirfiles()
+            if fn.lower().endswith(".jpg") or fn.lower().endswith(".png")
+            if not fn[0] == "_"
+            ]
 
         image_files.sort()
 
@@ -578,10 +498,7 @@ label _filename_list:
 
     python hide:
         import os
-
-        FILES_TXT = os.path.join(renpy.config.basedir, "files.txt")
-
-        f = file(FILES_TXT, "w")
+        f = file("files.txt", "w")
 
         for dirname, dirs, files in os.walk(config.gamedir):
 
@@ -591,31 +508,43 @@ label _filename_list:
             for fn in files:
                 fn = os.path.join(dirname, fn)
                 fn = fn[len(config.gamedir) + 1:]
-                print(fn.encode("utf-8", "replace"), file=f)
-                print(fn.encode("utf-8", "replace"))
+                print >>f, fn.encode("utf-8", "replace")
+                print fn.encode("utf-8", "replace")
 
         f.close()
 
-        renpy.launch_editor([ FILES_TXT ], transient=1)
+        renpy.launch_editor(["files.txt"], transient=1)
 
     return
 
 
-screen _image_load_log():
-    zorder 1500
+init python:
+    def _image_load_log_function(st, at):
 
-    default show_help = True
+        ill = list(renpy.get_image_load_log(3))
 
-    style_prefix ""
+        vbox = VBox()
 
-    python:
-        load_log = list(renpy.get_image_load_log(5))
-        tex_size, tex_count = renpy.get_texture_size()
-        tex_size_mb = tex_size / 1024.0 / 1024.0
+        for when, filename, preload in ill:
+            if preload:
+                color="#ccffcc"
+                prefix=__("✔ ")
+            else:
+                color="#ffcccc"
+                prefix=__("✘ ")
 
-        cache_size = renpy.display.im.cache.get_current_size(2)
-        cache_size_mb = cache_size * 4.0 / 1024 / 1024
-        cache_pct = 100.0 * cache_size / renpy.display.im.cache.cache_limit
+            vbox.add(Text(prefix + filename.replace("{", "{{").replace("[", "[["), size=14, color=color, style="_default"))
+
+        if at < 10.0:
+            vbox.add(Text(
+            _("\n{color=#cfc}✔ predicted image (good){/color}\n{color=#fcc}✘ unpredicted image (bad){/color}\n{color=#fff}Drag to move.{/color}"),
+            size=14, style="_default"))
+
+        return vbox, .25
+
+screen _image_load_log:
+
+    zorder 1000
 
     drag:
         draggable True
@@ -630,42 +559,10 @@ screen _image_load_log():
             ypadding 5
             xminimum 200
 
-            has vbox
+            add DynamicDisplayable(_image_load_log_function)
 
-            text _("Textures: [tex_count] ([tex_size_mb:.1f] MB)"):
-                size 14
-                color "#fff"
 
-            text _("Image cache: [cache_pct:.1f]% ([cache_size_mb:.1f] MB)"):
-                size 14
-                color "#fff"
-
-            if load_log:
-                text "\n" size 14
-
-            for when, filename, preload in load_log:
-                if preload:
-                    $ color="#ccffcc"
-                    $ prefix=__("✔ ")
-                else:
-                    $ color="#ffcccc"
-                    $ prefix=__("✘ ")
-
-                text "[prefix][filename!q]" color color size 14
-
-            if show_help:
-                text _("\n{color=#cfc}✔ predicted image (good){/color}\n{color=#fcc}✘ unpredicted image (bad){/color}\n{color=#fff}Drag to move.{/color}"):
-                    size 14
-
-    timer 10.0 action SetScreenVariable("show_help", False)
 
 init python:
     if config.transparent_tile:
-        config.underlay.append(Frame("_transparent_tile.png", tile=True))
-        renpy.start_predict("_transparent_tile.png")
-
-    config.per_frame_screens.append("_image_load_log")
-
-    config.underlay.append(renpy.Keymap(
-        image_load_log = ToggleScreen("_image_load_log")
-    ))
+        config.underlay.append(im.Tile("_transparent_tile.png"))

@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -21,8 +21,6 @@
 
 # This file contains code to emulate various other devices on the PC.
 
-from __future__ import print_function
-
 import renpy.display
 
 import os
@@ -44,7 +42,6 @@ def null_emulator(ev, x, y):
     This is used when emulation is not desired.
     """
     return ev, x, y
-
 
 TOUCH_KEYS = [ pygame.K_ESCAPE, pygame.K_PAGEUP ]
 
@@ -74,14 +71,10 @@ def touch_emulator(ev, x, y):
             y = 0
 
     elif ev.type == pygame.KEYDOWN and not ios:
-        if ev.mod & pygame.KMOD_SHIFT:
-            pass
-        elif not ev.key in TOUCH_KEYS:
+        if not ev.key in TOUCH_KEYS:
             return None, x, y
 
     elif ev.type == pygame.KEYUP and not ios:
-        if ev.mod & pygame.KMOD_SHIFT:
-            pass
         if not ev.key in TOUCH_KEYS:
             return None, x, y
 
@@ -110,7 +103,6 @@ def tv_emulator(ev, x, y):
             return None, x, y
 
     return ev, x, y
-
 
 keyboard = None
 null = None
@@ -149,12 +141,10 @@ def init_emulator():
     if name == "touch":
         emulator = touch_emulator
         overlay = [ renpy.store.DynamicDisplayable(dynamic_keyboard) ]
-
     elif name == "ios-touch":
         emulator = touch_emulator
         overlay = [ renpy.store.DynamicDisplayable(dynamic_keyboard) ]
         ios = True
-
     elif name == "tv":
         emulator = tv_emulator
         overlay = [ renpy.display.motion.Transform(
@@ -163,16 +153,6 @@ def init_emulator():
             yalign=0.5,
             size=(int(renpy.config.screen_height * 16.0 / 9.0), renpy.config.screen_height),
             ) ]
-
     else:
         emulator = null_emulator
         overlay = [ ]
-
-    if emulator is not null_emulator:
-        renpy.exports.windows = False
-        renpy.exports.linux = False
-        renpy.exports.macintosh = False
-        renpy.exports.web = False
-        renpy.exports.android = renpy.exports.variant("android")
-        renpy.exports.ios = renpy.exports.variant("ios")
-        renpy.exports.mobile = renpy.exports.android or renpy.exports.ios  # @UndefinedVariable

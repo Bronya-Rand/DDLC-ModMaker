@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 
+
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Audio &#8212; Ren&#39;Py Documentation</title>
+    
+    <title>Audio &mdash; Ren&#39;Py Documentation</title>
+    
     <link rel="stylesheet" href="_static/renpydoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '7.3.5',
+        VERSION:     '6.99.12',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -26,8 +29,7 @@
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Ren&#39;Py Documentation" href="index.html" />
     <link rel="next" title="Movie" href="movie.html" />
     <link rel="prev" title="Conditional Statements" href="conditional.html" />
 <meta charset='utf-8'>
@@ -36,7 +38,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -49,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           Ren&#39;Py Documentation</a>
-        <span class="navbar-text navbar-version pull-left"><b>7.3.5</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>6.99.12</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -90,7 +92,6 @@
 <li class="toctree-l1"><a class="reference internal" href="transforms.html">Transforms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transitions.html">Transitions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="atl.html">Animation and Transformation Language</a></li>
-<li class="toctree-l1"><a class="reference internal" href="layeredimage.html">Layered Images</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="style.html">Styles</a></li>
@@ -100,12 +101,7 @@
 <li class="toctree-l1"><a class="reference internal" href="screen_special.html">Special Screen Names</a></li>
 <li class="toctree-l1"><a class="reference internal" href="screen_optimization.html">Screen Language Optimization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">Configuration Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="preferences.html">Preference Variables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="store_variables.html">Store Variables</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="developer_tools.html">Developer Tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="director.html">Interactive Director</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="nvl_mode.html">NVL-Mode Tutorial</a></li>
@@ -115,16 +111,15 @@
 <li class="toctree-l1"><a class="reference internal" href="drag_drop.html">Drag and Drop</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sprites.html">Sprites</a></li>
 <li class="toctree-l1"><a class="reference internal" href="keymap.html">Customizing the Keymap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer_tools.html">Developer Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="achievement.html">Achievements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="history.html">Dialogue History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="multiple.html">Multiple Character Dialogue</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="statement_equivalents.html">Statement Equivalents</a></li>
 <li class="toctree-l1"><a class="reference internal" href="save_load_rollback.html">Saving, Loading, and Rollback</a></li>
 <li class="toctree-l1"><a class="reference internal" href="persistent.html">Persistent Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="trans_trans_python.html">Transforms and Transitions in Python</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gui_advanced.html">Advanced GUI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="screen_python.html">Screens and Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modes.html">Modes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="udd.html">Creator-Defined Displayables</a></li>
@@ -143,12 +138,11 @@
 <li class="toctree-l1"><a class="reference internal" href="ios.html">iOS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="iap.html">In-App Purchasing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gesture.html">Gestures</a></li>
-<li class="toctree-l1"><a class="reference internal" href="raspi.html">Raspberry Pi</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="problems.html">Dealing with Problems</a></li>
 <li class="toctree-l1"><a class="reference internal" href="environment_variables.html">Environment Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="self_voicing.html">Self-Voicing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="self_voicing.html">Self Voicing</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="editor.html">Text Editor Integration</a></li>
@@ -160,8 +154,7 @@
 <li class="toctree-l1"><a class="reference internal" href="incompatible.html">Incompatible Changes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="distributor.html">Distributor Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sponsors.html">Ren'Py Development Sponsors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Documentation and Translation Credits</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="thequestion.html">Script of The Question</a></li>
@@ -217,22 +210,22 @@
 <p>Ren'Py supports playing music and sound effects in the background,
 using the following audio file formats</p>
 <ul class="simple">
-<li>Opus</li>
-<li>Ogg Vorbis</li>
+<li>OPUS</li>
+<li>OGG Vorbis</li>
 <li>MP3</li>
 <li>WAV (uncompressed PCM only)</li>
 </ul>
 <p>Ren'Py supports an arbitrary number of audio channels. There are three
 normal channels defined by default:</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">music</span></code> - A channel for music playback.</li>
-<li><code class="docutils literal"><span class="pre">sound</span></code> - A channel for sound effects.</li>
-<li><code class="docutils literal"><span class="pre">voice</span></code> - A channel for voice.</li>
+<li>music - A channel for music playback.</li>
+<li>sound - A channel for sound effects.</li>
+<li>voice - A channel for voice.</li>
 </ul>
 <p>Normal channels support playing and queueing audio, but only play back
 one audio file at a time. New normal channels can be registered with
 <a class="reference internal" href="#renpy.music.register_channel" title="renpy.music.register_channel"><code class="xref py py-func docutils literal"><span class="pre">renpy.music.register_channel()</span></code></a>.</p>
-<p>The Music Volume, Sound Volume, and Voice Volume settings
+<p>The 'Music Volume', 'Sound Volume', and 'Voice Volume' settings
 of the in-game preferences menu are used to set individual
 volumes for these channels.</p>
 <p>In addition to the normal channel, there is one special channel, <code class="docutils literal"><span class="pre">audio</span></code>.
@@ -248,26 +241,26 @@ respectively.</p>
 the three music/sound statements.</p>
 <div class="section" id="play-statement">
 <h2>Play Statement<a class="headerlink" href="#play-statement" title="Permalink to this headline"> link</a></h2>
-<p>The <code class="docutils literal"><span class="pre">play</span></code> statement is used to play sound and music. If a file is
+<p>The play statement is used to play sound and music. If a file is
 currently playing on a normal channel, it is interrupted and replaced with
 the new file.</p>
-<p>The name of a channel is expected following the keyword <code class="docutils literal"><span class="pre">play</span></code>.
+<p>The name of a channel is expected following keyword <code class="docutils literal"><span class="pre">play</span></code>,
 (Usually, this is either &quot;sound&quot;, &quot;music&quot;, &quot;voice&quot;, or &quot;audio&quot;). This is
 followed by audiofile(s), where audiofile(s) can be one file or list of files.
 When the list is given, the item of it is played in order.</p>
 <p>The <code class="docutils literal"><span class="pre">fadein</span></code> and <code class="docutils literal"><span class="pre">fadeout</span></code> clauses are optional. Fadeout gives the fadeout
 time for currently playing music, in seconds, while fadein gives the time
-it takes to fade in the new music. If fadeout is not given, <a class="reference internal" href="config.html#var-config.fade_music"><code class="xref std std-var docutils literal"><span class="pre">config.fade_music</span></code></a>
+it takes to fade in the new music. If fadeout is not given, config.fade_music
 is used.</p>
 <p>The <code class="docutils literal"><span class="pre">loop</span></code> and <code class="docutils literal"><span class="pre">noloop</span></code> clauses are also optional. The loop clause causes
-the music to loop, while noloop causes it to play only once. If neither of them are
+the music to loop, while noloop causes it to play only once. If both of them isn't
 given, the default of the channel is used.</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">play</span> <span class="k">music</span> <span class="s2">&quot;mozart.ogg&quot;</span>
-<span class="k">play</span> <span class="k">sound</span> <span class="s2">&quot;woof.mp3&quot;</span>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">play</span> <span class="n">music</span> <span class="s2">&quot;mozart.ogg&quot;</span>
+<span class="k">play</span> <span class="na">sound</span> <span class="s2">&quot;woof.mp3&quot;</span>
 <span class="k">play</span> <span class="n">myChannel</span> <span class="s2">&quot;punch.wav&quot;</span> <span class="c1"># &#39;myChannel&#39; needs to be defined with renpy.music.register_channel().</span>
 
 <span class="s2">&quot;We can also play a list of sounds, or music.&quot;</span>
-<span class="k">play</span> <span class="k">music</span> <span class="p">[</span> <span class="s2">&quot;a.ogg&quot;</span><span class="p">,</span> <span class="s2">&quot;b.ogg&quot;</span> <span class="p">]</span> <span class="n">fadeout</span> <span class="mf">1.0</span> <span class="n">fadein</span> <span class="mf">1.0</span>
+<span class="k">play</span> <span class="n">music</span> <span class="p">[</span> <span class="s2">&quot;a.ogg&quot;</span><span class="p">,</span> <span class="s2">&quot;b.ogg&quot;</span> <span class="p">]</span> <span class="n">fadeout</span> <span class="mf">1.0</span> <span class="n">fadein</span> <span class="mf">1.0</span>
 </pre></div>
 </div>
 <p>On the audio channel, multiple play statements play multiple sounds at the same
@@ -279,28 +272,28 @@ time:</p>
 </div>
 <div class="section" id="stop-statement">
 <h2>Stop Statement<a class="headerlink" href="#stop-statement" title="Permalink to this headline"> link</a></h2>
-<p>The <code class="docutils literal"><span class="pre">stop</span></code> statement begins with the keyword <code class="docutils literal"><span class="pre">stop</span></code>, followed by the the name of a
+<p>The stop statement begin with keyword <code class="docutils literal"><span class="pre">stop</span></code>, followed by the the name of a
 channel to stop sound on. It may optionally have a <code class="docutils literal"><span class="pre">fadeout</span></code>
 clause.</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">stop</span> <span class="k">sound</span>
-<span class="k">stop</span> <span class="k">music</span> <span class="n">fadeout</span> <span class="mf">1.0</span>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">stop</span> <span class="na">sound</span>
+<span class="k">stop</span> <span class="n">music</span> <span class="n">fadeout</span> <span class="mf">1.0</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="queue-statement">
 <h2>Queue Statement<a class="headerlink" href="#queue-statement" title="Permalink to this headline"> link</a></h2>
-<p>The <code class="docutils literal"><span class="pre">queue</span></code> statement is used to queue up audio files. They will be played when
+<p>The queue statement is used to queue up audio files. They will be played when
 the channel finishes playing the currently playing file.</p>
-<p>The queue statement begins with keyword <code class="docutils literal"><span class="pre">queue</span></code>, followed by the the name of a
+<p>The queue statement begin with keyword <code class="docutils literal"><span class="pre">queue</span></code>, followed by the the name of a
 channel to play sound on. It optionally takes the <code class="docutils literal"><span class="pre">loop</span></code> and <code class="docutils literal"><span class="pre">noloop</span></code> clauses.</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">queue</span> <span class="k">sound</span> <span class="s2">&quot;woof.ogg&quot;</span>
-<span class="k">queue</span> <span class="k">music</span> <span class="p">[</span> <span class="s2">&quot;a.ogg&quot;</span><span class="p">,</span> <span class="s2">&quot;b.ogg&quot;</span> <span class="p">]</span>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">queue</span> <span class="na">sound</span> <span class="s2">&quot;woof.ogg&quot;</span>
+<span class="k">queue</span> <span class="n">music</span> <span class="p">[</span> <span class="s2">&quot;a.ogg&quot;</span><span class="p">,</span> <span class="s2">&quot;b.ogg&quot;</span> <span class="p">]</span>
 </pre></div>
 </div>
 <p>The advantage of using these statements is that your program will be checked for
 missing sound and music files when lint is run. The functions below exist to allow
-access to allow music and sound to be controlled from Python, and to expose
-advanced (rarely used) features.</p>
+access to allow music and sound to be controlled from python, and to expose
+advanced (rarely-used) features.</p>
 </div>
 <div class="section" id="partial-playback">
 <span id="id1"></span><h2>Partial Playback<a class="headerlink" href="#partial-playback" title="Permalink to this headline"> link</a></h2>
@@ -323,14 +316,14 @@ play-throughs begin playing. (This defaults to the start time
 given by <code class="docutils literal"><span class="pre">from</span></code> if specified, or to the start of the file.)</dd>
 </dl>
 <p>For example:</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">play</span> <span class="k">music</span> <span class="s2">&quot;&lt;from 5 to 15.5&gt;waves.opus&quot;</span>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">play</span> <span class="n">music</span> <span class="s2">&quot;&lt;from 5 to 15.5&gt;waves.opus&quot;</span>
 </pre></div>
 </div>
-<p>will play 10.5 seconds of waves.opus, starting at the 5 second mark. The statement:</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">play</span> <span class="k">music</span> <span class="s2">&quot;&lt;loop 6.333&gt;song.opus&quot;</span>
+<p>Will play 10.5 seconds of waves.opus, starting at the 5 second mark. The code:</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">play</span> <span class="n">music</span> <span class="s2">&quot;&lt;loop 6.333&gt;song.opus&quot;</span>
 </pre></div>
 </div>
-<p>will play song.opus all the way through once, then loop back to the 6.333
+<p>Will play song.opus all the way through once, then loop back to the 6.333
 second mark before playing it again all the way through to the end.</p>
 </div>
 <div class="section" id="playing-silence">
@@ -353,49 +346,12 @@ to provide an alias for an audio file.</p>
 </pre></div>
 </div>
 <p>and then use:</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">play</span> <span class="k">music</span> <span class="n">sunflower</span>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">play</span> <span class="n">music</span> <span class="n">sunflower</span>
 </pre></div>
 </div>
-<p>Ren'Py will also automatically place sound files in the audio name face,
-if found in the <code class="docutils literal"><span class="pre">game/audio</span></code> directory. Files in this directory with a
-supported extension (currently, .wav, .mp2, .mp3, .ogg, and .opus) have the
-extension stripped, the rest of the filename forced to lower case, and are
-placed into the audio namespace.</p>
-<p>Note that just because a file is placed into the audio namespace, that doesn't
-mean it can be used. So while you could play a file named &quot;opening_song.ogg&quot;
-by writing:</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">play</span> <span class="k">music</span> <span class="n">opening_song</span>
-</pre></div>
-</div>
-<p>Some filenames can't be accessed this way, as their names are not expressable
-as Python variables. For example, &quot;my song.mp3&quot;, &quot;8track.opus&quot;, and
-&quot;this-is-a-song.ogg&quot; won't work.</p>
 </div>
 <div class="section" id="functions">
 <h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline"> link</a></h2>
-<dl class="function">
-<dt id="AudioData">
-<code class="descname">AudioData</code><span class="sig-paren">(</span><em>data</em>, <em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#AudioData" title="Permalink to this definition"> link</a></dt>
-<dd><p>This class wraps a bytes object containing audio data, so it can be
-passed to the audio playback system. The audio data should be contained
-in some format Ren'Py supports. (For examples RIFF WAV format headers,
-not unadorned samples.)</p>
-<dl class="docutils">
-<dt><cite>data</cite></dt>
-<dd>A bytes object containing the audio file data.</dd>
-<dt><cite>filename</cite></dt>
-<dd>A synthetic filename associated with this data. It can be used to
-suggest the format <cite>data</cite> is in, and is reported as part of
-error messages.</dd>
-</dl>
-<p>Once created, this can be used wherever an audio filename is allowed. For
-example:</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">audio</span><span class="o">.</span><span class="n">easteregg</span> <span class="o">=</span> <span class="n">AudioData</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;...&#39;</span><span class="p">,</span> <span class="s1">&#39;sample.wav&#39;</span><span class="p">)</span>
-<span class="k">play</span> <span class="k">sound</span> <span class="n">easteregg</span>
-</pre></div>
-</div>
-</dd></dl>
-
 <dl class="function">
 <dt id="renpy.play">
 <code class="descclassname">renpy.</code><code class="descname">play</code><span class="sig-paren">(</span><em>filename</em>, <em>channel=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.play" title="Permalink to this definition"> link</a></dt>
@@ -437,7 +393,7 @@ Otherwise, returns None.</p>
 <dd><p>Returns the current position of the audio or video file on <cite>channel</cite>, in
 seconds. Returns None if no audio is playing on <cite>channel</cite>.</p>
 <p>As this may return None before a channel starts playing, or if the audio
-channel involved has been muted, callers of this function should
+channel involved has been muted, code that calls this function should
 always handle a None value.</p>
 </dd></dl>
 
@@ -513,7 +469,7 @@ None, this is true when loop is True, and false otherwise.</dd>
 
 <dl class="function">
 <dt id="renpy.music.register_channel">
-<code class="descclassname">renpy.music.</code><code class="descname">register_channel</code><span class="sig-paren">(</span><em>name</em>, <em>mixer=None</em>, <em>loop=None</em>, <em>stop_on_mute=True</em>, <em>tight=False</em>, <em>file_prefix=''</em>, <em>file_suffix=''</em>, <em>buffer_queue=True</em>, <em>movie=False</em>, <em>framedrop=True</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.music.register_channel" title="Permalink to this definition"> link</a></dt>
+<code class="descclassname">renpy.music.</code><code class="descname">register_channel</code><span class="sig-paren">(</span><em>name</em>, <em>mixer=None</em>, <em>loop=None</em>, <em>stop_on_mute=True</em>, <em>tight=False</em>, <em>file_prefix=''</em>, <em>file_suffix=''</em>, <em>buffer_queue=True</em>, <em>movie=False</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.music.register_channel" title="Permalink to this definition"> link</a></dt>
 <dd><p>This registers a new audio channel named <cite>name</cite>. Audio can then be
 played on the channel by supplying the channel name to the play or
 queue statements.</p>
@@ -542,10 +498,6 @@ played on this channel.</dd>
 be True for audio, and False for movie playback.</dd>
 <dt><cite>movie</cite></dt>
 <dd>If true, this channel will be set up to play back videos.</dd>
-<dt><cite>framedrop</cite></dt>
-<dd>This controls what a video does when lagging. If true, frames will
-be dropped to keep up with realtime and the soundtrack. If false,
-Ren'Py will display frames late rather than dropping them.</dd>
 </dl>
 </dd></dl>
 
@@ -624,7 +576,7 @@ fadeout time is taken from config.fade_music.</dd>
 </div>
 <div class="section" id="sound-functions">
 <h2>Sound Functions<a class="headerlink" href="#sound-functions" title="Permalink to this headline"> link</a></h2>
-<p>Most <code class="docutils literal"><span class="pre">renpy.music</span></code> functions have aliases in <code class="docutils literal"><span class="pre">renpy.sound</span></code>. These functions are similar,
+<p>Most renpy.music functions have aliases in renpy.sound. These functions are similar,
 except they default to the sound channel rather than the music channel, and default
 to not looping.</p>
 </div>
@@ -642,8 +594,8 @@ to not looping.</p>
       
     </p>
     <p>
-        &copy; Copyright 2012-2019, Tom Rothamel.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.<br/>
+        &copy; Copyright 2012-2017, Tom Rothamel.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.<br/>
     </p>
   </div>
 </footer>

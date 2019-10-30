@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -26,7 +26,6 @@ import time
 WIDTH = 1280
 HEIGHT = 720
 
-
 class GuiParameters(object):
     """
     This represents the parameters to the gui. This is used to initialize
@@ -53,7 +52,7 @@ class GuiParameters(object):
         self.light = light
 
         if light:
-            self.hover_color = self.accent_color  # .tint(.95)
+            self.hover_color = self.accent_color # .tint(.95)
             self.muted_color = self.accent_color.tint(.6)
             self.hover_muted_color = self.accent_color.tint(.4)
         else:
@@ -75,10 +74,11 @@ class GuiParameters(object):
         else:
 
             self.selected_color = Color("#ffffff")
-            self.idle_color = Color("#888888")
+            self.idle_color = Color("#555555")
             self.idle_small_color = Color("#aaaaaa")
             self.text_color = Color("#ffffff")
             self.choice_color = Color("#cccccc")
+
 
         self.insensitive_color = self.idle_color.replace_opacity(.5)
 
@@ -97,7 +97,7 @@ class GuiParameters(object):
 
         self.name = name
 
-        GOOD_CHARACTERS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_"
+        GOOD_CHARACTERS = "123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMMOPQRSTUVWXYZ-_"
 
         simple_name = "".join(i for i in name if i in GOOD_CHARACTERS).encode("ascii")
 
@@ -107,3 +107,4 @@ class GuiParameters(object):
         self.simple_name = simple_name
 
         self.savedir = self.simple_name + "-" + str(int(time.time()))
+

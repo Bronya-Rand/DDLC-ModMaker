@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -18,8 +18,6 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-from __future__ import print_function
 
 import renpy.display
 import contextlib
@@ -82,6 +80,9 @@ class Positional(object):
         if parser:
             parser.add(self)
 
+# Used to generate the documentation
+all_keyword_names = set()
+
 
 class Keyword(object):
     """
@@ -91,9 +92,10 @@ class Keyword(object):
     def __init__(self, name):
         self.name = name
 
+        all_keyword_names.add(self.name)
+
         if parser:
             parser.add(self)
-
 
 STYLE_PREFIXES = [
     '',
@@ -117,6 +119,9 @@ class Style(object):
     def __init__(self, name):
         self.name = name
 
+        for j in STYLE_PREFIXES:
+            all_keyword_names.add(j + self.name)
+
         if parser:
             parser.add(self)
 
@@ -129,6 +134,9 @@ class PrefixStyle(object):
     def __init__(self, prefix, name):
         self.prefix = prefix
         self.name = name
+
+        for j in STYLE_PREFIXES:
+            all_keyword_names.add(prefix + j + self.name)
 
         if parser:
             parser.add(self)
@@ -617,7 +625,6 @@ bar_properties = [ Style(i) for i in [
 box_properties = [ Style(i) for i in [
     "box_layout",
     "box_wrap",
-    "box_wrap_spacing",
     "box_reverse",
     "order_reverse",
     "spacing",
@@ -716,7 +723,6 @@ Keyword("default")
 Keyword("length")
 Keyword("allow")
 Keyword("exclude")
-Keyword("copypaste")
 Keyword("prefix")
 Keyword("suffix")
 Keyword("changed")
@@ -883,19 +889,16 @@ Keyword("droppable")
 Keyword("drag_raise")
 Keyword("dragged")
 Keyword("dropped")
-Keyword("drop_allowable")
 Keyword("drag_handle")
 Keyword("drag_joined")
 Keyword("clicked")
 Keyword("hovered")
 Keyword("unhovered")
-Keyword("mouse_drop")
 Style("child")
 add(ui_properties)
 add(position_properties)
 
 FunctionStatementParser("draggroup", "ui.draggroup", many)
-Keyword("min_overlap")
 add(ui_properties)
 add(position_properties)
 
@@ -918,7 +921,6 @@ class PassParser(Parser):
     def parse(self, l, name):
         return self.parse_exec("pass", l.number)
 
-
 PassParser("pass")
 
 
@@ -936,7 +938,6 @@ class DefaultParser(Parser):
         code = "_scope.setdefault(%r, (%s))" % (name, rest)
 
         return self.parse_exec(code, l.number)
-
 
 DefaultParser("default")
 
@@ -978,7 +979,6 @@ class UseParser(Parser):
         code += ")"
 
         return self.parse_exec(code, lineno)
-
 
 UseParser("use")
 
@@ -1042,7 +1042,6 @@ class IfParser(Parser):
                     break
 
         return [ rv ]
-
 
 IfParser("if")
 
@@ -1118,7 +1117,6 @@ class ForParser(Parser):
 
         return rv
 
-
 ForParser("for")
 
 
@@ -1143,7 +1141,6 @@ class PythonParser(Parser):
             lineno += 1
 
         return self.parse_exec(python_code, lineno)
-
 
 PythonParser("$", True)
 PythonParser("python", False)
@@ -1359,7 +1356,6 @@ class ScreenParser(Parser):
         screen.code = renpy.ast.PyCode(node, location, 'exec')
 
         return screen
-
 
 screen_parser = ScreenParser()
 screen_parser.add(all_statements)

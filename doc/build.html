@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 
+
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Building Distributions &#8212; Ren&#39;Py Documentation</title>
+    
+    <title>Building Distributions &mdash; Ren&#39;Py Documentation</title>
+    
     <link rel="stylesheet" href="_static/renpydoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '7.3.5',
+        VERSION:     '6.99.12',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -26,8 +29,7 @@
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Ren&#39;Py Documentation" href="index.html" />
     <link rel="next" title="Web Updater" href="updater.html" />
     <link rel="prev" title="Other Functions and Variables" href="other.html" />
 <meta charset='utf-8'>
@@ -36,7 +38,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -49,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           Ren&#39;Py Documentation</a>
-        <span class="navbar-text navbar-version pull-left"><b>7.3.5</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>6.99.12</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -90,7 +92,6 @@
 <li class="toctree-l1"><a class="reference internal" href="transforms.html">Transforms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transitions.html">Transitions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="atl.html">Animation and Transformation Language</a></li>
-<li class="toctree-l1"><a class="reference internal" href="layeredimage.html">Layered Images</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="style.html">Styles</a></li>
@@ -100,12 +101,7 @@
 <li class="toctree-l1"><a class="reference internal" href="screen_special.html">Special Screen Names</a></li>
 <li class="toctree-l1"><a class="reference internal" href="screen_optimization.html">Screen Language Optimization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">Configuration Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="preferences.html">Preference Variables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="store_variables.html">Store Variables</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="developer_tools.html">Developer Tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="director.html">Interactive Director</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="nvl_mode.html">NVL-Mode Tutorial</a></li>
@@ -115,16 +111,15 @@
 <li class="toctree-l1"><a class="reference internal" href="drag_drop.html">Drag and Drop</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sprites.html">Sprites</a></li>
 <li class="toctree-l1"><a class="reference internal" href="keymap.html">Customizing the Keymap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer_tools.html">Developer Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="achievement.html">Achievements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="history.html">Dialogue History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="multiple.html">Multiple Character Dialogue</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="statement_equivalents.html">Statement Equivalents</a></li>
 <li class="toctree-l1"><a class="reference internal" href="save_load_rollback.html">Saving, Loading, and Rollback</a></li>
 <li class="toctree-l1"><a class="reference internal" href="persistent.html">Persistent Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="trans_trans_python.html">Transforms and Transitions in Python</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gui_advanced.html">Advanced GUI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="screen_python.html">Screens and Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modes.html">Modes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="udd.html">Creator-Defined Displayables</a></li>
@@ -143,12 +138,11 @@
 <li class="toctree-l1"><a class="reference internal" href="ios.html">iOS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="iap.html">In-App Purchasing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gesture.html">Gestures</a></li>
-<li class="toctree-l1"><a class="reference internal" href="raspi.html">Raspberry Pi</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="problems.html">Dealing with Problems</a></li>
 <li class="toctree-l1"><a class="reference internal" href="environment_variables.html">Environment Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="self_voicing.html">Self-Voicing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="self_voicing.html">Self Voicing</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="editor.html">Text Editor Integration</a></li>
@@ -160,8 +154,7 @@
 <li class="toctree-l1"><a class="reference internal" href="incompatible.html">Incompatible Changes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="distributor.html">Distributor Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sponsors.html">Ren'Py Development Sponsors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Documentation and Translation Credits</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="thequestion.html">Script of The Question</a></li>
@@ -202,7 +195,6 @@
 <li><a class="reference internal" href="#documentation">Documentation</a></li>
 <li><a class="reference internal" href="#packages">Packages</a></li>
 <li><a class="reference internal" href="#archives">Archives</a></li>
-<li><a class="reference internal" href="#requirements">Requirements</a></li>
 <li><a class="reference internal" href="#build-functions">Build Functions</a></li>
 <li><a class="reference internal" href="#advanced-configuration">Advanced Configuration</a></li>
 </ul>
@@ -220,25 +212,23 @@
 project to determine the files to include in the distribution, will
 create any archives that are necessary, and will build package and
 update files.</p>
-<p>With no configuration, Ren'Py is able to build the following kinds of
+<p>With no configuration, Ren'Py will build the following four kinds of
 packages:</p>
-<dl class="docutils">
-<dt>PC: Windows and Linux</dt>
-<dd>A zip file targeting Windows x86, Linux x86, and Linux x86_64.</dd>
-<dt>Linux x86/x86_64</dt>
-<dd>A tar.bz2 file targeting Linux x86 and Linux x86_64.</dd>
-<dt>Macintosh x86_64</dt>
-<dd>A zip file containing a Macintosh application targeting Macintosh
+<p>All Desktop Platforms</p>
+<blockquote>
+<div>A zip file targeting Windows x86, Macintosh x86, Linux x86, and
+Linux x86_64.</div></blockquote>
+<p>Linux x86/x86_64</p>
+<blockquote>
+<div>A tar.bz2 file targeting Linux x86 and Linux x86_64.</div></blockquote>
+<p>Macintosh x86</p>
+<blockquote>
+<div>A zip file containing a Macintosh application targeting Macintosh
 OS X on Intel processors. Game data will be included inside the
-application, which appears to the user as a single file.</dd>
-<dt>Windows x86</dt>
-<dd>A zip file targeting Windows x86.</dd>
-<dt>Windows, Mac, and Linux for Markets</dt>
-<dd>A distribution that contains the information required to run on
-software markets like itch.io and Steam. This isn't meant to be
-run directly (and probably won't work on the Mac), but should be
-fed to the app store upload process.</dd>
-</dl>
+application, which appears to the user as a single file.</div></blockquote>
+<p>Windows x86</p>
+<blockquote>
+<div>A zip file targeting Windows x86.</div></blockquote>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
 <p>The zip and tar.bz2 files that Ren'Py produces contain permissions
@@ -251,8 +241,7 @@ on Linux or Macintosh is not supported.</p>
 <h2>Basic Configuration<a class="headerlink" href="#basic-configuration" title="Permalink to this headline"> link</a></h2>
 <p>The build process can be configured by setting variables and calling
 function that live in the build namespace. This must be done from
-inside an <code class="docutils literal"><span class="pre">init</span> <span class="pre">python</span></code> block. The default settings for these configurations are
-set in <code class="docutils literal"><span class="pre">options.rpy</span></code>.</p>
+inside an init python block.</p>
 <p>There are a few basic variables and functions that many games will
 use.</p>
 <dl class="var">
@@ -372,7 +361,7 @@ empty string.</p>
 <h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline"> link</a></h2>
 <p>Calling the build.documentation function with patterns marks files
 matching those patterns as documentation. Documentation files are
-included twice in a Macintosh application – both inside and outside
+included twice in a Macintosh application - both inside and outside
 of the application itself.</p>
 <p>For example, to mark all txt and html files in the base directory as
 documentation, call:</p>
@@ -408,7 +397,7 @@ list.</p>
 the file lists they will be included in. (It's rare to use anything
 but the all file list, however.) To use an archive, classify files
 into a list with its name.</p>
-<p>For example, the following will archive images in images.rpa, and
+<p>For example, the following code will archive images in images.rpa, and
 game scripts into scripts.rpa:</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="c1"># Declare two archives.</span>
 <span class="n">build</span><span class="o">.</span><span class="n">archive</span><span class="p">(</span><span class="s2">&quot;scripts&quot;</span><span class="p">,</span> <span class="s2">&quot;all&quot;</span><span class="p">)</span>
@@ -425,37 +414,8 @@ game scripts into scripts.rpa:</p>
 </div>
 <p>If an archive file is empty, it will not be built.</p>
 <p>Please think twice about archiving your game. Keeping files open will
-help others run your game on future platforms – platforms that may not
+help others run your game on future platforms - platforms that may not
 exist until after you're gone.</p>
-</div>
-<div class="section" id="requirements">
-<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline"> link</a></h2>
-<p>Some stores ask the requirements for Ren'Py applications to run. While
-this varies from game to game, here's a set of minimums for a generic
-visual novel.</p>
-<p><strong>Windows</strong></p>
-<ul class="simple">
-<li>Version: Windows XP or higher.</li>
-<li>CPU: 2.0 GHz Core 2 Duo</li>
-<li>RAM: 2.0 GB</li>
-<li>Graphics: OpenGL 2.0 or DirectX 9.0c</li>
-</ul>
-<p><strong>macOS</strong></p>
-<ul class="simple">
-<li>Version: 10.6+</li>
-<li>CPU: 2.0 GHz Core 2 Duo (64 bit only)</li>
-<li>RAM: 2.0 GB</li>
-<li>Graphics: OpenGL 2.0</li>
-</ul>
-<p><strong>Linux</strong></p>
-<ul class="simple">
-<li>Version: Ubuntu 12.04+</li>
-<li>CPU: 2.0 GHz Core 2 Duo</li>
-<li>RAM: 2.0 GB</li>
-<li>Graphics: OpenGL 2.0</li>
-</ul>
-<p>The amount of disk space required is entirely determined by the assets in your
-game, and the amount of CPU and RAM needed may also vary.</p>
 </div>
 <div class="section" id="build-functions">
 <h2>Build Functions<a class="headerlink" href="#build-functions" title="Permalink to this headline"> link</a></h2>
@@ -559,7 +519,7 @@ empty directories will be included.</p>
 <dd><p>Gives the path to the directory the archive files will be placed in. This
 may be an absolute or a relative path. A relative path is considered to
 be relative to the projects directory.</p>
-<p>The following values are substituted in using Python's <code class="docutils literal"><span class="pre">str.format</span></code> function.</p>
+<p>The following values are substituted in using python's str.format function.</p>
 <dl class="docutils">
 <dt><code class="docutils literal"><span class="pre">{directory_name}</span></code></dt>
 <dd>The value of build.directory_name.</dd>
@@ -583,18 +543,7 @@ OS X.</p>
 <code class="descname">build.include_old_themes</code> = True<a class="headerlink" href="#var-build.include_old_themes" title="Permalink to this definition"> link</a></dt>
 <dd><p>When true, files required to support themes that existed before Ren'Py
 6.99.9 will be included in the build. When false, such files are excluded.</p>
-<p>This is set to False when <a class="reference internal" href="gui_advanced.html#gui.init" title="gui.init"><code class="xref py py-func docutils literal"><span class="pre">gui.init()</span></code></a> is called.</p>
-</dd></dl>
-
-<dl class="var">
-<dt id="var-build.itch_project">
-<code class="descname">build.itch_project</code> = None<a class="headerlink" href="#var-build.itch_project" title="Permalink to this definition"> link</a></dt>
-<dd><p>Setting this allows the Ren'Py launcher to upload your project to
-itch.io. This should be set to the name of a project registered
-with itch. (For example, &quot;renpytom/the-question&quot;).</p>
-<p>Once this is set, after the distributions have been built, you can
-click &quot;Build distributions&quot;, &quot;Upload to itch.io&quot; to cause an upload
-to occur.</p>
+<p>This is set to False when <a class="reference internal" href="gui.html#gui.init" title="gui.init"><code class="xref py py-func docutils literal"><span class="pre">gui.init()</span></code></a> is called.</p>
 </dd></dl>
 
 </div>
@@ -612,8 +561,8 @@ to occur.</p>
       
     </p>
     <p>
-        &copy; Copyright 2012-2019, Tom Rothamel.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.<br/>
+        &copy; Copyright 2012-2017, Tom Rothamel.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.<br/>
     </p>
   </div>
 </footer>

@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -21,8 +21,6 @@
 
 # This file contains displayables that move, zoom, rotate, or otherwise
 # transform displayables. (As well as displayables that support them.)
-
-from __future__ import print_function
 
 from renpy.display.transform import *  # @UnusedWildImport
 
@@ -153,7 +151,7 @@ class Motion(Container):
         res = tuple(res)
 
         if len(res) == 2:
-            self.position = res + (self.style.xanchor or 0, self.style.yanchor or 0)
+            self.position = res + (self.style.xanchor, self.style.yanchor)
         else:
             self.position = res
 
@@ -398,8 +396,7 @@ def zoom_render(crend, x, y, w, h, zw, zh, bilinear):
     rv.forward = renpy.display.render.Matrix2D(w / zw, 0, 0, h / zh)
     rv.reverse = renpy.display.render.Matrix2D(zw / w, 0, 0, zh / h)
 
-    rv.xclipping = True
-    rv.yclipping = True
+    rv.clipping = True
 
     rv.blit(crend, rv.reverse.transform(-x, -y))
 

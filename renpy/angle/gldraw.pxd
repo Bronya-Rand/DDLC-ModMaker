@@ -22,7 +22,6 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from renpy.display.matrix cimport Matrix, Matrix2D
 cimport renpy.display.render as render
 
 cdef class Environ
@@ -50,11 +49,11 @@ cdef class GLDraw:
     cdef object display_info
     cdef tuple clip_cache
     cdef bint fast_dissolve
+    cdef bint always_opaque
     cdef bint allow_fixed
     cdef tuple default_clip
     cdef bint did_render_to_texture
     cdef float dpi_scale
-    cdef object ready_texture_queue
 
     cdef public tuple clip_rtt_box
 
@@ -62,10 +61,8 @@ cdef class GLDraw:
     cdef public object draw_per_virt
 
     # Matrices that transform drawable to virtual, and vice versa.
-    cdef public Matrix virt_to_draw
-    cdef public Matrix draw_to_virt
-
-    cdef public int fast_redraw_frames
+    cdef public render.Matrix2D virt_to_draw
+    cdef public render.Matrix2D draw_to_virt
 
     cpdef set_clip(GLDraw self, tuple clip)
 
@@ -82,7 +79,7 @@ cdef class GLDraw:
         double yo,
         double alpha,
         double over,
-        Matrix reverse,
+        render.Matrix2D reverse,
         bint nearest,
         bint subpixel) except 1
 
@@ -92,7 +89,7 @@ cdef class Environ:
     cdef void imageblend(self, double fraction, int ramp)
     cdef void set_vertex(self, float *vertices)
     cdef void set_texture(self, int unit, float *coords)
-    cdef void set_color(self, double r, double g, double b, double a)
+    cdef void set_color(self, float r, float g, float b, float a)
     cdef void set_clip(self, tuple clip_box, GLDraw draw)
     cdef void unset_clip(self, GLDraw draw)
     cdef void ortho(self, double left, double right, double bottom, double top, double near, double far)

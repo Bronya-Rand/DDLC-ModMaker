@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 
+
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Animation and Transformation Language &#8212; Ren&#39;Py Documentation</title>
+    
+    <title>Animation and Transformation Language &mdash; Ren&#39;Py Documentation</title>
+    
     <link rel="stylesheet" href="_static/renpydoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '7.3.5',
+        VERSION:     '6.99.12',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -26,9 +29,8 @@
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Layered Images" href="layeredimage.html" />
+    <link rel="top" title="Ren&#39;Py Documentation" href="index.html" />
+    <link rel="next" title="Styles" href="style.html" />
     <link rel="prev" title="Transitions" href="transitions.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -36,7 +38,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -49,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           Ren&#39;Py Documentation</a>
-        <span class="navbar-text navbar-version pull-left"><b>7.3.5</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>6.99.12</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -90,7 +92,6 @@
 <li class="toctree-l1"><a class="reference internal" href="transforms.html">Transforms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transitions.html">Transitions</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Animation and Transformation Language</a></li>
-<li class="toctree-l1"><a class="reference internal" href="layeredimage.html">Layered Images</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="style.html">Styles</a></li>
@@ -100,12 +101,7 @@
 <li class="toctree-l1"><a class="reference internal" href="screen_special.html">Special Screen Names</a></li>
 <li class="toctree-l1"><a class="reference internal" href="screen_optimization.html">Screen Language Optimization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">Configuration Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="preferences.html">Preference Variables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="store_variables.html">Store Variables</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="developer_tools.html">Developer Tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="director.html">Interactive Director</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="nvl_mode.html">NVL-Mode Tutorial</a></li>
@@ -115,16 +111,15 @@
 <li class="toctree-l1"><a class="reference internal" href="drag_drop.html">Drag and Drop</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sprites.html">Sprites</a></li>
 <li class="toctree-l1"><a class="reference internal" href="keymap.html">Customizing the Keymap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer_tools.html">Developer Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="achievement.html">Achievements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="history.html">Dialogue History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="multiple.html">Multiple Character Dialogue</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="statement_equivalents.html">Statement Equivalents</a></li>
 <li class="toctree-l1"><a class="reference internal" href="save_load_rollback.html">Saving, Loading, and Rollback</a></li>
 <li class="toctree-l1"><a class="reference internal" href="persistent.html">Persistent Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="trans_trans_python.html">Transforms and Transitions in Python</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gui_advanced.html">Advanced GUI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="screen_python.html">Screens and Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modes.html">Modes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="udd.html">Creator-Defined Displayables</a></li>
@@ -143,12 +138,11 @@
 <li class="toctree-l1"><a class="reference internal" href="ios.html">iOS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="iap.html">In-App Purchasing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gesture.html">Gestures</a></li>
-<li class="toctree-l1"><a class="reference internal" href="raspi.html">Raspberry Pi</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="problems.html">Dealing with Problems</a></li>
 <li class="toctree-l1"><a class="reference internal" href="environment_variables.html">Environment Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="self_voicing.html">Self-Voicing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="self_voicing.html">Self Voicing</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="editor.html">Text Editor Integration</a></li>
@@ -160,8 +154,7 @@
 <li class="toctree-l1"><a class="reference internal" href="incompatible.html">Incompatible Changes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="distributor.html">Distributor Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sponsors.html">Ren'Py Development Sponsors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Documentation and Translation Credits</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="thequestion.html">Script of The Question</a></li>
@@ -240,20 +233,20 @@ changed over time, and in response to events.</p>
 displayable. There is no way to create an ATL transform programmatically.</p>
 <div class="section" id="ren-py-script-statements">
 <h2>Ren'Py Script Statements<a class="headerlink" href="#ren-py-script-statements" title="Permalink to this headline"> link</a></h2>
-<p>ATL can be included as part of three Ren'Py script statements.</p>
+<p>ATL Code can be included as part of three Ren'Py script statements.</p>
 <div class="section" id="transform-statement">
 <span id="id1"></span><h3>Transform Statement<a class="headerlink" href="#transform-statement" title="Permalink to this headline"> link</a></h3>
-<p>The <code class="docutils literal"><span class="pre">transform</span></code> statement creates a transform that can be supplied as part of an
+<p>The transform statement creates a transform that can be supplied as part of an
 at clause. The syntax of the transform statement is:</p>
 <pre>
 <strong id="grammar-token-atl_transform">atl_transform</strong> ::=  &quot;transform&quot; <code class="xref docutils literal"><span class="pre">name</span></code> &quot;(&quot; <code class="xref docutils literal"><span class="pre">parameters</span></code> &quot;)&quot; &quot;:&quot;
                       <code class="xref docutils literal"><span class="pre">atl_block</span></code>
 </pre>
 <p>The transform statement  must be run at init time. If it is found outside an
-<code class="docutils literal"><span class="pre">init</span></code> block, then it is automatically placed inside an <code class="docutils literal"><span class="pre">init</span></code> block with a
+init block, then it is automatically placed inside an init block with a
 priority of 0. The transform may have a list of parameters, which must be
 supplied when it is called.</p>
-<p><cite>Name</cite> must be a Python identifier. The transform created by the ATL block is
+<p><cite>Name</cite> must be a python identifier. The transform created by the ATL block is
 bound to this name.:</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">transform</span> <span class="n">left_to_right</span><span class="p">:</span>
     <span class="na">xalign</span> <span class="mf">0.0</span>
@@ -264,7 +257,7 @@ bound to this name.:</p>
 </div>
 <div class="section" id="image-statement-with-atl-block">
 <span id="atl-image-statement"></span><h3>Image Statement With ATL Block<a class="headerlink" href="#image-statement-with-atl-block" title="Permalink to this headline"> link</a></h3>
-<p>The second way to use ATL is as part of an <code class="docutils literal"><span class="pre">image</span></code> statement with ATL block.
+<p>The second way to use ATL is as part of an image statement with ATL block.
 This binds an image name to the given transform. As there's no way to supply
 parameters to this transform, it's only useful if the transform defines an
 animation. The syntax for an image statement with ATL block is:</p>
@@ -283,7 +276,7 @@ animation. The syntax for an image statement with ATL block is:</p>
 </div>
 <div class="section" id="scene-and-show-statements-with-atl-block">
 <h3>Scene and Show Statements with ATL Block<a class="headerlink" href="#scene-and-show-statements-with-atl-block" title="Permalink to this headline"> link</a></h3>
-<p>The final way to use ATL is as part of a <code class="docutils literal"><span class="pre">scene</span></code> or <code class="docutils literal"><span class="pre">show</span></code> statement. This wraps
+<p>The final way to use ATL is as part of a scene or show statement. This wraps
 the image being shown inside an ATL transformation.</p>
 <pre>
 <strong id="grammar-token-atl_scene">atl_scene</strong> ::=  <code class="xref docutils literal"><span class="pre">stmt_scene</span></code> &quot;:&quot;
@@ -309,7 +302,7 @@ Each logical line in an ATL block must contain one or more ATL statements.</p>
 do not take an ATL block. A single logical line may contain one or more ATL
 statements, separated by commas. A complex statement contains a block, must
 be on its own line. The first line of a complex statement always ends with a
-colon <code class="docutils literal"><span class="pre">:</span></code>.</p>
+colon (&quot;:&quot;).</p>
 <p>By default, statements in a block are executed in the order in which they
 appear, starting with the first statement in the block. Execution terminates
 when the end of the block is reached. Time statements change this, as
@@ -318,7 +311,7 @@ described in the appropriate section below.</p>
 terminated.</p>
 <p>If an ATL statement requires evaluation of an expression, such evaluation
 occurs when the transform is first added to the scene list. (Such as when
-using a <code class="docutils literal"><span class="pre">show</span></code> statement or <code class="docutils literal"><span class="pre">ui</span></code> function.)</p>
+using a show statement or ui function.)</p>
 </div>
 <div class="section" id="atl-statements">
 <h2>ATL Statements<a class="headerlink" href="#atl-statements" title="Permalink to this headline"> link</a></h2>
@@ -340,8 +333,8 @@ non-linear time.) This can either be done by giving the name of a warper
 registered with ATL, or by giving the keyword &quot;warp&quot; followed by an
 expression giving a function. Either case is followed by a number, giving the
 number of seconds the interpolation should take.</p>
-<p>If no warp function is given, the interpolation is instantaneous. Otherwise,
-it persists for the amount of time given, and at least one frame.</p>
+<p>If no warp function is given, the interpolation is run for 0 seconds, using
+the pause function.</p>
 <p>The warper and duration are used to compute a completion fraction. This is
 done by dividing the time taken by the interpolation by the duration of the
 interpolation. This is clamped to the duration, and then passed to the
@@ -391,20 +384,20 @@ included in this statement.</p>
 </div>
 <p>An important special case is that the pause warper, followed by a time and
 nothing else, causes ATL execution to pause for that amount of time.</p>
-<p>Some properties can have values of multiple types. For example, the <a class="reference internal" href="style_properties.html#style-property-xpos"><code class="xref std std-propref docutils literal"><span class="pre">xpos</span></code></a>
+<p>Some properties can have values of multiple types. For example, the xpos
 property can be an int, float, or absolute. The behavior is undefined when an
 interpolation has old and new property values of different types.</p>
 </div>
 <div class="section" id="time-statement">
 <h3>Time Statement<a class="headerlink" href="#time-statement" title="Permalink to this headline"> link</a></h3>
-<p>The <code class="docutils literal"><span class="pre">time</span></code> statement is a simple control statement. It contains a single
-<cite>simple_expression</cite>, which is evaluated to give a time, expressed as seconds
+<p>The time statement is a simple control statement. It contains a single
+simple_expression, which is evaluated to give a time, expressed as seconds
 from the start of execution of the containing block.</p>
 <pre>
 <strong id="grammar-token-atl_time">atl_time</strong> ::=  &quot;time&quot; <code class="xref docutils literal"><span class="pre">simple_expression</span></code>
 </pre>
 <p>When the time given in the statement is reached, the following statement
-begins to execute. This transfer of control occurs even if a previous
+begins to execute.This transfer of control occurs even if a previous
 statement is still executing, and causes any prior statement to immediately
 terminate.</p>
 <p>Time statements are implicitly preceded by a pause statement with an infinite
@@ -451,7 +444,7 @@ the old and new displayables.</li>
      <span class="c1"># Show logo_bw.png, with a dissolve.</span>
      <span class="s2">&quot;logo_bw.png&quot;</span> <span class="k">with</span> <span class="n">Dissolve</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="na">alpha</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
-     <span class="c1"># Run the move_right transform.</span>
+     <span class="c1"># Run the move_right tranform.</span>
      <span class="n">move_right</span>
 </pre></div>
 </div>
@@ -461,16 +454,16 @@ the old and new displayables.</li>
 <pre>
 <strong id="grammar-token-atl_pass">atl_pass</strong> ::=  &quot;pass&quot;
 </pre>
-<p>The <code class="docutils literal"><span class="pre">pass</span></code> statement is a simple statement that causes nothing to happen. This
+<p>The pass statement is a simple statement that causes nothing to happen. This
 can be used when there's a desire to separate statements, like when there are
 two sets of choice statements that would otherwise be back-to-back.</p>
 </div>
 <div class="section" id="repeat-statement">
 <h3>Repeat Statement<a class="headerlink" href="#repeat-statement" title="Permalink to this headline"> link</a></h3>
-<p>The <code class="docutils literal"><span class="pre">repeat</span></code> statement is a simple statement that causes the block containing it
+<p>The repeat statement is a simple statement that causes the block containing it
 to resume execution from the beginning. If the expression is present, then it
 is evaluated to give an integer number of times the block will execute. (So a
-block ending with <code class="docutils literal"><span class="pre">repeat</span> <span class="pre">2</span></code> will execute at most twice.)</p>
+block ending with &quot;repeat 2&quot; will execute at most twice.)</p>
 <pre>
 <strong id="grammar-token-atl_repeat">atl_repeat</strong> ::=  &quot;repeat&quot; (<code class="xref docutils literal"><span class="pre">simple_expression</span></code>)?
 </pre>
@@ -485,7 +478,7 @@ block ending with <code class="docutils literal"><span class="pre">repeat</span>
 </div>
 <div class="section" id="block-statement">
 <h3>Block Statement<a class="headerlink" href="#block-statement" title="Permalink to this headline"> link</a></h3>
-<p>The <code class="docutils literal"><span class="pre">block</span></code> statement is a complex statement that contains a block of ATL statements.
+<p>The block statement is a complex statement that contains a block of ATL code.
 This can be used to group statements that will repeat.</p>
 <pre>
 <strong id="grammar-token-atl_block_stmt">atl_block_stmt</strong> ::=  &quot;block&quot; &quot;:&quot;
@@ -504,7 +497,7 @@ This can be used to group statements that will repeat.</p>
 </div>
 <div class="section" id="choice-statement">
 <h3>Choice Statement<a class="headerlink" href="#choice-statement" title="Permalink to this headline"> link</a></h3>
-<p>The <code class="docutils literal"><span class="pre">choice</span></code> statement is a complex statement that defines one of a set of
+<p>The choice statement is a complex statement that defines one of a set of
 potential choices. Ren'Py will pick one of the choices in the set, and
 execute the ATL block associated with it, and then continue execution after
 the last choice in the choice set.</p>
@@ -531,7 +524,7 @@ is assumed.</p>
 </div>
 <div class="section" id="parallel-statement">
 <h3>Parallel Statement<a class="headerlink" href="#parallel-statement" title="Permalink to this headline"> link</a></h3>
-<p>The <code class="docutils literal"><span class="pre">parallel</span></code> statement is used to define a set of ATL blocks to execute in
+<p>The parallel statement is used to define a set of ATL blocks to execute in
 parallel.</p>
 <pre>
 <strong id="grammar-token-atl_parallel">atl_parallel</strong> ::=  &quot;parallel&quot; &quot;:&quot;
@@ -560,7 +553,7 @@ undefined.</p>
 </div>
 <div class="section" id="event-statement">
 <h3>Event Statement<a class="headerlink" href="#event-statement" title="Permalink to this headline"> link</a></h3>
-<p>The <code class="docutils literal"><span class="pre">event</span></code> statement is a simple statement that causes an event with the given
+<p>The event statement is a simple statement that causes an event with the given
 name to be produced.</p>
 <pre>
 <strong id="grammar-token-atl_event">atl_event</strong> ::=  &quot;event&quot; <code class="xref docutils literal"><span class="pre">name</span></code>
@@ -572,7 +565,7 @@ handler.</p>
 </div>
 <div class="section" id="on-statement">
 <h3>On Statement<a class="headerlink" href="#on-statement" title="Permalink to this headline"> link</a></h3>
-<p>The <code class="docutils literal"><span class="pre">on</span></code> statement is a complex statement that defines an event handler. On
+<p>The On statement is a complex statement that defines an event handler. On
 statements are greedily grouped into a single statement. On statement can
 handle a single event name, or a comma-separated list of event names.</p>
 <pre>
@@ -601,8 +594,8 @@ by the time statement, or an enclosing event handler.)</p>
 </div>
 <div class="section" id="contains-statement">
 <h3>Contains Statement<a class="headerlink" href="#contains-statement" title="Permalink to this headline"> link</a></h3>
-<p>The <code class="docutils literal"><span class="pre">contains</span></code> statement sets the displayable contained by this ATL transform
-(the child of the transform). There are two variants of the contains
+<p>The contains statement sets the displayable contained by this ATL transform.
+(The child of the transform.) There are two variants of the contains
 statement.</p>
 <p>The contains expression variant takes an expression, and sets that expression
 as the child of the transform. This is useful when an ATL transform wishes to
@@ -654,7 +647,7 @@ arguments to be easily passed to the children.</p>
 </div>
 <div class="section" id="function-statement">
 <h3>Function Statement<a class="headerlink" href="#function-statement" title="Permalink to this headline"> link</a></h3>
-<p>The <code class="docutils literal"><span class="pre">function</span></code> statement allows ATL to use Python functions to control the ATL
+<p>The function statement allows ATL to use Python functions to control the ATL
 properties.</p>
 <pre>
 <strong id="grammar-token-atl_function">atl_function</strong> ::=  &quot;function&quot; <code class="xref docutils literal"><span class="pre">expression</span></code>
@@ -810,9 +803,9 @@ somewhat. Graphs of these standard functions can be found at
 </tr>
 </tbody>
 </table>
-<p>New warpers can be defined using the <code class="docutils literal"><span class="pre">renpy.atl_warper</span></code> decorator, in a <code class="docutils literal"><span class="pre">python</span>
-<span class="pre">early</span></code> block. It should be placed in a file that is parsed before any file
-that uses the warper. This looks like:</p>
+<p>New warpers can be defined using the renpy.atl_warper decorator, in a python
+early block. It should be placed in a file that is parsed before any file
+that uses the warper. The code looks like:</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">python</span> <span class="n">early</span> <span class="k">hide</span><span class="p">:</span>
 
     <span class="nd">@renpy.atl_warper</span>
@@ -824,10 +817,10 @@ that uses the warper. This looks like:</p>
 <div class="section" id="list-of-transform-properties">
 <span id="transform-properties"></span><h2>List of Transform Properties<a class="headerlink" href="#list-of-transform-properties" title="Permalink to this headline"> link</a></h2>
 <p>The following transform properties exist.</p>
-<p>When the type is given as position, it may be an int, <code class="docutils literal"><span class="pre">renpy.absolute</span></code>, or
+<p>When the type is given as position, it may be an int, renpy.absolute, or
 float. If it's a float, it's interpreted as a fraction of the size of the
-containing area (for <a class="reference internal" href="style_properties.html#style-property-pos"><code class="xref std std-propref docutils literal"><span class="pre">pos</span></code></a>) or displayable (for <a class="reference internal" href="style_properties.html#style-property-anchor"><code class="xref std std-propref docutils literal"><span class="pre">anchor</span></code></a>).</p>
-<p>Note that not all properties are independent. For example, <a class="reference internal" href="style_properties.html#style-property-xalign"><code class="xref std std-propref docutils literal"><span class="pre">xalign</span></code></a> and <a class="reference internal" href="style_properties.html#style-property-xpos"><code class="xref std std-propref docutils literal"><span class="pre">xpos</span></code></a>
+containing area (for pos) or displayable (for anchor).</p>
+<p>Note that not all properties are independent. For example, xalign and xpos
 both update some of the same underlying data. In a parallel statement, only
 one block should adjust horizontal position, and one should adjust vertical
 positions. (These may be the same block.) The angle and radius properties set
@@ -1173,7 +1166,7 @@ factor. A negative value causes the image to be flipped vertically.</p>
 </tr>
 </tbody>
 </table>
-<p>If True, the displayable and its children are drawn using nearest-neighbor
+<p>If true, the displayable and its children are drawn using nearest-neighbor
 filtering. If False, the displayable and its children are drawn using
 bilinear filtering. If None, this is inherited from the parent, or
 <a class="reference internal" href="config.html#var-config.nearest_neighbor"><code class="xref std std-var docutils literal"><span class="pre">config.nearest_neighbor</span></code></a>, which defaults to False.</p>
@@ -1311,11 +1304,10 @@ undefined when the polar coordinate center is not set.</p>
 </table>
 <p>If not None, causes the displayable to be cropped to the given
 box. The box is specified as a tuple of (x, y, width, height).
-If floats are given and <code class="docutils literal"><span class="pre">crop_relative</span></code> is true, the components are
+If floats are given and crop_relative is true, the components are
 taken as a fraction of the width and hight of the source image.
 Otherwise, the components are considered to be an absolute number
 of pixels.</p>
-<p>If corners and crop are given, crop takes priority over corners.</p>
 </dd></dl>
 
 <dl class="transform-property">
@@ -1348,8 +1340,8 @@ and height of the source image.</p>
 </tr>
 </tbody>
 </table>
-<p>If not None, gives the upper-left corner of the crop box. Crop takes
-priority over corners.</p>
+<p>If not None, gives the upper-left corner of the crop box. This
+takes priority over crop.</p>
 </dd></dl>
 
 <dl class="transform-property">
@@ -1365,8 +1357,8 @@ priority over corners.</p>
 </tr>
 </tbody>
 </table>
-<p>If not None, gives the lower right corner of the crop box. Cropt takes
-priority over corners.</p>
+<p>If not None, gives the lower right corner of the crop box. This
+takes priority over crop.</p>
 </dd></dl>
 
 <dl class="transform-property">
@@ -1384,25 +1376,6 @@ priority over corners.</p>
 </table>
 <p>If not None, causes the displayable to be scaled to the given
 size.</p>
-</dd></dl>
-
-<dl class="transform-property">
-<dt id="transform-property-maxsize">
-<code class="descname">maxsize</code><a class="headerlink" href="#transform-property-maxsize" title="Permalink to this definition"> link</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body">None or (int, int)</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Default:</th><td class="field-body">None</td>
-</tr>
-</tbody>
-</table>
-<p>If not None, causes the displayable to be scaled so that it fits
-within a box of this size, while preserving aspect ratio. (Note that
-this means that one of the dimensions may be smaller than the size
-of this box.)</p>
 </dd></dl>
 
 <dl class="transform-property">
@@ -1533,7 +1506,7 @@ ypan is given.)</p>
 <ol class="arabic simple">
 <li>tile</li>
 <li>crop, corner1, corner2</li>
-<li>size, maxsize</li>
+<li>size</li>
 <li>zoom, xzoom, yzoom</li>
 <li>pan</li>
 <li>rotate</li>
@@ -1559,17 +1532,17 @@ property will be set.</p>
 <p>The following events can be triggered automatically:</p>
 <dl class="docutils">
 <dt><code class="docutils literal"><span class="pre">start</span></code></dt>
-<dd>A pseudo-event, triggered on entering an <code class="docutils literal"><span class="pre">on</span></code> statement, if no event of
+<dd>A pseudo-event, triggered on entering an on statement, if no event of
 higher priority has happened.</dd>
 <dt><code class="docutils literal"><span class="pre">show</span></code></dt>
 <dd>Triggered when the transform is shown using the show or scene
 statement, and no image with the given tag exists.</dd>
 <dt><code class="docutils literal"><span class="pre">replace</span></code></dt>
-<dd>Triggered when transform is shown using the <code class="docutils literal"><span class="pre">show</span></code> statement, replacing
+<dd>Triggered when transform is shown using the show statement, replacing
 an image with the given tag.</dd>
 <dt><code class="docutils literal"><span class="pre">hide</span></code></dt>
-<dd><p class="first">Triggered when the transform is hidden using the <code class="docutils literal"><span class="pre">hide</span></code> statement or its
-Python equivalent.</p>
+<dd><p class="first">Triggered when the transform is hidden using the hide statement or its
+python equivalent.</p>
 <p class="last">Note that this isn't triggered when the transform is eliminated via
 the scene statement or exiting the context it exists in, such as when
 exiting the game menu.</p>
@@ -1600,8 +1573,8 @@ by this transform, enters the named state.</dd>
       
     </p>
     <p>
-        &copy; Copyright 2012-2019, Tom Rothamel.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.<br/>
+        &copy; Copyright 2012-2017, Tom Rothamel.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.<br/>
     </p>
   </div>
 </footer>

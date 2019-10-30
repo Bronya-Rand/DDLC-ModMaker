@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 
+
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Creator-Defined Displayables &#8212; Ren&#39;Py Documentation</title>
+    
+    <title>Creator-Defined Displayables &mdash; Ren&#39;Py Documentation</title>
+    
     <link rel="stylesheet" href="_static/renpydoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '7.3.5',
+        VERSION:     '6.99.12',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -26,8 +29,7 @@
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Ren&#39;Py Documentation" href="index.html" />
     <link rel="next" title="Creator-Defined Statements" href="cds.html" />
     <link rel="prev" title="Modes" href="modes.html" />
 <meta charset='utf-8'>
@@ -36,7 +38,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -49,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           Ren&#39;Py Documentation</a>
-        <span class="navbar-text navbar-version pull-left"><b>7.3.5</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>6.99.12</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -90,7 +92,6 @@
 <li class="toctree-l1"><a class="reference internal" href="transforms.html">Transforms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transitions.html">Transitions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="atl.html">Animation and Transformation Language</a></li>
-<li class="toctree-l1"><a class="reference internal" href="layeredimage.html">Layered Images</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="style.html">Styles</a></li>
@@ -100,12 +101,7 @@
 <li class="toctree-l1"><a class="reference internal" href="screen_special.html">Special Screen Names</a></li>
 <li class="toctree-l1"><a class="reference internal" href="screen_optimization.html">Screen Language Optimization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">Configuration Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="preferences.html">Preference Variables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="store_variables.html">Store Variables</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="developer_tools.html">Developer Tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="director.html">Interactive Director</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="nvl_mode.html">NVL-Mode Tutorial</a></li>
@@ -115,16 +111,15 @@
 <li class="toctree-l1"><a class="reference internal" href="drag_drop.html">Drag and Drop</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sprites.html">Sprites</a></li>
 <li class="toctree-l1"><a class="reference internal" href="keymap.html">Customizing the Keymap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer_tools.html">Developer Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="achievement.html">Achievements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="history.html">Dialogue History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="multiple.html">Multiple Character Dialogue</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="statement_equivalents.html">Statement Equivalents</a></li>
 <li class="toctree-l1"><a class="reference internal" href="save_load_rollback.html">Saving, Loading, and Rollback</a></li>
 <li class="toctree-l1"><a class="reference internal" href="persistent.html">Persistent Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="trans_trans_python.html">Transforms and Transitions in Python</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gui_advanced.html">Advanced GUI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="screen_python.html">Screens and Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modes.html">Modes</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Creator-Defined Displayables</a></li>
@@ -143,12 +138,11 @@
 <li class="toctree-l1"><a class="reference internal" href="ios.html">iOS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="iap.html">In-App Purchasing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gesture.html">Gestures</a></li>
-<li class="toctree-l1"><a class="reference internal" href="raspi.html">Raspberry Pi</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="problems.html">Dealing with Problems</a></li>
 <li class="toctree-l1"><a class="reference internal" href="environment_variables.html">Environment Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="self_voicing.html">Self-Voicing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="self_voicing.html">Self Voicing</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="editor.html">Text Editor Integration</a></li>
@@ -160,8 +154,7 @@
 <li class="toctree-l1"><a class="reference internal" href="incompatible.html">Incompatible Changes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="distributor.html">Distributor Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sponsors.html">Ren'Py Development Sponsors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Documentation and Translation Credits</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="thequestion.html">Script of The Question</a></li>
@@ -232,11 +225,11 @@ distance of the mouse pointer from the center of the child.</p>
 
     <span class="k">class</span> <span class="nc">Appearing</span><span class="p">(</span><span class="n">renpy</span><span class="o">.</span><span class="n">Displayable</span><span class="p">):</span>
 
-        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="na">child</span><span class="p">,</span> <span class="n">opaque_distance</span><span class="p">,</span> <span class="n">transparent_distance</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="na">child</span><span class="p">,</span> <span class="n">opaque_distance</span><span class="p">,</span> <span class="n">transparent_distance</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 
             <span class="c1"># Pass additional properties on to the renpy.Displayable</span>
             <span class="c1"># constructor.</span>
-            <span class="nb">super</span><span class="p">(</span><span class="n">Appearing</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">Appearing</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
             <span class="c1"># The child.</span>
             <span class="bp">self</span><span class="o">.</span><span class="na">child</span> <span class="o">=</span> <span class="n">renpy</span><span class="o">.</span><span class="n">displayable</span><span class="p">(</span><span class="na">child</span><span class="p">)</span>
@@ -333,13 +326,13 @@ class, we'll present them with the <cite>self</cite> parameter.</p>
 <em class="property">class </em><code class="descclassname">renpy.</code><code class="descname">Displayable</code><a class="headerlink" href="#renpy.Displayable" title="Permalink to this definition"> link</a></dt>
 <dd><p>Base class for creator-defined displayables.</p>
 <dl class="method">
-<dt id="renpy.Displayable.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>**properties</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.Displayable.__init__" title="Permalink to this definition"> link</a></dt>
+<dt>
+<code class="descname">__init__(**properties):</code></dt>
 <dd><p>A subclass may override the constructor, perhaps adding new
 parameters. If it does, it should pass all unknown keyword
-arguments to the renpy.Displayable constructor, with the
-call:</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="nb">super</span><span class="p">(</span><span class="n">MyDisplayable</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="na">properties</span><span class="p">)</span>
+arguments to the renpy.Displayable constructor, using code
+like:</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="nb">super</span><span class="p">(</span><span class="n">MyDisplayable</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">**</span><span class="na">properties</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -501,7 +494,7 @@ render.</p>
 <code class="descname">zoom</code><span class="sig-paren">(</span><em>xzoom</em>, <em>yzoom</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.Render.zoom" title="Permalink to this definition"> link</a></dt>
 <dd><p>Sets the zoom level of the children of this displayable in the
 horitzontal and vertical axes. Only the children of the displayable
-are zoomed – the width, height, and blit coordinates are not zoomed.</p>
+are zoomed - the width, height, and blit coordinates are not zoomed.</p>
 </dd></dl>
 
 </dd></dl>
@@ -530,7 +523,7 @@ creator-defined displayable.</p>
 <dl class="function">
 <dt id="renpy.load_image">
 <code class="descclassname">renpy.</code><code class="descname">load_image</code><span class="sig-paren">(</span><em>im</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.load_image" title="Permalink to this definition"> link</a></dt>
-<dd><p>Loads the image manipulator <cite>im</cite> using the image cache, and returns a render.</p>
+<dd><p>Loads the image manipulator <cite>im</cite> using the image cache, and returns a texture.</p>
 </dd></dl>
 
 <dl class="function">
@@ -581,6 +574,18 @@ called.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="im.load_image">
+<code class="descclassname">im.</code><code class="descname">load_image</code><span class="sig-paren">(</span><em>im</em><span class="sig-paren">)</span><a class="headerlink" href="#im.load_image" title="Permalink to this definition"> link</a></dt>
+<dd><p>Loads the image manipulator <cite>im</cite> using the image cache, and returns a texture.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="im.load_surface">
+<code class="descclassname">im.</code><code class="descname">load_surface</code><span class="sig-paren">(</span><em>im</em><span class="sig-paren">)</span><a class="headerlink" href="#im.load_surface" title="Permalink to this definition"> link</a></dt>
+<dd><p>Loads the image manipulator <cite>im</cite> using the image cache, and returns a pygame Surface.</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="renpy.redraw">
 <code class="descclassname">renpy.</code><code class="descname">redraw</code><span class="sig-paren">(</span><em>d</em>, <em>when</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.redraw" title="Permalink to this definition"> link</a></dt>
 <dd><p>Causes the displayable <cite>d</cite> to be redrawn after <cite>when</cite> seconds have
@@ -602,8 +607,8 @@ elapsed.</p>
       
     </p>
     <p>
-        &copy; Copyright 2012-2019, Tom Rothamel.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.<br/>
+        &copy; Copyright 2012-2017, Tom Rothamel.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.<br/>
     </p>
   </div>
 </footer>

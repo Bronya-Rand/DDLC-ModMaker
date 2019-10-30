@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -23,8 +23,6 @@
 
 # TODO: Check to see if SFX are enabled before playing sounds with play or
 # queue.
-
-from __future__ import print_function
 
 import renpy.audio
 
@@ -58,8 +56,8 @@ set_mixer = renpy.audio.music.set_mixer
 set_queue_empty_callback = renpy.audio.music.set_queue_empty_callback
 
 
-def set_volume(volume, delay=0, channel="sound"):
-    renpy.audio.music.set_volume(volume, delay, channel=channel)
+def set_volume(volume, channel="sound"):
+    renpy.audio.music.set_volume(volume, 0, channel=channel)
 
 
 def set_pan(pan, delay, channel="sound"):

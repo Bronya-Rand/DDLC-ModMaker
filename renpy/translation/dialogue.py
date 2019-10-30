@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -29,44 +29,6 @@ from renpy.translation import quote_unicode
 from renpy.translation.generation import scan_strings
 
 
-def create_dialogue_map(language):
-    """
-    :undocumented:
-
-    Creates a map from a dialogue string to a potential translation of the
-    the dialogue. This is meant for the Ren'Py tutorial, as a way of translating
-    strings found in the examples.
-    """
-
-    rv = { }
-
-    def get_text(t):
-        for i in t.block:
-            if isinstance(i, renpy.ast.Say):
-                return i.what
-
-        return None
-
-    translator = renpy.game.script.translator
-
-    for v in translator.file_translates.values():
-
-        for _, t in v:
-
-            lt = translator.language_translates.get((t.identifier, language), None)
-
-            if lt is None:
-                continue
-
-            t_text = get_text(t)
-            lt_text = get_text(lt)
-
-            if t_text and lt_text:
-                rv[t_text] = lt_text
-
-    return rv
-
-
 def notags_filter(s):
 
     def tag_pass(s):
@@ -80,7 +42,6 @@ def notags_filter(s):
             if i == '{':
 
                 if first:
-
                     brace = False
                 else:
                     brace = True
@@ -218,10 +179,6 @@ class DialogueFile(object):
 
                     if self.escape:
                         what = quote_unicode(what)
-                    elif self.tdf:
-                        what = what.replace("\\", "\\\\")
-                        what = what.replace("\t", "\\t")
-                        what = what.replace("\n", "\\n")
 
                     if self.tdf:
 
@@ -270,11 +227,6 @@ class DialogueFile(object):
 
             if self.escape:
                 s = quote_unicode(s)
-
-            elif self.tdf:
-                s = s.replace("\\", "\\\\")
-                s = s.replace("\t", "\\t")
-                s = s.replace("\n", "\\n")
 
             if self.tdf:
                 lines.append(["", "", s, filename, str(line)])
@@ -329,6 +281,5 @@ def dialogue_command():
         DialogueFile(filename, output, tdf=tdf, strings=args.strings, notags=args.notags, escape=args.escape)
 
     return False
-
 
 renpy.arguments.register_command("dialogue", dialogue_command)

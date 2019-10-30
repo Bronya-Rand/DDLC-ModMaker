@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -20,8 +20,6 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 # This file handles imagemap caching.
-
-from __future__ import print_function
 
 import pygame_sdl2 as pygame
 import renpy.display
@@ -99,9 +97,6 @@ class ImageMapCache(renpy.object.Object):
         # The size of the cache.
         self.cache_width = None
         self.cache_height = None
-
-        # Temporarily disabled.
-        enable = False
 
         self.enable = enable
 

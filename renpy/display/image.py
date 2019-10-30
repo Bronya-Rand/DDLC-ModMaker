@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -23,8 +23,6 @@
 # Most of the guts of this file have been moved into im.py, with only some
 # of the stuff thar uses images remaining.
 
-from __future__ import print_function
-
 import renpy.display
 import renpy.text
 from renpy.display.render import render, Render
@@ -37,21 +35,7 @@ images = { }
 
 # A map from image tag to lists of possible attributes for images with that
 # tag.
-image_attributes = collections.defaultdict(dict)
-
-# The set of image names Ren'Py knows about, as strings with spaces.
-image_names = [ ]
-
-
-def list_images():
-    """
-    :doc: image_func
-
-    Returns a list of images that have been added to Ren'Py, as a list of
-    strings with spaces between the name components.
-    """
-
-    return image_names
+image_attributes = collections.defaultdict(list)
 
 
 def get_available_image_tags():
@@ -109,33 +93,16 @@ def check_image_attributes(tag, attributes):
     :doc: image_func
 
     Checks to see if there is a unique image with the given tag and
-    attributes. If there is, returns the attributes in order.
+    attributes. If there is, returns the tag and attributes in order.
     Otherwise, returns None.
     """
 
-    l = [ ]
+    ca = get_tag_method(tag, "_choose_attributes")
 
-    for attrs, d in image_attributes[tag].items():
+    if ca is not None:
+        return ca(tag, attributes, None)
 
-        remainder = [ i for i in attributes if i not in attrs ]
-
-        ca = getattr(d, "_choose_attributes", None)
-
-        if ca is not None:
-
-            chosen = ca(tag, remainder, None)
-            if chosen is not None:
-                l.append(list(attrs) + list(chosen))
-
-        else:
-
-            if not remainder:
-                l.append(attrs)
-
-    # Check to see if there's an image that is exactly the one we want.
-    for i in l:
-        if len(i) == len(attributes):
-            return tuple(i)
+    l = get_available_image_attributes(tag, attributes)
 
     if len(l) != 1:
         return None
@@ -161,81 +128,32 @@ def get_ordered_image_attributes(tag, attributes=(), sort=None):
 
     """
 
-    sequences = [ ]
+    la = get_tag_method(tag, "_list_attributes")
+
+    if la is not None:
+        return la(tag, attributes)
 
     attrcount = collections.defaultdict(int)
     attrtotalpos = collections.defaultdict(float)
 
-    for attrs, d in sorted(image_attributes[tag].items()):
-
-        la = getattr(d, "_list_attributes", None)
-        if la is not None:
-
-            sequence = list(attrs) + la(tag, [ i for i in attributes if i not in attrs ])
-
-            if not all(i in sequence for i in attributes):
-                continue
-
-            sequences.append(sequence)
-
-        else:
-
-            if not all(i in attrs for i in attributes):
-                continue
-
-            for i, attr in enumerate(attrs):
-                attrcount[attr] += 1
-                attrtotalpos[attr] += i
+    for attrlist in get_available_image_attributes(tag, attributes):
+        for i, attr in enumerate(attrlist):
+            attrcount[attr] += 1
+            attrtotalpos[attr] += i
 
     if sort is None:
-        return list(set(attrcount.keys()) | set(j for i in sequences for j in i))
 
-    # If we have a sequence, do a topological sort on the before-after relation -
-    # with an ajustment to make sure it will complete even if it loops.
+        return list(attrcount.keys())
 
-    rv = [ ]
+    else:
 
-    # A map from an attribute to all the attributes it is after.
-    after = collections.defaultdict(set)
+        l = [ ]
 
-    for i in sequences:
-        while i:
-
-            j = i.pop(0)
-
-            # Ensure it exists.
-            after[j]
-
-            for k in i:
-                after[k].add(j)
-
-    while after:
-
-        mincount = min(len(i) for i in after.values())
-        ready = set(k for k, v in after.items() if len(v) == mincount)
-
-        for i in ready:
-            del after[i]
-
-        for k in after:
-            after[k] = after[k] - ready
-
-        ready = list(ready)
-        ready.sort(key=lambda a : (sort(a), a))
-
-        rv.extend(ready)
-
-    l = [ ]
-
-    for attr in attrcount:
-        if attr not in rv:
+        for attr in attrcount:
             l.append((attrtotalpos[attr] / attrcount[attr], sort(attr), attr))
 
-    l.sort()
-    for i in l:
-        rv.append(i[2])
-
-    return rv
+        l.sort()
+        return [ i[2] for i in l ]
 
 
 def register_image(name, d):
@@ -251,9 +169,7 @@ def register_image(name, d):
     rest = name[1:]
 
     images[name] = d
-    image_attributes[tag][rest] = d
-
-    image_names.append(" ".join(name))
+    image_attributes[tag].append(rest)
 
 
 def image_exists(name, exact=False):
@@ -286,20 +202,6 @@ def image_exists(name, exact=False):
         name = name[:-1]
 
     return False
-
-
-def get_registered_image(name):
-    """
-    :doc: image_func
-
-    If an image with the same name has been registered with renpy.register_image,
-    returns it. Otherwise, returns None.
-    """
-
-    if not isinstance(name, tuple):
-        name = tuple(name.split())
-
-    return images.get(name)
 
 
 def wrap_render(child, w, h, st, at):
@@ -396,12 +298,6 @@ class ImageReference(renpy.display.core.Displayable):
             error("Image '%s' not found." % ' '.join(self.name))
             return False
 
-        if name and (self._args.name == name):
-            error("Image '{}' refers to itself.".format(' '.join(name)))
-            return False
-
-        args += self._args.args
-
         try:
 
             a = self._args.copy(name=name, args=args)
@@ -432,9 +328,6 @@ class ImageReference(renpy.display.core.Displayable):
     _duplicatable = True
 
     def _duplicate(self, args):
-
-        if args and args.args:
-            args.extraneous()
 
         rv = self._copy(args)
         rv.target = None
@@ -468,12 +361,6 @@ class ImageReference(renpy.display.core.Displayable):
         rv = self._copy()
         rv.target = target
         return rv
-
-    def _handles_event(self, event):
-        if self.target is None:
-            return False
-
-        return self.target._handles_event(event)
 
     def _hide(self, st, at, kind):
         if self.target is None:
@@ -550,13 +437,16 @@ class DynamicImage(renpy.display.core.Displayable):
     # Have we been locked, so we never change?
     locked = False
 
-    # The name used for hashing.
-    hash_name = None
-
     def __init__(self, name, scope=None, **properties):
         super(DynamicImage, self).__init__(**properties)
 
         self.name = name
+
+        if scope is not None:
+            self.find_target(scope)
+            self._uses_scope = True
+        else:
+            self._uses_scope = False
 
         if isinstance(name, basestring) and ("[prefix_" in name):
             self._duplicatable = True
@@ -566,12 +456,6 @@ class DynamicImage(renpy.display.core.Displayable):
                 if ("[prefix_" in i):
                     self._duplicatable = True
 
-        if scope is not None:
-            self.find_target(scope)
-            self._uses_scope = True
-        else:
-            self._uses_scope = False
-
     def _scope(self, scope, update):
         return self.find_target(scope, update)
 
@@ -579,14 +463,7 @@ class DynamicImage(renpy.display.core.Displayable):
         return u"DynamicImage {!r}".format(self.name)
 
     def __hash__(self):
-
-        if self.hash_name is None:
-            if isinstance(self.name, list):
-                self.hash_name = tuple(self.name)
-            else:
-                self.hash_name = self.name
-
-        return hash(self.hash_name)
+        return hash(self.name)
 
     def __eq__(self, o):
         if self is o:
@@ -598,9 +475,6 @@ class DynamicImage(renpy.display.core.Displayable):
         if self.name != o.name:
             return False
 
-        if self._uses_scope and (self.target != o.target):
-            return False
-
         return True
 
     def _target(self):
@@ -609,44 +483,26 @@ class DynamicImage(renpy.display.core.Displayable):
         else:
             return self
 
-    def set_style_prefix(self, prefix, root):
-
-        if (prefix != self.style.prefix) and self._duplicatable:
-            self.target = None
-            self.raw_target = None
-
-        super(DynamicImage, self).set_style_prefix(prefix, root)
-
     def find_target(self, scope=None, update=True):
 
         if self.locked and (self.target is not None):
             return
 
         if self._args.prefix is None:
-            if self._duplicatable:
-                prefix = self.style.prefix
-            else:
-                prefix = ""
+            prefix = ""
         else:
             prefix = self._args.prefix
 
         try:
-            search = [ ]
-            target = renpy.easy.dynamic_image(self.name, scope, prefix=prefix, search=search)
-        except KeyError as ke:
-            raise Exception("In DynamicImage %r: Could not find substitution '%s'." % (self.name, unicode(ke.args[0])))
+            target = renpy.easy.dynamic_image(self.name, scope, prefix=prefix)
         except Exception as e:
             raise Exception("In DynamicImage %r: %r" % (self.name, e))
 
         if target is None:
-            error = "DynamicImage %r: could not find image." % (self.name,)
+            error = "DynamicImage %r: did not resolve to an image." % (self.name,)
 
-            if len(search) == 1:
-                error += " (%r)" % (search[0],)
-            elif len(search) == 2:
-                error += " (%r, %r)" % (search[0], search[1])
-            elif len(search) > 2:
-                error += " (%r, %r, and %d more.)" % (search[0], search[1], len(search) - 2)
+            if self._args.prefix:
+                error += " prefix=" + self._args.prefix
 
             raise Exception(error)
 
@@ -680,13 +536,8 @@ class DynamicImage(renpy.display.core.Displayable):
         return True
 
     def _duplicate(self, args):
-
-        if args and args.args:
-            args.extraneous()
-
         rv = self._copy(args)
         rv.target = None
-        rv.raw_target = None
         # This does not set _duplicatable, since it should always remain the
         # same.
         return rv
@@ -699,12 +550,6 @@ class DynamicImage(renpy.display.core.Displayable):
 
         rv.locked = True
         return rv
-
-    def _handles_event(self, event):
-        if self.target is None:
-            return False
-
-        return self.target._handles_event(event)
 
     def _hide(self, st, at, kind):
         if self.target is None:
@@ -795,16 +640,13 @@ class ShownImageInfo(renpy.object.Object):
                     self.attributes[layer, tag] = self.images[layer][tag][1:]
                     self.shown.add((layer, tag))
 
-    def get_attributes(self, layer, tag, default=()):
+    def get_attributes(self, layer, tag):
         """
         Get the attributes associated the image with tag on the given
         layer.
         """
 
-        if layer is None:
-            layer = renpy.config.tag_layer.get(tag, "master")
-
-        return self.attributes.get((layer, tag), default)
+        return self.attributes.get((layer, tag), ())
 
     def showing(self, layer, name, exact=False):
         """
@@ -814,9 +656,6 @@ class ShownImageInfo(renpy.object.Object):
 
         tag = name[0]
         rest = name[1:]
-
-        if layer is None:
-            layer = renpy.config.tag_layer.get(tag, "master")
 
         if (layer, tag) not in self.shown:
             return None
@@ -841,14 +680,6 @@ class ShownImageInfo(renpy.object.Object):
         """
 
         return { t for l, t in self.shown if l == layer }
-
-    def get_hidden_tags(self, layer):
-        """
-        Returns the set of tags on layer that have attributes,
-        but aren't being shown.
-        """
-
-        return { t for l, t in self.attributes if l == layer if (l, t) not in self.shown }
 
     def predict_scene(self, layer):
         """
@@ -876,9 +707,6 @@ class ShownImageInfo(renpy.object.Object):
         tag = name[0]
         rest = name[1:]
 
-        if layer is None:
-            layer = renpy.config.tag_layer.get(tag, "master")
-
         self.attributes[layer, tag] = rest
 
         if show:
@@ -886,9 +714,6 @@ class ShownImageInfo(renpy.object.Object):
 
     def predict_hide(self, layer, name):
         tag = name[0]
-
-        if layer is None:
-            layer = renpy.config.tag_layer.get(tag, "master")
 
         if (layer, tag) in self.attributes:
             del self.attributes[layer, tag]
@@ -903,30 +728,23 @@ class ShownImageInfo(renpy.object.Object):
         with that name couldn't be found.
         """
 
-        if layer is None:
-            layer = renpy.config.tag_layer.get(tag, "master")
-
         # If the name matches one that exactly exists, return it.
         if (name in images) and not (wanted or remove):
-            ca = getattr(images[name], "_choose_attributes", None)
-
-            if ca is None:
-                return name
+            return name
 
         nametag = name[0]
+
+        # The set of attributes a matching image must have.
+        required = set(name[1:])
 
         # The set of attributes a matching image may have.
         optional = set(wanted) | set(self.attributes.get((layer, tag), [ ]))
 
-        # The set of attributes a matching image must have/not have.
-        # Evaluated in order.
-        required = set()
+        # Deal with banned attributes..
         for i in name[1:]:
             if i[0] == "-":
                 optional.discard(i[1:])
-                required.discard(i[1:])
-            else:
-                required.add(i)
+                required.discard(i)
 
         for i in remove:
             optional.discard(i)
@@ -935,25 +753,20 @@ class ShownImageInfo(renpy.object.Object):
 
     def choose_image(self, tag, required, optional, exception_name):
 
+        ca = get_tag_method(tag, "_choose_attributes")
+        if ca is not None:
+            attrs = ca(tag, required, optional)
+
+            if attrs is not None:
+                return (tag,) + attrs
+
         # The longest length of an image that matches.
         max_len = -1
 
         # The list of matching images.
         matches = None
 
-        for attrs, d in image_attributes[tag].items():
-
-            ca = getattr(d, "_choose_attributes", None)
-
-            if ca:
-                ca_required = { i for i in required if i not in attrs }
-                ca_optional = { i for i in optional if i not in attrs }
-                newattrs = ca(tag, ca_required, ca_optional)
-
-                if newattrs is None:
-                    continue
-
-                attrs = attrs + newattrs
+        for attrs in image_attributes[tag]:
 
             num_required = 0
 
@@ -994,7 +807,6 @@ class ShownImageInfo(renpy.object.Object):
             raise Exception("Showing '" + " ".join(exception_name) + "' is ambiguous, possible images include: " + ", ".join(" ".join(i) for i in matches))
         else:
             return None
-
 
 renpy.display.core.ImagePredictInfo = ShownImageInfo
 

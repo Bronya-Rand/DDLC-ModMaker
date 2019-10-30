@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -154,7 +154,7 @@ screen build_distributions:
 
             has vbox
 
-            label _("Build Distributions: [project.current.display_name!q]")
+            label _("Build Distributions: [project.current.name!q]")
 
             add HALF_SPACER
 

@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -168,7 +168,7 @@ init -1500 python:
 
                 layout.yesno_screen(layout.MAIN_MENU, MainMenu(False))
             else:
-                renpy.full_restart(config.game_main_transition)
+                renpy.full_restart()
 
         def get_sensitive(self):
             return not renpy.context()._main_menu
@@ -203,9 +203,8 @@ init -1500 python:
                     renpy.force_autosave()
 
                 layout.yesno_screen(layout.QUIT, Quit(False))
-
             else:
-                renpy.quit(save=True)
+                renpy.jump("_quit")
 
     @renpy.pure
     class Skip(Action, DictEquality):

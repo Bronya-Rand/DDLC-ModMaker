@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 
+
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Screen Language Optimization &#8212; Ren&#39;Py Documentation</title>
+    
+    <title>Screen Language Optimization &mdash; Ren&#39;Py Documentation</title>
+    
     <link rel="stylesheet" href="_static/renpydoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '7.3.5',
+        VERSION:     '6.99.12',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -26,8 +29,7 @@
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Ren&#39;Py Documentation" href="index.html" />
     <link rel="next" title="Configuration Variables" href="config.html" />
     <link rel="prev" title="Special Screen Names" href="screen_special.html" />
 <meta charset='utf-8'>
@@ -36,7 +38,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -49,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           Ren&#39;Py Documentation</a>
-        <span class="navbar-text navbar-version pull-left"><b>7.3.5</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>6.99.12</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -90,7 +92,6 @@
 <li class="toctree-l1"><a class="reference internal" href="transforms.html">Transforms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transitions.html">Transitions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="atl.html">Animation and Transformation Language</a></li>
-<li class="toctree-l1"><a class="reference internal" href="layeredimage.html">Layered Images</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="style.html">Styles</a></li>
@@ -100,12 +101,7 @@
 <li class="toctree-l1"><a class="reference internal" href="screen_special.html">Special Screen Names</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Screen Language Optimization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">Configuration Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="preferences.html">Preference Variables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="store_variables.html">Store Variables</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="developer_tools.html">Developer Tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="director.html">Interactive Director</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="nvl_mode.html">NVL-Mode Tutorial</a></li>
@@ -115,16 +111,15 @@
 <li class="toctree-l1"><a class="reference internal" href="drag_drop.html">Drag and Drop</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sprites.html">Sprites</a></li>
 <li class="toctree-l1"><a class="reference internal" href="keymap.html">Customizing the Keymap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer_tools.html">Developer Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="achievement.html">Achievements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="history.html">Dialogue History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="multiple.html">Multiple Character Dialogue</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="statement_equivalents.html">Statement Equivalents</a></li>
 <li class="toctree-l1"><a class="reference internal" href="save_load_rollback.html">Saving, Loading, and Rollback</a></li>
 <li class="toctree-l1"><a class="reference internal" href="persistent.html">Persistent Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="trans_trans_python.html">Transforms and Transitions in Python</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gui_advanced.html">Advanced GUI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="screen_python.html">Screens and Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modes.html">Modes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="udd.html">Creator-Defined Displayables</a></li>
@@ -143,12 +138,11 @@
 <li class="toctree-l1"><a class="reference internal" href="ios.html">iOS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="iap.html">In-App Purchasing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gesture.html">Gestures</a></li>
-<li class="toctree-l1"><a class="reference internal" href="raspi.html">Raspberry Pi</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="problems.html">Dealing with Problems</a></li>
 <li class="toctree-l1"><a class="reference internal" href="environment_variables.html">Environment Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="self_voicing.html">Self-Voicing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="self_voicing.html">Self Voicing</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="editor.html">Text Editor Integration</a></li>
@@ -160,8 +154,7 @@
 <li class="toctree-l1"><a class="reference internal" href="incompatible.html">Incompatible Changes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="distributor.html">Distributor Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sponsors.html">Ren'Py Development Sponsors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Documentation and Translation Credits</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="thequestion.html">Script of The Question</a></li>
@@ -230,12 +223,11 @@ in the launcher to ensure its screens are upgraded to the latest version.</p>
 <p>This guide isn't a substitute for good programming practice. If a screen
 uses nested loops to do a lot of unproductive work, it will be slower than
 a screen that avoids such looping. While understanding the techniques in
-this guide is important, avoiding work entirely is always better than
-letting Ren'Py optimize the work for you.</p>
+this guide is important,</p>
 <div class="section" id="parameter-list">
 <h2>Parameter List<a class="headerlink" href="#parameter-list" title="Permalink to this headline"> link</a></h2>
 <p>For best performance, all screens should be defined with a parameter list.
-When a screen doesn't take parameters, it should be defined with an empty
+When a screen doesn't take parameters, it should be define with an empty
 parameter list. The screen:</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">screen</span> <span class="n">test</span><span class="p">():</span>
     <span class="k">vbox</span><span class="p">:</span>
@@ -251,7 +243,7 @@ parameter list. The screen:</p>
 </pre></div>
 </div>
 <p>When a screen is defined without a parameter list, any name used in that
-screen can be redefined when the screen is shown. This requires Ren'Py to be
+screen can be redefined when the screen is show. This requires Ren'Py to be
 more conservative when analyzing the screen, which can limit the optimization
 it performs.</p>
 </div>
@@ -264,10 +256,10 @@ that are used by the screen.</p>
 <ul class="simple">
 <li>Ren'Py will predict screens shown by the <code class="docutils literal"><span class="pre">show</span> <span class="pre">screen</span></code> and <code class="docutils literal"><span class="pre">call</span> <span class="pre">screen</span></code>
 statements.</li>
-<li>Ren'Py will predict screens that will be shown by the <a class="reference internal" href="screen_actions.html#Show" title="Show"><code class="xref py py-func docutils literal"><span class="pre">Show()</span></code></a> and <a class="reference internal" href="screen_actions.html#ShowMenu" title="ShowMenu"><code class="xref py py-func docutils literal"><span class="pre">ShowMenu()</span></code></a>
+<li>Ren'Py will predict screen that will be shown by the <a class="reference internal" href="screen_actions.html#Show" title="Show"><code class="xref py py-func docutils literal"><span class="pre">Show()</span></code></a> and <a class="reference internal" href="screen_actions.html#ShowMenu" title="ShowMenu"><code class="xref py py-func docutils literal"><span class="pre">ShowMenu()</span></code></a>
 actions.</li>
 </ul>
-<p>If screens are shown from Python, it's a good idea to start predicting
+<p>If screens are shown from python code, it's a good idea to start predicting
 the screen before it is shown. To start predicting a screen, use the
 <a class="reference internal" href="screen_python.html#renpy.start_predict_screen" title="renpy.start_predict_screen"><code class="xref py py-func docutils literal"><span class="pre">renpy.start_predict_screen()</span></code></a> function. To stop predicting a screen,
 use the <a class="reference internal" href="screen_python.html#renpy.stop_predict_screen" title="renpy.stop_predict_screen"><code class="xref py py-func docutils literal"><span class="pre">renpy.stop_predict_screen()</span></code></a> function.</p>
@@ -287,29 +279,29 @@ showing it to the user, which can lead to another significant speedup.</p>
 <p>To compare positional arguments and properties, Ren'Py uses the notion of
 equality embodied by Python's == operator. We've extended this notion of
 equality to actions by deciding two actions should be equal when they are
-indistinguishable from each other – when it doesn't matter which action
+indistinguishable from each other - when it doesn't matter which action
 is invoked, or which action is queried to determine sensitivity or
 selectedness.</p>
 <p>All actions provided with Ren'Py conform to this definition. When defining
 your own actions, it makes sense to provide them with this notion of
-equality. This can be done by supplying an appropriate <code class="docutils literal"><span class="pre">__eq__</span></code> method.
+equality. This can be done by supplying an appropriate __eq__ method.
 For example:</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TargetShip</span><span class="p">(</span><span class="n">Action</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ship</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ship</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ship</span> <span class="o">=</span> <span class="n">ship</span>
 
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="k">if</span> <span class="k">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">TargetShip</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">False</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ship</span> <span class="k">is</span> <span class="n">other</span><span class="o">.</span><span class="n">ship</span>
 
-    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">global</span> <span class="n">target</span>
         <span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ship</span>
 </pre></div>
 </div>
-<p>It's important to define the <code class="docutils literal"><span class="pre">__eq__</span></code> function carefully, making sure it
+<p>It's important to define the __eq__ function carefully, making sure it
 compares all fields, and uses equality (==) and identity (is) comparison
 as appropriate.</p>
 </div>
@@ -376,7 +368,7 @@ arguments, properties, and expressions affecting control flow are
 also const, Ren'Py will reuse the entire tree without evaluating
 expressions or creating displayables. This can yield a significant
 performance boost.</p>
-<p>For example, the following screen does not execute any Python or create
+<p>For example, the following screen does not execute any code or create
 any displayables after the first time it is predicted or shown:</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">screen</span> <span class="n">mood_picker</span><span class="p">():</span>
     <span class="k">hbox</span><span class="p">:</span>
@@ -535,7 +527,6 @@ directory.</p>
 <li>Animation</li>
 <li><a class="reference internal" href="displayables.html#At" title="At"><code class="xref py py-func docutils literal"><span class="pre">At()</span></code></a></li>
 <li><a class="reference internal" href="screen_actions.html#AudioPositionValue" title="AudioPositionValue"><code class="xref py py-func docutils literal"><span class="pre">AudioPositionValue()</span></code></a></li>
-<li><a class="reference internal" href="screen_actions.html#Call" title="Call"><code class="xref py py-func docutils literal"><span class="pre">Call()</span></code></a></li>
 <li><a class="reference internal" href="dialogue.html#Character" title="Character"><code class="xref py py-func docutils literal"><span class="pre">Character()</span></code></a></li>
 <li><a class="reference internal" href="color_class.html#Color" title="Color"><code class="xref py py-class docutils literal"><span class="pre">Color</span></code></a></li>
 <li><a class="reference internal" href="transitions.html#ComposeTransition" title="ComposeTransition"><code class="xref py py-func docutils literal"><span class="pre">ComposeTransition()</span></code></a></li>
@@ -575,9 +566,9 @@ directory.</p>
 <li><a class="reference internal" href="screen_actions.html#InvertSelected" title="InvertSelected"><code class="xref py py-func docutils literal"><span class="pre">InvertSelected()</span></code></a></li>
 <li><a class="reference internal" href="screen_actions.html#Jump" title="Jump"><code class="xref py py-func docutils literal"><span class="pre">Jump()</span></code></a></li>
 <li><a class="reference internal" href="translation.html#Language" title="Language"><code class="xref py py-func docutils literal"><span class="pre">Language()</span></code></a></li>
-<li>LiveComposite</li>
-<li>LiveCrop</li>
-<li>LiveTile</li>
+<li><a class="reference internal" href="displayables.html#LiveComposite" title="LiveComposite"><code class="xref py py-func docutils literal"><span class="pre">LiveComposite()</span></code></a></li>
+<li><a class="reference internal" href="displayables.html#LiveCrop" title="LiveCrop"><code class="xref py py-func docutils literal"><span class="pre">LiveCrop()</span></code></a></li>
+<li><a class="reference internal" href="displayables.html#LiveTile" title="LiveTile"><code class="xref py py-func docutils literal"><span class="pre">LiveTile()</span></code></a></li>
 <li><a class="reference internal" href="screen_actions.html#MainMenu" title="MainMenu"><code class="xref py py-func docutils literal"><span class="pre">MainMenu()</span></code></a></li>
 <li><a class="reference internal" href="screen_actions.html#MixerValue" title="MixerValue"><code class="xref py py-func docutils literal"><span class="pre">MixerValue()</span></code></a></li>
 <li>Motion</li>
@@ -622,7 +613,6 @@ directory.</p>
 <li>RotoZoom</li>
 <li><a class="reference internal" href="screen_actions.html#ScreenVariableValue" title="ScreenVariableValue"><code class="xref py py-func docutils literal"><span class="pre">ScreenVariableValue()</span></code></a></li>
 <li><a class="reference internal" href="screen_actions.html#Screenshot" title="Screenshot"><code class="xref py py-func docutils literal"><span class="pre">Screenshot()</span></code></a></li>
-<li><a class="reference internal" href="screen_actions.html#Scroll" title="Scroll"><code class="xref py py-func docutils literal"><span class="pre">Scroll()</span></code></a></li>
 <li><a class="reference internal" href="screen_actions.html#SelectedIf" title="SelectedIf"><code class="xref py py-func docutils literal"><span class="pre">SelectedIf()</span></code></a></li>
 <li><a class="reference internal" href="screen_actions.html#SensitiveIf" title="SensitiveIf"><code class="xref py py-func docutils literal"><span class="pre">SensitiveIf()</span></code></a></li>
 <li><a class="reference internal" href="voice.html#SetCharacterVolume" title="SetCharacterVolume"><code class="xref py py-func docutils literal"><span class="pre">SetCharacterVolume()</span></code></a></li>
@@ -651,7 +641,6 @@ directory.</p>
 <li><a class="reference internal" href="screen_actions.html#ToggleDict" title="ToggleDict"><code class="xref py py-func docutils literal"><span class="pre">ToggleDict()</span></code></a></li>
 <li><a class="reference internal" href="screen_actions.html#ToggleField" title="ToggleField"><code class="xref py py-func docutils literal"><span class="pre">ToggleField()</span></code></a></li>
 <li><a class="reference internal" href="screen_actions.html#ToggleMute" title="ToggleMute"><code class="xref py py-func docutils literal"><span class="pre">ToggleMute()</span></code></a></li>
-<li><a class="reference internal" href="screen_actions.html#ToggleScreen" title="ToggleScreen"><code class="xref py py-func docutils literal"><span class="pre">ToggleScreen()</span></code></a></li>
 <li><a class="reference internal" href="screen_actions.html#ToggleScreenVariable" title="ToggleScreenVariable"><code class="xref py py-func docutils literal"><span class="pre">ToggleScreenVariable()</span></code></a></li>
 <li><a class="reference internal" href="screen_actions.html#ToggleSetMembership" title="ToggleSetMembership"><code class="xref py py-func docutils literal"><span class="pre">ToggleSetMembership()</span></code></a></li>
 <li><a class="reference internal" href="screen_actions.html#ToggleVariable" title="ToggleVariable"><code class="xref py py-func docutils literal"><span class="pre">ToggleVariable()</span></code></a></li>
@@ -667,11 +656,7 @@ directory.</p>
 <li>Zoom</li>
 <li>ZoomInOut</li>
 <li><a class="reference internal" href="translation.html#_" title="_"><code class="xref py py-func docutils literal"><span class="pre">_()</span></code></a></li>
-<li>_DisplayReset</li>
 <li>_InputValueAction</li>
-<li>__renpy__dict__</li>
-<li>__renpy__list__</li>
-<li>__renpy__set__</li>
 <li>_m1_00gallery__GalleryAction</li>
 <li>_m1_00gallery__GalleryToggleSlideshow</li>
 <li>_m1_00musicroom__MusicRoomPlay</li>
@@ -685,9 +670,7 @@ directory.</p>
 <li>_movetop</li>
 <li>_narrator</li>
 <li>_notify_transform</li>
-<li><a class="reference internal" href="translation.html#_p" title="_p"><code class="xref py py-func docutils literal"><span class="pre">_p()</span></code></a></li>
 <li>abs</li>
-<li>absolute</li>
 <li>all</li>
 <li>any</li>
 <li>apply</li>
@@ -709,9 +692,6 @@ directory.</p>
 <li>frozenset</li>
 <li>getattr</li>
 <li>globals</li>
-<li><a class="reference internal" href="gui_advanced.html#gui.SetPreference" title="gui.SetPreference"><code class="xref py py-func docutils literal"><span class="pre">gui.SetPreference()</span></code></a></li>
-<li><a class="reference internal" href="gui_advanced.html#gui.TogglePreference" title="gui.TogglePreference"><code class="xref py py-func docutils literal"><span class="pre">gui.TogglePreference()</span></code></a></li>
-<li><a class="reference internal" href="gui_advanced.html#gui.preference" title="gui.preference"><code class="xref py py-func docutils literal"><span class="pre">gui.preference()</span></code></a></li>
 <li>hasattr</li>
 <li>hash</li>
 <li>hex</li>
@@ -739,14 +719,13 @@ directory.</p>
 <li>range</li>
 <li>reduce</li>
 <li>renpy.Keymap</li>
-<li>renpy.ParameterizedText</li>
+<li><a class="reference internal" href="text.html#renpy.ParameterizedText" title="renpy.ParameterizedText"><code class="xref py py-func docutils literal"><span class="pre">renpy.ParameterizedText()</span></code></a></li>
 <li><a class="reference internal" href="cds.html#renpy.check_text_tags" title="renpy.check_text_tags"><code class="xref py py-func docutils literal"><span class="pre">renpy.check_text_tags()</span></code></a></li>
 <li>renpy.curried_call_in_new_context</li>
 <li>renpy.curried_invoke_in_new_context</li>
 <li>renpy.curry</li>
 <li>renpy.easy_displayable</li>
 <li><a class="reference internal" href="file_python.html#renpy.exists" title="renpy.exists"><code class="xref py py-func docutils literal"><span class="pre">renpy.exists()</span></code></a></li>
-<li><a class="reference internal" href="text.html#renpy.filter_text_tags" title="renpy.filter_text_tags"><code class="xref py py-func docutils literal"><span class="pre">renpy.filter_text_tags()</span></code></a></li>
 <li><a class="reference internal" href="file_python.html#renpy.fsdecode" title="renpy.fsdecode"><code class="xref py py-func docutils literal"><span class="pre">renpy.fsdecode()</span></code></a></li>
 <li><a class="reference internal" href="file_python.html#renpy.fsencode" title="renpy.fsencode"><code class="xref py py-func docutils literal"><span class="pre">renpy.fsencode()</span></code></a></li>
 <li><a class="reference internal" href="label.html#renpy.get_all_labels" title="renpy.get_all_labels"><code class="xref py py-func docutils literal"><span class="pre">renpy.get_all_labels()</span></code></a></li>
@@ -818,8 +797,8 @@ directory.</p>
       
     </p>
     <p>
-        &copy; Copyright 2012-2019, Tom Rothamel.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.<br/>
+        &copy; Copyright 2012-2017, Tom Rothamel.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.<br/>
     </p>
   </div>
 </footer>

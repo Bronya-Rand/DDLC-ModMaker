@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -26,11 +26,6 @@ init -1900 python:
     def _set_script_version(version):
 
         if version is None:
-            return
-
-        import os
-
-        if "RENPY_EXPERIMENTAL" in os.environ:
             return
 
         if version <= (5, 6, 0):
@@ -136,8 +131,7 @@ init -1900 python:
         if version <= (6, 99, 10):
             config.new_translate_order = False
             config.old_say_args = True
-            if "call screen" in config.window_auto_hide:
-                config.window_auto_hide.remove("call screen")
+            config.window_auto_hide.remove("call screen")
             config.quit_action = ui.gamemenus("_quit_prompt")
             config.enforce_window_max_size = False
             config.splashscreen_suppress_overlay = False
@@ -145,71 +139,10 @@ init -1900 python:
         if version <= (6, 99, 12, 3):
             config.prefix_viewport_scrollbar_styles = False
 
-        if version <= (6, 99, 12, 4):
-            config.hyperlink_inherit_size = False
-            config.automatic_polar_motion = False
-            config.position_viewport_side = False
-            config.nw_voice = False
-            config.atl_one_frame = False
-            config.keep_show_layer_state = False
-            config.atl_multiple_events = False
-
-        if version <= (6, 99, 13):
-            config.fast_unhandled_event = False
-            config.gc_thresholds = (700, 10, 10)
-            config.idle_gc_count = 10000
-            config.scrollbar_child_size = False
-
-        if version <= (6, 99, 14):
-            config.image_cache_size_mb = None
-            config.image_cache_size = 16
-            config.cache_surfaces = True
-            config.optimize_texture_bounds = False
-
-        if version <= (6, 99, 14, 3):
-            config.late_images_scan = True
-            config.dissolve_force_alpha = False
-            config.replay_movie_sprites = False
-
-        if version <= (7, 0, 0):
-            config.reject_relative = False
-            config.say_attributes_use_side_image = False
-
-        if version <= (7, 1, 0):
-            config.menu_showed_window = True
-            config.window_auto_show = [ "say" ]
-            config.window_auto_hide = [ "scene", "call screen" ]
-
-        if version <= (7, 1, 1):
-            config.menu_actions = False
-
-        if version <= (7, 2, 2):
-            config.say_attribute_transition_callback_attrs = False
-            config.keep_side_render_order = False
-
-        if version <= (7, 3, 0):
-            config.force_sound = False
-
-        if version <= (7, 3, 2):
-            config.audio_directory = None
-            config.early_start_store = True
 
     # The version of Ren'Py this script is intended for, or
     # None if it's intended for the current version.
     config.script_version = None
-
-python early hide:
-    try:
-        import ast
-        script_version = renpy.file("script_version.txt").read()
-        script_version = ast.literal_eval(script_version)
-
-        if script_version <= (7, 2, 2):
-            config.keyword_after_python = True
-
-    except:
-        pass
-
 
 init -1000 python hide:
     try:
@@ -220,23 +153,7 @@ init -1000 python hide:
     except:
         pass
 
-
-    # 6.99.12.4 didn't add script_version.txt, so we read it from renpy/__init__.py
-    # if that exists.
-    try:
-        if config.script_version is None:
-            init_py = os.path.join(renpy.config.basedir, "renpy", "__init__.py")
-            with open(init_py, "r") as f:
-                data = f.read()
-
-            if "version_tuple = (6, 99, 12, 4, vc_version)" in data:
-                config.script_version = (6, 99, 12, 4)
-
-            renpy.write_log("Set script version to: %r (alternate path)", config.script_version)
-    except:
-        pass
-
-init 1900 python hide:
+init 1900 python hide::
 
     # This returns true if the script_version is <= the
     # script_version supplied. Give it the last script version
@@ -300,3 +217,5 @@ init 1900 python hide:
         config.has_quicksave = False
         config.quit_action = ui.gamemenus("_confirm_quit")
         config.default_afm_enable = None
+
+

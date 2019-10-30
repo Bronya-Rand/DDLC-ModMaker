@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -26,12 +26,7 @@ init python:
 label main_menu_screen:
 
     python hide:
-        name = renpy.session.pop("_main_menu_screen", "main_menu")
-        args = renpy.session.pop("_main_menu_screen_args", tuple())
-        kwargs = renpy.session.pop("_main_menu_screen_kwargs", { })
-
-        renpy.show_screen(name, *args, **kwargs)
-
+        renpy.show_screen(renpy.session.pop("_main_menu_screen", "main_menu"))
         ui.interact()
 
     return

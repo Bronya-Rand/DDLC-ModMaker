@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 
+
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Styles &#8212; Ren&#39;Py Documentation</title>
+    
+    <title>Styles &mdash; Ren&#39;Py Documentation</title>
+    
     <link rel="stylesheet" href="_static/renpydoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '7.3.5',
+        VERSION:     '6.99.12',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -26,17 +29,16 @@
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Ren&#39;Py Documentation" href="index.html" />
     <link rel="next" title="Style Properties" href="style_properties.html" />
-    <link rel="prev" title="Layered Images" href="layeredimage.html" />
+    <link rel="prev" title="Animation and Transformation Language" href="atl.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -49,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           Ren&#39;Py Documentation</a>
-        <span class="navbar-text navbar-version pull-left"><b>7.3.5</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>6.99.12</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -90,7 +92,6 @@
 <li class="toctree-l1"><a class="reference internal" href="transforms.html">Transforms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transitions.html">Transitions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="atl.html">Animation and Transformation Language</a></li>
-<li class="toctree-l1"><a class="reference internal" href="layeredimage.html">Layered Images</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Styles</a></li>
@@ -100,12 +101,7 @@
 <li class="toctree-l1"><a class="reference internal" href="screen_special.html">Special Screen Names</a></li>
 <li class="toctree-l1"><a class="reference internal" href="screen_optimization.html">Screen Language Optimization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">Configuration Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="preferences.html">Preference Variables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="store_variables.html">Store Variables</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="developer_tools.html">Developer Tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="director.html">Interactive Director</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="nvl_mode.html">NVL-Mode Tutorial</a></li>
@@ -115,16 +111,15 @@
 <li class="toctree-l1"><a class="reference internal" href="drag_drop.html">Drag and Drop</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sprites.html">Sprites</a></li>
 <li class="toctree-l1"><a class="reference internal" href="keymap.html">Customizing the Keymap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer_tools.html">Developer Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="achievement.html">Achievements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="history.html">Dialogue History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="multiple.html">Multiple Character Dialogue</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="statement_equivalents.html">Statement Equivalents</a></li>
 <li class="toctree-l1"><a class="reference internal" href="save_load_rollback.html">Saving, Loading, and Rollback</a></li>
 <li class="toctree-l1"><a class="reference internal" href="persistent.html">Persistent Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="trans_trans_python.html">Transforms and Transitions in Python</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gui_advanced.html">Advanced GUI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="screen_python.html">Screens and Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modes.html">Modes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="udd.html">Creator-Defined Displayables</a></li>
@@ -143,12 +138,11 @@
 <li class="toctree-l1"><a class="reference internal" href="ios.html">iOS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="iap.html">In-App Purchasing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gesture.html">Gestures</a></li>
-<li class="toctree-l1"><a class="reference internal" href="raspi.html">Raspberry Pi</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="problems.html">Dealing with Problems</a></li>
 <li class="toctree-l1"><a class="reference internal" href="environment_variables.html">Environment Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="self_voicing.html">Self-Voicing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="self_voicing.html">Self Voicing</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="editor.html">Text Editor Integration</a></li>
@@ -160,8 +154,7 @@
 <li class="toctree-l1"><a class="reference internal" href="incompatible.html">Incompatible Changes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="distributor.html">Distributor Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sponsors.html">Ren'Py Development Sponsors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Documentation and Translation Credits</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="thequestion.html">Script of The Question</a></li>
@@ -200,7 +193,6 @@
 <li><a class="reference internal" href="#style-inspector">Style Inspector</a></li>
 <li><a class="reference internal" href="#defining-styles-style-statement">Defining Styles: Style Statement</a></li>
 <li><a class="reference internal" href="#defining-styles-python">Defining Styles: Python</a><ul>
-<li><a class="reference internal" href="#indexed-styles">Indexed Styles</a></li>
 <li><a class="reference internal" href="#style-preferences">Style Preferences</a></li>
 <li><a class="reference internal" href="#other-style-functions">Other Style Functions</a></li>
 </ul>
@@ -274,14 +266,14 @@ does not exist is used, and the style has an underscore in its name, Ren'Py will
 it using the default parent.</p>
 <p>Style names beginning with an underscore are reserved for Ren'Py use.</p>
 <p>As Ren'Py builds styles on startup, named styles should not be changed
-outside of a style statement or <code class="docutils literal"><span class="pre">init</span></code> block.</p>
+outside of init code.</p>
 </div>
 <div class="section" id="style-inspector">
 <h2>Style Inspector<a class="headerlink" href="#style-inspector" title="Permalink to this headline"> link</a></h2>
 <p>When <a class="reference internal" href="config.html#var-config.developer"><code class="xref std std-var docutils literal"><span class="pre">config.developer</span></code></a> is true, the style inspector can be used to
 see which styles are being used by a displayable.</p>
 <p>To activate the style inspector, place the mouse over a displayable, and
-press Shift+I. Ren'Py will display a list of displayables that include
+press shift+I. Ren'Py will display a list of displayables that include
 the mouse position, in the order they are drawn to the screen. (That is,
 the last displayable is the one on top of the others.)</p>
 <p>Click the name of a style to display the styles the displayable inherits
@@ -341,11 +333,11 @@ as if they were provided to the style statement.</dd>
 
 <span class="k">style</span> <span class="n">label_text</span><span class="p">:</span>
     <span class="na">variant</span> <span class="s2">&quot;touch&quot;</span>
-    <span class="k">take</span> <span class="n">big_red</span>
+    <span class="n">take</span> <span class="n">big_red</span>
 </pre></div>
 </div>
-<p>Style statements are always run at init time. If a style statement is not
-in an <code class="docutils literal"><span class="pre">init</span></code> block, it is automatically placed into an <code class="docutils literal"><span class="pre">init</span> <span class="pre">0</span></code> block.</p>
+<p>Style statements are always run at init-time. If a style statement is not
+in an init block, it is automatically placed init an init 0 block.</p>
 </div>
 <div class="section" id="defining-styles-python">
 <h2>Defining Styles: Python<a class="headerlink" href="#defining-styles-python" title="Permalink to this headline"> link</a></h2>
@@ -353,7 +345,7 @@ in an <code class="docutils literal"><span class="pre">init</span></code> block,
 style, create an instance of the Style class, and assign it to a field on the
 <code class="docutils literal"><span class="pre">style</span></code> object.:</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">init</span> <span class="k">python</span><span class="p">:</span>
-     <span class="k">style</span><span class="o">.</span><span class="n">big_red</span> <span class="o">=</span> <span class="n">Style</span><span class="p">(</span><span class="k">style</span><span class="o">.</span><span class="k">default</span><span class="p">)</span>
+     <span class="k">style</span><span class="o">.</span><span class="n">big_red</span> <span class="o">=</span> <span class="n">Style</span><span class="p">(</span><span class="k">style</span><span class="o">.</span><span class="na">default</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Style properties can be set by assigning to field-like properties of the
@@ -395,12 +387,12 @@ style object.</p>
 
 </dd></dl>
 
-<div class="section" id="indexed-styles">
-<span id="id2"></span><h3>Indexed Styles<a class="headerlink" href="#indexed-styles" title="Permalink to this headline"> link</a></h3>
+<blockquote>
+<div><p>Indexed Styles</p>
 <p>Indexed styles are lightweight styles that can be used to customize the look
 of a displayable based on the data supplied to that displayable. An index
 style is created by indexing a style object with a string or integer. If an
-indexed style does not exist, indexing creates it.</p>
+indexed style does not exist, indexing creates it.:</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">init</span> <span class="k">python</span><span class="p">:</span>
     <span class="k">style</span><span class="o">.</span><span class="k">button</span><span class="p">[</span><span class="s1">&#39;Foo&#39;</span><span class="p">]</span><span class="o">.</span><span class="na">background</span> <span class="o">=</span> <span class="s2">&quot;#f00&quot;</span>
     <span class="k">style</span><span class="o">.</span><span class="k">button</span><span class="p">[</span><span class="s1">&#39;Bar&#39;</span><span class="p">]</span><span class="o">.</span><span class="na">background</span> <span class="o">=</span> <span class="s2">&quot;#00f&quot;</span>
@@ -413,15 +405,9 @@ indexed style does not exist, indexing creates it.</p>
         <span class="k">textbutton</span> <span class="s2">&quot;Bar&quot;</span> <span class="k">style</span> <span class="k">style</span><span class="o">.</span><span class="k">button</span><span class="p">[</span><span class="s2">&quot;Bar&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
-</div>
+</div></blockquote>
 <div class="section" id="style-preferences">
-<span id="id3"></span><h3>Style Preferences<a class="headerlink" href="#style-preferences" title="Permalink to this headline"> link</a></h3>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last"><a class="reference internal" href="gui_advanced.html#gui-preferences"><span class="std std-ref">GUI Preferences</span></a> may often provide a better way of accomplishing
-the same thing, as a gui preference can change a variable used in multiple
-styles.</p>
-</div>
+<span id="id2"></span><h3>Style Preferences<a class="headerlink" href="#style-preferences" title="Permalink to this headline"> link</a></h3>
 <p>It's often desirable to allow the user to customize aspects of the user
 interface that are best expressed as styles. For example, a creator may want
 to give players of his game the ability to adjust the look, color, and size
@@ -502,7 +488,7 @@ choose between large, simple text and smaller outlined text.</p>
     <span class="n">renpy</span><span class="o">.</span><span class="n">register_style_preference</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;large&quot;</span><span class="p">,</span> <span class="k">style</span><span class="o">.</span><span class="n">say_dialogue</span><span class="p">,</span> <span class="s2">&quot;size&quot;</span><span class="p">,</span> <span class="mi">24</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The following will allow the user to select these alternatives using
+<p>The following code will allow the user to select these alternatives using
 buttons:</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">textbutton</span> <span class="s2">&quot;Decorated&quot;</span> <span class="na">action</span> <span class="n">StylePreference</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;decorated&quot;</span><span class="p">)</span>
 <span class="k">textbutton</span> <span class="s2">&quot;Large&quot;</span> <span class="na">action</span> <span class="n">StylePreference</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;large&quot;</span><span class="p">)</span>
@@ -515,7 +501,7 @@ buttons:</p>
 <dt id="style.rebuild">
 <code class="descclassname">style.</code><code class="descname">rebuild</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#style.rebuild" title="Permalink to this definition"> link</a></dt>
 <dd><p>This causes named styles to be rebuilt, allowing styles to be
-changed after the init phase has finished.</p>
+changed outside of init code.</p>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
 <p class="last">Named styles are not saved as part of the per-game data. This
@@ -540,8 +526,8 @@ and load cycle.</p>
       
     </p>
     <p>
-        &copy; Copyright 2012-2019, Tom Rothamel.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.<br/>
+        &copy; Copyright 2012-2017, Tom Rothamel.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.<br/>
     </p>
   </div>
 </footer>

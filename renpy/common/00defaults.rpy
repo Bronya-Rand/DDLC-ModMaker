@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -62,7 +62,7 @@ init -1500 python:
     # If not None, the default value of set_volume (voice)
     config.default_voice_volume = 1.0
 
-init 1500 python hide:
+init 1500 python:
 
     if not persistent._set_preferences:
         persistent._set_preferences = True
@@ -75,13 +75,6 @@ init 1500 python hide:
 
         if config.default_afm_time is not None:
             _preferences.afm_time = config.default_afm_time
-
-        if config.enable_language_autodetect:
-            locale, region = renpy.translation.detect_user_locale()
-            if locale is not None:
-                lang_name = config.locale_to_language_function(locale, region)
-                if lang_name is not None:
-                    config.default_language = lang_name
 
         if config.default_language is not None:
             _preferences.language = config.default_language
@@ -116,23 +109,6 @@ init 1500 python hide:
         _preferences.afm_enable = True
         _preferences.using_afm_enable = False
 
-    error = _preferences.check()
-
-    if error:
-        renpy.persistent.save()
-        raise Exception(error)
-
-init -1500 python:
-    def _locale_to_language_function(locale, region):
-        lang_name = renpy.translation.locales.get(region)
-        if lang_name is not None and lang_name in renpy.known_languages():
-            return lang_name
-
-        lang_name = renpy.translation.locales.get(locale)
-        if lang_name is not None and lang_name in renpy.known_languages():
-            return lang_name
-
-    config.locale_to_language_function = _locale_to_language_function
 
 init -1500 python:
     def _imagemap_auto_function(auto_param, variant):
@@ -142,85 +118,30 @@ init -1500 python:
             return rv
         elif renpy.loadable(rv):
             return rv
-        elif renpy.easy.lookup_displayable_prefix(rv):
-            return rv
         else:
             return None
 
     config.imagemap_auto_function = _imagemap_auto_function
 
-init -1500 python hide:
-
-    def jump_handler(value):
-        renpy.jump(value)
-
-    def call_handler(value):
-        renpy.call(value)
-
-    def call_in_new_context_handler(value):
-        renpy.call_in_new_context(value)
-
-    def show_handler(value):
-        renpy.run(Show(value))
-
-    def showmenu_handler(value):
-        renpy.run(ShowMenu(value))
-
-    config.hyperlink_handlers = {
-        "jump" : jump_handler,
-        "call" : call_handler,
-        "call_in_new_context" : call_in_new_context_handler,
-        "show" : show_handler,
-        "showmenu" : showmenu_handler,
-    }
-
-
-    config.hyperlink_sensitive = { }
-
-
 init -1500 python:
-
-    config.hyperlink_protocol = "call_in_new_context"
 
     # Hyperlink functions. Duplicated in _errorhandling.rpym.
     def hyperlink_styler(target):
         return style.hyperlink_text
 
     def hyperlink_function(target):
-
-        if ":" not in target:
-            target = config.hyperlink_protocol + ":" + target
-
-        protocol, _, value = target.partition(":")
-
-        if protocol in config.hyperlink_handlers:
-            return config.hyperlink_handlers[protocol](value)
-        else:
+        if ":" in target:
             try:
                 import webbrowser
                 webbrowser.open(target)
             except:
                 pass
+        else:
+            renpy.call_in_new_context(target)
 
-    def hyperlink_sensitive(target):
-
-        if ":" not in target:
-            target = config.hyperlink_protocol + ":" + target
-
-        protocol, _, value = target.partition(":")
-
-
-        if protocol not in config.hyperlink_sensitive:
-            return True
-
-        return config.hyperlink_sensitive[protocol](value)
-
-
-    style.default.hyperlink_functions = (hyperlink_styler, hyperlink_function, None, hyperlink_sensitive)
+    style.default.hyperlink_functions = (hyperlink_styler, hyperlink_function, None)
 
 init -1500:
     image text = renpy.ParameterizedText(style="centered_text")
     image vtext = renpy.ParameterizedText(style="centered_vtext")
 
-# Set _version to the version when the game was first started.
-default _version = config.version

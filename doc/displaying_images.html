@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 
+
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Displaying Images &#8212; Ren&#39;Py Documentation</title>
+    
+    <title>Displaying Images &mdash; Ren&#39;Py Documentation</title>
+    
     <link rel="stylesheet" href="_static/renpydoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '7.3.5',
+        VERSION:     '6.99.12',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -26,8 +29,7 @@
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Ren&#39;Py Documentation" href="index.html" />
     <link rel="next" title="In-Game Menus" href="menus.html" />
     <link rel="prev" title="Dialogue and Narration" href="dialogue.html" />
 <meta charset='utf-8'>
@@ -36,7 +38,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -49,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           Ren&#39;Py Documentation</a>
-        <span class="navbar-text navbar-version pull-left"><b>7.3.5</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>6.99.12</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -90,7 +92,6 @@
 <li class="toctree-l1"><a class="reference internal" href="transforms.html">Transforms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transitions.html">Transitions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="atl.html">Animation and Transformation Language</a></li>
-<li class="toctree-l1"><a class="reference internal" href="layeredimage.html">Layered Images</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="style.html">Styles</a></li>
@@ -100,12 +101,7 @@
 <li class="toctree-l1"><a class="reference internal" href="screen_special.html">Special Screen Names</a></li>
 <li class="toctree-l1"><a class="reference internal" href="screen_optimization.html">Screen Language Optimization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">Configuration Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="preferences.html">Preference Variables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="store_variables.html">Store Variables</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="developer_tools.html">Developer Tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="director.html">Interactive Director</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="nvl_mode.html">NVL-Mode Tutorial</a></li>
@@ -115,16 +111,15 @@
 <li class="toctree-l1"><a class="reference internal" href="drag_drop.html">Drag and Drop</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sprites.html">Sprites</a></li>
 <li class="toctree-l1"><a class="reference internal" href="keymap.html">Customizing the Keymap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer_tools.html">Developer Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="achievement.html">Achievements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="history.html">Dialogue History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="multiple.html">Multiple Character Dialogue</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="statement_equivalents.html">Statement Equivalents</a></li>
 <li class="toctree-l1"><a class="reference internal" href="save_load_rollback.html">Saving, Loading, and Rollback</a></li>
 <li class="toctree-l1"><a class="reference internal" href="persistent.html">Persistent Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="trans_trans_python.html">Transforms and Transitions in Python</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gui_advanced.html">Advanced GUI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="screen_python.html">Screens and Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modes.html">Modes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="udd.html">Creator-Defined Displayables</a></li>
@@ -143,12 +138,11 @@
 <li class="toctree-l1"><a class="reference internal" href="ios.html">iOS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="iap.html">In-App Purchasing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gesture.html">Gestures</a></li>
-<li class="toctree-l1"><a class="reference internal" href="raspi.html">Raspberry Pi</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="problems.html">Dealing with Problems</a></li>
 <li class="toctree-l1"><a class="reference internal" href="environment_variables.html">Environment Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="self_voicing.html">Self-Voicing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="self_voicing.html">Self Voicing</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="editor.html">Text Editor Integration</a></li>
@@ -160,8 +154,7 @@
 <li class="toctree-l1"><a class="reference internal" href="incompatible.html">Incompatible Changes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="distributor.html">Distributor Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sponsors.html">Ren'Py Development Sponsors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Documentation and Translation Credits</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="thequestion.html">Script of The Question</a></li>
@@ -202,7 +195,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#defining-images">Defining Images</a><ul>
-<li><a class="reference internal" href="#images-directory">Images Directory</a></li>
+<li><a class="reference internal" href="#image-directory">Image Directory</a></li>
 <li><a class="reference internal" href="#image-statement">Image Statement</a></li>
 </ul>
 </li>
@@ -259,7 +252,7 @@ and <code class="docutils literal"><span class="pre">happy</span></code>.</p>
 <p>A displayable is something that can be shown on the screen. The most
 common thing to show is a static image, which can be specified by
 giving the filename of the image, as a string. In the example above,
-we might use &quot;mary_beach_night_happy.png&quot; as the filename.
+we might use <code class="docutils literal"><span class="pre">&quot;mary_beach_night_happy.png&quot;</span></code> as the filename.
 However, an image may refer to <a class="reference internal" href="displayables.html#displayables"><span class="std std-ref">any displayable Ren'Py supports</span></a>, not just static images. Thus, the same statements
 that are used to display images can also be used for animations, solid
 colors, and the other types of displayables.</p>
@@ -290,7 +283,7 @@ restarted.</dd>
 </dl>
 <p>Additional layers can be defined by updating <a class="reference internal" href="config.html#var-config.layers"><code class="xref std std-var docutils literal"><span class="pre">config.layers</span></code></a>, and
 the various other layer-related config variables. Using
-<a class="reference internal" href="statement_equivalents.html#renpy.show_layer_at" title="renpy.show_layer_at"><code class="xref py py-func docutils literal"><span class="pre">renpy.show_layer_at()</span></code></a>, one or more transforms can be applied to
+<a class="reference internal" href="statement_equivalents.html#renpy.layer_at_list" title="renpy.layer_at_list"><code class="xref py py-func docutils literal"><span class="pre">renpy.layer_at_list()</span></code></a>, one or more transforms can be applied to
 a layer.</p>
 </div>
 </div>
@@ -303,14 +296,14 @@ while the latter a allows more control over how the image is defined, and allows
 images that are not image files.</p>
 <p>Images defined using the image statement take precedence over those defined
 by the image directory.</p>
-<div class="section" id="images-directory">
-<span id="image-directory"></span><h3>Images Directory<a class="headerlink" href="#images-directory" title="Permalink to this headline"> link</a></h3>
+<div class="section" id="image-directory">
+<span id="id2"></span><h3>Image Directory<a class="headerlink" href="#image-directory" title="Permalink to this headline"> link</a></h3>
 <p>The image directory is named &quot;images&quot;, and is placed under the game directory.
 When a file with the .jpg or .png extension is placed underneath this directory,
-the extension is stripped, the rest of the filename is forced to lowercase,
-and the resulting filename is used as the image name if an image with that
+the extension is stripped, the rest of the filename is forced to lower case,
+and the resulting filename is use as the image name if an image with that
 name has not been previously defined.</p>
-<p>This process takes place in all directories underneath the image directory. For
+<p>This process place in all directories underneath the image directory. For
 example, all of these files will define the image <code class="docutils literal"><span class="pre">eileen</span> <span class="pre">happy</span></code>:</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="n">game</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">eileen</span> <span class="n">happy</span><span class="o">.</span><span class="n">png</span>
 <span class="n">game</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">Eileen</span> <span class="n">Happy</span><span class="o">.</span><span class="n">jpg</span>
@@ -319,10 +312,10 @@ example, all of these files will define the image <code class="docutils literal"
 </div>
 </div>
 <div class="section" id="image-statement">
-<span id="id2"></span><h3>Image Statement<a class="headerlink" href="#image-statement" title="Permalink to this headline"> link</a></h3>
-<p>The <code class="docutils literal"><span class="pre">image</span></code> statement is used to define an image. An image statement
+<span id="id3"></span><h3>Image Statement<a class="headerlink" href="#image-statement" title="Permalink to this headline"> link</a></h3>
+<p>An image statement is used to define an image. An image statement
 consists of a single logical line beginning with the keyword <code class="docutils literal"><span class="pre">image</span></code>,
-followed by an image name, an equals sign <code class="docutils literal"><span class="pre">=</span></code>, and a
+followed by an image name, an equals sign (<code class="docutils literal"><span class="pre">=</span></code>), and a
 displayable. For example:</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">eileen</span> <span class="n">happy</span> <span class="o">=</span> <span class="s2">&quot;eileen_happy.png&quot;</span>
 <span class="k">image</span> <span class="n">black</span> <span class="o">=</span> <span class="s2">&quot;#000&quot;</span>
@@ -334,22 +327,16 @@ displayable. For example:</p>
     <span class="p">)</span>
 </pre></div>
 </div>
-<p>When an image is not directly in the game directory, you'll need to
-give the directories underneath it. For example, if the image is in
-game/eileen/happy.png, then you can write:</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">eileen</span> <span class="n">happy</span> <span class="o">=</span> <span class="s2">&quot;eileen/happy.png&quot;</span>
-</pre></div>
-</div>
-<p>The image statement is run at init time, before the menus are shown
-or the start label runs. When not contained inside an <code class="docutils literal"><span class="pre">init</span></code> block,
-image statements are run as if they were placed inside an <code class="docutils literal"><span class="pre">init</span></code> block of
+<p>The image statement must be run at init-time, before game code
+runs. When not contained inside an init block, image statements are
+run at init-time, as if they were placed inside an init block of
 priority 500.</p>
 <p>See also the <a class="reference internal" href="atl.html#atl-image-statement"><span class="std std-ref">ATL variant of the image statement.</span></a></p>
 </div>
 </div>
 <div class="section" id="show-statement">
-<span id="id3"></span><h2>Show Statement<a class="headerlink" href="#show-statement" title="Permalink to this headline"> link</a></h2>
-<p>The <code class="docutils literal"><span class="pre">show</span></code> statement is used to display an image on a layer. A show
+<span id="id4"></span><h2>Show Statement<a class="headerlink" href="#show-statement" title="Permalink to this headline"> link</a></h2>
+<p>The show statement is used to display an image on a layer. A show
 statement consists of a single logical line beginning with the
 keyword <code class="docutils literal"><span class="pre">show</span></code>, followed by an image name, followed by zero or
 more properties.</p>
@@ -366,7 +353,7 @@ number of attributes with that image.</li>
 <p>If an image with the same image tag is already showing on the layer,
 the new image replaces it. Otherwise, the image is placed above all
 other images in the layer. (That is, closest to the user.) This order
-may be modified by the <code class="docutils literal"><span class="pre">zorder</span></code> and <code class="docutils literal"><span class="pre">behind</span></code> properties.</p>
+may be modified by the zorder and behind properties.</p>
 <p>The show statement does not cause an interaction to occur. For the
 image to actually be displayed to the user, a statement that causes an
 interaction (like the say, menu, pause, and with statements) must be
@@ -374,11 +361,11 @@ run.</p>
 <p>The show statement takes the following properties:</p>
 <dl class="docutils">
 <dt><code class="docutils literal"><span class="pre">as</span></code></dt>
-<dd>The <code class="docutils literal"><span class="pre">as</span></code> property takes a name. This name is used in place of the
+<dd>The as property takes a name. This name is used in place of the
 image tag when the image is shown. This allows the same image
 to be on the screen twice.</dd>
 <dt><code class="docutils literal"><span class="pre">at</span></code></dt>
-<dd><p class="first">The <code class="docutils literal"><span class="pre">at</span></code> property takes one or more comma-separated
+<dd><p class="first">The at property takes one or more comma-separated
 simple expressions. Each expression must evaluate to a
 transform. The transforms are applied to the image in
 left-to-right order.</p>
@@ -396,8 +383,8 @@ the given tags that are currently being shown.</dd>
 <dt><code class="docutils literal"><span class="pre">zorder</span></code></dt>
 <dd>Takes an integer. The integer specifies the relative ordering of
 images within a layer, with larger numbers being closer to the
-user. This isn't generally used by Ren'Py games, but can be useful
-when porting visual novels from other engines.</dd>
+user. This isn't generally used in Ren'Py code, but can be useful
+when porting code from other engines.</dd>
 </dl>
 <p>Assuming we have the following images defined:</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">mary</span> <span class="n">night</span> <span class="n">happy</span> <span class="o">=</span> <span class="s2">&quot;mary_night_happy.png&quot;</span>
@@ -406,7 +393,7 @@ when porting visual novels from other engines.</dd>
 </pre></div>
 </div>
 <p>Some example show statements are:</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="c1"># Basic show.</span>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="c1"># Basic show</span>
 <span class="k">show</span> <span class="n">mary</span> <span class="n">night</span> <span class="n">sad</span>
 
 <span class="c1"># Since &#39;mary night happy&#39; is showing, the following statement is</span>
@@ -452,10 +439,13 @@ entire layer (such as &quot;master&quot;), using syntax like:</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">show</span> <span class="na">layer</span> <span class="n">master</span>
 </pre></div>
 </div>
+<p>Transforms used with show should not may any assumptions about their starting
+state. Currently, transforms used with show layer do not take their state from
+prior layer transforms, but we plan to change this in the future.</p>
 </div>
 <div class="section" id="scene-statement">
-<span id="id4"></span><h2>Scene Statement<a class="headerlink" href="#scene-statement" title="Permalink to this headline"> link</a></h2>
-<p>The <code class="docutils literal"><span class="pre">scene</span></code> statement removes all displayables from a layer, and then
+<span id="id5"></span><h2>Scene Statement<a class="headerlink" href="#scene-statement" title="Permalink to this headline"> link</a></h2>
+<p>The scene statement removes all displayables from a layer, and then
 shows an image on that layer. It consists of the keyword <code class="docutils literal"><span class="pre">scene</span></code>,
 followed by an image name, followed by zero or more properties. The
 image is shown in the same way as in the show statement, and the scene
@@ -474,8 +464,8 @@ all displayables from a layer without showing another
 displayable.</p>
 </div>
 <div class="section" id="hide-statement">
-<span id="id5"></span><h2>Hide Statement<a class="headerlink" href="#hide-statement" title="Permalink to this headline"> link</a></h2>
-<p>The <code class="docutils literal"><span class="pre">hide</span></code> statement removes an image from a layer. It consists of the
+<span id="id6"></span><h2>Hide Statement<a class="headerlink" href="#hide-statement" title="Permalink to this headline"> link</a></h2>
+<p>The hide statement removes an image from a layer. It consists of the
 keyword <code class="docutils literal"><span class="pre">hide</span></code>, followed by an image name, followed by an optional
 property. The hide statement takes the image tag from the image name,
 and then hides any image on the layer with that tag.</p>
@@ -506,8 +496,8 @@ will automatically replace an image with the same tag.</p>
 </div>
 </div>
 <div class="section" id="with-statement">
-<span id="id6"></span><h2>With Statement<a class="headerlink" href="#with-statement" title="Permalink to this headline"> link</a></h2>
-<p>The <code class="docutils literal"><span class="pre">with</span></code> statement is used to apply a transition effect when the scene
+<span id="id7"></span><h2>With Statement<a class="headerlink" href="#with-statement" title="Permalink to this headline"> link</a></h2>
+<p>The with statement is used to apply a transition effect when the scene
 is changed, making showing and hiding images less abrupt. The with
 statement consists of the keyword <code class="docutils literal"><span class="pre">with</span></code>, followed by a simple
 expression that evaluates either to a transition object or the special
@@ -536,21 +526,21 @@ previously shown to the washington background. (The <code class="docutils litera
 transition is, by default, defined as a .5 second dissolve.)</p>
 <p>The second transition occurs after the Eileen and Lucy images are
 shown. It causes a dissolve from the scene consisting solely of the
-background to the scene consisting of all three images – the result is
+background to the scene consisting of all three images - the result is
 that the two new images appear to dissolve in simultaneously.</p>
 <div class="section" id="with-none">
-<span id="id7"></span><h3>With None<a class="headerlink" href="#with-none" title="Permalink to this headline"> link</a></h3>
+<span id="id8"></span><h3>With None<a class="headerlink" href="#with-none" title="Permalink to this headline"> link</a></h3>
 <p>In the above example, there are two dissolves. But what if we wanted
 the background to appear instantly, followed by a dissolve of the two
 characters? Simply omitting the first with statement would cause all
-three images to dissolve in – we need a way to say that the first
+three images to dissolve in - we need a way to say that the first
 should be show instantly.</p>
 <p>The with statement changes behavior when given the special value
 <code class="docutils literal"><span class="pre">None</span></code>. The <code class="docutils literal"><span class="pre">with</span> <span class="pre">None</span></code> statement causes an abbreviated
 interaction to occur, without changing what the user sees. When the
 next transition occurs, it will start from the scene as it appears at
 the end of this abbreviated interaction.</p>
-<p>For example, in:</p>
+<p>For example, in the code:</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">show</span> <span class="n">bg</span> <span class="n">washington</span>
 <span class="k">with</span> <span class="bp">None</span>
 
@@ -564,7 +554,7 @@ scene consisting of all three images.</p>
 </div>
 <div class="section" id="with-clause-of-scene-show-and-hide-statements">
 <h3>With Clause of Scene, Show, and Hide Statements<a class="headerlink" href="#with-clause-of-scene-show-and-hide-statements" title="Permalink to this headline"> link</a></h3>
-<p>The show, scene, and hide statements can take an optional <code class="docutils literal"><span class="pre">with</span></code> clause,
+<p>The show, scene, and hide statements can take an optional with clause,
 which allows a transition to be combined with showing or hiding an
 image. This clause follows the statements at the end of the same
 logical line. It begins with the keyword <code class="docutils literal"><span class="pre">with</span></code>, followed by a
@@ -590,30 +580,31 @@ text of the with clause. For example:</p>
 </div>
 <div class="section" id="hide-and-show-window">
 <h2>Hide and Show Window<a class="headerlink" href="#hide-and-show-window" title="Permalink to this headline"> link</a></h2>
-<p>The <code class="docutils literal"><span class="pre">window</span></code> statement is used to control if a window is shown when a character
-is not speaking (for example, during transitions and pauses). The <code class="docutils literal"><span class="pre">window</span> <span class="pre">show</span></code>
-statement causes the window to be shown, while the <code class="docutils literal"><span class="pre">window</span> <span class="pre">hide</span></code> statement hides
+<p>The window statement is used to control if a window is shown when a character
+is not speaking. (For example, during transitions and pauses.) The window show
+statement causes the window to be shown, while the window hide statement hides
 the window.</p>
 <p>If the optional transition is given, it's used to show and hide the window.
 If not given, it defaults to <a class="reference internal" href="config.html#var-config.window_show_transition"><code class="xref std std-var docutils literal"><span class="pre">config.window_show_transition</span></code></a> and
 <a class="reference internal" href="config.html#var-config.window_hide_transition"><code class="xref std std-var docutils literal"><span class="pre">config.window_hide_transition</span></code></a>. Giving None as the transition prevents
 it from occurring.</p>
 <p>The window itself is displayed by calling <a class="reference internal" href="config.html#var-config.empty_window"><code class="xref std std-var docutils literal"><span class="pre">config.empty_window</span></code></a>. It defaults to
-having the narrator say an empty string.</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">show</span> <span class="n">bg</span> <span class="n">washington</span>
-<span class="k">show</span> <span class="n">eileen</span> <span class="n">happy</span>
-<span class="k">with</span> <span class="n">dissolve</span>
+having the narrator say an empty string.:</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span>
+    <span class="k">show</span> <span class="n">bg</span> <span class="n">washington</span>
+    <span class="k">show</span> <span class="n">eileen</span> <span class="n">happy</span>
+    <span class="k">with</span> <span class="n">dissolve</span>
 
-<span class="k">window</span> <span class="k">show</span> <span class="n">dissolve</span>
+    <span class="k">window</span> <span class="k">show</span> <span class="n">dissolve</span>
 
-<span class="s2">&quot;I can say stuff...&quot;</span>
+    <span class="s2">&quot;I can say stuff...&quot;</span>
 
-<span class="k">show</span> <span class="n">eileen</span> <span class="n">happy</span> <span class="k">at</span> <span class="n">right</span>
-<span class="k">with</span> <span class="n">move</span>
+    <span class="k">show</span> <span class="n">eileen</span> <span class="n">happy</span> <span class="k">at</span> <span class="n">right</span>
+    <span class="k">with</span> <span class="n">move</span>
 
-<span class="s2">&quot;... and move, while keeping the window shown.&quot;</span>
+    <span class="s2">&quot;... and move, while keeping the window shown.&quot;</span>
 
-<span class="k">window</span> <span class="k">hide</span> <span class="n">dissolve</span>
+    <span class="k">window</span> <span class="k">hide</span> <span class="n">dissolve</span>
 </pre></div>
 </div>
 </div>
@@ -640,7 +631,7 @@ component of <cite>name</cite>.</dd>
 <dt id="renpy.check_image_attributes">
 <code class="descclassname">renpy.</code><code class="descname">check_image_attributes</code><span class="sig-paren">(</span><em>tag</em>, <em>attributes</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.check_image_attributes" title="Permalink to this definition"> link</a></dt>
 <dd><p>Checks to see if there is a unique image with the given tag and
-attributes. If there is, returns the attributes in order.
+attributes. If there is, returns the tag and attributes in order.
 Otherwise, returns None.</p>
 </dd></dl>
 
@@ -666,33 +657,14 @@ name.</dd>
 </dd></dl>
 
 <dl class="function">
-<dt id="renpy.get_attributes">
-<code class="descclassname">renpy.</code><code class="descname">get_attributes</code><span class="sig-paren">(</span><em>tag</em>, <em>layer=None</em>, <em>if_hidden=None</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.get_attributes" title="Permalink to this definition"> link</a></dt>
-<dd><p>Return a tuple giving the image attributes for the image <cite>tag</cite>. If
-the image tag has not had any attributes associated since the last
-time it was hidden, returns <cite>if_hidden</cite>.</p>
-<dl class="docutils">
-<dt><cite>layer</cite></dt>
-<dd>The layer to check. If None, uses the default layer for <cite>tag</cite>.</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
 <dt id="renpy.get_available_image_tags">
 <code class="descclassname">renpy.</code><code class="descname">get_available_image_tags</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#renpy.get_available_image_tags" title="Permalink to this definition"> link</a></dt>
 <dd><p>Returns a list of image tags that have been defined.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="renpy.get_hidden_tags">
-<code class="descclassname">renpy.</code><code class="descname">get_hidden_tags</code><span class="sig-paren">(</span><em>layer='master'</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.get_hidden_tags" title="Permalink to this definition"> link</a></dt>
-<dd><p>Returns the set of image tags on <cite>layer</cite> that are currently hidden, but
-still have attribute information associated with them.</p>
-</dd></dl>
-
-<dl class="function">
 <dt id="renpy.get_image_bounds">
-<code class="descclassname">renpy.</code><code class="descname">get_image_bounds</code><span class="sig-paren">(</span><em>tag</em>, <em>width=None</em>, <em>height=None</em>, <em>layer=None</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.get_image_bounds" title="Permalink to this definition"> link</a></dt>
+<code class="descclassname">renpy.</code><code class="descname">get_image_bounds</code><span class="sig-paren">(</span><em>tag</em>, <em>width=None</em>, <em>height=None</em>, <em>layer='master'</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.get_image_bounds" title="Permalink to this definition"> link</a></dt>
 <dd><p>If an image with <cite>tag</cite> exists on <cite>layer</cite>, returns the bounding box of
 that image. Returns None if the image is not found.</p>
 <p>The bounding box is an (x, y, width, height) tuple. The components of
@@ -730,41 +702,23 @@ information, as it might change when the displayable is rendered, and might not
 exist until the displayable is first rendered.</p>
 <p>This returns an object with the following fields, each corresponding to a style
 property:</p>
-<ul class="simple">
-<li>pos</li>
+<blockquote>
+<div><ul class="simple">
 <li>xpos</li>
-<li>ypos</li>
-<li>anchor</li>
 <li>xanchor</li>
-<li>yanchor</li>
-<li>offset</li>
 <li>xoffset</li>
+<li>ypos</li>
+<li>yanchor</li>
 <li>yoffset</li>
 <li>subpixel</li>
 </ul>
-</dd></dl>
-
-<dl class="function">
-<dt id="renpy.get_registered_image">
-<code class="descclassname">renpy.</code><code class="descname">get_registered_image</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.get_registered_image" title="Permalink to this definition"> link</a></dt>
-<dd><p>If an image with the same name has been registered with renpy.register_image,
-returns it. Otherwise, returns None.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="renpy.get_say_image_tag">
-<code class="descclassname">renpy.</code><code class="descname">get_say_image_tag</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#renpy.get_say_image_tag" title="Permalink to this definition"> link</a></dt>
-<dd><p>Returns the tag corresponding to the currently speaking character (the
-<cite>image</cite> argument given to that character). Returns None if no character
-is speaking or the current speaking character does not have a corresponding
-image tag.</p>
+</div></blockquote>
 </dd></dl>
 
 <dl class="function">
 <dt id="renpy.get_showing_tags">
-<code class="descclassname">renpy.</code><code class="descname">get_showing_tags</code><span class="sig-paren">(</span><em>layer='master'</em>, <em>sort=False</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.get_showing_tags" title="Permalink to this definition"> link</a></dt>
-<dd><p>Returns the set of image tags that are currently being shown on <cite>layer</cite>. If
-sort is true, returns a list of the tags from back to front.</p>
+<code class="descclassname">renpy.</code><code class="descname">get_showing_tags</code><span class="sig-paren">(</span><em>layer='master'</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.get_showing_tags" title="Permalink to this definition"> link</a></dt>
+<dd><p>Returns the set of image tags that are currently being shown on <cite>layer</cite></p>
 </dd></dl>
 
 <dl class="function">
@@ -783,13 +737,6 @@ parameterized matches are not included.</dd>
 </dd></dl>
 
 <dl class="function">
-<dt id="renpy.list_images">
-<code class="descclassname">renpy.</code><code class="descname">list_images</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#renpy.list_images" title="Permalink to this definition"> link</a></dt>
-<dd><p>Returns a list of images that have been added to Ren'Py, as a list of
-strings with spaces between the name components.</p>
-</dd></dl>
-
-<dl class="function">
 <dt id="renpy.seen_image">
 <code class="descclassname">renpy.</code><code class="descname">seen_image</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.seen_image" title="Permalink to this definition"> link</a></dt>
 <dd><p>Returns True if the named image has been seen at least once on the user's
@@ -801,9 +748,9 @@ a hide.)</p>
 
 <dl class="function">
 <dt id="renpy.showing">
-<code class="descclassname">renpy.</code><code class="descname">showing</code><span class="sig-paren">(</span><em>name</em>, <em>layer=None</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.showing" title="Permalink to this definition"> link</a></dt>
+<code class="descclassname">renpy.</code><code class="descname">showing</code><span class="sig-paren">(</span><em>name</em>, <em>layer='master'</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.showing" title="Permalink to this definition"> link</a></dt>
 <dd><p>Returns true if an image with the same tag as <cite>name</cite> is showing on
-<cite>layer</cite>.</p>
+<cite>layer</cite></p>
 <dl class="docutils">
 <dt><cite>image</cite></dt>
 <dd>May be a string giving the image name or a tuple giving each
@@ -820,19 +767,6 @@ only the image tag.</dd>
 <dd><p>This function takes one or more displayables as arguments. It causes
 Ren'Py to predict those displayables during every interaction until
 the displayables are removed by <a class="reference internal" href="#renpy.stop_predict" title="renpy.stop_predict"><code class="xref py py-func docutils literal"><span class="pre">renpy.stop_predict()</span></code></a>.</p>
-<p>If a displayable name is a string containing one or more *
-characters, the asterisks are used as a wildcard pattern. If there
-is at least one . in the string, the pattern is matched against
-filenames, otherwise it is matched against image names.</p>
-<p>For example:</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">renpy</span><span class="o">.</span><span class="n">start_predict</span><span class="p">(</span><span class="s2">&quot;eileen *&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>starts predicting all images with the name eileen, while:</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">renpy</span><span class="o">.</span><span class="n">start_predict</span><span class="p">(</span><span class="s2">&quot;images/concert*.*&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>matches all files starting with concert in the images directory.</p>
 </dd></dl>
 
 <dl class="function">
@@ -840,7 +774,6 @@ filenames, otherwise it is matched against image names.</p>
 <code class="descclassname">renpy.</code><code class="descname">stop_predict</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.stop_predict" title="Permalink to this definition"> link</a></dt>
 <dd><p>This function takes one or more displayables as arguments. It causes
 Ren'Py to stop predicting those displayables during every interaction.</p>
-<p>Wildcard patterns can be used as described in <a class="reference internal" href="#renpy.start_predict" title="renpy.start_predict"><code class="xref py py-func docutils literal"><span class="pre">renpy.start_predict()</span></code></a>.</p>
 </dd></dl>
 
 </div>
@@ -858,8 +791,8 @@ Ren'Py to stop predicting those displayables during every interaction.</p>
       
     </p>
     <p>
-        &copy; Copyright 2012-2019, Tom Rothamel.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.<br/>
+        &copy; Copyright 2012-2017, Tom Rothamel.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.<br/>
     </p>
   </div>
 </footer>

@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -51,11 +51,6 @@ pure_functions = {
 
     # minstore.py
     "_",
-    "_p",
-    "absolute",
-    "__renpy__list__",
-    "__renpy__dict__",
-    "__renpy__set__",
 
     # defaultstore.py
     "ImageReference", "Image", "Frame", "Solid", "LiveComposite", "LiveCrop",
@@ -179,7 +174,6 @@ class Control(object):
         self.const = const
         self.loop = loop
         self.imagemap = imagemap
-
 
 # Three levels of constness.
 GLOBAL_CONST = 2  # Expressions that are const everywhere.
@@ -720,7 +714,6 @@ class CompilerCache(object):
             self.updated = True
 
         return rv
-
 
 ccache = CompilerCache()
 

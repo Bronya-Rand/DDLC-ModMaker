@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -67,10 +67,12 @@ init -1500 python:
     @renpy.pure
     class Jump(Action, DictEquality):
         """
-        :doc: control_action
+         :doc: control_action
 
-        Causes control to transfer to `label`.
-        """
+         Causes control to transfer to the given label. This can be used in
+         conjunction with renpy.run_screen to define an imagemap that jumps
+         to a label when run.
+         """
 
         def __init__(self, label):
             self.label = label
@@ -79,32 +81,12 @@ init -1500 python:
             renpy.jump(self.label)
 
     @renpy.pure
-    class Call(Action, DictEquality):
-        """
-        :doc: control_action
-
-        Ends the current statement, and calls `label`. Arguments and
-        keyword arguments are passed to :func:`renpy.call`.
-        """
-
-        args = tuple()
-        kwargs = dict()
-
-        def __init__(self, label, *args, **kwargs):
-            self.label = label
-            self.args = args
-            self.kwargs = kwargs
-
-        def __call__(self):
-            renpy.call(self.label, *self.args, **self.kwargs)
-
-    @renpy.pure
     class Show(Action, DictEquality):
         """
          :doc: control_action
 
          This causes another screen to be shown. `screen` is a string
-         giving the name of the screen. The arguments are
+         giving the name of the screen. The keyword arguments are
          passed to the screen being shown.
 
          If not None, `transition` is use to show the new screen.
@@ -134,56 +116,15 @@ init -1500 python:
             return renpy.get_screen(self.screen) is not None
 
     @renpy.pure
-    class ToggleScreen(Action, DictEquality):
-        """
-        :doc: control_action
-
-        This toggles the visibility of `screen`. If it is not currently
-        shown, the screen is shown with the provided arguments. Otherwise,
-        the screen is hidden.
-
-        If not None, `transition` is use to show and hide the screen.
-        """
-
-        args = None
-
-        def __init__(self, screen, transition=None, *args, **kwargs):
-            self.screen = screen
-            self.transition = transition
-            self.args = args
-            self.kwargs = kwargs
-
-        def predict(self):
-            renpy.predict_screen(self.screen, *self.args, **self.kwargs)
-
-        def __call__(self):
-            if renpy.get_screen(self.screen):
-                renpy.hide_screen(self.screen)
-            else:
-                renpy.show_screen(self.screen, *self.args, **self.kwargs)
-
-            if self.transition is not None:
-                renpy.transition(self.transition)
-
-            renpy.restart_interaction()
-
-        def get_selected(self):
-            return renpy.get_screen(self.screen) is not None
-
-
-    @renpy.pure
-    def ShowTransient(screen, transition=None, *args, **kwargs):
+    def ShowTransient(screen, *args, **kwargs):
         """
          :doc: control_action
 
          Shows a transient screen. A transient screen will be hidden when
-         the current interaction completes. The arguments are
-         passed to the screen being shown.
-
-         If not None, `transition` is use to show the new screen.
+         the current interaction completes.
          """
 
-        return Show(screen, transition, _transient=True, *args, **kwargs)
+        return Show(screen, _transient=True, *args, **kwargs)
 
     @renpy.pure
     class Hide(Action, DictEquality):

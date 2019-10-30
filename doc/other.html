@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 
+
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Other Functions and Variables &#8212; Ren&#39;Py Documentation</title>
+    
+    <title>Other Functions and Variables &mdash; Ren&#39;Py Documentation</title>
+    
     <link rel="stylesheet" href="_static/renpydoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '7.3.5',
+        VERSION:     '6.99.12',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -26,8 +29,7 @@
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Ren&#39;Py Documentation" href="index.html" />
     <link rel="next" title="Building Distributions" href="build.html" />
     <link rel="prev" title="Color Class" href="color_class.html" />
 <meta charset='utf-8'>
@@ -36,7 +38,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -49,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           Ren&#39;Py Documentation</a>
-        <span class="navbar-text navbar-version pull-left"><b>7.3.5</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>6.99.12</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -90,7 +92,6 @@
 <li class="toctree-l1"><a class="reference internal" href="transforms.html">Transforms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transitions.html">Transitions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="atl.html">Animation and Transformation Language</a></li>
-<li class="toctree-l1"><a class="reference internal" href="layeredimage.html">Layered Images</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="style.html">Styles</a></li>
@@ -100,12 +101,7 @@
 <li class="toctree-l1"><a class="reference internal" href="screen_special.html">Special Screen Names</a></li>
 <li class="toctree-l1"><a class="reference internal" href="screen_optimization.html">Screen Language Optimization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">Configuration Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="preferences.html">Preference Variables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="store_variables.html">Store Variables</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="developer_tools.html">Developer Tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="director.html">Interactive Director</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="nvl_mode.html">NVL-Mode Tutorial</a></li>
@@ -115,16 +111,15 @@
 <li class="toctree-l1"><a class="reference internal" href="drag_drop.html">Drag and Drop</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sprites.html">Sprites</a></li>
 <li class="toctree-l1"><a class="reference internal" href="keymap.html">Customizing the Keymap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer_tools.html">Developer Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="achievement.html">Achievements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="history.html">Dialogue History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="multiple.html">Multiple Character Dialogue</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="statement_equivalents.html">Statement Equivalents</a></li>
 <li class="toctree-l1"><a class="reference internal" href="save_load_rollback.html">Saving, Loading, and Rollback</a></li>
 <li class="toctree-l1"><a class="reference internal" href="persistent.html">Persistent Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="trans_trans_python.html">Transforms and Transitions in Python</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gui_advanced.html">Advanced GUI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="screen_python.html">Screens and Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modes.html">Modes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="udd.html">Creator-Defined Displayables</a></li>
@@ -143,12 +138,11 @@
 <li class="toctree-l1"><a class="reference internal" href="ios.html">iOS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="iap.html">In-App Purchasing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gesture.html">Gestures</a></li>
-<li class="toctree-l1"><a class="reference internal" href="raspi.html">Raspberry Pi</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="problems.html">Dealing with Problems</a></li>
 <li class="toctree-l1"><a class="reference internal" href="environment_variables.html">Environment Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="self_voicing.html">Self-Voicing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="self_voicing.html">Self Voicing</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="editor.html">Text Editor Integration</a></li>
@@ -160,8 +154,7 @@
 <li class="toctree-l1"><a class="reference internal" href="incompatible.html">Incompatible Changes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="distributor.html">Distributor Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sponsors.html">Ren'Py Development Sponsors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Documentation and Translation Credits</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="thequestion.html">Script of The Question</a></li>
@@ -197,7 +190,6 @@
         <div id="sidebar" class="bs-sidenav" role="complementary"><ul>
 <li><a class="reference internal" href="#">Other Functions and Variables</a><ul>
 <li><a class="reference internal" href="#ren-py-version">Ren'Py Version</a></li>
-<li><a class="reference internal" href="#platform-detection">Platform Detection</a></li>
 <li><a class="reference internal" href="#memory-profiling">Memory Profiling</a></li>
 <li><a class="reference internal" href="#contexts">Contexts</a></li>
 <li><a class="reference internal" href="#renpy-random">renpy.random</a></li>
@@ -233,14 +225,6 @@ be placed below.</dd>
 <dd>If true, this layer will be cleared when entering the game menu
 context, and restored when leaving the</dd>
 </dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="renpy.add_python_directory">
-<code class="descclassname">renpy.</code><code class="descname">add_python_directory</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.add_python_directory" title="Permalink to this definition"> link</a></dt>
-<dd><p>Adds <cite>path</cite> to the list of paths searched for Python modules and packages.
-The path should be a string relative to the game directory. This must be
-called before an import statement.</p>
 </dd></dl>
 
 <dl class="function">
@@ -309,12 +293,6 @@ of the current game.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="renpy.display_notify">
-<code class="descclassname">renpy.</code><code class="descname">display_notify</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.display_notify" title="Permalink to this definition"> link</a></dt>
-<dd><p>The default implementation of <a class="reference internal" href="#renpy.notify" title="renpy.notify"><code class="xref py py-func docutils literal"><span class="pre">renpy.notify()</span></code></a>.</p>
-</dd></dl>
-
-<dl class="function">
 <dt id="renpy.dynamic">
 <code class="descclassname">renpy.</code><code class="descname">dynamic</code><span class="sig-paren">(</span><em>*vars</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.dynamic" title="Permalink to this definition"> link</a></dt>
 <dd><p>This can be given one or more variable names as arguments. This makes
@@ -336,14 +314,12 @@ tuple. If not, it will return a (None, None, None, None) tuple.</p>
 
 <dl class="function">
 <dt id="renpy.force_autosave">
-<code class="descclassname">renpy.</code><code class="descname">force_autosave</code><span class="sig-paren">(</span><em>take_screenshot=False</em>, <em>block=False</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.force_autosave" title="Permalink to this definition"> link</a></dt>
+<code class="descclassname">renpy.</code><code class="descname">force_autosave</code><span class="sig-paren">(</span><em>take_screenshot=False</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.force_autosave" title="Permalink to this definition"> link</a></dt>
 <dd><p>Forces a background autosave to occur.</p>
 <dl class="docutils">
 <dt><cite>take_screenshot</cite></dt>
 <dd>If True, a new screenshot will be taken. If False, the existing
 screenshot will be used.</dd>
-<dt><cite>block</cite></dt>
-<dd>If True, blocks until the autosave completes.</dd>
 </dl>
 </dd></dl>
 
@@ -378,8 +354,8 @@ False uses <a class="reference internal" href="config.html#var-config.end_game_t
 <dd><p>Given <cite>bar_value</cite>, a  <a class="reference internal" href="screen_python.html#BarValue" title="BarValue"><code class="xref py py-class docutils literal"><span class="pre">BarValue</span></code></a>, returns the <a class="reference internal" href="screen_python.html#ui.adjustment" title="ui.adjustment"><code class="xref py py-func docutils literal"><span class="pre">ui.adjustment()</span></code></a>
 if uses. The adjustment has the following to attributes defined:</p>
 <dl class="attribute">
-<dt id="renpy.value">
-<code class="descname">value</code><a class="headerlink" href="#renpy.value" title="Permalink to this definition"> link</a></dt>
+<dt id="value">
+<code class="descname">value</code><a class="headerlink" href="#value" title="Permalink to this definition"> link</a></dt>
 <dd><p>The current value of the bar.</p>
 </dd></dl>
 
@@ -475,7 +451,7 @@ software renderers, respectively.</dd>
 </dl>
 <p>Other, renderer-specific, keys may also exist. The dictionary should
 be treated as immutable. This should only be called once the display
-has been started (that is, after the init phase has finished).</p>
+has been started (that is, after the init code is finished).</p>
 </dd></dl>
 
 <dl class="function">
@@ -488,7 +464,7 @@ None if no attributes are associated with this statement.</p>
 
 <dl class="function">
 <dt id="renpy.get_side_image">
-<code class="descclassname">renpy.</code><code class="descname">get_side_image</code><span class="sig-paren">(</span><em>prefix_tag</em>, <em>image_tag=None</em>, <em>not_showing=True</em>, <em>layer=None</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.get_side_image" title="Permalink to this definition"> link</a></dt>
+<code class="descclassname">renpy.</code><code class="descname">get_side_image</code><span class="sig-paren">(</span><em>prefix_tag</em>, <em>image_tag=None</em>, <em>not_showing=True</em>, <em>layer='master'</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.get_side_image" title="Permalink to this definition"> link</a></dt>
 <dd><p>This attempts to find an image to show as the side image.</p>
 <p>It begins by determining a set of image attributes. If <cite>image_tag</cite> is
 given, it gets the image attributes from the tag. Otherwise, it gets
@@ -499,13 +475,6 @@ and returns it if it exists.</p>
 attributes are taken from is not on the screen.</p>
 <p>If <cite>layer</cite> is None, uses the default layer for the currently showing
 tag.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="renpy.get_skipping">
-<code class="descclassname">renpy.</code><code class="descname">get_skipping</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#renpy.get_skipping" title="Permalink to this definition"> link</a></dt>
-<dd><p>Returns &quot;slow&quot; if the Ren'Py is skipping, &quot;fast&quot; if Ren'Py is fast skipping,
-and None if it is not skipping.</p>
 </dd></dl>
 
 <dl class="function">
@@ -534,25 +503,12 @@ stopped when Ren'Py is shutting down.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="renpy.is_init_phase">
-<code class="descclassname">renpy.</code><code class="descname">is_init_phase</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#renpy.is_init_phase" title="Permalink to this definition"> link</a></dt>
-<dd><p>Returns True if Ren'Py is currently executing init code, or False otherwise.</p>
-</dd></dl>
-
-<dl class="function">
 <dt id="renpy.is_seen">
 <code class="descclassname">renpy.</code><code class="descname">is_seen</code><span class="sig-paren">(</span><em>ever=True</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.is_seen" title="Permalink to this definition"> link</a></dt>
 <dd><p>Returns true if the current line has been seen by the player.</p>
 <p>If <cite>ever</cite> is true, we check to see if the line has ever been seen by the
 player. If false, we check if the line has been seen in the current
 play-through.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="renpy.is_skipping">
-<code class="descclassname">renpy.</code><code class="descname">is_skipping</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#renpy.is_skipping" title="Permalink to this definition"> link</a></dt>
-<dd><p>Returns True if Ren'Py is currently skipping (in fast or slow skip mode),
-or False otherwise.</p>
 </dd></dl>
 
 <dl class="function">
@@ -564,31 +520,14 @@ started, or has been restarted.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="renpy.language_tailor">
-<code class="descclassname">renpy.</code><code class="descname">language_tailor</code><span class="sig-paren">(</span><em>chars</em>, <em>cls</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.language_tailor" title="Permalink to this definition"> link</a></dt>
-<dd><p>This can be used to override the line breaking class of a character. For
-example, the linebreaking class of a character can be set to ID to
-treat it as an ideograph, which allows breaks before and after that
-character.</p>
-<dl class="docutils">
-<dt><cite>chars</cite></dt>
-<dd>A string containing each of the characters to tailor.</dd>
-<dt><cite>cls</cite></dt>
-<dd>A string giving a character class. This should be one of the classes defined in Table
-1 of <a class="reference external" href="http://www.unicode.org/reports/tr14/tr14-30.html">UAX #14: Unicode Line Breaking Algorithm</a>.</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
 <dt id="renpy.load_module">
 <code class="descclassname">renpy.</code><code class="descname">load_module</code><span class="sig-paren">(</span><em>name</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.load_module" title="Permalink to this definition"> link</a></dt>
-<dd><p>This loads the Ren'Py module named name. A Ren'Py module consists of Ren'Py script
+<dd><p>This loads the Ren'Py module named name. A Ren'Py module consists of Ren'Py code
 that is loaded into the usual (store) namespace, contained in a file named
 name.rpym or name.rpymc. If a .rpym file exists, and is newer than the
 corresponding .rpymc file, it is loaded and a new .rpymc file is created.</p>
-<p>All of the init blocks (and other init-phase code) in the module are run
-before this function returns. An error is raised if the module name cannot
-be found, or is ambiguous.</p>
+<p>All init code in the module is run before this function returns. An error is
+raised if the module name cannot be found, or is ambiguous.</p>
 <p>Module loading may only occur from inside an init block.</p>
 </dd></dl>
 
@@ -635,33 +574,27 @@ for two seconds, and dissolved out again.</p>
 like screenshots or quicksaves.</p>
 <p>Only one notification is displayed at a time. If a second notification
 is displayed, the first notification is replaced.</p>
-<p>This function just calls <a class="reference internal" href="config.html#var-config.notify"><code class="xref std std-var docutils literal"><span class="pre">config.notify</span></code></a>, allowing its implementation
-to be replaced by assigning a new function to that variable.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="renpy.pause">
-<code class="descclassname">renpy.</code><code class="descname">pause</code><span class="sig-paren">(</span><em>delay=None</em>, <em>hard=False</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.pause" title="Permalink to this definition"> link</a></dt>
+<code class="descclassname">renpy.</code><code class="descname">pause</code><span class="sig-paren">(</span><em>delay=None</em>, <em>music=None</em>, <em>with_none=None</em>, <em>hard=False</em>, <em>checkpoint=None</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.pause" title="Permalink to this definition"> link</a></dt>
 <dd><p>Causes Ren'Py to pause. Returns true if the user clicked to end the pause,
 or false if the pause timed out or was skipped.</p>
 <dl class="docutils">
 <dt><cite>delay</cite></dt>
 <dd>If given, the number of seconds Ren'Py should pause for.</dd>
+<dt><cite>music</cite></dt>
+<dd>Retained for compatibility purposes.</dd>
+<dt><cite>with_none</cite></dt>
+<dd>Determines if a with None clause is executed at the end of the pause.</dd>
 <dt><cite>hard</cite></dt>
-<dd><p class="first">This must be given as a keyword argument. When True, Ren'Py may prevent
-the user from clicking to interrupt the pause. If the player enables
-skipping, the hard pause will be skipped. There may be other circumstances
-where the hard pause ends early or prevents Ren'Py from operating properly,
-these will not be treated as bugs.</p>
-<p>In general, using hard pauses is rude. When the user clicks to advance
-the game, it's an explicit request - the user wishes the game to advance.
-To override that request is to assume you understand what the player
-wants more than the player does.</p>
-<p>Calling renpy.pause guarantees that whatever is on the screen will be
-displayed for at least one frame, and hence has been shown to the
-player.</p>
-<p class="last">tl;dr - Don't use renpy.pause with hard=True.</p>
-</dd>
+<dd>If true, a click will not interrupt the pause. Use this sparingly,
+as it's hard to distinguish a hard pause from a crashing game.</dd>
+<dt><cite>checkpoint</cite></dt>
+<dd>If true, a checkpoint will be set, and players will be able to roll
+back to this statement. If false, no checkpoint will be set. If None,
+a checkpoint will only be set if delay is set.</dd>
 </dl>
 </dd></dl>
 
@@ -693,7 +626,7 @@ not work to replace an event with another - doing so will change event order.
 
 <dl class="function">
 <dt id="renpy.quit">
-<code class="descclassname">renpy.</code><code class="descname">quit</code><span class="sig-paren">(</span><em>relaunch=False</em>, <em>status=0</em>, <em>save=False</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.quit" title="Permalink to this definition"> link</a></dt>
+<code class="descclassname">renpy.</code><code class="descname">quit</code><span class="sig-paren">(</span><em>relaunch=False</em>, <em>status=0</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.quit" title="Permalink to this definition"> link</a></dt>
 <dd><p>This causes Ren'Py to exit entirely.</p>
 <dl class="docutils">
 <dt><cite>relaunch</cite></dt>
@@ -701,9 +634,6 @@ not work to replace an event with another - doing so will change event order.
 <dt><cite>status</cite></dt>
 <dd>The status code Ren'Py will return to the operating system.
 Generally, 0 is success, and positive integers are failure.</dd>
-<dt><cite>save</cite></dt>
-<dd>If true, the game is saved in <a class="reference internal" href="store_variables.html#var-_quit_slot"><code class="xref std std-var docutils literal"><span class="pre">_quit_slot</span></code></a> before Ren'Py
-terminates.</dd>
 </dl>
 </dd></dl>
 
@@ -744,8 +674,6 @@ no effect.</p>
 <dt id="renpy.screenshot">
 <code class="descclassname">renpy.</code><code class="descname">screenshot</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.screenshot" title="Permalink to this definition"> link</a></dt>
 <dd><p>Saves a screenshot in <cite>filename</cite>.</p>
-<p>Returns True if the screenshot was saved successfully, False if saving
-failed for some reason.</p>
 </dd></dl>
 
 <dl class="function">
@@ -806,9 +734,9 @@ When a prefix matches, the prefix is stripped from the key, and the
 resulting key is mapped to the value in the corresponding dictionary.</p>
 <p>If no prefix matches, an exception is thrown. (The empty string, &quot;&quot;,
 can be used as the last prefix to create a catch-all dictionary.)</p>
-<p>For example, this splits properties beginning with text from
+<p>For example, this code splits properties beginning with text from
 those that do not:</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="n">text_properties</span><span class="p">,</span> <span class="n">button_properties</span> <span class="o">=</span> <span class="n">renpy</span><span class="o">.</span><span class="n">split_properties</span><span class="p">(</span><span class="na">properties</span><span class="p">,</span> <span class="s2">&quot;text_&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="n">text_properties</span><span class="p">,</span> <span class="n">button_properties</span> <span class="o">=</span> <span class="n">renpy</span><span class="o">.</span><span class="n">split_properties</span><span class="p">(</span><span class="s2">&quot;text_&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -908,56 +836,6 @@ about screen.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="platform-detection">
-<h2>Platform Detection<a class="headerlink" href="#platform-detection" title="Permalink to this headline"> link</a></h2>
-<p>Ren'Py includes a number of variables that are set based on which platform
-it's running on.</p>
-<dl class="var">
-<dt id="var-renpy.windows">
-<code class="descname">renpy.windows</code><a class="headerlink" href="#var-renpy.windows" title="Permalink to this definition"> link</a></dt>
-<dd><p>True when running on Windows.</p>
-</dd></dl>
-
-<dl class="var">
-<dt id="var-renpy.macintosh">
-<code class="descname">renpy.macintosh</code><a class="headerlink" href="#var-renpy.macintosh" title="Permalink to this definition"> link</a></dt>
-<dd><p>True when running on macOS.</p>
-</dd></dl>
-
-<dl class="var">
-<dt id="var-renpy.linux">
-<code class="descname">renpy.linux</code><a class="headerlink" href="#var-renpy.linux" title="Permalink to this definition"> link</a></dt>
-<dd><p>True when running on Linux or other POSIX-like operating systems.</p>
-</dd></dl>
-
-<dl class="var">
-<dt id="var-renpy.android">
-<code class="descname">renpy.android</code><a class="headerlink" href="#var-renpy.android" title="Permalink to this definition"> link</a></dt>
-<dd><p>True when running on Android.</p>
-</dd></dl>
-
-<dl class="var">
-<dt id="var-renpy.ios">
-<code class="descname">renpy.ios</code><a class="headerlink" href="#var-renpy.ios" title="Permalink to this definition"> link</a></dt>
-<dd><p>True when running on iOS.</p>
-</dd></dl>
-
-<dl class="var">
-<dt id="var-renpy.emscripten">
-<code class="descname">renpy.emscripten</code><a class="headerlink" href="#var-renpy.emscripten" title="Permalink to this definition"> link</a></dt>
-<dd><p>True when running in the browser.</p>
-</dd></dl>
-
-<dl class="var">
-<dt id="var-renpy.mobile">
-<code class="descname">renpy.mobile</code><a class="headerlink" href="#var-renpy.mobile" title="Permalink to this definition"> link</a></dt>
-<dd><p>True when running on Android or iOS or in the browser.</p>
-</dd></dl>
-
-<p>These are only set when running on the actual devices, not when running on
-in the emulators. These are more intended for use in platform-specific
-Python. For display layout, use <a class="reference internal" href="screens.html#screen-variants"><span class="std std-ref">screen variants</span></a>.</p>
-</div>
 <div class="section" id="memory-profiling">
 <h2>Memory Profiling<a class="headerlink" href="#memory-profiling" title="Permalink to this headline"> link</a></h2>
 <dl class="function">
@@ -1044,12 +922,7 @@ are:</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">renpy.random.choice(seq)</span></code></li>
 </ul>
-<p>Return a random element from the non-empty sequence <cite>seq</cite>.</p>
-<ul class="simple">
-<li><code class="docutils literal"><span class="pre">renpy.random.shuffle(seq)</span></code></li>
-</ul>
-<p>Shuffles the elements of the sequence <cite>seq</cite> in place. This does not return
-a list, but changes an existing one.</p>
+<p>Return a random element from the non-empty sequence seq.</p>
 <p>Unlike the standard Python random number generator, this object cooperates with
 rollback, generating the same numbers regardless of how many times we rollback.
 It should be used instead of the standard Python random module.</p>
@@ -1083,8 +956,8 @@ with the specified value if provided.</p>
       
     </p>
     <p>
-        &copy; Copyright 2012-2019, Tom Rothamel.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.<br/>
+        &copy; Copyright 2012-2017, Tom Rothamel.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.<br/>
     </p>
   </div>
 </footer>

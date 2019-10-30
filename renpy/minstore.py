@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -18,8 +18,6 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-from __future__ import print_function
 
 python_list = _list = list
 python_dict = _dict = dict
@@ -47,92 +45,13 @@ import renpy.ui as ui  # @UnusedImport
 import renpy.exports as renpy  # @Reimport @UnusedImport
 from renpy.translation import translate_string as __  # @UnusedImport
 
-from renpy.python import store_eval as eval
-
-from renpy.display.core import absolute
-
-_print = print
-
-
-def print(*args, **kwargs):
-    """
-    :undocumented:
-
-    This is a variant of the print function that forces a checkpoint
-    at the start of the next statement, so that it can't be rolled past.
-    """
-
-    renpy.game.context().force_checkpoint = True
-    _print(*args, **kwargs)
-
 
 def _(s):
     """
     :undocumented: Documented directly in the .rst.
 
     Flags a string as translatable, and returns it immediately. The string
-    will be translated when displayed by the text displayable.
+    will be translated when text displays it.
     """
 
     return s
-
-
-def _p(s):
-    '''
-    :doc: underscore_p
-    :name: _p
-
-    Reformats a string and flags it as translatable. The string will be
-    translated when displayed by the text displayable. This is intended
-    to define multi-line for use in strings, of the form::
-
-        define config.about = _p("""
-            These two lines will be combined together
-            to form a long line.
-
-            This line will be separate.
-            """)
-
-    The reformatting is done by breaking the text up into lines,
-    removing whitespace from the start and end of each line. Blank lines
-    are removed at the end. When there is a blank line, a blank line is
-    inserted to separate paragraphs. The {p} tag breaks a line, but
-    doesn't add a blank one.
-
-    This can be used in a string translation, using the construct::
-
-        old "These two lines will be combined together to form a long line.\\n\\nThis line will be separate."
-        new _p("""
-            These two lines will be combined together
-            to form a long line. Bork bork bork.
-
-            This line will be separate. Bork bork bork.
-            """)
-    '''
-
-    import re
-
-    lines = [ i.strip() for i in s.split("\n") ]
-
-    if lines and not lines[0]:
-        lines.pop(0)
-
-    if lines and not lines[-1]:
-        lines.pop()
-
-    rv = ""
-    para = [ ]
-
-    for l in lines:
-        if not l:
-            rv += " ".join(para) + "\n\n"
-            para = [ ]
-        elif re.search(r'\{p[^}]*\}$', l):
-            para.append(l)
-            rv += " ".join(para)
-            para = [ ]
-        else:
-            para.append(l)
-
-    rv += " ".join(para)
-    return rv

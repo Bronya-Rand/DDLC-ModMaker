@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -88,7 +88,7 @@ screen front_page:
                     has hbox:
                         xfill True
 
-                    text _("Projects:") style "l_label_text" size 36 yoffset 10
+                    text _("PROJECTS:") style "l_label_text" size 36 yoffset 10
 
                     textbutton _("refresh"):
                         xalign 1.0
@@ -162,6 +162,10 @@ screen front_page_project_list:
 
             null height 12
 
+        textbutton _("Tutorial") action project.Select("tutorial") style "l_list" alt _("Select project [text].")
+        textbutton _("The Question") action project.Select("the_question") style "l_list" alt _("Select project [text].")
+
+
 # This is used for the right side of the screen, which is where the project-specific
 # buttons are.
 screen front_page_project:
@@ -174,7 +178,7 @@ screen front_page_project:
 
         frame style "l_label":
             has hbox xfill True
-            text "[p.display_name!q]" style "l_label_text"
+            text "[p.name!q]" style "l_label_text"
             label _("Active Project") style "l_alternate"
 
         grid 2 1:
@@ -207,14 +211,18 @@ screen front_page_project:
                         textbutton "gui.rpy" action editor.Edit("game/gui.rpy", check=True)
                         textbutton "screens.rpy" action editor.Edit("game/screens.rpy", check=True)
 
-                        if editor.CanEditProject():
-                            textbutton _("Open project") action editor.EditProject()
-                        else:
-                            textbutton _("All script files") action editor.EditAll()
+                        textbutton _("All script files") action editor.EditAll()
 
         add SPACER
+        add SEPARATOR
+        add SPACER
 
-        label _("Actions") style "l_label_small"
+        frame style "l_indent":
+            has vbox
+
+            textbutton _("Navigate Script") text_size 30 action Jump("navigation")
+
+        add SPACER
 
         grid 2 1:
             xfill True
@@ -223,8 +231,14 @@ screen front_page_project:
             frame style "l_indent":
                 has vbox
 
-                textbutton _("Navigate Script") action Jump("navigation")
                 textbutton _("Check Script (Lint)") action Jump("lint")
+
+                if project.current.exists("game/gui.rpy"):
+                    textbutton _("Change/Update GUI") action Jump("change_gui")
+                else:
+                    textbutton _("Change Theme") action Jump("choose_theme")
+
+
                 textbutton _("Delete Persistent") action Jump("rmpersistent")
                 textbutton _("Force Recompile") action Jump("force_recompile")
 
@@ -235,6 +249,10 @@ screen front_page_project:
 
                 if ability.can_distribute:
                     textbutton _("Build Distributions") action Jump("build_distributions")
+
+                textbutton _("Android") action Jump("android")
+                textbutton _("iOS") action Jump("ios")
+                textbutton _("Generate Translations") action Jump("translate")
                 textbutton _("Extract Dialogue") action Jump("extract_dialogue")
 
 label main_menu:
@@ -242,7 +260,6 @@ label main_menu:
 
 label start:
     show screen bottom_info
-    $ dmgcheck()
 
 label front_page:
     call screen front_page

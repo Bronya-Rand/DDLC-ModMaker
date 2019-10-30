@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -72,9 +72,6 @@ def merge_strings():
         if k not in data:
             continue
 
-        if k not in st.translation_loc:
-            continue
-
         new = data[k]
         quoted = renpy.translation.quote_unicode(new)
         code = u'new "{}"'.format(quoted)
@@ -84,6 +81,5 @@ def merge_strings():
         renpy.scriptedit.remove_line(filename, linenumber + 1)
 
     return False
-
 
 renpy.arguments.register_command("merge_strings", merge_strings)

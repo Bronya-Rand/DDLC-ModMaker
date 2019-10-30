@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 
+
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Configuration Variables &#8212; Ren&#39;Py Documentation</title>
+    
+    <title>Configuration Variables &mdash; Ren&#39;Py Documentation</title>
+    
     <link rel="stylesheet" href="_static/renpydoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '7.3.5',
+        VERSION:     '6.99.12',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -26,9 +29,8 @@
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Preference Variables" href="preferences.html" />
+    <link rel="top" title="Ren&#39;Py Documentation" href="index.html" />
+    <link rel="next" title="Store Variables" href="store_variables.html" />
     <link rel="prev" title="Screen Language Optimization" href="screen_optimization.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -36,7 +38,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -49,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           Ren&#39;Py Documentation</a>
-        <span class="navbar-text navbar-version pull-left"><b>7.3.5</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>6.99.12</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -90,7 +92,6 @@
 <li class="toctree-l1"><a class="reference internal" href="transforms.html">Transforms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transitions.html">Transitions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="atl.html">Animation and Transformation Language</a></li>
-<li class="toctree-l1"><a class="reference internal" href="layeredimage.html">Layered Images</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="style.html">Styles</a></li>
@@ -100,12 +101,7 @@
 <li class="toctree-l1"><a class="reference internal" href="screen_special.html">Special Screen Names</a></li>
 <li class="toctree-l1"><a class="reference internal" href="screen_optimization.html">Screen Language Optimization</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Configuration Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="preferences.html">Preference Variables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="store_variables.html">Store Variables</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="developer_tools.html">Developer Tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="director.html">Interactive Director</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="nvl_mode.html">NVL-Mode Tutorial</a></li>
@@ -115,16 +111,15 @@
 <li class="toctree-l1"><a class="reference internal" href="drag_drop.html">Drag and Drop</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sprites.html">Sprites</a></li>
 <li class="toctree-l1"><a class="reference internal" href="keymap.html">Customizing the Keymap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer_tools.html">Developer Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="achievement.html">Achievements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="history.html">Dialogue History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="multiple.html">Multiple Character Dialogue</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="statement_equivalents.html">Statement Equivalents</a></li>
 <li class="toctree-l1"><a class="reference internal" href="save_load_rollback.html">Saving, Loading, and Rollback</a></li>
 <li class="toctree-l1"><a class="reference internal" href="persistent.html">Persistent Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="trans_trans_python.html">Transforms and Transitions in Python</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gui_advanced.html">Advanced GUI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="screen_python.html">Screens and Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modes.html">Modes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="udd.html">Creator-Defined Displayables</a></li>
@@ -143,12 +138,11 @@
 <li class="toctree-l1"><a class="reference internal" href="ios.html">iOS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="iap.html">In-App Purchasing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gesture.html">Gestures</a></li>
-<li class="toctree-l1"><a class="reference internal" href="raspi.html">Raspberry Pi</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="problems.html">Dealing with Problems</a></li>
 <li class="toctree-l1"><a class="reference internal" href="environment_variables.html">Environment Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="self_voicing.html">Self-Voicing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="self_voicing.html">Self Voicing</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="editor.html">Text Editor Integration</a></li>
@@ -160,8 +154,7 @@
 <li class="toctree-l1"><a class="reference internal" href="incompatible.html">Incompatible Changes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="distributor.html">Distributor Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sponsors.html">Ren'Py Development Sponsors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Documentation and Translation Credits</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="thequestion.html">Script of The Question</a></li>
@@ -201,7 +194,6 @@
 <li><a class="reference internal" href="#preference-defaults">Preference Defaults</a></li>
 <li><a class="reference internal" href="#occasionally-used">Occasionally Used</a></li>
 <li><a class="reference internal" href="#rarely-or-internally-used">Rarely or Internally Used</a></li>
-<li><a class="reference internal" href="#garbage-collection">Garbage Collection</a></li>
 </ul>
 </li>
 </ul>
@@ -218,9 +210,9 @@ the common (such as changing the screen size) to the obscure (adding new
 kinds of archive files).</p>
 <p>Ren'Py's implementation makes the assumption that, once the GUI system has
 initialized, configuration variables will not change. Changing configuration
-variables outside of <code class="docutils literal"><span class="pre">init</span></code> blocks can lead to undefined behavior.
+variables outside of init blocks can lead to undefined behavior.
 Configuration variables are not part of the save data.</p>
-<p>Configuration variables are often changed in <code class="docutils literal"><span class="pre">init</span> <span class="pre">python</span></code> blocks:</p>
+<p>Configuration variables are often changed in init python blocks:</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">init</span> <span class="k">python</span><span class="p">:</span>
 
     <span class="c1"># Use a widescreen resolution.</span>
@@ -257,11 +249,13 @@ game directory. This is not recommended, as it prevents the game
 from being shared between multiple users on a system. It can also
 lead to problems when a game is installed as Administrator, but run
 as a user.</p>
-<p>This must be set with either the define statement, or in a <code class="docutils literal"><span class="pre">python</span>
-<span class="pre">early</span></code> block. In either case, this will be run before any other
-statement, and so it should be set to a string, not an expression.</p>
-<p>To locate the save directory, read <a class="reference internal" href="#var-config.savedir"><code class="xref std std-var docutils literal"><span class="pre">config.savedir</span></code></a> instead of
-this variable.</p>
+<p>This must be set with either the define statement, or in a python
+early block. In either case, this will be run before any other
+code, and so it should be set to a string, not an expression.</p>
+<p>This must be set in a python early block, so that persistent
+information can be loaded before init code is run.</p>
+<p>Code that needs to know the save directory should read
+<a class="reference internal" href="#var-config.savedir"><code class="xref std std-var docutils literal"><span class="pre">config.savedir</span></code></a> instead of this variable.</p>
 </dd></dl>
 
 <dl class="var">
@@ -370,12 +364,6 @@ picks &quot;Main Menu&quot; from the game menu.</p>
 </dd></dl>
 
 <dl class="var">
-<dt id="var-config.intra_transition">
-define <code class="descname">config.intra_transition</code> = None<a class="headerlink" href="#var-config.intra_transition" title="Permalink to this definition"> link</a></dt>
-<dd><p>The transition that is used between screens of the game menu.</p>
-</dd></dl>
-
-<dl class="var">
 <dt id="var-config.main_game_transition">
 define <code class="descname">config.main_game_transition</code> = None<a class="headerlink" href="#var-config.main_game_transition" title="Permalink to this definition"> link</a></dt>
 <dd><p>The transition used when entering the game menu from the main
@@ -397,44 +385,6 @@ say statement with image attributes.</p>
 </dd></dl>
 
 <dl class="var">
-<dt id="var-config.say_attribute_transition_callback">
-define <code class="descname">config.say_attribute_transition_callback</code> = ...<a class="headerlink" href="#var-config.say_attribute_transition_callback" title="Permalink to this definition"> link</a></dt>
-<dd><p>This is a function that return a transition to apply and a layer to
-apply it on</p>
-<p>This should be a function that takes four arguments, the image tag
-being shown, a <cite>mode</cite> parameter, a <cite>set</cite> containing pre-transition tags
-and a <cite>set</cite> containing post-transition tags. Where the value of the
-<cite>mode</cite> parameter is one of:</p>
-<ul class="simple">
-<li>&quot;permanent&quot;, for permanent attribute change (one that lasts longer
-than the current say statement).</li>
-<li>&quot;temporary&quot;, for a temporary attribute change (one that is restored
-at the end of the current say statement).</li>
-<li>&quot;both&quot;, for a simultaneous permanent and temporary attribute change
-(one that in part lasts longer than the current say statement, and in
-part is restored at the end of the current say statement).</li>
-<li>&quot;restore&quot;, for when a temporary (or both) change is being restored.</li>
-</ul>
-<p>This should return a 2-component tuple, consisting of:</p>
-<ul class="simple">
-<li>The transition to use, or None if no transition should occur.</li>
-<li>The layer the transition should be on, either a string or None. This is
-almost always None.</li>
-</ul>
-<p>The default implementation of this returns (config.say_attribute_transition,
-config.say_attribute_transition_layer).</p>
-</dd></dl>
-
-<dl class="var">
-<dt id="var-config.say_attribute_transition_layer">
-define <code class="descname">config.say_attribute_transition_layer</code> = None<a class="headerlink" href="#var-config.say_attribute_transition_layer" title="Permalink to this definition"> link</a></dt>
-<dd><p>If not None, this must be a string giving the name of a layer. (Almost always
-&quot;master&quot;.) The say attribute is applied to the named layer, and Ren'Py
-will not pause to wait for the transition to occur. This will have the
-effect of transitioning in the attribute as dialogue is shown.</p>
-</dd></dl>
-
-<dl class="var">
 <dt id="var-config.window_hide_transition">
 define <code class="descname">config.window_hide_transition</code> = None<a class="headerlink" href="#var-config.window_hide_transition" title="Permalink to this definition"> link</a></dt>
 <dd><p>The transition used by the window hide statement when no
@@ -451,9 +401,106 @@ transition has been explicitly specified.</p>
 </div>
 <div class="section" id="preference-defaults">
 <h2>Preference Defaults<a class="headerlink" href="#preference-defaults" title="Permalink to this headline"> link</a></h2>
-<p>Ren'Py has a number of variables that set the default values of
-preferences. Please see the section on <a class="reference internal" href="preferences.html#preference-variables"><span class="std std-ref">preference variables</span></a>
-for more information on how to set defaults for various preferences.</p>
+<p>These are defaults for the various preferences. The defaults only take
+effect the first time Ren'Py is run, or when persistent data has been
+cleared.</p>
+<dl class="var">
+<dt id="var-config.default_afm_time">
+define <code class="descname">config.default_afm_time</code> = None<a class="headerlink" href="#var-config.default_afm_time" title="Permalink to this definition"> link</a></dt>
+<dd><p>If not None, this sets the default auto-forward-mode timeout. If
+not None, then this is the time in seconds we should delay when
+showing 250 characters. 0 is special-cased to be infinite time,
+disabling auto-forward mode.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="var-config.default_afm_enable">
+define <code class="descname">config.default_afm_enable</code> = None<a class="headerlink" href="#var-config.default_afm_enable" title="Permalink to this definition"> link</a></dt>
+<dd><p>Controls the default state of the afm_enable preference. If False,
+auto-forward-mode is disabled by default. If True, it is enabled by
+default. If None, the afm_enable preferences is ignored. (Auto-forward
+will occur when the auto-forward speed is non-zero.)</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="var-config.default_emphasize_audio">
+define <code class="descname">config.default_emphasize_audio</code> = False<a class="headerlink" href="#var-config.default_emphasize_audio" title="Permalink to this definition"> link</a></dt>
+<dd><p>Controls the default state of the &quot;emphasize audio&quot; preference.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="var-config.default_fullscreen">
+define <code class="descname">config.default_fullscreen</code> = None<a class="headerlink" href="#var-config.default_fullscreen" title="Permalink to this definition"> link</a></dt>
+<dd><p>This sets the default value of the fullscreen preference. This
+should be True or False. If None, this is ignored, allowing other
+code to set the default value. (It's usually set to False in
+options.rpy.)</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="var-config.default_language">
+define <code class="descname">config.default_language</code> = None<a class="headerlink" href="#var-config.default_language" title="Permalink to this definition"> link</a></dt>
+<dd><p>This sets the default value of the language preference. This is only
+used the first time the game starts.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="var-config.default_show_empty_window">
+define <code class="descname">config.default_show_empty_window</code> = True<a class="headerlink" href="#var-config.default_show_empty_window" title="Permalink to this definition"> link</a></dt>
+<dd><p>This determines if Ren'Py will show an empty window during
+non-say statements. If True, Ren'Py respects the &quot;window show&quot;, &quot;window hide&quot;,
+and &quot;window auto&quot; statements. If False, Ren'Py will not show an empty
+window.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="var-config.default_text_cps">
+define <code class="descname">config.default_text_cps</code> = None<a class="headerlink" href="#var-config.default_text_cps" title="Permalink to this definition"> link</a></dt>
+<dd><p>If not None, this sets the default number of characters per second
+to show. 0 is special cased to mean an infinite number of
+characters per second. (It's usually set to 0 in options.rpy.)</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="var-config.default_voice_sustain">
+define <code class="descname">config.default_voice_sustain</code> = False<a class="headerlink" href="#var-config.default_voice_sustain" title="Permalink to this definition"> link</a></dt>
+<dd><p>The default value of the voice sustain preference. If this is
+True, the voice will continue past the next interaction. If
+false, voice will stop when the next interaction begins.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="var-config.default_wait_for_voice">
+define <code class="descname">config.default_wait_for_voice</code> = True<a class="headerlink" href="#var-config.default_wait_for_voice" title="Permalink to this definition"> link</a></dt>
+<dd><p>The default value of the wait for voice preference. This
+determines if Ren'Py should wait for voice to finish before
+auto-forward takes place.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="var-config.default_music_volume">
+define <code class="descname">config.default_music_volume</code> = 1.0<a class="headerlink" href="#var-config.default_music_volume" title="Permalink to this definition"> link</a></dt>
+<dd><p>The default volume of the music mixer, which is used for the music and
+movie audio channels. This should be a number between 0.0 and 1.0,
+with 1.0 being full volume.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="var-config.default_sfx_volume">
+define <code class="descname">config.default_sfx_volume</code> = 1.0<a class="headerlink" href="#var-config.default_sfx_volume" title="Permalink to this definition"> link</a></dt>
+<dd><p>The default volume of the sfx mixer, which is used for the sound
+audio channel. This should be a number between 0.0 and 1.0,
+with 1.0 being full volume.</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="var-config.default_voice_volume">
+define <code class="descname">config.default_voice_volume</code> = 1.0<a class="headerlink" href="#var-config.default_voice_volume" title="Permalink to this definition"> link</a></dt>
+<dd><p>The default volume of the voice mixer, which is used for the voice
+audio channel (And hence the voice statement, auto-voice, etc.).
+This should be a number between 0.0 and 1.0, with 1.0 being full volume.</p>
+</dd></dl>
+
 </div>
 <div class="section" id="occasionally-used">
 <h2>Occasionally Used<a class="headerlink" href="#occasionally-used" title="Permalink to this headline"> link</a></h2>
@@ -544,49 +591,6 @@ define <code class="descname">config.autosave_slots</code> = 10<a class="headerl
 </dd></dl>
 
 <dl class="var">
-<dt id="var-config.cache_surfaces">
-define <code class="descname">config.cache_surfaces</code> = False<a class="headerlink" href="#var-config.cache_surfaces" title="Permalink to this definition"> link</a></dt>
-<dd><p>If True, the underlying data of an image is stored in RAM, allowing
-image manipulators to be applied to that image without reloading it
-from disk. If False, the data is dropped from the cache, but kept as
-a texture in video memory, reducing RAM usage.</p>
-</dd></dl>
-
-<dl class="var">
-<dt id="var-config.character_id_prefixes">
-define <code class="descname">config.character_id_prefixes</code> = [ ]<a class="headerlink" href="#var-config.character_id_prefixes" title="Permalink to this definition"> link</a></dt>
-<dd><p>This specifies a list of style property prefixes that can be given
-to a <a class="reference internal" href="dialogue.html#Character" title="Character"><code class="xref py py-func docutils literal"><span class="pre">Character()</span></code></a>. When a style prefixed with one of the given
-prefix is given, it is applied to the displayable with that prefix
-as its ID.</p>
-<p>For example, the default GUI adds &quot;namebox&quot; to this. When a Character
-is given the <cite>namebox_background</cite> property, it sets <a class="reference internal" href="style_properties.html#style-property-background"><code class="xref std std-propref docutils literal"><span class="pre">background</span></code></a>
-on the displayable in the say screen with the id &quot;namebox&quot;.</p>
-</dd></dl>
-
-<dl class="var">
-<dt id="var-config.conditionswitch_predict_all">
-define <code class="descname">config.conditionswitch_predict_all</code> = False<a class="headerlink" href="#var-config.conditionswitch_predict_all" title="Permalink to this definition"> link</a></dt>
-<dd><p>The default value of the predict_all argument for <a class="reference internal" href="displayables.html#ConditionSwitch" title="ConditionSwitch"><code class="xref py py-func docutils literal"><span class="pre">ConditionSwitch()</span></code></a>
-and <a class="reference internal" href="displayables.html#ShowingSwitch" title="ShowingSwitch"><code class="xref py py-func docutils literal"><span class="pre">ShowingSwitch()</span></code></a>, which determines if all possible displayables
-are shown.</p>
-</dd></dl>
-
-<dl class="var">
-<dt id="var-config.context_callback">
-define <code class="descname">config.context_callback</code> = None<a class="headerlink" href="#var-config.context_callback" title="Permalink to this definition"> link</a></dt>
-<dd><p>This is a callback that is called when Ren'Py enters a new context,
-such as a menu context.</p>
-</dd></dl>
-
-<dl class="var">
-<dt id="var-config.context_copy_remove_screens">
-define <code class="descname">config.context_copy_remove_screens</code> = [ 'notify' ]<a class="headerlink" href="#var-config.context_copy_remove_screens" title="Permalink to this definition"> link</a></dt>
-<dd><p>Contains a list of screens that are removed when a context is copied
-for rollback or saving.</p>
-</dd></dl>
-
-<dl class="var">
 <dt id="var-config.debug">
 define <code class="descname">config.debug</code> = False<a class="headerlink" href="#var-config.debug" title="Permalink to this definition"> link</a></dt>
 <dd><p>Enables debugging functionality (mostly by turning some missing
@@ -596,8 +600,9 @@ files into errors.) This should always be turned off in a release.</p>
 <dl class="var">
 <dt id="var-config.debug_image_cache">
 define <code class="descname">config.debug_image_cache</code> = False<a class="headerlink" href="#var-config.debug_image_cache" title="Permalink to this definition"> link</a></dt>
-<dd><p>If True, Ren'Py will write information about the <a class="reference internal" href="displayables.html#images"><span class="std std-ref">image cache</span></a>
-to image_cache.txt.</p>
+<dd><p>If True, Ren'Py will print the contents of the <a class="reference internal" href="displayables.html#images"><span class="std std-ref">image cache</span></a>
+to standard output (wherever that goes) whenever the contents of the
+image cache change.</p>
 </dd></dl>
 
 <dl class="var">
@@ -624,7 +629,7 @@ dialogue is too large for its window.</p>
 <dl class="var">
 <dt id="var-config.default_tag_layer">
 define <code class="descname">config.default_tag_layer</code> = &quot;master&quot;<a class="headerlink" href="#var-config.default_tag_layer" title="Permalink to this definition"> link</a></dt>
-<dd><p>The layer an image is shown on if its tag is not found in config.tag_layer.</p>
+<dd><p>The layer an image is show on if its tag is not found in config.tag_layer.</p>
 </dd></dl>
 
 <dl class="var">
@@ -633,17 +638,17 @@ define <code class="descname">config.default_transform</code> = ...<a class="hea
 <dd><p>When a displayable is shown using the show or scene statements,
 the transform properties are taken from this transform and used to
 initialize the values of the displayable's transform.</p>
-<p>The default transform is <a class="reference internal" href="transforms.html#var-center"><code class="xref std std-var docutils literal"><span class="pre">center</span></code></a>.</p>
+<p>The default default transform is <a class="reference internal" href="transforms.html#var-center"><code class="xref std std-var docutils literal"><span class="pre">center</span></code></a>.</p>
 </dd></dl>
 
 <dl class="var">
 <dt id="var-config.defer_styles">
 define <code class="descname">config.defer_styles</code> = False<a class="headerlink" href="#var-config.defer_styles" title="Permalink to this definition"> link</a></dt>
 <dd><p>When true, the execution of style statements is deferred until after
-all <code class="docutils literal"><span class="pre">translate</span> <span class="pre">python</span></code> blocks have executed. This lets a <code class="docutils literal"><span class="pre">translate</span>
-<span class="pre">python</span></code> block update variables that are then used in style (not
+all &quot;translate python&quot; blocks have executed. This lets a translate
+python block update variables that are then used in style (not
 translate style) statements.</p>
-<p>While this defaults to False, it's set to True when <a class="reference internal" href="gui_advanced.html#gui.init" title="gui.init"><code class="xref py py-func docutils literal"><span class="pre">gui.init()</span></code></a>
+<p>While this defaults to False, it's set to True when <a class="reference internal" href="gui.html#gui.init" title="gui.init"><code class="xref py py-func docutils literal"><span class="pre">gui.init()</span></code></a>
 is called.</p>
 </dd></dl>
 
@@ -656,19 +661,6 @@ various other features that are not intended for end users.</p>
 <p>This can be True, False, or &quot;auto&quot;. If &quot;auto&quot;, Ren'Py will
 detect if the game has been packaged into a distribution, and
 set config.developer as appropriate.</p>
-</dd></dl>
-
-<dl class="var">
-<dt id="var-config.disable_input">
-define <code class="descname">config.disable_input</code> = False<a class="headerlink" href="#var-config.disable_input" title="Permalink to this definition"> link</a></dt>
-<dd><p>When true, <a class="reference internal" href="input.html#renpy.input" title="renpy.input"><code class="xref py py-func docutils literal"><span class="pre">renpy.input()</span></code></a> terminates immediately and returns its
-<cite>default</cite> argument.</p>
-</dd></dl>
-
-<dl class="var">
-<dt id="var-config.displayable_prefix">
-define <code class="descname">config.displayable_prefix</code> = { }<a class="headerlink" href="#var-config.displayable_prefix" title="Permalink to this definition"> link</a></dt>
-<dd><p>See <a class="reference internal" href="displayables.html#displayable-prefix"><span class="std std-ref">Displayable prefixes</span></a>.</p>
 </dd></dl>
 
 <dl class="var">
@@ -708,14 +700,6 @@ occurred.) It's expected to show an empty window on the screen, and
 return without causing an interaction.</p>
 <p>The default implementation of this uses the narrator character to
 display a blank line without interacting.</p>
-</dd></dl>
-
-<dl class="var">
-<dt id="var-config.enable_language_autodetect">
-define <code class="descname">config.enable_language_autodetect</code> = False<a class="headerlink" href="#var-config.enable_language_autodetect" title="Permalink to this definition"> link</a></dt>
-<dd><p>If true, Ren'Py will attempt to determine the name of the language
-to use based on the locale of the player's system. If successful,
-this language will be used as the default language.</p>
 </dd></dl>
 
 <dl class="var">
@@ -762,6 +746,15 @@ of the italic vera.</p>
 </dd></dl>
 
 <dl class="var">
+<dt id="var-config.framerate">
+define <code class="descname">config.framerate</code> = 100<a class="headerlink" href="#var-config.framerate" title="Permalink to this definition"> link</a></dt>
+<dd><p>If not None, this is the upper limit on the number of frames
+Ren'Py will attempt to display per second. This is only respected
+by the software renderer. The GL renderer will synchronize to
+vertical blank instead.</p>
+</dd></dl>
+
+<dl class="var">
 <dt id="var-config.game_menu">
 define <code class="descname">config.game_menu</code> = [ ... ]<a class="headerlink" href="#var-config.game_menu" title="Permalink to this definition"> link</a></dt>
 <dd><p>This is used to customize the choices on the game menu. Please
@@ -774,15 +767,6 @@ variable.</p>
 <dt id="var-config.game_menu_music">
 define <code class="descname">config.game_menu_music</code> = None<a class="headerlink" href="#var-config.game_menu_music" title="Permalink to this definition"> link</a></dt>
 <dd><p>If not None, a music file to play when at the game menu.</p>
-</dd></dl>
-
-<dl class="var">
-<dt id="var-config.gl_clear_color">
-define <code class="descname">config.gl_clear_color</code> = &quot;#000&quot;<a class="headerlink" href="#var-config.gl_clear_color" title="Permalink to this definition"> link</a></dt>
-<dd><p>The color that the window is cleared to before images are drawn.
-This is mainly seen as the color of the letterbox or pillarbox
-edges drawn when aspect ratio of the window or monitor in fullscreen
-mode) does not match the aspect ratio of the game.</p>
 </dd></dl>
 
 <dl class="var">
@@ -808,7 +792,7 @@ a new object to _history_list. The callbacks are called with the
 new HistoryEntry object as the first argument, and can add new fields
 to that object.</p>
 <p>Ren'Py uses history callbacks internally, so creators should append
-their own callbacks to this  list, rather than replacing it entirely.</p>
+their own callbacks to this list, rather than replacing it entirely.</p>
 </dd></dl>
 
 <dl class="var">
@@ -828,41 +812,13 @@ too slow to be useful.</p>
 </dd></dl>
 
 <dl class="var">
-<dt id="var-config.hyperlink_handlers">
-define <code class="descname">config.hyperlink_handlers</code> = { ... }<a class="headerlink" href="#var-config.hyperlink_handlers" title="Permalink to this definition"> link</a></dt>
-<dd><p>A dictionary mapping a hyperlink protocol to the handler for that
-protocol. A handler is a function that takes the value (everything after
-the :) and performs some action. If a value is returned, the interaction
-ends. Otherwise, the click is ignored and the interaction continues.</p>
-</dd></dl>
-
-<dl class="var">
-<dt id="var-config.hyperlink_protocol">
-define <code class="descname">config.hyperlink_protocol</code> = &quot;call_in_new_context&quot;<a class="headerlink" href="#var-config.hyperlink_protocol" title="Permalink to this definition"> link</a></dt>
-<dd><p>The protocol that is used for hyperlinks that do not have a protocol
-assigned to them. See <a class="reference internal" href="text.html#a-tag"><span class="std std-ref">the a text tag</span></a> for a description
-as to what the possible protocols mean.</p>
-</dd></dl>
-
-<dl class="var">
 <dt id="var-config.image_cache_size">
-define <code class="descname">config.image_cache_size</code> = None<a class="headerlink" href="#var-config.image_cache_size" title="Permalink to this definition"> link</a></dt>
-<dd><p>If not None, this is used to set the size of the <a class="reference internal" href="displayables.html#images"><span class="std std-ref">image cache</span></a>, as a
+define <code class="descname">config.image_cache_size</code> = 8<a class="headerlink" href="#var-config.image_cache_size" title="Permalink to this definition"> link</a></dt>
+<dd><p>This is used to set the size of the <a class="reference internal" href="displayables.html#images"><span class="std std-ref">image cache</span></a>, as a
 multiple of the screen size. This number is multiplied by the size of
 the screen, in pixels, to get the size of the image cache in pixels.</p>
 <p>If set too large, this can waste memory. If set too small, images
 can be repeatedly loaded, hurting performance.</p>
-</dd></dl>
-
-<dl class="var">
-<dt id="var-config.image_cache_size_mb">
-define <code class="descname">config.image_cache_size_mb</code> = 300<a class="headerlink" href="#var-config.image_cache_size_mb" title="Permalink to this definition"> link</a></dt>
-<dd><p>This is used to set the size of the <a class="reference internal" href="displayables.html#images"><span class="std std-ref">image cache</span></a>, in
-megabytes. If <a class="reference internal" href="#var-config.cache_surfaces"><code class="xref std std-var docutils literal"><span class="pre">config.cache_surfaces</span></code></a> is False, an image takes
-4 bytes per pixel, otherwise it takes 8 bytes per pixel.</p>
-<p>If set too large, this can waste memory. If set too small, images
-can be repeatedly loaded, hurting performance. If not none,
-<a class="reference internal" href="#var-config.image_cache_size"><code class="xref std std-var docutils literal"><span class="pre">config.image_cache_size</span></code></a> is used instead of this variable.</p>
 </dd></dl>
 
 <dl class="var">
@@ -882,28 +838,6 @@ that the game is translated into by the translation framework.</p>
 </dd></dl>
 
 <dl class="var">
-<dt id="var-config.load_failed_label">
-define <code class="descname">config.load_failed_label</code> = None<a class="headerlink" href="#var-config.load_failed_label" title="Permalink to this definition"> link</a></dt>
-<dd><p>If a string, this is a label that is jumped to when a load fails because
-the script has changed so much that Ren'Py can't recover.
-Before performing the load, Ren'Py will revert to the start of the
-last statement, then it will clear the call stack.</p>
-<p>This may also be a function. If it is, the function is called with
-no arguments, and is expected to return a string giving the label.</p>
-</dd></dl>
-
-<dl class="var">
-<dt id="var-config.locale_to_language_function">
-define <code class="descname">config.locale_to_language_function</code> = ...<a class="headerlink" href="#var-config.locale_to_language_function" title="Permalink to this definition"> link</a></dt>
-<dd><p>A function that determines the language the game should use,
-based on the the user's locale.
-It takes 2 string arguments that give the ISO code of the locale
-and the ISO code of the region.</p>
-<p>It should return a string giving the name of a translation to use, or
-None to use the default translation.</p>
-</dd></dl>
-
-<dl class="var">
 <dt id="var-config.main_menu">
 define <code class="descname">config.main_menu</code> = [ ... ]<a class="headerlink" href="#var-config.main_menu" title="Permalink to this definition"> link</a></dt>
 <dd><p>The default main menu, when not using screens. For more details,
@@ -917,27 +851,10 @@ define <code class="descname">config.main_menu_music</code> = None<a class="head
 </dd></dl>
 
 <dl class="var">
-<dt id="var-config.menu_arguments_callback">
-define <code class="descname">config.menu_arguments_callback</code> = None<a class="headerlink" href="#var-config.menu_arguments_callback" title="Permalink to this definition"> link</a></dt>
-<dd><p>If not None, this should be a function that takes positional and/or
-keyword arguments. It's called whenever a menu statement runs,
-with the arguments to that menu statement.</p>
-<p>This should return a pair, containing a tuple of positional arguments
-(almost always empty), and a dictionary of keyword arguments.</p>
-</dd></dl>
-
-<dl class="var">
 <dt id="var-config.menu_clear_layers">
 define <code class="descname">config.menu_clear_layers</code> = []<a class="headerlink" href="#var-config.menu_clear_layers" title="Permalink to this definition"> link</a></dt>
 <dd><p>A list of layer names (as strings) that are cleared when entering
 the game menu.</p>
-</dd></dl>
-
-<dl class="var">
-<dt id="var-config.menu_include_disabled">
-define <code class="descname">config.menu_include_disabled</code> = False<a class="headerlink" href="#var-config.menu_include_disabled" title="Permalink to this definition"> link</a></dt>
-<dd><p>When this variable is set, choices disables with the if statement are
-included as disabled buttons.</p>
 </dd></dl>
 
 <dl class="var">
@@ -1018,22 +935,6 @@ melting players' eyes.</p>
 </dd></dl>
 
 <dl class="var">
-<dt id="var-config.notify">
-define <code class="descname">config.notify</code> = ...<a class="headerlink" href="#var-config.notify" title="Permalink to this definition"> link</a></dt>
-<dd><p>This is called by <a class="reference internal" href="other.html#renpy.notify" title="renpy.notify"><code class="xref py py-func docutils literal"><span class="pre">renpy.notify()</span></code></a> or <a class="reference internal" href="screen_actions.html#Notify" title="Notify"><code class="xref py py-func docutils literal"><span class="pre">Notify()</span></code></a> with a
-single  <cite>message</cite> argument, to display the notification. The default
-implementation is <a class="reference internal" href="other.html#renpy.display_notify" title="renpy.display_notify"><code class="xref py py-func docutils literal"><span class="pre">renpy.display_notify()</span></code></a>. This is intended
-to allow creators to intercept notifications.</p>
-</dd></dl>
-
-<dl class="var">
-<dt id="var-config.optimize_texture_bounds">
-define <code class="descname">config.optimize_texture_bounds</code> = False<a class="headerlink" href="#var-config.optimize_texture_bounds" title="Permalink to this definition"> link</a></dt>
-<dd><p>When True, Ren'Py will scan images to find the bounding box of the
-non-transparent pixels, and only load those pixels into a texture.</p>
-</dd></dl>
-
-<dl class="var">
 <dt id="var-config.overlay_functions">
 define <code class="descname">config.overlay_functions</code> = [ ]<a class="headerlink" href="#var-config.overlay_functions" title="Permalink to this definition"> link</a></dt>
 <dd><p>A list of functions. When called, each function is expected to
@@ -1049,23 +950,15 @@ on the screens layer, not the overlay layer.)</p>
 </dd></dl>
 
 <dl class="var">
-<dt id="var-config.preload_fonts">
-define <code class="descname">config.preload_fonts</code> = [ ]<a class="headerlink" href="#var-config.preload_fonts" title="Permalink to this definition"> link</a></dt>
-<dd><p>A list of the names of TrueType and OpenType fonts that Ren'Py should
-load when starting up. Including the name of a font here can prevent
-Ren'Py from pausing when introducing a new typeface.</p>
-</dd></dl>
-
-<dl class="var">
 <dt id="var-config.python_callbacks">
 define <code class="descname">config.python_callbacks</code> = [ ]<a class="headerlink" href="#var-config.python_callbacks" title="Permalink to this definition"> link</a></dt>
 <dd><p>A list of functions. The functions in this list are called, without
-any arguments, whenever a Python block is run outside of the init
+any arguments, whenever a python block is run outside of the init
 phase.</p>
 <p>One possible use of this would be to have a function limit a variable
 to within a range each time it is adjusted.</p>
-<p>The functions may be called while Ren'Py is starting up, before the start
-of the game proper, and  potentially before the variables the
+<p>The functions may be called during internal Ren'Py code, before the
+start of the game proper, and potentially before the variables the
 function depends on are initialized. The functions are required to deal
 with this, perhaps by using <code class="docutils literal"><span class="pre">hasattr(store,</span> <span class="pre">'varname')</span></code> to check if
 a variable is defined.</p>
@@ -1086,14 +979,6 @@ to quit the game.</p>
 </dd></dl>
 
 <dl class="var">
-<dt id="var-config.reload_modules">
-define <code class="descname">config.reload_modules</code> = [ ]<a class="headerlink" href="#var-config.reload_modules" title="Permalink to this definition"> link</a></dt>
-<dd><p>A list of strings giving the names of python modules that should be
-reloaded along with the game. Any submodules of these modules
-will also be reloaded.</p>
-</dd></dl>
-
-<dl class="var">
 <dt id="var-config.replace_text">
 define <code class="descname">config.replace_text</code> = None<a class="headerlink" href="#var-config.replace_text" title="Permalink to this definition"> link</a></dt>
 <dd><p>If not None, a function that is called with a single argument, a text to
@@ -1104,11 +989,11 @@ the text has been split on tags, so its argument contains nothing but
 actual text. All displayed text passes through the function: not only
 dialogue text, but also user interface text.</p>
 <p>This can be used to replace specific ASCII sequences with corresponding
-Unicode characters, as demonstrated by the following:</p>
+Unicode characters, as demonstrated by the following code:</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">replace_text</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
-    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;</span><span class="se">\u2019</span><span class="s1">&#39;</span><span class="p">)</span> <span class="c1"># apostrophe</span>
-    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;</span><span class="se">\u2014</span><span class="s1">&#39;</span><span class="p">)</span> <span class="c1"># em dash</span>
-    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;...&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;</span><span class="se">\u2026</span><span class="s1">&#39;</span><span class="p">)</span> <span class="c1"># ellipsis</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s1">u&#39;</span><span class="se">\u2019</span><span class="s1">&#39;</span><span class="p">)</span> <span class="c1"># apostrophe</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="s1">u&#39;</span><span class="se">\u2014</span><span class="s1">&#39;</span><span class="p">)</span> <span class="c1"># em dash</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;...&#39;</span><span class="p">,</span> <span class="s1">u&#39;</span><span class="se">\u2026</span><span class="s1">&#39;</span><span class="p">)</span> <span class="c1"># ellipsis</span>
     <span class="k">return</span> <span class="n">s</span>
 <span class="n">config</span><span class="o">.</span><span class="n">replace_text</span> <span class="o">=</span> <span class="n">replace_text</span>
 </pre></div>
@@ -1128,52 +1013,25 @@ define <code class="descname">config.save_json_callbacks</code> = [ ]<a class="h
 <dd><p>A list of callback functions that are used to create the json object
 that is stored with each save and marked accessible through <a class="reference internal" href="screen_actions.html#FileJson" title="FileJson"><code class="xref py py-func docutils literal"><span class="pre">FileJson()</span></code></a>
 and <a class="reference internal" href="save_load_rollback.html#renpy.slot_json" title="renpy.slot_json"><code class="xref py py-func docutils literal"><span class="pre">renpy.slot_json()</span></code></a>.</p>
-<p>Each callback is called with a Python dictionary that will eventually be
-saved. Callbacks should modify that dictionary by adding JSON-compatible
-Python types, such as numbers, strings, lists, and dicts. The dictionary
+<p>Each callback is called with a python dictionary that will eventually be
+saved. Callbacks should modify that dictionary by adding json-compatible
+python types, such as numbers, strings, lists, and dicts. The dictionary
 at the end of the last callback is then saved as part of the save slot.</p>
 <p>The dictionary passed to the callbacks may have already have keys
-beginning with an underscore <code class="docutils literal"><span class="pre">_</span></code>. These keys are used by Ren'Py,
+beginning with an underscore (_). These keys are used by Ren'Py,
 and should not be changed.</p>
-</dd></dl>
-
-<dl class="var">
-<dt id="var-config.say_arguments_callback">
-define <code class="descname">config.say_arguments_callback</code> = None<a class="headerlink" href="#var-config.say_arguments_callback" title="Permalink to this definition"> link</a></dt>
-<dd><p>If not None, this should be a function that takes the speaking character,
-followed by positional and keyword arguments. It's called whenever a
-say statement occurs with the arguments to that say statement. This
-always includes an interact argument, and can include others provided
-in the say statement.</p>
-<p>This should return a pair, containing a tuple of positional arguments
-(almost always empty), and a dictionary of keyword arguments (almost
-always with at least interact in it).</p>
-<p>For example:</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">say_arguments_callback</span><span class="p">(</span><span class="n">who</span><span class="p">,</span> <span class="n">interact</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="na">color</span><span class="o">=</span><span class="s2">&quot;#fff&quot;</span><span class="p">):</span>
-    <span class="k">return</span> <span class="p">(),</span> <span class="p">{</span> <span class="s2">&quot;interact&quot;</span> <span class="p">:</span> <span class="n">interact</span><span class="p">,</span> <span class="s2">&quot;what_color&quot;</span> <span class="p">:</span> <span class="na">color</span> <span class="p">}</span>
-
-<span class="n">config</span><span class="o">.</span><span class="n">say_arguments_callback</span> <span class="o">=</span> <span class="n">say_arguments_callback</span>
-</pre></div>
-</div>
 </dd></dl>
 
 <dl class="var">
 <dt id="var-config.screen_height">
 define <code class="descname">config.screen_height</code> = 600<a class="headerlink" href="#var-config.screen_height" title="Permalink to this definition"> link</a></dt>
-<dd><p>The height of the screen. Usually set by <a class="reference internal" href="gui_advanced.html#gui.init" title="gui.init"><code class="xref py py-func docutils literal"><span class="pre">gui.init()</span></code></a>.</p>
+<dd><p>The height of the screen. Usually set by <a class="reference internal" href="gui.html#gui.init" title="gui.init"><code class="xref py py-func docutils literal"><span class="pre">gui.init()</span></code></a>.</p>
 </dd></dl>
 
 <dl class="var">
 <dt id="var-config.screen_width">
 define <code class="descname">config.screen_width</code> = 800<a class="headerlink" href="#var-config.screen_width" title="Permalink to this definition"> link</a></dt>
-<dd><p>The width of the screen. Usually set by <a class="reference internal" href="gui_advanced.html#gui.init" title="gui.init"><code class="xref py py-func docutils literal"><span class="pre">gui.init()</span></code></a>.</p>
-</dd></dl>
-
-<dl class="var">
-<dt id="var-config.skip_sounds">
-define <code class="descname">config.skip_sounds</code> = False<a class="headerlink" href="#var-config.skip_sounds" title="Permalink to this definition"> link</a></dt>
-<dd><p>If False, non-looping audio will not be played when Ren'Py is
-skipping.</p>
+<dd><p>The width of the screen. Usually set by <a class="reference internal" href="gui.html#gui.init" title="gui.init"><code class="xref py py-func docutils literal"><span class="pre">gui.init()</span></code></a>.</p>
 </dd></dl>
 
 <dl class="var">
@@ -1181,10 +1039,7 @@ skipping.</p>
 define <code class="descname">config.speaking_attribute</code> = None<a class="headerlink" href="#var-config.speaking_attribute" title="Permalink to this definition"> link</a></dt>
 <dd><p>If not None, this should be a string giving the name of an image
 attribute. The image attribute is added to the image when the
-character's image tag when the character is speaking, and removed
-when the character stops.</p>
-<p>This is applied to the image on the default layer for the tag,
-which can be set using <a class="reference internal" href="#var-config.tag_layer"><code class="xref std std-var docutils literal"><span class="pre">config.tag_layer</span></code></a>.</p>
+character is speaking, and removed when the character stops.</p>
 </dd></dl>
 
 <dl class="var">
@@ -1247,14 +1102,14 @@ manner. (It may make sense to change this in translations, as well.)</p>
 
 <dl class="var">
 <dt id="var-config.window_auto_hide">
-define <code class="descname">config.window_auto_hide</code> = [ 'scene', 'call screen', 'menu' ]<a class="headerlink" href="#var-config.window_auto_hide" title="Permalink to this definition"> link</a></dt>
+define <code class="descname">config.window_auto_hide</code> = [ 'scene', 'call screen' ]<a class="headerlink" href="#var-config.window_auto_hide" title="Permalink to this definition"> link</a></dt>
 <dd><p>A list of statements that cause <code class="docutils literal"><span class="pre">window</span> <span class="pre">auto</span></code> to hide the empty
 dialogue window.</p>
 </dd></dl>
 
 <dl class="var">
 <dt id="var-config.window_auto_show">
-define <code class="descname">config.window_auto_show</code> = [ 'say', 'menu-with-caption' ]<a class="headerlink" href="#var-config.window_auto_show" title="Permalink to this definition"> link</a></dt>
+define <code class="descname">config.window_auto_show</code> = [ 'say' ]<a class="headerlink" href="#var-config.window_auto_show" title="Permalink to this definition"> link</a></dt>
 <dd><p>A list of statements that cause <code class="docutils literal"><span class="pre">window</span> <span class="pre">auto</span></code> to show the empty
 dialogue window.</p>
 </dd></dl>
@@ -1295,7 +1150,7 @@ and height of the physical window. It is expected to return a tuple
 giving the width and height of the OpenGL viewport, the portion of the
 screen that Ren'Py will draw pictures to.</p>
 <p>This can be used to configure Ren'Py to only allow certain sizes of
-screen. For example, the following allows only integer multiples
+screen. For example, the following code allows only integer multiples
 of the original screen size:</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">init</span> <span class="k">python</span><span class="p">:</span>
 
@@ -1319,7 +1174,7 @@ auto-forward mode is in effect.</p>
 <dl class="var">
 <dt id="var-config.afm_callback">
 define <code class="descname">config.afm_callback</code> = None<a class="headerlink" href="#var-config.afm_callback" title="Permalink to this definition"> link</a></dt>
-<dd><p>If not None, a Python function that is called to determine if it
+<dd><p>If not None, a python function that is called to determine if it
 is safe to auto-forward. The intent is that this can be used by a
 voice system to disable auto-forwarding when a voice is playing.</p>
 </dd></dl>
@@ -1381,10 +1236,10 @@ automated demonstrations of games without much human interaction.</p>
 <dl class="var">
 <dt id="var-config.autoreload">
 define <code class="descname">config.autoreload</code> = True<a class="headerlink" href="#var-config.autoreload" title="Permalink to this definition"> link</a></dt>
-<dd><p>If True, Shift+R will toggle automatic reloading. When automatic
+<dd><p>If true, shift+R will toggle automatic reloading. When automatic
 reloading is enabled, Ren'Py will reload the game whenever a used
 file is modified.</p>
-<p>If False, Ren'Py will reload the game once per press of Shift+R.</p>
+<p>If false, Ren'Py will reload the game once per press of shift+R.</p>
 </dd></dl>
 
 <dl class="var">
@@ -1398,14 +1253,14 @@ False, don't change this variable.</p>
 <dl class="var">
 <dt id="var-config.autosave_on_choice">
 define <code class="descname">config.autosave_on_choice</code> = True<a class="headerlink" href="#var-config.autosave_on_choice" title="Permalink to this definition"> link</a></dt>
-<dd><p>If True, Ren'Py will autosave upon encountering an in-game choice.
+<dd><p>If true, Ren'Py will autosave upon encountering an in-game choice.
 (When <a class="reference internal" href="other.html#renpy.choice_for_skipping" title="renpy.choice_for_skipping"><code class="xref py py-func docutils literal"><span class="pre">renpy.choice_for_skipping()</span></code></a> is called.)</p>
 </dd></dl>
 
 <dl class="var">
 <dt id="var-config.autosave_on_quit">
 define <code class="descname">config.autosave_on_quit</code> = True<a class="headerlink" href="#var-config.autosave_on_quit" title="Permalink to this definition"> link</a></dt>
-<dd><p>If True, Ren'Py will attempt to autosave when the user attempts to quit,
+<dd><p>If true, Ren'Py will attempt to autosave when the user attempts to quit,
 return to the main menu, or load a game over the existing game. (To
 save time, the autosave occurs while the user is being prompted to confirm
 his or her decision.)</p>
@@ -1437,23 +1292,6 @@ define <code class="descname">config.context_clear_layers</code> = [ 'screens' ]
 </dd></dl>
 
 <dl class="var">
-<dt id="var-config.exception_handler">
-define <code class="descname">config.exception_handler</code> = None<a class="headerlink" href="#var-config.exception_handler" title="Permalink to this definition"> link</a></dt>
-<dd><p>If not None, this should be a function that takes three arguments:</p>
-<ul class="simple">
-<li>A string giving the text of a traceback, abbreviated so that it only includes
-creator-written files.</li>
-<li>The full text of the traceback, including both creator-written and Ren'Py
-files.</li>
-<li>The path to a file containing a traceback method.</li>
-</ul>
-<p>This function can present the error to a user in any way fit. If it returns True,
-the exception is ignored and control is transferred to the next statement. If it
-returns False, the built-in exception handler is use. This function may also call
-<a class="reference internal" href="statement_equivalents.html#renpy.jump" title="renpy.jump"><code class="xref py py-func docutils literal"><span class="pre">renpy.jump()</span></code></a> to transfer control to some other label.</p>
-</dd></dl>
-
-<dl class="var">
 <dt id="var-config.fade_music">
 define <code class="descname">config.fade_music</code> = 0.0<a class="headerlink" href="#var-config.fade_music" title="Permalink to this definition"> link</a></dt>
 <dd><p>This is the amount of time in seconds to spend fading the old
@@ -1475,8 +1313,6 @@ when a file needs to be opened. It should return a file-like
 object, or None to load the file using the usual Ren'Py
 mechanisms. Your file-like object must implement at least the
 read, seek, tell, and close methods.</p>
-<p>One may want to also define a <a class="reference internal" href="#var-config.loadable_callback"><code class="xref std std-var docutils literal"><span class="pre">config.loadable_callback</span></code></a> that
-matches this.</p>
 </dd></dl>
 
 <dl class="var">
@@ -1513,16 +1349,16 @@ to let the user see text he skipped by mistake.</p>
 
 <dl class="var">
 <dt id="var-config.help">
-define <code class="descname">config.help</code> = None<a class="headerlink" href="#var-config.help" title="Permalink to this definition"> link</a></dt>
+define <code class="descname">config.help</code> = &quot;README.html&quot;<a class="headerlink" href="#var-config.help" title="Permalink to this definition"> link</a></dt>
 <dd><p>This controls the functionality of the help system invoked by the
-help button on the main and game menus, or by pressing F1 or
-Command-?.</p>
+help button on the main and game menus, or by pressing f1 or
+command-?.</p>
 <p>If None, the help system is disabled and does not show up on
 menus.  If a string corresponding to a label found in the script,
 that label is invoked in a new context. This allows you to define
 an in-game help-screen.  Otherwise, this is interpreted as a
 filename relative to the base directory, that is opened in a web
-browser. If the file is not exist, the action is ignored.</p>
+browser.</p>
 </dd></dl>
 
 <dl class="var">
@@ -1546,18 +1382,11 @@ the desired image, and then checks if the computed filename exists.</p>
 </dd></dl>
 
 <dl class="var">
-<dt id="var-config.keep_side_render_order">
-define <code class="descname">config.keep_side_render_order</code> = True<a class="headerlink" href="#var-config.keep_side_render_order" title="Permalink to this definition"> link</a></dt>
-<dd><p>If True, the order of substrings in the Side positions will be
-determine the order of children render.</p>
-</dd></dl>
-
-<dl class="var">
 <dt id="var-config.imagemap_cache">
 define <code class="descname">config.imagemap_cache</code> = True<a class="headerlink" href="#var-config.imagemap_cache" title="Permalink to this definition"> link</a></dt>
-<dd><p>If True, imagemap hotspots will be cached to PNG files,
+<dd><p>If true, imagemap hotspots will be cached to PNG files,
 reducing time and memory usage, but increasing the size of
-the game on disk. Set this to False to disable this behavior.</p>
+the game on disk. Set this to false to disable this behavior.</p>
 </dd></dl>
 
 <dl class="var">
@@ -1579,9 +1408,9 @@ an interaction is started or restarted.</p>
 <dl class="var">
 <dt id="var-config.keep_running_transform">
 define <code class="descname">config.keep_running_transform</code> = True<a class="headerlink" href="#var-config.keep_running_transform" title="Permalink to this definition"> link</a></dt>
-<dd><p>If True, showing an image without supplying a transform or ATL
+<dd><p>If true, showing an image without supplying a transform or ATL
 block will cause the image to continue the previous transform
-an image with that tag was using, if any. If False, the transform
+an image with that tag was using, if any. If false, the transform
 is stopped.</p>
 </dd></dl>
 
@@ -1598,8 +1427,8 @@ Keymaps for more information.</p>
 define <code class="descname">config.label_callback</code> = None<a class="headerlink" href="#var-config.label_callback" title="Permalink to this definition"> link</a></dt>
 <dd><p>If not None, this is a function that is called whenever a label is
 reached. It is called with two parameters. The first is the name
-of the label. The second is True if the label was reached through
-jumping, calling, or creating a new context, and False
+of the label. The second is true if the label was reached through
+jumping, calling, or creating a new context, and false
 otherwise.</p>
 </dd></dl>
 
@@ -1607,7 +1436,7 @@ otherwise.</p>
 <dt id="var-config.label_overrides">
 define <code class="descname">config.label_overrides</code> = { }<a class="headerlink" href="#var-config.label_overrides" title="Permalink to this definition"> link</a></dt>
 <dd><p>This variable gives a way of causing jumps and calls of labels in
-Ren'Py script to be redirected to other labels. For example, if you
+Ren'Py code to be redirected to other labels. For example, if you
 add a mapping from &quot;start&quot; to &quot;mystart&quot;, all jumps and calls to
 &quot;start&quot; will go to &quot;mystart&quot; instead.</p>
 </dd></dl>
@@ -1639,7 +1468,7 @@ define <code class="descname">config.lint_hooks</code> = ...<a class="headerlink
 <dd><p>This is a list of functions that are called, with no arguments,
 when lint is run. The functions are expected to check the script
 data for errors, and print any they find to standard output (using
-the Python <code class="docutils literal"><span class="pre">print</span></code> statement is fine in this case).</p>
+the python print statement is fine in this case).</p>
 </dd></dl>
 
 <dl class="var">
@@ -1651,14 +1480,6 @@ name.)</p>
 </dd></dl>
 
 <dl class="var">
-<dt id="var-config.loadable_callback">
-define <code class="descname">config.loadable_callback</code> = None<a class="headerlink" href="#var-config.loadable_callback" title="Permalink to this definition"> link</a></dt>
-<dd><p>When not None, a function that's called with a filename. It should return
-True if the file is loadable, and False if not. This can be used with
-<a class="reference internal" href="#var-config.file_open_callback"><code class="xref std std-var docutils literal"><span class="pre">config.file_open_callback</span></code></a> or <a class="reference internal" href="#var-config.missing_image_callback"><code class="xref std std-var docutils literal"><span class="pre">config.missing_image_callback</span></code></a>.</p>
-</dd></dl>
-
-<dl class="var">
 <dt id="var-config.log_width">
 define <code class="descname">config.log_width</code> = 78<a class="headerlink" href="#var-config.log_width" title="Permalink to this definition"> link</a></dt>
 <dd><p>The width of lines logged when <a class="reference internal" href="#var-config.log"><code class="xref std std-var docutils literal"><span class="pre">config.log</span></code></a> is used.</p>
@@ -1667,7 +1488,7 @@ define <code class="descname">config.log_width</code> = 78<a class="headerlink" 
 <dl class="var">
 <dt id="var-config.longpress_duration">
 define <code class="descname">config.longpress_duration</code> = 0.5<a class="headerlink" href="#var-config.longpress_duration" title="Permalink to this definition"> link</a></dt>
-<dd><p>The amount of time the player must press the screen for a longpress
+<dd><p>The amount of time the player must press the screen for for a longpress
 to be recognized on a touch device.</p>
 </dd></dl>
 
@@ -1698,8 +1519,6 @@ define <code class="descname">config.missing_image_callback</code> = None<a clas
 image fails. It may return None, or it may return an image
 manipulator. If an image manipulator is returned, that image
 manipulator is loaded in the place of the missing image.</p>
-<p>One may want to also define a <a class="reference internal" href="#var-config.loadable_callback"><code class="xref std std-var docutils literal"><span class="pre">config.loadable_callback</span></code></a>,
-especially if this is used with a <a class="reference internal" href="displayables.html#DynamicImage" title="DynamicImage"><code class="xref py py-func docutils literal"><span class="pre">DynamicImage()</span></code></a>.</p>
 </dd></dl>
 
 <dl class="var">
@@ -1739,14 +1558,14 @@ define <code class="descname">config.new_translate_order</code> = True<a class="
 <dl class="var">
 <dt id="var-config.new_substitutions">
 define <code class="descname">config.new_substitutions</code> = True<a class="headerlink" href="#var-config.new_substitutions" title="Permalink to this definition"> link</a></dt>
-<dd><p>If True, Ren'Py will apply new-style (square-bracket)
+<dd><p>If true, Ren'Py will apply new-style (square-bracket)
 substitutions to all text displayed.</p>
 </dd></dl>
 
 <dl class="var">
 <dt id="var-config.old_substitutions">
 define <code class="descname">config.old_substitutions</code> = False<a class="headerlink" href="#var-config.old_substitutions" title="Permalink to this definition"> link</a></dt>
-<dd><p>If True, Ren'Py will apply old-style (percent) substitutions to
+<dd><p>If true, Ren'Py will apply old-style (percent) substitutions to
 text displayed by the <a class="reference internal" href="dialogue.html#say-statement"><span class="std std-ref">say</span></a> and <a class="reference internal" href="menus.html#menu-statement"><span class="std std-ref">menu</span></a> statements.</p>
 </dd></dl>
 
@@ -1763,15 +1582,6 @@ define <code class="descname">config.overlay_layers</code> = [ 'overlay' ]<a cla
 <dd><p>This is a list of all of the overlay layers. Overlay layers are
 cleared before the overlay functions are called. &quot;overlay&quot; should
 always be in this list.</p>
-</dd></dl>
-
-<dl class="var">
-<dt id="var-config.per_frame_screens">
-define <code class="descname">config.per_frame_screens</code> = [ ... ]<a class="headerlink" href="#var-config.per_frame_screens" title="Permalink to this definition"> link</a></dt>
-<dd><p>This is a list of strings giving the name of screens that are updated
-once per frame, rather than once per interaction. Ren'Py uses this internally,
-so if you add a screen, append the name rather than replacing the list in
-its entirety.</p>
 </dd></dl>
 
 <dl class="var">
@@ -1809,7 +1619,7 @@ stdout.</p>
 <dl class="var">
 <dt id="var-config.quit_on_mobile_background">
 define <code class="descname">config.quit_on_mobile_background</code> = False<a class="headerlink" href="#var-config.quit_on_mobile_background" title="Permalink to this definition"> link</a></dt>
-<dd><p>If True, the mobile app will quit when it loses focus.</p>
+<dd><p>If true, the mobile app will quit when it loses focus.</p>
 </dd></dl>
 
 <dl class="var">
@@ -1823,17 +1633,13 @@ the user cannot interactively rollback.</p>
 <dt id="var-config.rollback_length">
 define <code class="descname">config.rollback_length</code> = 128<a class="headerlink" href="#var-config.rollback_length" title="Permalink to this definition"> link</a></dt>
 <dd><p>When there are more than this many statements in the rollback log,
-Ren'Py will consider trimming the log. This also covers how many
-steps Ren'Py will rollback when trying to load a save when the script
-has changed.</p>
-<p>Decreasing this below the default value may cause Ren'Py to become
-unstable.</p>
+Ren'Py will consider trimming the log.</p>
 </dd></dl>
 
 <dl class="var">
 <dt id="var-config.rollback_side_size">
 define <code class="descname">config.rollback_side_size</code> = .2<a class="headerlink" href="#var-config.rollback_side_size" title="Permalink to this definition"> link</a></dt>
-<dd><p>If the rollback side is enabled, the fraction of the screen on the
+<dd><p>If the rollback side is enabled, the fraction of of the screen on the
 rollback side that, when clicked or touched, causes a rollback to
 occur.</p>
 </dd></dl>
@@ -1843,7 +1649,7 @@ occur.</p>
 define <code class="descname">config.say_allow_dismiss</code> = None<a class="headerlink" href="#var-config.say_allow_dismiss" title="Permalink to this definition"> link</a></dt>
 <dd><p>If not None, this should be a function. The function is called
 with no arguments when the user attempts to dismiss a <a class="reference internal" href="dialogue.html#say-statement"><span class="std std-ref">say
-statement</span></a>. If this function returns True, the
+statement</span></a>. If this function returns true, the
 dismissal is allowed, otherwise it is ignored.</p>
 </dd></dl>
 
@@ -1872,7 +1678,7 @@ pauses in it. Used to sustain voice through pauses.</p>
 <dl class="var">
 <dt id="var-config.save_dump">
 define <code class="descname">config.save_dump</code> = False<a class="headerlink" href="#var-config.save_dump" title="Permalink to this definition"> link</a></dt>
-<dd><p>If set to True, Ren'Py will create the file save_dump.txt whenever it
+<dd><p>If set to true, Ren'Py will create the file save_dump.txt whenever it
 saves a game. This file contains information about the objects contained
 in the save file. Each line consists of a relative size estimate, the path
 to the object, information about if the object is an alias, and a
@@ -1882,7 +1688,7 @@ representation of the object.</p>
 <dl class="var">
 <dt id="var-config.save_on_mobile_background">
 define <code class="descname">config.save_on_mobile_background</code> = True<a class="headerlink" href="#var-config.save_on_mobile_background" title="Permalink to this definition"> link</a></dt>
-<dd><p>If True, the mobile app will save its state when it loses focus. The state
+<dd><p>If true, the mobile app will save its state when it loses focus. The state
 is saved in a way that allows it to be automatically loaded (and the game
 to resume its place) when the app starts again.</p>
 </dd></dl>
@@ -1890,7 +1696,7 @@ to resume its place) when the app starts again.</p>
 <dl class="var">
 <dt id="var-config.save_physical_size">
 define <code class="descname">config.save_physical_size</code> = True<a class="headerlink" href="#var-config.save_physical_size" title="Permalink to this definition"> link</a></dt>
-<dd><p>If True, the physical size of the window will be saved in the
+<dd><p>If true, the physical size of the window will be saved in the
 preferences, and restored when the game resumes.</p>
 </dd></dl>
 
@@ -1898,9 +1704,9 @@ preferences, and restored when the game resumes.</p>
 <dt id="var-config.savedir">
 define <code class="descname">config.savedir</code> = ...<a class="headerlink" href="#var-config.savedir" title="Permalink to this definition"> link</a></dt>
 <dd><p>The complete path to the directory in which the game is
-saved. This should only be set in a <code class="docutils literal"><span class="pre">python</span> <span class="pre">early</span></code> block. See also
+saved. This should only be set in a python early block. See also
 config.save_directory, which generates the default value for this
-if it is not set during a <code class="docutils literal"><span class="pre">python</span> <span class="pre">early</span></code> block.</p>
+if it is not set during a python early block.</p>
 </dd></dl>
 
 <dl class="var">
@@ -1932,7 +1738,7 @@ saved.</p>
 <dt id="var-config.screenshot_pattern">
 define <code class="descname">config.screenshot_pattern</code> = &quot;screenshot%04d.png&quot;<a class="headerlink" href="#var-config.screenshot_pattern" title="Permalink to this definition"> link</a></dt>
 <dd><p>The pattern used to create screenshot files. This pattern is applied (using
-Python's %-formatting rules) to the natural numbers to generate a sequence
+python's %-formatting rules) to the natural numbers to generate a sequence
 of filenames. The filenames may be absolute, or relative to
 config.renpy_base. The first filename that does not exist is used as the
 name of the screenshot.</p>
@@ -2048,7 +1854,7 @@ define <code class="descname">config.transform_uses_child_position</code> = True
 <dl class="var">
 <dt id="var-config.transition_screens">
 define <code class="descname">config.transition_screens</code> = True<a class="headerlink" href="#var-config.transition_screens" title="Permalink to this definition"> link</a></dt>
-<dd><p>If True, screens will participate in transitions, dissolving from the
+<dd><p>If true, screens will participate in transitions, dissolving from the
 old state of the screen to the new state of the screen. If False, only
 the latest state of the screen will be shown.</p>
 </dd></dl>
@@ -2089,48 +1895,6 @@ be the transition supplied as its argument.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="garbage-collection">
-<h2>Garbage Collection<a class="headerlink" href="#garbage-collection" title="Permalink to this headline"> link</a></h2>
-<p>These variables allow you to tune the Python garbage collector and the
-Ren'Py management of the Python garbage collector.</p>
-<dl class="var">
-<dt id="var-config.manage_gc">
-define <code class="descname">config.manage_gc</code> = True<a class="headerlink" href="#var-config.manage_gc" title="Permalink to this definition"> link</a></dt>
-<dd><p>If True, Ren'Py will manage the GC itself. This means that it will apply
-the settings below.</p>
-</dd></dl>
-
-<dl class="var">
-<dt id="var-config.gc_thresholds">
-define <code class="descname">config.gc_thresholds</code> = (25000, 10, 10)<a class="headerlink" href="#var-config.gc_thresholds" title="Permalink to this definition"> link</a></dt>
-<dd><p>The GC thresholds that Ren'Py uses when not idle. These are set to try
-to ensure that garbage collection doesn't happen. The three numbers are:</p>
-<ul class="simple">
-<li>The net number of objects that need to be allocated before a level-0
-collection.</li>
-<li>The number of level-0 collections that trigger a level-1 collection.</li>
-<li>The number of level-1 collections that trigger a level-2 collection.</li>
-</ul>
-<p>(Level-0 collections should be fast enough to not cause a frame drop,
-level-1 collections might, level-2 will.)</p>
-</dd></dl>
-
-<dl class="var">
-<dt id="var-config.idle_gc_count">
-define <code class="descname">config.idle_gc_count</code> = 2500<a class="headerlink" href="#var-config.idle_gc_count" title="Permalink to this definition"> link</a></dt>
-<dd><p>The net number of objects that triggers a collection when Ren'Py has
-reached a steady state. (The fourth frame or later after the screen has been
-updated.)</p>
-</dd></dl>
-
-<dl class="var">
-<dt id="var-config.gc_print_unreachable">
-define <code class="descname">config.gc_print_unreachable</code> = False<a class="headerlink" href="#var-config.gc_print_unreachable" title="Permalink to this definition"> link</a></dt>
-<dd><p>If True, Ren'Py will print to its console and logs information about the
-objects that are triggering collections.</p>
-</dd></dl>
-
-</div>
 </div>
 
 
@@ -2145,8 +1909,8 @@ objects that are triggering collections.</p>
       
     </p>
     <p>
-        &copy; Copyright 2012-2019, Tom Rothamel.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.<br/>
+        &copy; Copyright 2012-2017, Tom Rothamel.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.<br/>
     </p>
   </div>
 </footer>

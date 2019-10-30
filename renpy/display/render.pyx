@@ -1,5 +1,5 @@
 #cython: profile=False
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -19,16 +19,6 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-from __future__ import print_function
-
-from renpy.display.matrix import Matrix, Matrix2D
-from renpy.display.matrix cimport Matrix, Matrix2D
-
-# This is required to get these to re-export despite having been defined
-# in cython.
-globals()["Matrix"] = Matrix
-globals()["Matrix2D"] = Matrix2D
 
 import collections
 import pygame_sdl2 as pygame
@@ -60,48 +50,6 @@ live_renders = [ ]
 # A copy of renpy.display.interface.frame_time, for speed reasons.
 cdef double frame_time
 frame_time = 0
-
-# Are we doing a per_frame update?
-per_frame = False
-
-# Are we rendering for the purpose of sizing something.
-sizing = False
-
-# This is true if we're using a renderer that supports models,
-# false otherwise.
-models = False
-
-def adjust_render_cache_times(old_time, new_time):
-    """
-    This adjusts the render cache such that if a render starts at
-    old_time, it really started at new_time.
-    """
-
-    for id_d, renders in render_cache.iteritems():
-
-        # Check to see if we have a render with st_base = old_time. If so,
-        # we need to rebase it.
-        for k in renders:
-            if k[2] == old_time:
-                break
-        else:
-            continue
-
-        new_renders = { }
-
-        for k, v in renders.iteritems():
-            w, h, st_base, at_base = k
-
-            if st_base == old_time:
-                st_base = new_time
-
-            if at_base == old_time:
-                at_base = new_time
-
-            new_renders[(w, h, st_base, at_base)] = v
-
-        render_cache[id_d] = new_renders
-
 
 def free_memory():
     """
@@ -159,10 +107,6 @@ def render_ready():
     global render_is_ready
     render_is_ready = 1
 
-# These are good until the next call to render.
-render_width = 0
-render_height = 0
-
 cpdef render(d, object widtho, object heighto, double st, double at):
     """
     :doc: udd_utility
@@ -185,8 +129,6 @@ cpdef render(d, object widtho, object heighto, double st, double at):
     """
 
     global rendering
-    global render_width
-    global render_height
     global render_st
     global render_at
 
@@ -201,9 +143,6 @@ cpdef render(d, object widtho, object heighto, double st, double at):
             raise Exception("Displayables may not be rendered during the init phase.")
 
     orig_wh = (widtho, heighto, frame_time-st, frame_time-at)
-
-    render_width = widtho
-    render_height = heighto
 
     id_d = id(d)
     render_cache_d = render_cache[id_d]
@@ -248,8 +187,6 @@ cpdef render(d, object widtho, object heighto, double st, double at):
     else:
         wh = orig_wh
 
-    renpy.plog(2, "start render {!r}", d)
-
     try:
         rendering += 1
         old_st = render_st
@@ -268,49 +205,15 @@ cpdef render(d, object widtho, object heighto, double st, double at):
     rv.render_of.append(d)
 
     if d._clipping:
-        renpy.plog(4, "before clipping")
         rv = rv.subsurface((0, 0, rv.width, rv.height), focus=True)
         rv.render_of.append(d)
-        renpy.plog(4, "after clipping")
 
+    render_cache_d[wh] = rv
 
-    if not sizing:
-
-        # This lookup is needed because invalidations are possible.
-        render_cache_d = render_cache[id_d]
-        render_cache_d[wh] = rv
-
-        if wh is not orig_wh:
-            render_cache_d[orig_wh] = rv
-
-    renpy.plog(2, "end render {!r}", d)
+    if wh is not orig_wh:
+        render_cache_d[orig_wh] = rv
 
     return rv
-
-def render_for_size(d, width, height, st, at):
-    """
-    This returns a render of `d`  that's useful for getting the size or
-    screen location, but not for actual rendering.
-    """
-
-    global sizing
-
-    id_d = id(d)
-    orig_wh = (width, height, frame_time-st, frame_time-at)
-    render_cache_d = render_cache[id_d]
-    rv = render_cache_d.get(orig_wh, None)
-
-    if rv is not None:
-        return rv
-
-    old_sizing = sizing
-    sizing = True
-
-    try:
-        return render(d, width, height, st, at)
-    finally:
-        sizing = old_sizing
-
 
 def invalidate(d):
     """
@@ -318,37 +221,14 @@ def invalidate(d):
     a redraw to start.
     """
 
-    if (not rendering) and (not per_frame) and (not sizing):
+    if not rendering:
         redraw(d, 0)
-        return
 
-    for v in render_cache[id(d)].values():
-        v.kill_cache()
-
-def check_redraws():
-    """
-    Returns true if a redraw is required, and False otherwise.
-    """
-
-    redraw_queue.sort()
-
-    now = renpy.display.core.get_time()
-
-    for when, d in redraw_queue:
-
-        id_d = id(d)
-
-        if id_d not in render_cache:
-            continue
-
-        if when <= now:
-            return True
-
-    return False
 
 def process_redraws():
     """
-    Removes any pending redraws from the redraw queue.
+    Called to determine if any redraws are pending. Returns true if we
+    need to redraw the screen now, false otherwise.
     """
 
     global redraw_queue
@@ -375,7 +255,6 @@ def process_redraws():
             continue
 
         if when <= now:
-
             # Remove this displayable and all its parents from the
             # render cache. But don't kill them yet, as that will kill the
             # children that we want to reuse.
@@ -415,13 +294,77 @@ def redraw(d, when):
     if not renpy.game.interface:
         return
 
-    if per_frame:
-        invalidate(d)
-        return
-
     redraw_queue.append((when + renpy.game.interface.frame_time, d))
 
 
+cdef class Matrix2D:
+    """
+    This represents a 2d matrix that can be used to transform
+    points and things like that.
+    """
+
+    def __getstate__(self):
+        return dict(
+            xdx = self.xdx,
+            xdy = self.xdy,
+            ydx = self.ydx,
+            ydy = self.ydy)
+
+    def __setstate__(self, state):
+        self.xdx = state['xdx']
+        self.xdy = state['xdy']
+        self.ydx = state['ydx']
+        self.ydy = state['ydy']
+
+    def __init__(Matrix2D self, double xdx, double xdy, double ydx, double ydy):
+        self.xdx = xdx
+        self.xdy = xdy
+        self.ydx = ydx
+        self.ydy = ydy
+
+    cpdef tuple transform(Matrix2D self, double x, double y):
+        return (x * self.xdx + y * self.xdy), (x * self.ydx + y * self.ydy)
+
+    def __mul__(Matrix2D self, Matrix2D other):
+        return Matrix2D(
+            other.xdx * self.xdx + other.xdy * self.ydx,
+            other.xdx * self.xdy + other.xdy * self.ydy,
+            other.ydx * self.xdx + other.ydy * self.ydx,
+            other.ydx * self.xdy + other.ydy * self.ydy)
+
+    def __repr__(self):
+        return "Matrix2D(xdx=%f, xdy=%f, ydx=%f, ydy=%f)" % (self.xdx, self.xdy, self.ydx, self.ydy)
+
+    def __richcmp__(self, other, op):
+
+        if op != 2:
+            return NotImplemented
+
+        if self is other:
+            return True
+
+        return (
+            abs(self.xdx - other.xdx) +
+            abs(self.xdy - other.xdy) +
+            abs(self.ydx - other.ydx) +
+            abs(self.ydy - other.ydy)) < .00001
+
+    cpdef bint is_unit_aligned(Matrix2D self):
+        """
+        Returns true if exactly one of abs(xdx) or abs(xdy) is 1.0, and
+        the same for xdy and ydy. This is intended to report if a matrix
+        is aligned to the axes.
+
+        (It will also return true for something like xdx=1, xdy=0, ydx=1, xdy=1,
+        but that should never happen.)
+        """
+
+        cdef bint unit_xdx = .99999 < abs(self.xdx) < 1.00001
+        cdef bint unit_xdy = .99999 < abs(self.xdy) < 1.00001
+        cdef bint unit_ydx = .99999 < abs(self.ydx) < 1.00001
+        cdef bint unit_ydy = .99999 < abs(self.ydy) < 1.00001
+
+        return (unit_xdx ^ unit_xdy) and (unit_ydx ^ unit_ydy)
 
 
 IDENTITY = Matrix2D(1, 0, 0, 1)
@@ -479,15 +422,9 @@ def render_screen(root, width, height):
     global invalidated
     global frame_time
 
-    interact_time = renpy.display.interface.interact_time
     frame_time = renpy.display.interface.frame_time
 
-    if interact_time is None:
-        st = 0
-    else:
-        st = frame_time  - interact_time
-
-    rv = render(root, width, height, st, st)
+    rv = render(root, width, height, 0, 0)
     screen_render = rv
 
     invalidated = False
@@ -524,9 +461,6 @@ def mark_sweep():
                 worklist.append(j)
 
         i += 1
-
-    if screen_render is not None:
-        screen_render.mark = True
 
     for r in live_renders:
         if not r.mark:
@@ -574,11 +508,10 @@ BLIT = 0
 DISSOLVE = 1
 IMAGEDISSOLVE = 2
 PIXELLATE = 3
-FLATTEN = 4
 
 cdef class Render:
 
-    def __init__(Render self, float width, float height, draw_func=None, layer_name=None, bint opaque=False): #@DuplicatedSignature
+    def __init__(Render self, float width, float height, draw_func=None, layer_name=None, bint opaque=None): #@DuplicatedSignature
         """
         Creates a new render corresponding to the given widget with
         the specified width and height.
@@ -594,6 +527,7 @@ cdef class Render:
         # Is has this render been removed from the cache?
         self.cache_killed = False
 
+
         self.width = width
         self.height = height
 
@@ -602,6 +536,25 @@ cdef class Render:
         # A list of (surface/render, xoffset, yoffset, focus, main) tuples, ordered from
         # back to front.
         self.children = [ ]
+
+        # The set of renders that either have us as children, or depend on
+        # us.
+        self.parents = set()
+
+        # The renders we depend on, including our children.
+        self.depends_on_list = [ ]
+
+        # The operation we're performing. (BLIT, DISSOLVE, OR IMAGE_DISSOLVE)
+        self.operation = BLIT
+
+        # The fraction of the operation that is complete.
+        self.operation_complete = 0.0
+
+        # Should the dissolve operations preserve alpha?
+        self.operation_alpha = False
+
+        # The parameter to the operation.
+        self.operation_parameter = 0
 
         # Forward is used to transform from screen coordinates to child
         # coordinates.
@@ -652,35 +605,7 @@ cdef class Render:
         self.visible_children = self.children
 
         # Should children be clipped to a rectangle?
-        self.xclipping = False
-        self.yclipping = False
-
-        # Are we modal?
-        self.modal = False
-
-        # Are we a text input?
-        self.text_input = False
-
-        # gl, sw
-
-        # The set of renders that either have us as children, or depend on
-        # us.
-        self.parents = set()
-
-        # The renders we depend on, including our children.
-        self.depends_on_list = [ ]
-
-        # The operation we're performing. (BLIT, DISSOLVE, OR IMAGE_DISSOLVE)
-        self.operation = BLIT
-
-        # The fraction of the operation that is complete.
-        self.operation_complete = 0.0
-
-        # Should the dissolve operations preserve alpha?
-        self.operation_alpha = False
-
-        # The parameter to the operation.
-        self.operation_parameter = 0
+        self.clipping = False
 
         # Caches of the texture created by rendering this surface.
         self.surface = None
@@ -690,39 +615,16 @@ cdef class Render:
         # (This is set in gldraw.)
         self.half_cache = None
 
-        # gl2
+        # Are we modal?
+        self.modal = False
 
-        # The mesh. If this is not None, the children are all rendered to Textures,
-        # and used to form a model. If this is True, the Mesh is taken from the first
-        # child's Texture, otherwise this must be a Mesh.
-        self.mesh = None
-
-        # A tuple of shaders that will be used when rendering, or None.
-        self.shaders = None
-
-        # A dictionary containing uniforms that will be used when rendering, or
-        # None.
-        self.uniforms = None
-
-        # Properties that are used for rendering.
-        self.properties = None
-
-        # Used to cache the result of rendering this Render to a texture.
-        self.cached_texture = None
-
-        # Used to cache the model.
-        self.cached_model = None
-
-        # Have the textures been loaded?
-        self.loaded = False
+        # Are we a text input?
+        self.text_input = False
 
         live_renders.append(self)
 
     def __repr__(self): #@DuplicatedSignature
-        return "<{}Render {:x} of {!r}>".format(
-            ("dead " if self.cache_killed else ""),
-            id(self),
-            self.render_of)
+        return "<Render %x of %r>" % (id(self), self.render_of)
 
     def __getstate__(self): #@DuplicatedSignature
         if renpy.config.developer:
@@ -831,12 +733,12 @@ cdef class Render:
     def render_to_texture(self, alpha=True):
         """
         Returns a texture constructed from this render. This may return
-        a cached texture, if one has already been rendered.
+        a cached textue, if one has already been rendered.
 
         `alpha` is a hint that controls if the surface should have
         alpha or not.
 
-        This returns a texture that's at the drawable resolution, which
+        This returns a texture that's at the drawable resolultion, which
         may be bigger than the virtual resolution. Use renpy.display.draw.draw_to_virt
         and draw.virt_to_draw to convert between the two resolutions. (For example,
         multiply reverse by draw_to_virt to scale this down for blitting.)
@@ -868,15 +770,10 @@ cdef class Render:
         """
 
         (x, y, w, h) = rect
-
-        x = int(x)
-        y = int(y)
-        w = int(w)
-        h = int(h)
-
         rv = Render(w, h)
 
         reverse = self.reverse
+
 
         # This code doesn't work. We need to do the clipping in the screen
         # space, or it's too easy to get overlaps or lines. (At some point,
@@ -918,27 +815,7 @@ cdef class Render:
             # This doesn't actually make a subsurface, as we can't easily do
             # so for non-rectangle-aligned renders.
 
-            rv.xclipping = True
-            rv.yclipping = True
-
-            # Try to avoid clipping if a surface fits entirely inside the
-            # rectangle.
-
-            if (reverse.xdx > 0.0 and
-                reverse.xdy == 0.0 and
-                reverse.ydx == 0.0 and
-                reverse.ydy > 0.0):
-
-                tx, ty = self.forward.transform(x, y)
-                tw, th = self.forward.transform(w + x, h + y)
-                rw, rh = self.forward.transform(self.width, self.height)
-
-                if (tx <= 0) and (tw >= rw):
-                    rv.xclipping = False
-
-                if (ty <= 0) and (th >= rh):
-                    rv.yclipping = False
-
+            rv.clipping = True
             rv.blit(self, (-x, -y), focus=focus, main=True)
             return rv
 
@@ -946,7 +823,6 @@ cdef class Render:
         # making an actual subsurface.
 
         for child, cx, cy, cfocus, cmain in self.children:
-
 
             childw, childh = child.get_size()
             xo, cx, cw = compute_subline(cx, childw, x, w)
@@ -962,30 +838,22 @@ cdef class Render:
             crop = None
 
             try:
-                if isinstance(child, Render):
-
-                    if child.xclipping:
-                        cropw = cw
-                    else:
-                        cropw = w - xo
-
-                    if child.yclipping:
-                        croph = ch
-                    else:
-                        croph = h - yo
-
-                    crop = (cx, cy, cropw, croph)
+                if isinstance(child, Render) and not child.clipping:
+                    crop = (cx, cy, w - xo, h - yo)
                     newchild = child.subsurface(crop, focus=focus)
                     newchild.width = cw
                     newchild.height = ch
                     newchild.render_of = child.render_of[:]
 
-                else:
+                elif isinstance(child, Render):
+                    crop = (cx, cy, cw, ch)
+                    newchild = child.subsurface(crop, focus=focus)
+                    renpy.display.draw.mutated_surface(newchild)
 
+                else:
                     crop = (cx, cy, cw, ch)
                     newchild = child.subsurface(crop)
                     renpy.display.draw.mutated_surface(newchild)
-
             except:
                 raise Exception("Creating subsurface failed. child size = ({}, {}), crop = {!r}".format(childw, childh, crop))
 
@@ -1027,7 +895,6 @@ cdef class Render:
         rv.operation_alpha = self.operation_alpha
         rv.operation_complete = self.operation_complete
         rv.nearest = self.nearest
-        rv.text_input =  self.text_input
 
         return rv
 
@@ -1081,10 +948,6 @@ cdef class Render:
 
             if not cache:
                 del render_cache[id_ro]
-
-        self.render_of = None
-        self.focuses = None
-        self.pass_focuses = None
 
     def kill(self):
         """
@@ -1173,12 +1036,10 @@ cdef class Render:
 
                 focuses.append(renpy.display.focus.Focus(d, arg, minx, miny, maxx - minx, maxy - miny, screen))
 
-        if self.xclipping:
+        if self.clipping:
             cminx = max(cminx, x)
-            cmaxx = min(cmaxx, x + self.width)
-
-        if self.yclipping:
             cminy = max(cminy, y)
+            cmaxx = min(cmaxx, x + self.width)
             cmaxy = min(cmaxx, x + self.height)
 
         for child, xo, yo, focus, main in self.children:
@@ -1200,12 +1061,8 @@ cdef class Render:
         if self.focus_screen is not None:
             screen = self.focus_screen
 
-        if self.xclipping:
-            if x < 0 or x >= self.width:
-                return None
-
-        if self.yclipping:
-            if y < 0 or y >= self.height:
+        if self.clipping:
+            if x < 0 or x >= self.width or y < 0 or y >= self.height:
                 return None
 
         if self.operation == IMAGEDISSOLVE:
@@ -1382,7 +1239,7 @@ cdef class Render:
 
         return Canvas(surf)
 
-    def screen_rect(self, double sx, double sy, Matrix transform):
+    def screen_rect(self, double sx, double sy, Matrix2D transform):
         """
         Returns the rectangle, in screen-space coordinates, that will be covered
         by this render when it's drawn to the screen at sx, sy, with the transform

@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -22,7 +22,7 @@
 ################################################################################
 # Interface actions.
 init python in interface:
-    from store import OpenURL, config, Return, _preferences
+    from store import OpenURL, config, Return
     import store
 
     import os.path
@@ -66,15 +66,6 @@ init python in interface:
         else:
             return OpenURL(LICENSE_URL)
 
-    def get_sponsor_url():
-        """
-        Returns the URL to the sponsors page.
-        """
-
-        return "https://www.renpy.org/sponsors.html?version={}&language={}".format(
-            renpy.version_only,
-            _preferences.language or "english"
-        )
 
     # Should we display the bottom links?
     links = True
@@ -108,9 +99,6 @@ screen bottom_info:
             ypos 536
             yanchor 0.0
 
-            has vbox:
-                spacing 20
-
             hbox:
                 xfill True
 
@@ -118,16 +106,19 @@ screen bottom_info:
                     spacing INDENT
                     textbutton _("Documentation") style "l_link" action interface.OpenDocumentation()
                     textbutton _("Ren'Py Website") style "l_link" action OpenURL(interface.RENPY_URL)
+                    textbutton _("Ren'Py Games List") style "l_link" action OpenURL(interface.RENPY_GAMES_URL)
+                    textbutton _("About") style "l_link" action Jump("about")
 
                 hbox:
                     spacing INDENT
                     xalign 1.0
 
-                    #if ability.can_update:
-                        #textbutton _("update") action Jump("update") style "l_link"
-                    textbutton _("Advanced") style "l_link" action Jump("advanced")
-                    textbutton _("Settings") style "l_link" action Jump("preferences")
-                    textbutton _("Exit") style "l_link" action Quit(confirm=False)
+                    if ability.can_update:
+                        textbutton _("update") action Jump("update") style "l_link"
+
+                    textbutton _("preferences") style "l_link" action Jump("preferences")
+                    textbutton _("quit") style "l_link" action Quit(confirm=False)
+
 
 screen common:
 
@@ -234,13 +225,7 @@ screen launcher_input:
 
             add SPACER
 
-            input style "l_default":
-                value ScreenVariableInputValue("value", returnable=True)
-                size 24
-                xalign 0.5
-                color INPUT_COLOR
-                allow allow
-                copypaste True
+            input style "l_default" value ScreenVariableInputValue("value", returnable=True) size 24 xalign 0.5 color INPUT_COLOR
 
             if filename:
                 add SPACER
@@ -258,7 +243,6 @@ init python in interface:
 
     import traceback
     from store import Jump
-    import store._errorhandling as _errorhandling
 
     def common(title, title_color, message, submessage=None, back=None, continue_=None, pause0=False, show_screen=False, **kwargs):
         """
@@ -343,13 +327,6 @@ init python in interface:
         common(_("ERROR"), store.ERROR_COLOR, message=message, submessage=submessage, back=action, **kwargs)
 
 
-    store._ignore_action = Jump("front_page")
-
-    _errorhandling.rollback = False
-    _errorhandling.ignore = True
-    _errorhandling.reload = False
-    _errorhandling.console = False
-
     @contextlib.contextmanager
     def error_handling(what, label="front_page"):
         """
@@ -365,28 +342,24 @@ init python in interface:
 
         As an example of usage::
 
-            with interface.error_handling(_("opening the log file")):
+            with interface.error_handling("opening the log file"):
                 f = open("log.txt", "w")
         """
 
+
         try:
             yield
-        except Exception as e:
-            renpy.renpy.error.report_exception(e, editor=False)
+        except Exception, e:
+            import traceback
+            traceback.print_exc()
 
-            error(_("While [what!qt], an error occured:"),
+            error(_("While [what!q], an error occured:"),
                 _("[exception!q]"),
                 what=what,
                 label=label,
                 exception=traceback.format_exception_only(type(e), e)[-1][:-1])
 
-    import string
-    DIGITS_LETTERS = string.digits
-    PROJECT_LETTERS = DIGITS_LETTERS + string.ascii_letters + " _"
-    FILENAME_LETTERS = PROJECT_LETTERS + "\\/"
-    TRANSLATE_LETTERS = string.ascii_letters + "_"
-
-    def input(title, message, filename=False, sanitize=True, cancel=None, allow=None, default=""):
+    def input(title, message, filename=False, sanitize=True, cancel=None, default=""):
         """
         Requests typewritten input from the user.
         """
@@ -395,15 +368,7 @@ init python in interface:
 
         while True:
 
-            rv = renpy.call_screen(
-                "launcher_input",
-                title=title,
-                message=message,
-                filename=filename or (allow in [PROJECT_LETTERS, FILENAME_LETTERS]),
-                allow=allow,
-                cancel=cancel,
-                default=rv
-            )
+            rv = renpy.call_screen("launcher_input", title=title, message=message, filename=filename, cancel=cancel, default=rv)
 
             if sanitize:
                 if ("[" in rv) or ("{" in rv):
@@ -517,3 +482,6 @@ init python in interface:
         """
 
         return common(_("CHOICE"), store.QUESTION_COLOR, message, choices=choices, selected=selected, **kwargs)
+
+
+

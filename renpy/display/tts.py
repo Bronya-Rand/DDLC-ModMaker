@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -19,8 +19,6 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from __future__ import print_function
-
 import sys
 import os
 import renpy.audio
@@ -34,7 +32,6 @@ class TTSRoot(Exception):
     of the root displayable, rather than text of the currently focused
     displayable.
     """
-
 
 # The root of the scene.
 root = None
@@ -52,11 +49,6 @@ def periodic():
     if process is not None:
         if process.poll() is not None:
             process = None
-
-
-def is_active():
-
-    return process is not None
 
 
 def default_tts_function(s):
@@ -95,12 +87,7 @@ def default_tts_function(s):
 
     fsencode = renpy.exports.fsencode
 
-    if "RENPY_TTS_COMMAND" in os.environ:
-
-        process = subprocess.Popen([ os.environ["RENPY_TTS_COMMAND"], fsencode(s) ])
-
-    elif renpy.linux:
-
+    if renpy.linux:
         if renpy.config.tts_voice is None:
             process = subprocess.Popen([ "espeak", fsencode(s) ])
         else:
@@ -157,7 +144,6 @@ def speak(s, translate=True, force=False):
 def set_root(d):
     global root
     root = d
-
 
 # The old value of the self_voicing preference.
 old_self_voicing = False

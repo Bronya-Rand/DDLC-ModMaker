@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -26,8 +26,6 @@
 
 # All functions in the is file should be documented in the wiki.
 
-from __future__ import print_function
-
 import sys
 import renpy.display
 import renpy.text
@@ -54,9 +52,6 @@ class Action(renpy.object.Object):
     def get_selected(self):
         return False
 
-    def get_tooltip(self):
-        return None
-
     def periodic(self, st):
         return
 
@@ -75,8 +70,6 @@ class BarValue(renpy.object.Object):
     # Alt text.
     alt = "Bar"
 
-    force_step = False
-
     def replaces(self, other):
         return
 
@@ -88,9 +81,6 @@ class BarValue(renpy.object.Object):
 
     def get_style(self):
         return "bar", "vbar"
-
-    def get_tooltip(self):
-        return None
 
 
 ##############################################################################
@@ -220,7 +210,6 @@ class ChildOrFixed(Addable):
         if d is not None:
             raise Exception("Did not expect to close %r." % d)
 
-
 # A stack of things we can add to.
 stack = [ ]
 
@@ -244,7 +233,6 @@ def reset():
     stack = [ Layer('transient') ]
     at_stack = [ ]
     imagemap_stack = [ ]
-
 
 renpy.game.post_init.append(reset)
 
@@ -295,6 +283,7 @@ def interact(type='misc', roll_forward=None, **kwargs):  # @ReservedAssignment
 
     renpy.game.context().info._current_interact_type = type
     rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+    renpy.game.context().mark_seen()
     renpy.game.context().info._last_interact_type = type
 
     if renpy.exports.in_fixed_rollback() and roll_forward is not None:
@@ -403,7 +392,6 @@ def context_enter(w):
 
 def context_exit(w):
     close(w)
-
 
 NoStylePrefixGiven = renpy.object.Sentinel("NoStylePrefixGiven")
 
@@ -597,7 +585,6 @@ def _add(d, **kwargs):
 
     return rv
 
-
 add = Wrapper(_add)
 
 
@@ -608,7 +595,6 @@ def _implicit_add(d):
     """
 
     return d
-
 
 implicit_add = Wrapper(_implicit_add)
 
@@ -622,7 +608,6 @@ def _image(im, **properties):
 
     return d
 
-
 image = Wrapper(_image)
 
 null = Wrapper(renpy.display.layout.Null)
@@ -630,14 +615,12 @@ text = Wrapper(renpy.text.text.Text, style="text", replaces=True)
 hbox = Wrapper(renpy.display.layout.MultiBox, layout="horizontal", style="hbox", many=True)
 vbox = Wrapper(renpy.display.layout.MultiBox, layout="vertical", style="vbox", many=True)
 fixed = Wrapper(renpy.display.layout.MultiBox, layout="fixed", style="fixed", many=True)
-default_fixed = Wrapper(renpy.display.layout.MultiBox, layout="fixed", many=True)
 grid = Wrapper(renpy.display.layout.Grid, style="grid", many=True)
 side = Wrapper(renpy.display.layout.Side, style="side", many=True)
 
 
 def _sizer(maxwidth=None, maxheight=None, **properties):
     return renpy.display.layout.Container(xmaximum=maxwidth, ymaximum=maxheight, **properties)
-
 
 sizer = Wrapper(_sizer, one=True)
 window = Wrapper(renpy.display.layout.Window, style="window", one=True, child=None)
@@ -656,7 +639,6 @@ def _key(key, action=None, activate_sound=None):
 
     return renpy.display.behavior.Keymap(activate_sound=activate_sound, **{ key : action})
 
-
 key = Wrapper(_key)
 
 
@@ -670,13 +652,10 @@ class ChoiceActionBase(Action):
     previously visited and mark it so if it is chosen.
     """
 
-    sensitive = True
-
-    def __init__(self, label, value, location=None, block_all=None, sensitive=True, args=None, kwargs=None):
+    def __init__(self, label, value, location=None, block_all=None):
         self.label = label
         self.value = value
         self.location = location
-        self.sensitive = sensitive
 
         if block_all is None:
             self.block_all = renpy.config.fix_rollback_without_choice
@@ -691,13 +670,8 @@ class ChoiceActionBase(Action):
             if self.chosen is None:
                 self.chosen = renpy.game.persistent._chosen = { }
 
-        # The arguments passed to a menu choice.
-        self.args = args
-        self.kwargs = kwargs
-
     def get_sensitive(self):
-        return (self.sensitive and
-                not renpy.exports.in_fixed_rollback() or (not self.block_all and self.get_selected()))
+        return not renpy.exports.in_fixed_rollback() or (not self.block_all and self.get_selected())
 
     def get_selected(self):
         roll_forward = renpy.exports.roll_forward_info()
@@ -819,6 +793,8 @@ def menu(menuitems,
          default=False,
          **properties):
 
+    # menu is now a conglomeration of other widgets. And bully for it.
+
     renpy.ui.vbox(style=style, **properties)
 
     for label, val in menuitems:
@@ -829,10 +805,7 @@ def menu(menuitems,
             text = choice_style
             button = choice_button_style
 
-            if isinstance(val, ChoiceReturn):
-                clicked = val
-            else:
-                clicked = ChoiceReturn(label, val, location)
+            clicked = ChoiceReturn(label, val, location)
 
             if clicked.get_chosen():
                 text = choice_chosen_style
@@ -854,7 +827,6 @@ def menu(menuitems,
                                 default=default)
 
     close()
-
 
 input = Wrapper(renpy.display.behavior.Input, exclude='{}', style="input", replaces=True)  # @ReservedAssignment
 
@@ -901,7 +873,6 @@ def imagemap_compat(ground,
 
     close()
 
-
 button = Wrapper(renpy.display.behavior.Button, style='button', one=True)
 
 
@@ -931,15 +902,10 @@ def _imagebutton(idle_image=None,
             return b
 
         if auto is not None:
-            rv = renpy.config.imagemap_auto_function(auto, name)
-            if rv is not None:
-                return rv
+            return renpy.config.imagemap_auto_function(auto, name)
 
         if required:
-            if auto:
-                raise Exception("Imagebutton does not have a %s image. (auto=%r)." % (name, auto))
-            else:
-                raise Exception("Imagebutton does not have a %s image." % (name, ))
+            raise Exception("Could not find a %s image for imagemap." % name)
 
         return None
 
@@ -960,7 +926,6 @@ def _imagebutton(idle_image=None,
         selected_insensitive_image=selected_insensitive,
         selected_activate_image=selected_activate_image,
         **properties)
-
 
 imagebutton = Wrapper(_imagebutton, style="image_button")
 
@@ -989,7 +954,6 @@ def _textbutton(label, clicked=None, style=None, text_style=None, substitute=Tru
     rv._composite_parts = [ text ]
     return rv
 
-
 textbutton = Wrapper(_textbutton)
 
 
@@ -1009,7 +973,6 @@ def _label(label, style=None, text_style=None, substitute=True, scope=None, **kw
     rv._main = text
     rv._composite_parts = [ text ]
     return rv
-
 
 label = Wrapper(_label)
 
@@ -1056,7 +1019,6 @@ def _bar(*args, **properties):
 
     return renpy.display.behavior.Bar(range, value, width, height, **properties)
 
-
 bar = Wrapper(_bar, vertical=False, replaces=True)
 vbar = Wrapper(_bar, vertical=True, replaces=True)
 slider = Wrapper(_bar, style='slider', replaces=True)
@@ -1077,13 +1039,11 @@ def _autobar_interpolate(range, start, end, time, st, at, **properties):  # @Res
     value = start + t * (end - start)
     return renpy.display.behavior.Bar(range, value, None, None, **properties), redraw
 
-
 autobar_interpolate = renpy.curry.curry(_autobar_interpolate)
 
 
 def _autobar(range, start, end, time, **properties):  # @ReservedAssignment
     return renpy.display.layout.DynamicDisplayable(autobar_interpolate(range, start, end, time, **properties))
-
 
 autobar = Wrapper(_autobar)
 transform = Wrapper(renpy.display.motion.Transform, one=True, style='transform')
@@ -1091,56 +1051,40 @@ transform = Wrapper(renpy.display.motion.Transform, one=True, style='transform')
 _viewport = Wrapper(renpy.display.viewport.Viewport, one=True, replaces=True, style='viewport')
 _vpgrid = Wrapper(renpy.display.viewport.VPGrid, many=True, replaces=True, style='vpgrid')
 
-VIEWPORT_SIZE = 32767
 
-
-def viewport_common(vpfunc, _spacing_to_side, scrollbars=None, **properties):
+def viewport_common(vpfunc, scrollbars=None, **properties):
 
     if scrollbars is None:
         return vpfunc(**properties)
 
-    (vscrollbar_properties, scrollbar_properties, side_properties, viewport_properties, core_properties) = \
-        renpy.easy.split_properties(properties, "vscrollbar_", "scrollbar_", "side_", "viewport_", "")
-
-    if renpy.config.position_viewport_side:
-        from renpy.sl2.slproperties import position_property_names
-
-        for k, v in core_properties.items():
-            if k in position_property_names:
-                side_properties[k] = v
-            elif _spacing_to_side and (k == "spacing"):
-                side_properties[k] = v
-            else:
-                viewport_properties[k] = v
-
-    else:
-        viewport_properties.update(core_properties)
+    viewport_properties = { }
+    side_properties = { }
 
     if renpy.config.prefix_viewport_scrollbar_styles and (scrollbars != "vertical"):
-        scrollbar_properties.setdefault("style", prefixed_style("scrollbar"))
+        scrollbar_style = prefixed_style("scrollbar")
     else:
-        scrollbar_properties.setdefault("style", "scrollbar")
+        scrollbar_style = "scrollbar"
 
     if renpy.config.prefix_viewport_scrollbar_styles and (scrollbars != "horizontal"):
-        vscrollbar_properties.setdefault("style", prefixed_style("vscrollbar"))
+        vscrollbar_style = prefixed_style("vscrollbar")
     else:
-        vscrollbar_properties.setdefault("style", "vscrollbar")
+        vscrollbar_style = "vscrollbar"
+
+    for k, v in properties.iteritems():
+        if k.startswith("side_"):
+            side_properties[k[5:]] = v
+        else:
+            viewport_properties[k] = v
 
     alt = viewport_properties.get("alt", "viewport")
-    scrollbar_properties.setdefault("alt", renpy.minstore.__(alt) + " " + renpy.minstore.__("horizontal scroll"))
-    vscrollbar_properties.setdefault("alt", renpy.minstore.__(alt) + " " + renpy.minstore.__("vertical scroll"))
 
     if scrollbars == "vertical":
-
-        if renpy.config.scrollbar_child_size:
-            viewport_properties.setdefault("child_size", (None, VIEWPORT_SIZE))
-
         side("c r", **side_properties)
 
         rv = vpfunc(**viewport_properties)
         addable = stack.pop()
 
-        vscrollbar(adjustment=rv.yadjustment, **vscrollbar_properties)
+        vscrollbar(adjustment=rv.yadjustment, alt=alt + " vertical scrollbar", style=vscrollbar_style)
         close()
 
         stack.append(addable)
@@ -1148,16 +1092,12 @@ def viewport_common(vpfunc, _spacing_to_side, scrollbars=None, **properties):
         return rv
 
     elif scrollbars == "horizontal":
-
-        if renpy.config.scrollbar_child_size:
-            viewport_properties.setdefault("child_size", (VIEWPORT_SIZE, None))
-
         side("c b", **side_properties)
 
         rv = vpfunc(**viewport_properties)
         addable = stack.pop()
 
-        scrollbar(adjustment=rv.xadjustment, **scrollbar_properties)
+        scrollbar(adjustment=rv.xadjustment, alt=alt + " horizontal scrollbar", style=scrollbar_style)
         close()
 
         stack.append(addable)
@@ -1166,16 +1106,13 @@ def viewport_common(vpfunc, _spacing_to_side, scrollbars=None, **properties):
 
     else:
 
-        if renpy.config.scrollbar_child_size:
-            viewport_properties.setdefault("child_size", (VIEWPORT_SIZE, VIEWPORT_SIZE))
-
         side("c r b", **side_properties)
 
         rv = vpfunc(**viewport_properties)
         addable = stack.pop()
 
-        vscrollbar(adjustment=rv.yadjustment, **vscrollbar_properties)
-        scrollbar(adjustment=rv.xadjustment, **scrollbar_properties)
+        vscrollbar(adjustment=rv.yadjustment, alt=alt + " vertical scrollbar", style=vscrollbar_style)
+        scrollbar(adjustment=rv.xadjustment, alt=alt +" horizontal scrollbar", style=scrollbar_style)
         close()
 
         stack.append(addable)
@@ -1184,12 +1121,11 @@ def viewport_common(vpfunc, _spacing_to_side, scrollbars=None, **properties):
 
 
 def viewport(**properties):
-    return viewport_common(_viewport, True, **properties)
+    return viewport_common(_viewport, **properties)
 
 
 def vpgrid(**properties):
-    return viewport_common(_vpgrid, False, **properties)
-
+    return viewport_common(_vpgrid, **properties)
 
 conditional = Wrapper(renpy.display.behavior.Conditional, one=True)
 timer = Wrapper(renpy.display.behavior.Timer, replaces=True)
@@ -1233,23 +1169,22 @@ def _imagemap(ground=None, hover=None, insensitive=None, idle=None, selected_hov
             return variable
 
         if auto:
-            for i in name:
-                fn = renpy.config.imagemap_auto_function(auto, i)
-                if fn is not None:
-                    return fn
+            fn = renpy.config.imagemap_auto_function(auto, name)
+            if fn is not None:
+                return fn
 
         if other is not None:
             return other
 
-        raise Exception("Could not find a %s image for imagemap." % name[0])
+        raise Exception("Could not find a %s image for imagemap." % name)
 
-    ground = pick(ground, ( "ground", "idle" ), idle)
-    idle = pick(idle, ( "idle", ), ground)
-    selected_idle = pick(selected_idle, ( "selected_idle", ), idle)
-    hover = pick(hover, ( "hover", ), ground)
-    selected_hover = pick(selected_hover, ( "selected_hover", ), hover)
-    insensitive = pick(insensitive, ("insensitive", ), ground)
-    selected_insensitive = pick(selected_insensitive, ("selected_insensitive", ), hover)
+    ground = pick(ground, "ground", None)
+    idle = pick(idle, "idle", ground)
+    selected_idle = pick(selected_idle, "selected_idle", idle)
+    hover = pick(hover, "hover", ground)
+    selected_hover = pick(selected_hover, "selected_hover", hover)
+    insensitive = pick(insensitive, "insensitive", ground)
+    selected_insensitive = pick(selected_insensitive, "selected_insensitive", hover)
 
     imagemap_stack.append(
         Imagemap(
@@ -1279,7 +1214,6 @@ def _imagemap(ground=None, hover=None, insensitive=None, idle=None, selected_hov
     rv._composite_parts = parts
 
     return rv
-
 
 imagemap = Wrapper(_imagemap, imagemap=True, style='imagemap')
 
@@ -1333,7 +1267,6 @@ def _hotspot(spot, style='hotspot', **properties):
         selected_insensitive_background=selected_insensitive,
         style=style,
         **properties)
-
 
 hotspot_with_child = Wrapper(_hotspot, style="hotspot", one=True)
 
@@ -1390,7 +1323,6 @@ def _hotbar(spot, adjustment=None, range=None, value=None, **properties):  # @Re
         ymaximum=h,
         **properties)
 
-
 hotbar = Wrapper(_hotbar, style="hotbar", replaces=True)
 
 
@@ -1400,7 +1332,6 @@ hotbar = Wrapper(_hotbar, style="hotbar", replaces=True)
 def _returns(v):
 
     return v
-
 
 returns = renpy.curry.curry(_returns)
 
@@ -1415,14 +1346,12 @@ def _jumps(label, transition=None):
 
     raise renpy.exports.jump(label)
 
-
 jumps = renpy.curry.curry(_jumps)
 
 
 def _jumpsoutofcontext(label):
 
     raise renpy.game.JumpOutException(label)
-
 
 jumpsoutofcontext = renpy.curry.curry(_jumpsoutofcontext)
 
@@ -1445,7 +1374,6 @@ def gamemenus(*args):
 ##############################################################################
 # The on statement.
 
-
 on = Wrapper(renpy.display.behavior.OnEvent)
 
 ##############################################################################
@@ -1467,7 +1395,6 @@ def screen_id(id_, d):
 
 ##############################################################################
 # Postamble
-
 
 # Update the wrappers to have names.
 k, v = None, None

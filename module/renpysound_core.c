@@ -31,39 +31,17 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #define MAXVOLUME 16384
 
-#ifdef __EMSCRIPTEN__
-
-#define EVAL_LOCK() { }
-#define EVAL_UNLOCK() { }
-#define BEGIN() { }
-#define ENTER() { }
-#define EXIT() { }
-#define ALTENTER() { }
-#define ALTEXIT() { }
-
-#else
-
-#define EVAL_LOCK() { PyEval_AcquireLock(); }
-#define EVAL_UNLOCK() { PyEval_ReleaseLock(); }
-#define BEGIN() PyThreadState *_save;
-#define ENTER() { _save = PyEval_SaveThread(); SDL_LockAudio(); }
-#define EXIT() { SDL_UnlockAudio(); PyEval_RestoreThread(_save); }
-#define ALTENTER() { _save = PyEval_SaveThread(); }
-#define ALTEXIT() { PyEval_RestoreThread(_save); }
-
-#endif
-
 /* Declarations of ffdecode functions. */
 struct MediaState;
 typedef struct MediaState MediaState;
 
-void media_init(int rate, int status, int equal_mono);
+void media_init(int rate, int status);
 
 void media_advance_time(void);
 void media_sample_surfaces(SDL_Surface *rgb, SDL_Surface *rgba);
 
 MediaState *media_open(SDL_RWops *, const char *);
-void media_want_video(MediaState *, int);
+void media_want_video(MediaState *);
 void media_start_end(MediaState *, double, double);
 void media_start(MediaState *);
 void media_close(MediaState *);
@@ -83,21 +61,21 @@ PyThreadState* thread = NULL;
 static void incref(PyObject *ref) {
     PyThreadState *oldstate;
 
-    EVAL_LOCK();
+    PyEval_AcquireLock();
     oldstate = PyThreadState_Swap(thread);
     Py_INCREF(ref);
     PyThreadState_Swap(oldstate);
-    EVAL_UNLOCK();
+    PyEval_ReleaseLock();
 }
 
 static void decref(PyObject *ref) {
     PyThreadState *oldstate;
 
-    EVAL_LOCK();
+    PyEval_AcquireLock();
     oldstate = PyThreadState_Swap(thread);
     Py_DECREF(ref);
     PyThreadState_Swap(oldstate);
-    EVAL_UNLOCK();
+    PyEval_ReleaseLock();
 }
 
 /* A mutex that protects the shared data structures. */
@@ -105,6 +83,17 @@ SDL_mutex *name_mutex;
 
 #define LOCK_NAME() { SDL_LockMutex(name_mutex); }
 #define UNLOCK_NAME() { SDL_UnlockMutex(name_mutex); }
+
+/* Locking on entry from python... */
+// #define BEGIN() PyThreadState *_save;
+// #define ENTER() { printf("Locking by %s.\n", __FUNCTION__); _save = PyEval_SaveThread(); SDL_LockAudio(); printf("Lock by %s\n", __FUNCTION__);  }
+// #define EXIT() { SDL_UnlockAudio(); PyEval_RestoreThread(_save); printf("Release by %s\n", __FUNCTION__); }
+
+#define BEGIN() PyThreadState *_save;
+#define ENTER() { _save = PyEval_SaveThread(); SDL_LockAudio(); }
+#define EXIT() { SDL_UnlockAudio(); PyEval_RestoreThread(_save); }
+#define ALTENTER() { _save = PyEval_SaveThread(); }
+#define ALTEXIT() { PyEval_RestoreThread(_save); }
 
 /* Min and Max */
 #define min(a, b) (((a) < (b)) ? (a) : (b))
@@ -210,8 +199,7 @@ struct Channel {
     unsigned int vol2_length;
     unsigned int vol2_done;
 
-    /* This is set to 1 if this is a movie channel with dropping, 2 if it's a
-     * video channel without dropping. */
+    /* This is set to true if this is a movie channel. */
     int video;
 
 };
@@ -444,7 +432,6 @@ static void pan_audio(struct Channel *c, Uint8 *stream, int length) {
 }
 
 static void callback(void *userdata, Uint8 *stream, int length) {
-
     int channel = 0;
 
     memset(stream, 0, length);
@@ -579,7 +566,7 @@ struct MediaState *load_sample(SDL_RWops *rw, const char *ext, double start, dou
     media_start_end(rv, start, end);
 
     if (video) {
-    	media_want_video(rv, video);
+    	media_want_video(rv);
     }
 
     media_start(rv);
@@ -1211,7 +1198,7 @@ void RPS_set_video(int channel, int video) {
  * Initializes the sound to the given frequencies, channels, and
  * sample buffer size.
  */
-void RPS_init(int freq, int stereo, int samples, int status, int equal_mono) {
+void RPS_init(int freq, int stereo, int samples, int status) {
 
     if (initialized) {
         return;
@@ -1219,10 +1206,7 @@ void RPS_init(int freq, int stereo, int samples, int status, int equal_mono) {
 
     name_mutex = SDL_CreateMutex();
 
-#ifndef __EMSCRIPTEN__
     PyEval_InitThreads();
-#endif
-
     import_pygame_sdl2();
 
     if (!thread) {
@@ -1253,7 +1237,7 @@ void RPS_init(int freq, int stereo, int samples, int status, int equal_mono) {
         return;
     }
 
-    media_init(audio_spec.freq, status, equal_mono);
+    media_init(audio_spec.freq, status);
 
     SDL_PauseAudio(0);
 

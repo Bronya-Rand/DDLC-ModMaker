@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -340,16 +340,35 @@ init python:
 
     store._selected_compat = [ ]
 
-    class _SelectedCompat(object):
-
-        _is_style_compat = True
+    class _SelectedCompat(renpy.style.Style):
 
         def __init__(self, target):
+
             self.target = target
-            _selected_compat.append(self)
+            self.property_updates = [ ]
+
+            super(_SelectedCompat, self).__init__(target)
+
+            store._selected_compat.append(self)
+
+        def setattr(self, k, v):
+            super(_SelectedCompat, self).setattr(k, v)
+
+            try:
+                super(_SelectedCompat, self).setattr("selected_" + k, v)
+            except:
+                pass
+
+            self.property_updates.append((k, v))
+
+        def apply(self):
+            target = getattr(style, self.target)
+            for k, v in self.property_updates:
+                setattr(target, "selected_" + k, v)
 
         def clear(self):
-            self.__dict__ = { "target" : self.target }
+            super(_SelectedCompat, self).clear()
+            self.property_updates = [ ]
 
 
     style.selected_button = _SelectedCompat('button')
@@ -361,12 +380,6 @@ init python:
 
     def _apply_selected_compat():
         for scs in _selected_compat:
-            target = getattr(style, scs.target)
-
-            for k, v in scs.__dict__.items():
-                if k == "target":
-                    continue
-
-                setattr(target, k, v)
+            scs.apply()
 
     layout.compat_funcs.append(_apply_selected_compat)

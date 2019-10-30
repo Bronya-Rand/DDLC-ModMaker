@@ -6,3 +6,5 @@ errors.txt
 *.rpyb
 tmp
 renpy-*.*.*-dists
+atom
+jedit

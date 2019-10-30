@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -22,8 +22,6 @@
 ##############################################################################
 # Definitions of screen language statements.
 
-from __future__ import print_function
-
 import renpy.display
 import renpy.text.text
 import renpy.sl2
@@ -35,9 +33,6 @@ from renpy.sl2.slproperties import text_properties, box_properties, window_prope
 from renpy.sl2.slproperties import bar_properties, button_properties
 from renpy.sl2.slproperties import text_position_properties, text_text_properties
 from renpy.sl2.slproperties import side_position_properties
-from renpy.sl2.slproperties import scrollbar_bar_properties, scrollbar_position_properties
-from renpy.sl2.slproperties import vscrollbar_bar_properties, vscrollbar_position_properties
-from renpy.sl2.slproperties import viewport_position_properties, grid_properties
 
 
 class ShowIf(renpy.display.layout.Container):
@@ -90,7 +85,7 @@ class ShowIf(renpy.display.layout.Container):
         if self.show_child:
             cw, ch = cr.get_size()
             rv = renpy.display.render.Render(cw, ch)
-            rv.blit(cr, (0, 0), focus=self.condition)
+            rv.blit(cr, (0, 0))
         else:
             rv = renpy.display.render.Render(0, 0)
 
@@ -133,7 +128,7 @@ DisplayableParser("grid", renpy.display.layout.Grid, "grid", many)
 Positional("cols")
 Positional("rows")
 Keyword("transpose")
-add(grid_properties)
+Style("spacing")
 
 DisplayableParser("side", renpy.display.layout.Side, "side", many)
 Positional("positions")
@@ -163,13 +158,11 @@ Keyword("default")
 Keyword("length")
 Keyword("allow")
 Keyword("exclude")
-Keyword("copypaste")
 Keyword("prefix")
 Keyword("suffix")
 Keyword("changed")
 Keyword("pixel_width")
 Keyword("value")
-Style("caret")
 add(text_properties)
 
 # Omit imagemap_compat for being too high level (and obsolete).
@@ -213,7 +206,6 @@ add(text_text_properties)
 DisplayableParser("label", renpy.ui._label, "label", 0, scope=True)
 Positional("label")
 Keyword("text_style")
-Keyword("substitute")
 add(window_properties)
 add(text_position_properties)
 add(text_text_properties)
@@ -240,7 +232,6 @@ def sl2bar(context=None, **properties):
             properties["style"] = style
 
     return renpy.display.behavior.Bar(range, value, width, height, vertical=False, **properties)
-
 
 DisplayableParser("bar", sl2bar, None, 0, replaces=True, pass_context=True)
 Keyword("adjustment")
@@ -274,7 +265,6 @@ def sl2vbar(context=None, **properties):
 
     return renpy.display.behavior.Bar(range, value, width, height, vertical=True, **properties)
 
-
 DisplayableParser("vbar", sl2vbar, None, 0, replaces=True, pass_context=True)
 Keyword("adjustment")
 Keyword("range")
@@ -303,10 +293,7 @@ def sl2viewport(context=None, **kwargs):
     renpy.ui.stack.pop()
 
     rv = d.child
-
-    if vp is not rv:
-        rv._main = vp
-
+    rv._main = vp
     rv._composite_parts = list(rv.children)
 
     return rv
@@ -328,20 +315,15 @@ def sl2vpgrid(context=None, **kwargs):
     renpy.ui.stack.pop()
 
     rv = d.child
-
-    if vp is not rv:
-        rv._main = vp
-
+    rv._main = vp
     rv._composite_parts = list(rv.children)
 
     return rv
-
 
 DisplayableParser("viewport", sl2viewport, "viewport", 1, replaces=True, pass_context=True)
 Keyword("child_size")
 Keyword("mousewheel")
 Keyword("arrowkeys")
-Keyword("pagekeys")
 Keyword("draggable")
 Keyword("edgescroll")
 Keyword("xadjustment")
@@ -349,26 +331,16 @@ Keyword("yadjustment")
 Keyword("xinitial")
 Keyword("yinitial")
 Keyword("scrollbars")
-Keyword("spacing")
-Keyword("transpose")
 Style("xminimum")
 Style("yminimum")
 PrefixStyle("side_", "spacing")
 add(side_position_properties)
-add(scrollbar_position_properties)
-add(vscrollbar_position_properties)
-add(scrollbar_bar_properties)
-add(vscrollbar_bar_properties)
-add(viewport_position_properties)
-
 
 DisplayableParser("vpgrid", sl2vpgrid, "vpgrid", many, replaces=True, pass_context=True)
 Keyword("rows")
 Keyword("cols")
 Keyword("child_size")
 Keyword("mousewheel")
-Keyword("arrowkeys")
-Keyword("pagekeys")
 Keyword("draggable")
 Keyword("edgescroll")
 Keyword("xadjustment")
@@ -376,19 +348,11 @@ Keyword("yadjustment")
 Keyword("xinitial")
 Keyword("yinitial")
 Keyword("scrollbars")
-Keyword("spacing")
-Keyword("transpose")
 Style("spacing")
 Style("xminimum")
 Style("yminimum")
 PrefixStyle("side_", "spacing")
 add(side_position_properties)
-add(scrollbar_position_properties)
-add(vscrollbar_position_properties)
-add(scrollbar_bar_properties)
-add(vscrollbar_bar_properties)
-add(viewport_position_properties)
-add(grid_properties)
 
 DisplayableParser("imagemap", renpy.ui._imagemap, "imagemap", many, imagemap=True)
 Keyword("ground")
@@ -437,16 +401,14 @@ def sl2add(d, replaces=None, scope=None, **kwargs):
 
     Transform = renpy.display.motion.Transform
 
-    if (replaces is not None) and isinstance(rv, Transform):
+    if kwargs:
+        rv = Transform(child=d, **kwargs)
+
+    if isinstance(rv, Transform):
         rv.take_state(replaces)
         rv.take_execution_state(replaces)
 
-    if kwargs:
-        rv = Transform(child=d, **kwargs)
-        rv._main = d
-
     return rv
-
 
 for name in [ "add", "image" ]:
     DisplayableParser(name, sl2add, None, 0, replaces=True, default_properties=False, scope=True)
@@ -457,14 +419,12 @@ for name in [ "add", "image" ]:
         Style(i)
 
 DisplayableParser("drag", renpy.display.dragdrop.Drag, "drag", 1, replaces=True)
-Keyword("activated")
 Keyword("drag_name")
 Keyword("draggable")
 Keyword("droppable")
 Keyword("drag_raise")
 Keyword("dragged")
 Keyword("dropped")
-Keyword("drop_allowable")
 Keyword("drag_handle")
 Keyword("drag_joined")
 Keyword("drag_offscreen")
@@ -472,12 +432,9 @@ Keyword("clicked")
 Keyword("hovered")
 Keyword("unhovered")
 Keyword("focus_mask")
-Keyword("mouse_drop")
-Keyword("alternate")
 Style("child")
 
 DisplayableParser("draggroup", renpy.display.dragdrop.DragGroup, None, many, replaces=True)
-Keyword("min_overlap")
 
 DisplayableParser("mousearea", renpy.display.behavior.MouseArea, 0, replaces=True)
 Keyword("hovered")

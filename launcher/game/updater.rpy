@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -23,7 +23,7 @@ init python:
     # This can be one of None, "available", "not-available", or "error".
     #
     # It must be None for a release.
-    UPDATE_SIMULATE = os.environ.get("RENPY_UPDATE_SIMULATE", None)
+    UPDATE_SIMULATE = None
 
     PUBLIC_KEY = "renpy_public.pem"
 
@@ -57,33 +57,13 @@ init python:
 
         return renpy.invoke_in_new_context(updater.update, dlc_url, add=[name], public_key=PUBLIC_KEY, simulate=UPDATE_SIMULATE, restart=restart)
 
-    # Strings so they can be translated.
-
-    _("Release")
-    _("{b}Recommended.{/b} The version of Ren'Py that should be used in all newly-released games.")
-
-    _("Prerelease")
-    _("A preview of the next version of Ren'Py that can be used for testing and taking advantage of new features, but not for final releases of games.")
-
-    _("Experimental")
-    _("Experimental versions of Ren'Py. You shouldn't select this channel unless asked by a Ren'Py developer.")
-
-    _("Nightly")
-    _("The bleeding edge of Ren'Py development. This may have the latest features, or might not run at all.")
-
-
-
-screen update_channel(channels):
+screen update_channel:
 
     frame:
         style_group "l"
         style "l_root"
 
         window:
-
-            has viewport:
-                scrollbars "vertical"
-                mousewheel True
 
             has vbox
 
@@ -98,33 +78,60 @@ screen update_channel(channels):
 
                     has vbox
 
-                    text _("The update channel controls the version of Ren'Py the updater will download.")
+                    text _("The update channel controls the version of Ren'Py the updater will download. Please select an update channel:") style "l_small_text"
 
-                    for c in channels:
+                    # Release
+                    add SPACER
 
-                        if  c["split_version"] != list(renpy.version_tuple):
-                            $ action = updater.Update(c["url"], simulate=UPDATE_SIMULATE, public_key=PUBLIC_KEY, confirm=False)
-                            $ current = ""
-                        else:
-                            $ action = None
-                            $ current = _("• This version is installed and up-to-date.")
+                    textbutton _("Release") action [ SetField(persistent, "update_channel", "Release"), Jump("preferences") ]
 
-                        add SPACER
+                    add HALF_SPACER
 
-                        textbutton c["channel"] action action
+                    frame:
+                        style "l_indent"
+                        text _("{b}Recommended.{/b} The version of Ren'Py that should be used in all newly-released games.") style "l_small_text"
 
-                        add HALF_SPACER
+                    # Prerelease
+                    add SPACER
 
-                        $ date = _strftime(__("%B %d, %Y"), time.localtime(c["timestamp"]))
+                    textbutton _("Prerelease") action [ SetField(persistent, "update_channel", "Prerelease"), Jump("preferences") ]
 
-                        text "[date] • [c[pretty_version]] [current!t]" style "l_small_text"
+                    add HALF_SPACER
 
-                        add HALF_SPACER
+                    frame:
+                        style "l_indent"
+                        text _("A preview of the next version of Ren'Py that can be used for testing and taking advantage of new features, but not for final releases of games.") style "l_small_text"
 
-                        text c["description"] style "l_small_text"
 
-    textbutton _("Cancel") action Jump("front_page") style "l_left_button"
+                    # Experimental
+                    add SPACER
 
+                    textbutton _("Experimental") action [ SetField(persistent, "update_channel", "Experimental"), Jump("preferences") ]
+
+                    add HALF_SPACER
+
+                    frame:
+                        style "l_indent"
+                        text _("Experimental versions of Ren'Py. You shouldn't select this channel unless asked by a Ren'Py developer.") style "l_small_text"
+
+
+                    # Nightly
+                    add SPACER
+
+                    textbutton _("Nightly") action [ SetField(persistent, "update_channel", "Nightly"), Jump("preferences") ]
+
+                    add HALF_SPACER
+
+                    frame:
+                        style "l_indent"
+                        text _("The bleeding edge of Ren'Py development. This may have the latest features, or might not run at all.") style "l_small_text"
+
+
+    textbutton _("Cancel") action Jump("preferences") style "l_left_button"
+
+label update_preference:
+    call screen update_channel
+    return
 
 screen updater:
 
@@ -184,21 +191,9 @@ screen updater:
 
 label update:
 
-    python hide:
-        interface.processing(_("Fetching the list of update channels"))
+    python:
+        updater.update(UPDATE_URLS[persistent.update_channel], simulate=UPDATE_SIMULATE, public_key=PUBLIC_KEY)
 
-        import urllib2
-        import json
-        import ssl
-
-        with interface.error_handling(_("downloading the list of update channels")):
-            context = ssl._create_unverified_context()
-            channel_data = urllib2.urlopen(CHANNELS_URL, context=context)
-
-        with interface.error_handling(_("parsing the list of update channels")):
-            channels = json.load(channel_data)["releases"]
-
-        renpy.call_screen("update_channel", channels)
-
+    # This should never happen.
     jump front_page
 

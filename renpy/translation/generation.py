@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -32,7 +32,6 @@ import collections
 import shutil
 
 from renpy.translation import quote_unicode
-from renpy.parser import elide_filename
 
 ################################################################################
 # Translation Generation
@@ -208,10 +207,6 @@ def write_translates(filename, language, filter):  # @ReservedAssignment
         if (t.identifier, language) in translator.language_translates:
             continue
 
-        if hasattr(t, "alternate"):
-            if (t.alternate, language) in translator.language_translates:
-                continue
-
         f = open_tl_file(tl_filename)
 
         if label is None:
@@ -292,7 +287,7 @@ def write_strings(language, filter, min_priority, max_priority, common_only):  #
         for s in sl:
             text = filter(s.text)
 
-            f.write(u"    # {}:{}\n".format(elide_filename(s.filename), s.line))
+            f.write(u"    # {}:{}\n".format(s.elided, s.line))
             f.write(u"    old \"{}\"\n".format(quote_unicode(s.text)))
             f.write(u"    new \"{}\"\n".format(quote_unicode(text)))
             f.write(u"\n")
@@ -306,26 +301,7 @@ def empty_filter(s):
     return ""
 
 
-def generic_filter(s, function):
-    """
-    :doc: text_utility
-
-    Transforms `s`, while leaving text tags and interpolation the same.
-
-    `function`
-        A function that is called with strings corresponding to runs of
-        text, and should return a second string that replaces that run
-        of text.
-
-    ::
-
-        init python:
-            def upper(s):
-                return s.upper()
-
-        $ upper = renpy.transform_text("{b}Not Upper{/b}")
-
-    """
+def generic_filter(s, transform):
 
     def remove_special(s, start, end, process):
         specials = 0
@@ -372,7 +348,7 @@ def generic_filter(s, function):
         return rv
 
     def remove_braces(s):
-        return remove_special(s, "{", "}", function)
+        return remove_special(s, "{", "}", transform)
 
     return remove_special(s, "[", "]", remove_braces)
 
@@ -434,9 +410,6 @@ def translate_list_files():
 
     for dirname, filename in renpy.loader.listdirfiles():
         if dirname is None:
-            continue
-
-        if filename.startswith("tl/"):
             continue
 
         filename = os.path.join(dirname, filename)
@@ -550,6 +523,5 @@ def translate_command():
             shutil.copy(src, dst)
 
     return False
-
 
 renpy.arguments.register_command("translate", translate_command)

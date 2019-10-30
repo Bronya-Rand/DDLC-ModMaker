@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -31,24 +31,6 @@ Color = renpy.color.Color
 color = renpy.color.Color
 
 
-def lookup_displayable_prefix(d):
-    """
-    Given `d`, a string given a displayable, returns the displayale it
-    corresponds to or None if it it does not correspond to one.
-    """
-
-    prefix, colon, arg = d.partition(":")
-
-    if not colon:
-        return None
-
-    fn = renpy.config.displayable_prefix.get(prefix, None)
-    if fn is None:
-        return None
-
-    return displayable(fn(arg))
-
-
 def displayable_or_none(d, scope=None, dynamic=True):
 
     if isinstance(d, renpy.display.core.Displayable):
@@ -62,11 +44,6 @@ def displayable_or_none(d, scope=None, dynamic=True):
             raise Exception("An empty string cannot be used as a displayable.")
         elif ("[" in d) and renpy.config.dynamic_images and dynamic:
             return renpy.display.image.DynamicImage(d, scope=scope)
-
-        rv = lookup_displayable_prefix(d)
-
-        if rv is not None:
-            return rv
         elif d[0] == '#':
             return renpy.store.Solid(d)
         elif "." in d:
@@ -108,11 +85,6 @@ def displayable(d, scope=None):
             raise Exception("An empty string cannot be used as a displayable.")
         elif ("[" in d) and renpy.config.dynamic_images:
             return renpy.display.image.DynamicImage(d, scope=scope)
-
-        rv = lookup_displayable_prefix(d)
-
-        if rv is not None:
-            return rv
         elif d[0] == '#':
             return renpy.store.Solid(d)
         elif "." in d:
@@ -136,7 +108,7 @@ def displayable(d, scope=None):
     raise Exception("Not a displayable: %r" % (d,))
 
 
-def dynamic_image(d, scope=None, prefix=None, search=None):
+def dynamic_image(d, scope=None, prefix=None):
     """
     Substitutes a scope into `d`, then returns a displayable.
 
@@ -146,21 +118,6 @@ def dynamic_image(d, scope=None, prefix=None, search=None):
 
     if not isinstance(d, list):
         d = [ d ]
-
-    def find(name):
-
-        if renpy.loader.loadable(name):
-            return True
-
-        if renpy.exports.image_exists(name):
-            return True
-
-        if lookup_displayable_prefix(name):
-            return True
-
-        if (len(d) == 1) and (renpy.config.missing_image_callback is not None):
-            if renpy.config.missing_image_callback(name):
-                return True
 
     for i in d:
 
@@ -179,30 +136,25 @@ def dynamic_image(d, scope=None, prefix=None, search=None):
 
                 rv = renpy.substitutions.substitute(i, scope=scope, force=True, translate=False)[0]
 
-                if find(rv):
+                if renpy.loader.loadable(rv):
                     return displayable_or_none(rv)
 
-                if search is not None:
-                    search.append(rv)
+                if renpy.exports.image_exists(rv):
+                    return displayable_or_none(rv)
 
         else:
 
             rv = renpy.substitutions.substitute(i, scope=scope, force=True, translate=False)[0]
 
-            if find(rv):
+            if renpy.loader.loadable(rv):
                 return displayable_or_none(rv)
 
-            if search is not None:
-                search.append(rv)
+            if renpy.exports.image_exists(rv):
+                return displayable_or_none(rv)
 
     else:
 
-        rv = d[-1]
-
-        if find(rv):
-            return displayable_or_none(rv, dynamic=False)
-
-        return None
+        return displayable_or_none(d[-1], dynamic=False)
 
 
 def predict(d):
@@ -231,10 +183,10 @@ def split_properties(properties, *prefixes):
     If no prefix matches, an exception is thrown. (The empty string, "",
     can be used as the last prefix to create a catch-all dictionary.)
 
-    For example, this splits properties beginning with text from
+    For example, this code splits properties beginning with text from
     those that do not::
 
-        text_properties, button_properties = renpy.split_properties(properties, "text_", "")
+        text_properties, button_properties = renpy.split_properties("text_", "")
     """
 
     rv = [ ]

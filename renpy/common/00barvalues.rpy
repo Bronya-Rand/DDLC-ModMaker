@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -139,25 +139,20 @@ init -1500 python:
          `step`
              The amount to change the bar by. If None, defaults to 1/10th of
              the bar.
-         `action`
-             If not None, an action to call when the field has changed.
          """
 
         offset = 0
-        action = None
-        force_step = False
 
         identity_fields = [ 'dict' ]
-        equality_fields = [ 'key', 'range', 'max_is_zero', 'style', 'offset', 'step', 'action', 'force_step' ]
+        equality_fields = [ 'key', 'range', 'max_is_zero', 'style', 'offset', 'step']
 
-        def __init__(self, dict, key, range, max_is_zero=False, style="bar", offset=0, step=None, action=None, force_step=False):
+        def __init__(self, dict, key, range, max_is_zero=False, style="bar", offset=0, step=None):
             self.dict = dict
             self.key = key
             self.range = range
             self.max_is_zero = max_is_zero
             self.style = style
             self.offset = offset
-            self.force_step = force_step
 
             if step is None:
                 if isinstance(range, float):
@@ -166,7 +161,6 @@ init -1500 python:
                     step = max(range / 10, 1)
 
             self.step = step
-            self.action = action
 
         def changed(self, value):
 
@@ -180,8 +174,6 @@ init -1500 python:
 
             self.dict[self.key] = value
             renpy.restart_interaction()
-
-            renpy.run(self.action)
 
         def get_adjustment(self):
 
@@ -199,9 +191,7 @@ init -1500 python:
                 range=self.range,
                 value=value,
                 changed=self.changed,
-                step=self.step,
-                force_step=self.force_step,
-            )
+                step=self.step)
 
         def get_style(self):
             return self.style, "v" + self.style
@@ -234,25 +224,20 @@ init -1500 python:
          `step`
              The amount to change the bar by. If None, defaults to 1/10th of
              the bar.
-         `action`
-             If not None, an action to call when the field has changed.
          """
 
         offset = 0
-        action = None
-        force_step = False
 
-        identity_fields = [ 'object', ]
-        equality_fields = [ 'range', 'max_is_zero', 'style', 'offset', 'step', 'action', 'force_step' ]
+        identity_fields = [ 'object' ]
+        equality_fields = [ 'range', 'max_is_zero', 'style', 'offset', 'step']
 
-        def __init__(self, object, field, range, max_is_zero=False, style="bar", offset=0, step=None, action=None, force_step=False):
+        def __init__(self, object, field, range, max_is_zero=False, style="bar", offset=0, step=None):
             self.object = object
             self.field = field
             self.range = range
             self.max_is_zero = max_is_zero
             self.style = style
             self.offset = offset
-            self.force_step = force_step
 
             if step is None:
                 if isinstance(range, float):
@@ -261,7 +246,6 @@ init -1500 python:
                     step = max(range / 10, 1)
 
             self.step = step
-            self.action = action
 
         def changed(self, value):
 
@@ -275,8 +259,6 @@ init -1500 python:
 
             setattr(self.object, self.field, value)
             renpy.restart_interaction()
-
-            renpy.run(self.action)
 
         def get_adjustment(self):
 
@@ -294,15 +276,13 @@ init -1500 python:
                 range=self.range,
                 value=value,
                 changed=self.changed,
-                step=self.step,
-                force_step=self.force_step,
-            )
+                step=self.step)
 
         def get_style(self):
             return self.style, "v" + self.style
 
     @renpy.pure
-    def VariableValue(variable, range, max_is_zero=False, style="bar", offset=0, step=None, action=None, force_step=False):
+    def VariableValue(variable, range, max_is_zero=False, style="bar", offset=0, step=None):
         """
          :doc: value
 
@@ -327,11 +307,9 @@ init -1500 python:
          `step`
              The amount to change the bar by. If None, defaults to 1/10th of
              the bar.
-         `action`
-             If not None, an action to call when the field has changed.
         """
 
-        return FieldValue(store, variable, range, max_is_zero=max_is_zero, style=style, offset=offset, step=step, action=action, force_step=force_step)
+        return FieldValue(store, variable, range, max_is_zero=max_is_zero, style=style, offset=offset, step=step)
 
     @renpy.pure
     class ScreenVariableValue(BarValue, FieldEquality):
@@ -358,24 +336,19 @@ init -1500 python:
         `step`
             The amount to change the bar by. If None, defaults to 1/10th of
             the bar.
-        `action`
-            If not None, an action to call when the field has changed.
          """
 
-        action = None
         offset = 0
-        force_step = False
 
         identity_fields = [  ]
-        equality_fields = [ 'variable', 'max_is_zero', 'style', 'offset', 'step', 'action', 'force_step' ]
+        equality_fields = [ 'variable', 'max_is_zero', 'style', 'offset', 'step']
 
-        def __init__(self, variable, range, max_is_zero=False, style="bar", offset=0, step=None, action=None, force_step=False):
+        def __init__(self, variable, range, max_is_zero=False, style="bar", offset=0, step=None):
             self.variable = variable
             self.range = range
             self.max_is_zero = max_is_zero
             self.style = style
             self.offset = offset
-            self.force_step = force_step
 
             if step is None:
                 if isinstance(range, float):
@@ -384,7 +357,6 @@ init -1500 python:
                     step = max(range / 10, 1)
 
             self.step = step
-            self.action = action
 
         def changed(self, value):
 
@@ -400,8 +372,6 @@ init -1500 python:
 
             cs.scope[self.variable] = value
             renpy.restart_interaction()
-
-            renpy.run(self.action)
 
         def get_adjustment(self):
 
@@ -424,9 +394,7 @@ init -1500 python:
                 range=self.range,
                 value=value,
                 changed=self.changed,
-                step=self.step,
-                force_step=self.force_step,
-            )
+                step=self.step)
 
         def get_style(self):
             return self.style, "v" + self.style
@@ -442,7 +410,7 @@ init -1500 python:
 
          `mixer`
              The name of the mixer to adjust. This is usually one of
-             "music", "sfx", or "voice", but creators can create new
+             "music", "sfx", or "voice", but user code can create new
              mixers.
          """
 

@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 
+
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Displayables &#8212; Ren&#39;Py Documentation</title>
+    
+    <title>Displayables &mdash; Ren&#39;Py Documentation</title>
+    
     <link rel="stylesheet" href="_static/renpydoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '7.3.5',
+        VERSION:     '6.99.12',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -26,8 +29,7 @@
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Ren&#39;Py Documentation" href="index.html" />
     <link rel="next" title="Transforms" href="transforms.html" />
     <link rel="prev" title="Translation" href="translation.html" />
 <meta charset='utf-8'>
@@ -36,7 +38,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -49,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           Ren&#39;Py Documentation</a>
-        <span class="navbar-text navbar-version pull-left"><b>7.3.5</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>6.99.12</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -90,7 +92,6 @@
 <li class="toctree-l1"><a class="reference internal" href="transforms.html">Transforms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transitions.html">Transitions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="atl.html">Animation and Transformation Language</a></li>
-<li class="toctree-l1"><a class="reference internal" href="layeredimage.html">Layered Images</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="style.html">Styles</a></li>
@@ -100,12 +101,7 @@
 <li class="toctree-l1"><a class="reference internal" href="screen_special.html">Special Screen Names</a></li>
 <li class="toctree-l1"><a class="reference internal" href="screen_optimization.html">Screen Language Optimization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">Configuration Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="preferences.html">Preference Variables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="store_variables.html">Store Variables</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="developer_tools.html">Developer Tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="director.html">Interactive Director</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="nvl_mode.html">NVL-Mode Tutorial</a></li>
@@ -115,16 +111,15 @@
 <li class="toctree-l1"><a class="reference internal" href="drag_drop.html">Drag and Drop</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sprites.html">Sprites</a></li>
 <li class="toctree-l1"><a class="reference internal" href="keymap.html">Customizing the Keymap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer_tools.html">Developer Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="achievement.html">Achievements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="history.html">Dialogue History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="multiple.html">Multiple Character Dialogue</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="statement_equivalents.html">Statement Equivalents</a></li>
 <li class="toctree-l1"><a class="reference internal" href="save_load_rollback.html">Saving, Loading, and Rollback</a></li>
 <li class="toctree-l1"><a class="reference internal" href="persistent.html">Persistent Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="trans_trans_python.html">Transforms and Transitions in Python</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gui_advanced.html">Advanced GUI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="screen_python.html">Screens and Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modes.html">Modes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="udd.html">Creator-Defined Displayables</a></li>
@@ -143,12 +138,11 @@
 <li class="toctree-l1"><a class="reference internal" href="ios.html">iOS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="iap.html">In-App Purchasing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gesture.html">Gestures</a></li>
-<li class="toctree-l1"><a class="reference internal" href="raspi.html">Raspberry Pi</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="problems.html">Dealing with Problems</a></li>
 <li class="toctree-l1"><a class="reference internal" href="environment_variables.html">Environment Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="self_voicing.html">Self-Voicing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="self_voicing.html">Self Voicing</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="editor.html">Text Editor Integration</a></li>
@@ -160,8 +154,7 @@
 <li class="toctree-l1"><a class="reference internal" href="incompatible.html">Incompatible Changes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="distributor.html">Distributor Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sponsors.html">Ren'Py Development Sponsors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Documentation and Translation Credits</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="thequestion.html">Script of The Question</a></li>
@@ -206,7 +199,6 @@
 <li><a class="reference internal" href="#image-manipulators">Image Manipulators</a></li>
 <li><a class="reference internal" href="#im-matrixcolor">im.MatrixColor</a></li>
 <li><a class="reference internal" href="#placeholders">Placeholders</a></li>
-<li><a class="reference internal" href="#displayable-prefixes">Displayable Prefixes</a></li>
 </ul>
 </li>
 </ul>
@@ -220,8 +212,8 @@
 <p>A displayable is an object that can be shown to the user. Ren'Py
 displayables can be used in many ways.</p>
 <ul class="simple">
-<li>Assignment to an image name using the <code class="docutils literal"><span class="pre">image</span></code> statement.</li>
-<li>Added to a screen using the screen language <code class="docutils literal"><span class="pre">add</span></code> statement.</li>
+<li>Assignment to an image name using the image statement.</li>
+<li>Added to a screen using the screen language add statement.</li>
 <li>Assignment to certain config variables.</li>
 <li>Assignment to certain style properties.</li>
 </ul>
@@ -230,9 +222,7 @@ five things that can be provided:</p>
 <ul class="simple">
 <li>An object of type Displayable, created by calling one of the
 functions given below.</li>
-<li>A string with a colon <code class="docutils literal"><span class="pre">:</span></code> in it. These are rare, but see the section on
-<a class="reference internal" href="#displayable-prefix"><span class="std std-ref">displayable prefixes</span></a> below.</li>
-<li>A string with a dot <code class="docutils literal"><span class="pre">.</span></code> in it. Such a string is interpreted as
+<li>A string with a dot (.) in it. Such a string is interpreted as
 a filename by <a class="reference internal" href="#Image" title="Image"><code class="xref py py-func docutils literal"><span class="pre">Image()</span></code></a>.</li>
 <li>A color. A color may either be given as a hexadecimal color string in &quot;#rgb&quot;,
 &quot;#rgba&quot;, &quot;#rrggbb&quot;, or &quot;#rrggbbaa&quot; form, a <a class="reference internal" href="color_class.html#Color" title="Color"><code class="xref py py-class docutils literal"><span class="pre">Color</span></code></a>, or an (r, g, b, a) tuple,
@@ -251,8 +241,6 @@ string is given, a dynamic image is created. A dynamic image has
 <a class="reference internal" href="text.html#text-interpolation"><span class="std std-ref">text interpolation</span></a> performed at the start
 of each interaction (such as say statements and menus). The resulting
 string is processed according to the rules above.</p>
-<p>When a string has &quot;[<a href="#id4"><span class="problematic" id="id5">prefix_</span></a>&quot;] in it, that iso replaced with each of the
-style prefixes associated with the current displayable.</p>
 <div class="section" id="images">
 <span id="id2"></span><h2>Images<a class="headerlink" href="#images" title="Permalink to this headline"> link</a></h2>
 <p>The most commonly used displayable is Image, which loads a file from
@@ -281,20 +269,20 @@ extension.</p>
 </div>
 <p>There are three image file formats we recommend you use:</p>
 <ul class="simple">
-<li>WEBP</li>
-<li>PNG</li>
-<li>JPG</li>
+<li>Webp</li>
+<li>Png</li>
+<li>Jpg</li>
 </ul>
-<p>Non-animated GIF and BMP files are also supported, but should not be
+<p>Non-animated Gif and Bmp files are also supported, but should not be
 used in modern games.</p>
-<p>Loading an Image from a file on disk and decoding it so it can be
+<p>Loading an Image from from a file on disk and decoding it so it can be
 drawn to the screen takes a long amount of time. While measured in the
 tenths or hundreds of seconds, the duration of the loading process is
 long enough that it can prevent an acceptable framerate, and become
 annoying to the user.</p>
 <p>Since an Image is of a fixed size, and doesn't change in response to
 input, game state, or the size of the area available to it, an Image
-can be loaded before it is needed and placed into an area of memory
+can be loaded before it is needed, and placed into an area of memory
 known as the image cache. Once an Image is decoded and in the cache,
 it can be quickly drawn to the screen.</p>
 <p>Ren'Py attempts to predict the images that will be used in the future,
@@ -304,7 +292,7 @@ that are no longer being used.</p>
 <p>By default, Ren'Py will predictively cache up to 8 screens worth of
 image data. (If your screen is 800x600, then a screen's worth of data
 is one 800x600 image, two 400x600 images, and so on.) This can be
-changed with the <a class="reference internal" href="config.html#var-config.image_cache_size"><code class="xref std std-var docutils literal"><span class="pre">config.image_cache_size</span></code></a> configuration
+changed with the :var:config.image_cache_size configuration
 variable.</p>
 <p>Although the precise amount is dependent on implementation details and
 there is significant overhead, as a rule of thumb, each pixel in the
@@ -328,7 +316,10 @@ The result is a displayable that has the same colors as <cite>child</cite>, is
 transparent where either <cite>child</cite> or <cite>mask</cite> is transparent, and is
 opaque where <cite>child</cite> and <cite>mask</cite> are both opaque.</p>
 <p>The <cite>child</cite> and <cite>mask</cite> parameters may be arbitrary displayables. The
-size of the AlphaMask is the size of <cite>child</cite>.</p>
+size of the AlphaMask is the size of the overlap between <cite>child</cite> and
+<cite>mask</cite>.</p>
+<p>Note that this takes different arguments from <a class="reference internal" href="#im.AlphaMask" title="im.AlphaMask"><code class="xref py py-func docutils literal"><span class="pre">im.AlphaMask()</span></code></a>,
+which uses the mask's color channel.</p>
 </dd></dl>
 
 <dl class="function">
@@ -337,15 +328,21 @@ size of the AlphaMask is the size of <cite>child</cite>.</p>
 <dd><p>This object provides border size and tiling information to a <a class="reference internal" href="#Frame" title="Frame"><code class="xref py py-func docutils literal"><span class="pre">Frame()</span></code></a>.
 It can also provide padding information that can be supplied to the
 <a class="reference internal" href="style_properties.html#style-property-padding"><code class="xref std std-propref docutils literal"><span class="pre">padding</span></code></a> style property of a window or frame.</p>
-<dl class="docutils">
-<dt><cite>left</cite>, <cite>top</cite>, <cite>right</cite>, <cite>bottom</cite></dt>
-<dd>These provide the size of the insets used by a frame, and are added
-to the padding on each side. They should zero or a positive integer.</dd>
-<dt><cite>pad_left</cite>, <cite>pad_top</cite>, <cite>pad_right</cite>, <cite>pad_bottom</cite></dt>
-<dd>These are added to the padding on each side, and may be positive or
+<p><cite>left</cite>
+<cite>top</cite>
+<cite>right</cite>
+<cite>bottom</cite></p>
+<blockquote>
+<div>These provide the size of the insets used by a frame, and are added
+to the padding on each side. They should zero or a positive integer.</div></blockquote>
+<p><cite>pad_left</cite>
+<cite>pad_top</cite>
+<cite>pad_right</cite>
+<cite>pad_bottom</cite></p>
+<blockquote>
+<div>These are added to the padding on each side, and may be positive or
 negative. (For example, if <cite>left</cite> is 5 and <cite>pad_left</cite> is -3, the final
-padding is 2.)</dd>
-</dl>
+padding is 2.)</div></blockquote>
 <p>The padding information is supplied via a field:</p>
 <dl class="attribute">
 <dt id="padding">
@@ -354,36 +351,6 @@ padding is 2.)</dd>
 four sides.</p>
 </dd></dl>
 
-</dd></dl>
-
-<dl class="function">
-<dt id="Composite">
-<code class="descname">Composite</code><span class="sig-paren">(</span><em>size</em>, <em>*args</em>, <em>**properties</em><span class="sig-paren">)</span><a class="headerlink" href="#Composite" title="Permalink to this definition"> link</a></dt>
-<dd><p>This creates a new displayable of <cite>size</cite>, by compositing other
-displayables. <cite>size</cite> is a (width, height) tuple.</p>
-<p>The remaining positional arguments are used to place images inside
-the LiveComposite. The remaining positional arguments should come
-in groups of two, with the first member of each group an (x, y)
-tuple, and the second member of a group is a displayable that
-is composited at that position.</p>
-<p>Displayables are composited from back to front.</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">eileen</span> <span class="n">composite</span> <span class="o">=</span> <span class="n">Composite</span><span class="p">(</span>
-    <span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">600</span><span class="p">),</span>
-    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;body.png&quot;</span><span class="p">,</span>
-    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;clothes.png&quot;</span><span class="p">,</span>
-    <span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="s2">&quot;expression.png&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="function">
-<dt id="Crop">
-<code class="descname">Crop</code><span class="sig-paren">(</span><em>rect</em>, <em>child</em>, <em>**properties</em><span class="sig-paren">)</span><a class="headerlink" href="#Crop" title="Permalink to this definition"> link</a></dt>
-<dd><p>This creates a displayable by cropping <cite>child</cite> to <cite>rect</cite>, where
-<cite>rect</cite> is an (x, y, width, height) tuple.</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">eileen</span> <span class="n">cropped</span> <span class="o">=</span> <span class="n">Crop</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">300</span><span class="p">),</span> <span class="s2">&quot;eileen happy&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
 </dd></dl>
 
 <dl class="function">
@@ -411,7 +378,7 @@ when absolutely required.</p>
 <dt id="Frame">
 <code class="descname">Frame</code><span class="sig-paren">(</span><em>image</em>, <em>left=0</em>, <em>top=0</em>, <em>right=None</em>, <em>bottom=None</em>, <em>tile=False</em>, <em>**properties</em><span class="sig-paren">)</span><a class="headerlink" href="#Frame" title="Permalink to this definition"> link</a></dt>
 <dd><p>A displayable that resizes an image to fill the available area,
-while preserving the width and height of its borders. It is often
+while preserving the width and height of its borders.  is often
 used as the background of a window or button.</p>
 <div class="figure" id="id3">
 <img alt="_images/frame_example.png" src="_images/frame_example.png" />
@@ -421,8 +388,8 @@ used as the background of a window or button.</p>
 <dt><cite>image</cite></dt>
 <dd>An image manipulator that will be resized by this frame.</dd>
 <dt><cite>left</cite></dt>
-<dd>The size of the border on the left side. This can also be a
-<a class="reference internal" href="#Borders" title="Borders"><code class="xref py py-func docutils literal"><span class="pre">Borders()</span></code></a> object, in which case that object is used in place
+<dd>The size of the border on the left side. This can also be an
+<a class="reference internal" href="#Borders" title="Borders"><code class="xref py py-func docutils literal"><span class="pre">Borders()</span></code></a> object, in which case that object is use in place
 of the other parameters.</dd>
 <dt><cite>top</cite></dt>
 <dd>The size of the border on the top.</dd>
@@ -432,14 +399,51 @@ to <cite>left</cite>.</dd>
 <dt><cite>bottom</cite></dt>
 <dd>The side of the border on the bottom. If None, defaults to <cite>top</cite>.</dd>
 <dt><cite>tile</cite></dt>
-<dd>If set to True, tiling is used to resize sections of the image,
-rather than scaling. If set to the string &quot;integer&quot;, the nearest
-integer number of tiles will be used in each direction. That set of
-full tiles will then be scaled up or down to fit the required area.</dd>
+<dd>If true, tiling is used to resize sections of the image,
+rather than scaling.</dd>
 </dl>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="c1"># Resize the background of the text window if it&#39;s too small.</span>
 <span class="k">init</span> <span class="k">python</span><span class="p">:</span>
     <span class="k">style</span><span class="o">.</span><span class="k">window</span><span class="o">.</span><span class="na">background</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="s2">&quot;frame.png&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="LiveComposite">
+<code class="descname">LiveComposite</code><span class="sig-paren">(</span><em>size</em>, <em>*args</em>, <em>**properties</em><span class="sig-paren">)</span><a class="headerlink" href="#LiveComposite" title="Permalink to this definition"> link</a></dt>
+<dd><p>This creates a new displayable of <cite>size</cite>, by compositing other
+displayables. <cite>size</cite> is a (width, height) tuple.</p>
+<p>The remaining positional arguments are used to place images inside
+the LiveComposite. The remaining positional arguments should come
+in groups of two, with the first member of each group an (x, y)
+tuple, and the second member of a group is a displayable that
+is composited at that position.</p>
+<p>Displayables are composited from back to front.</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">eileen</span> <span class="n">composite</span> <span class="o">=</span> <span class="n">LiveComposite</span><span class="p">(</span>
+    <span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">600</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;body.png&quot;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;clothes.png&quot;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span> <span class="s2">&quot;expression.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="LiveCrop">
+<code class="descname">LiveCrop</code><span class="sig-paren">(</span><em>rect</em>, <em>child</em>, <em>**properties</em><span class="sig-paren">)</span><a class="headerlink" href="#LiveCrop" title="Permalink to this definition"> link</a></dt>
+<dd><p>This created a displayable by cropping <cite>child</cite> to <cite>rect</cite>, where
+<cite>rect</cite> is an (x, y, width, height) tuple.</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">eileen</span> <span class="n">cropped</span> <span class="o">=</span> <span class="n">LiveCrop</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">300</span><span class="p">),</span> <span class="s2">&quot;eileen happy&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="LiveTile">
+<code class="descname">LiveTile</code><span class="sig-paren">(</span><em>child</em>, <em>style='tile'</em>, <em>**properties</em><span class="sig-paren">)</span><a class="headerlink" href="#LiveTile" title="Permalink to this definition"> link</a></dt>
+<dd><p>Tiles <cite>child</cite> until it fills the area allocated to this displayable.</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">bg</span> <span class="n">tile</span> <span class="o">=</span> <span class="n">LiveTile</span><span class="p">(</span><span class="s2">&quot;bg.png&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -465,15 +469,6 @@ as a spacer inside a box.</p>
 </div>
 </dd></dl>
 
-<dl class="function">
-<dt id="Tile">
-<code class="descname">Tile</code><span class="sig-paren">(</span><em>child</em>, <em>style='tile'</em>, <em>**properties</em><span class="sig-paren">)</span><a class="headerlink" href="#Tile" title="Permalink to this definition"> link</a></dt>
-<dd><p>Tiles <cite>child</cite> until it fills the area allocated to this displayable.</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">bg</span> <span class="n">tile</span> <span class="o">=</span> <span class="n">Tile</span><span class="p">(</span><span class="s2">&quot;bg.png&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd></dl>
-
 </div>
 <div class="section" id="text-displayables">
 <h2>Text Displayables<a class="headerlink" href="#text-displayables" title="Permalink to this headline"> link</a></h2>
@@ -482,36 +477,20 @@ as a spacer inside a box.</p>
 <div class="section" id="dynamic-displayables">
 <h2>Dynamic Displayables<a class="headerlink" href="#dynamic-displayables" title="Permalink to this headline"> link</a></h2>
 <p>Dynamic displayables display a child displayable based on the state of
-the game. They do not take any properties, as their layout is controlled
+the game. They do not take any properties, as layout is controlled
 by the properties of the child displayable they return.</p>
-<p>Note that these dynamic displayables always display their current state.
-Because of this, a dynamic displayable will not participate in a
-transition. (Or more precisely, it will display the same thing in both the
-old and new states of the transition.)</p>
-<p>By design, dynamic displayables are intended to be used for things that
-change rarely and when an image define this way is off screen (Such as
-a character customization system), and not for things that change
-frequently, such as character emotions.</p>
 <dl class="function">
 <dt id="ConditionSwitch">
-<code class="descname">ConditionSwitch</code><span class="sig-paren">(</span><em>*args</em>, <em>predict_all=None</em>, <em>**properties</em><span class="sig-paren">)</span><a class="headerlink" href="#ConditionSwitch" title="Permalink to this definition"> link</a></dt>
+<code class="descname">ConditionSwitch</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#ConditionSwitch" title="Permalink to this definition"> link</a></dt>
 <dd><p>This is a displayable that changes what it is showing based on
-Python conditions. The positional arguments should be given in
+python conditions. The positional argument should be given in
 groups of two, where each group consists of:</p>
 <ul class="simple">
-<li>A string containing a Python condition.</li>
+<li>A string containing a python condition.</li>
 <li>A displayable to use if the condition is true.</li>
 </ul>
 <p>The first true condition has its displayable shown, at least
 one condition should always be true.</p>
-<p>The conditions uses here should not have externally-visible side-effects.</p>
-<dl class="docutils">
-<dt><cite>predict_all</cite></dt>
-<dd>If True, all of the possible displayables will be predicted when
-the displayable is shown. If False, only the current condition is
-predicted. If None, <a class="reference internal" href="config.html#var-config.conditionswitch_predict_all"><code class="xref std std-var docutils literal"><span class="pre">config.conditionswitch_predict_all</span></code></a> is
-used.</dd>
-</dl>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">jill</span> <span class="o">=</span> <span class="n">ConditionSwitch</span><span class="p">(</span>
     <span class="s2">&quot;jill_beers &gt; 4&quot;</span><span class="p">,</span> <span class="s2">&quot;jill_drunk.png&quot;</span><span class="p">,</span>
     <span class="s2">&quot;True&quot;</span><span class="p">,</span> <span class="s2">&quot;jill_sober.png&quot;</span><span class="p">)</span>
@@ -544,25 +523,24 @@ before the start of the next interaction.</li>
 </dl>
 <p>As a special case, <cite>function</cite> may also be a python string that evaluates
 to a displayable. In that case, function is run once per interaction.</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="c1"># Shows a countdown from 5 to 0, updating it every tenth of</span>
-<span class="c1"># a second until the time expires.</span>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="c1"># If tooltip is not empty, shows it in a text. Otherwise,</span>
+<span class="c1"># show Null. Checks every tenth of a second to see if the</span>
+<span class="c1"># tooltip has been updated.</span>
 <span class="k">init</span> <span class="k">python</span><span class="p">:</span>
+     <span class="k">def</span> <span class="nf">show_tooltip</span><span class="p">(</span><span class="n">st</span><span class="p">,</span> <span class="k">at</span><span class="p">):</span>
+         <span class="k">if</span> <span class="n">tooltip</span><span class="p">:</span>
+             <span class="k">return</span> <span class="n">tooltip</span><span class="p">,</span> <span class="o">.</span><span class="mi">1</span>
+         <span class="k">else</span><span class="p">:</span>
+             <span class="k">return</span> <span class="n">Null</span><span class="p">(),</span> <span class="o">.</span><span class="mi">1</span>
 
-    <span class="k">def</span> <span class="nf">show_countdown</span><span class="p">(</span><span class="n">st</span><span class="p">,</span> <span class="k">at</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">st</span> <span class="o">&gt;</span> <span class="mf">5.0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">Text</span><span class="p">(</span><span class="s2">&quot;0.0&quot;</span><span class="p">),</span> <span class="bp">None</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">d</span> <span class="o">=</span> <span class="n">Text</span><span class="p">(</span><span class="s2">&quot;{:.1f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mf">5.0</span> <span class="o">-</span> <span class="n">st</span><span class="p">))</span>
-            <span class="k">return</span> <span class="n">d</span><span class="p">,</span> <span class="mf">0.1</span>
-
-<span class="k">image</span> <span class="n">countdown</span> <span class="o">=</span> <span class="n">DynamicDisplayable</span><span class="p">(</span><span class="n">show_countdown</span><span class="p">)</span>
+<span class="k">image</span> <span class="n">tooltipper</span> <span class="o">=</span> <span class="n">DynamicDisplayable</span><span class="p">(</span><span class="n">show_tooltip</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
 
 <dl class="function">
 <dt id="ShowingSwitch">
-<code class="descname">ShowingSwitch</code><span class="sig-paren">(</span><em>*args</em>, <em>predict_all=None</em>, <em>**properties</em><span class="sig-paren">)</span><a class="headerlink" href="#ShowingSwitch" title="Permalink to this definition"> link</a></dt>
+<code class="descname">ShowingSwitch</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#ShowingSwitch" title="Permalink to this definition"> link</a></dt>
 <dd><p>This is a displayable that changes what it is showing based on the
 images are showing on the screen. The positional argument should
 be given in groups of two, where each group consists of:</p>
@@ -571,13 +549,6 @@ be given in groups of two, where each group consists of:</p>
 <li>A displayable to use if the condition is true.</li>
 </ul>
 <p>A default image should be specified.</p>
-<dl class="docutils">
-<dt><cite>predict_all</cite></dt>
-<dd>If True, all of the possible displayables will be predicted when
-the displayable is shown. If False, only the current condition is
-predicted. If None, <a class="reference internal" href="config.html#var-config.conditionswitch_predict_all"><code class="xref std std-var docutils literal"><span class="pre">config.conditionswitch_predict_all</span></code></a> is
-used.</dd>
-</dl>
 <p>One use of ShowingSwitch is to have side images change depending on
 the current emotion of a character. For example:</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">e</span> <span class="o">=</span> <span class="n">Character</span><span class="p">(</span><span class="s2">&quot;Eileen&quot;</span><span class="p">,</span>
@@ -618,7 +589,7 @@ the outermost transform is the rightmost argument.</p>
 <h2>Layout Boxes and Grids<a class="headerlink" href="#layout-boxes-and-grids" title="Permalink to this headline"> link</a></h2>
 <p>Layout boxes are displayables that lay out their children on the
 screen. They can lay out the children in a horizontal or vertical
-manner, or lay them out using the standard positioning algorithm.</p>
+manner, or can lay them out using the standard positioning algorithm.</p>
 <p>The box displayables take any number of positional and keyword
 arguments. Positional arguments should be displayables that are
 added to the box as children. Keyword arguments are style properties
@@ -663,8 +634,8 @@ controlling their position.</p>
 property.</p>
 <dl class="function">
 <dt id="Grid">
-<code class="descname">Grid</code><span class="sig-paren">(</span><em>cols</em>, <em>rows</em>, <em>*args</em>, <em>**properties</em><span class="sig-paren">)</span><a class="headerlink" href="#Grid" title="Permalink to this definition"> link</a></dt>
-<dd><p>Lays out displayables in a grid. The first two positional arguments
+<code class="descname">Grid</code><span class="sig-paren">(</span><em>*args</em>, <em>**properties</em><span class="sig-paren">)</span><a class="headerlink" href="#Grid" title="Permalink to this definition"> link</a></dt>
+<dd><p>Lays out displayables in a a grid. The first two positional arguments
 are the number of columns and rows in the grid. This must be followed
 by <cite>columns * rows</cite> positional arguments giving the displayables that
 fill the grid.</p>
@@ -692,17 +663,24 @@ the default, the image is opaque and overwrites what's behind it.</dd>
 <div class="section" id="image-manipulators">
 <h2>Image Manipulators<a class="headerlink" href="#image-manipulators" title="Permalink to this headline"> link</a></h2>
 <p>An image manipulator is a displayable that takes an image or image
-manipulator, and either loads it or performs an operation on it.
-Image manipulators can only take images or other
+manipulator, performs an operation to it, and stores the result of
+that operation in the image cache. Since image manipulators can be
+predicted like images, they can perform expensive operations without
+incuring a display-time overhead.</p>
+<p>Image manipulators are limited to storing image data to the
+cache. This means that their result is of a fixed size, known in
+advance, and they can't change in response to game state or
+input. Generally, image manipulators can only take images or other
 image manipulators as input.</p>
 <p>An image manipulator can be used any place a displayable can, but not
 vice-versa. An <a class="reference internal" href="#Image" title="Image"><code class="xref py py-func docutils literal"><span class="pre">Image()</span></code></a> is a kind of image manipulator, so an
 Image can be used whenever an image manipulator is required.</p>
-<p>With the few exceptions listed below, the use of image manipulators is
-historic. A number of image manipulators that had been documented in the
-past should no longer be used, as they suffer from inherent problems.
-In many cases, the <a class="reference internal" href="trans_trans_python.html#Transform" title="Transform"><code class="xref py py-func docutils literal"><span class="pre">Transform()</span></code></a> displayable provides similar
-functionality in a more general manner, while fixing the problems.</p>
+<p>Many image manipulators provide the same functionality as other
+displayables. Most of these exist so they can be provided as input to
+other image manipulators, and so the game-maker can choose between
+cache memory usage and work done at render-time. There's also an
+element of historical accident here - many of these image manipulators
+predate their equivalents.</p>
 <dl class="function">
 <dt id="im.AlphaMask">
 <code class="descclassname">im.</code><code class="descname">AlphaMask</code><span class="sig-paren">(</span><em>base</em>, <em>mask</em>, <em>**properties</em><span class="sig-paren">)</span><a class="headerlink" href="#im.AlphaMask" title="Permalink to this definition"> link</a></dt>
@@ -718,13 +696,23 @@ which uses the mask's alpha channel.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="im.Blur">
-<code class="descclassname">im.</code><code class="descname">Blur</code><span class="sig-paren">(</span><em>im</em>, <em>xrad</em>, <em>yrad=None</em>, <em>**properties</em><span class="sig-paren">)</span><a class="headerlink" href="#im.Blur" title="Permalink to this definition"> link</a></dt>
-<dd><p>An image manipulator that blurs the image manipulator <cite>im</cite> using
-an elliptical kernel described by <cite>xrad</cite> and optionally <cite>yrad</cite>.</p>
-<p>If <cite>yrad</cite> is None, it will take the value of <cite>xrad</cite> resulting in
-a circular kernel being used.</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">logo</span> <span class="n">blurred</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">Blur</span><span class="p">(</span><span class="s2">&quot;logo.png&quot;</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">)</span>
+<dt id="im.Composite">
+<code class="descclassname">im.</code><code class="descname">Composite</code><span class="sig-paren">(</span><em>size</em>, <em>*args</em>, <em>**properties</em><span class="sig-paren">)</span><a class="headerlink" href="#im.Composite" title="Permalink to this definition"> link</a></dt>
+<dd><p>This image manipulator composites multiple images together to
+form a single image.</p>
+<p>The <cite>size</cite> should be a (width, height) tuple giving the size
+of the composed image.</p>
+<p>The remaining positional arguments are interpreted as groups of
+two. The first argument in a group should be an (x, y) tuple,
+while the second should be an image manipulator. The image
+produced by the image manipulator is composited at the location
+given by the tuple.</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">girl</span> <span class="n">clothed</span> <span class="n">happy</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">Composite</span><span class="p">(</span>
+    <span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">600</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;girl_body.png&quot;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;girl_clothes.png&quot;</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="s2">&quot;girl_happy.png&quot;</span>
+    <span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -737,21 +725,6 @@ out of <cite>im</cite>, an image manipulator.</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">logo</span> <span class="na">crop</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">Crop</span><span class="p">(</span><span class="s2">&quot;logo.png&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">307</span><span class="p">))</span>
 </pre></div>
 </div>
-</dd></dl>
-
-<dl class="function">
-<dt id="im.Data">
-<code class="descclassname">im.</code><code class="descname">Data</code><span class="sig-paren">(</span><em>data</em>, <em>filename</em>, <em>**properties</em><span class="sig-paren">)</span><a class="headerlink" href="#im.Data" title="Permalink to this definition"> link</a></dt>
-<dd><p>This image manipulator loads an image from binary data.</p>
-<dl class="docutils">
-<dt><cite>data</cite></dt>
-<dd>A string of bytes, giving the compressed image data in a standard
-file format.</dd>
-<dt><cite>filename</cite></dt>
-<dd>A &quot;filename&quot; associated with the image. This is used to provide a
-hint to Ren'Py about the format of <cite>data</cite>. (It's not actually
-loaded from disk.)</dd>
-</dl>
 </dd></dl>
 
 <dl class="function">
@@ -786,6 +759,18 @@ manipulator <cite>im</cite>.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="im.Scale">
+<code class="descclassname">im.</code><code class="descname">Scale</code><span class="sig-paren">(</span><em>im</em>, <em>width</em>, <em>height</em>, <em>bilinear=True</em>, <em>**properties</em><span class="sig-paren">)</span><a class="headerlink" href="#im.Scale" title="Permalink to this definition"> link</a></dt>
+<dd><p>An image manipulator that scales <cite>im</cite> (an image manipulator) to
+<cite>width</cite> and <cite>height</cite>.</p>
+<p>If <cite>bilinear</cite> is true, then bilinear interpolation is used for
+the scaling. Otherwise, nearest neighbor interpolation is used.</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">logo</span> <span class="n">scale</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="s2">&quot;logo.png&quot;</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">150</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
 <dt id="im.Sepia">
 <code class="descclassname">im.</code><code class="descname">Sepia</code><span class="sig-paren">(</span><em>im</em>, <em>**properties</em><span class="sig-paren">)</span><a class="headerlink" href="#im.Sepia" title="Permalink to this definition"> link</a></dt>
 <dd><p>An image manipulator that creates a sepia-toned version of the image
@@ -812,7 +797,8 @@ a matrix to control how the colors of an image are transformed. The
 matrix used can be an im.matrix object, which encodes a 5x5 matrix in
 an object that supports matrix multiplication, and is returned by a
 series of functions. im.matrix objects may be multiplied together to
-yield a second object that performs both operations. For example:</p>
+yield a second object that performs both operations. For example, the
+code:</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">city</span> <span class="n">blue</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">MatrixColor</span><span class="p">(</span>
     <span class="s2">&quot;city.jpg&quot;</span><span class="p">,</span>
     <span class="n">im</span><span class="o">.</span><span class="n">matrix</span><span class="o">.</span><span class="n">desaturate</span><span class="p">()</span> <span class="o">*</span> <span class="n">im</span><span class="o">.</span><span class="n">matrix</span><span class="o">.</span><span class="n">tint</span><span class="p">(</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
@@ -841,9 +827,9 @@ of the matrix are named:</p>
 </pre></div>
 </div>
 <p>the transformed colors can be computed with the formula:</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="sa">R</span><span class="s1">&#39; = (a * R) + (b * G) + (c * B) + (d * A) + e</span>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="s1">R&#39; = (a * R) + (b * G) + (c * B) + (d * A) + e</span>
 <span class="n">G</span><span class="s1">&#39; = (f * R) + (g * G) + (h * B) + (i * A) + j</span>
-<span class="sa">B</span><span class="s1">&#39; = (k * R) + (l * G) + (m * B) + (n * A) + o</span>
+<span class="n">B</span><span class="s1">&#39; = (k * R) + (l * G) + (m * B) + (n * A) + o</span>
 <span class="n">A</span><span class="s1">&#39; = (p * R) + (q * G) + (r * B) + (s * A) + t</span>
 </pre></div>
 </div>
@@ -975,7 +961,7 @@ will have a red value of 50.)</p>
 images as appropriate. Placeholders are used automatically when an undefined
 image is used in developer mode. Placeholder displayables can also be used
 manually when the defaults are inappropriate.</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="c1"># By default, the girl placeholder will be used.</span>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="c1"># By default, the girl placeholer will be used.</span>
 <span class="k">image</span> <span class="n">sue</span> <span class="o">=</span> <span class="n">Placeholder</span><span class="p">(</span><span class="s2">&quot;boy&quot;</span><span class="p">)</span>
 
 <span class="k">label</span> <span class="n">start</span><span class="p">:</span>
@@ -1009,7 +995,7 @@ to use. If the image name begins with &quot;bg&quot;, &quot;cg&quot;, or
 <p>Otherwise, contacts a web service to guess gender from
 the character's name, and uses that. (The 'girl' placeholder
 is used when the service can't guess.)</p>
-<p class="last">The webservice will only be contacted when <a class="reference internal" href="config.html#var-config.developer"><code class="xref std std-var docutils literal"><span class="pre">config.developer</span></code></a>
+<p class="last">The webservice will only be contacted when config.developer
 is True.</p>
 </dd>
 </dl>
@@ -1022,30 +1008,6 @@ is used.</dd>
 </dl>
 </dd></dl>
 
-</div>
-<div class="section" id="displayable-prefixes">
-<span id="displayable-prefix"></span><h2>Displayable Prefixes<a class="headerlink" href="#displayable-prefixes" title="Permalink to this headline"> link</a></h2>
-<p>Displayable prefixes make it possible for a creator to define their own
-displayables, and refer to them anywhere a displayable can be used in
-Ren'Py. A prefixed displayable is a string with a colon in it. The prefix
-is to the left of the colon, and the argument is anything to the right of
-it. The <a class="reference internal" href="config.html#var-config.displayable_prefix"><code class="xref std std-var docutils literal"><span class="pre">config.displayable_prefix</span></code></a> variable maps a prefix to a function.
-The function takes the argument, and either returns a displayable or None.</p>
-<p>For example, this makes the big prefix return an image that is twice as
-big as the original.</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">init</span> <span class="o">-</span><span class="mi">10</span> <span class="k">python</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">embiggen</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">Transform</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="na">zoom</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-
-    <span class="n">config</span><span class="o">.</span><span class="n">displayable_prefix</span><span class="p">[</span><span class="s2">&quot;big&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">embiggen</span>
-</pre></div>
-</div>
-<p>The <code class="docutils literal"><span class="pre">init</span> <span class="pre">-10</span></code> makes sure the prefix is defined before any images that use it.
-The prefix can then be used to define images:</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">eileen</span> <span class="n">big</span> <span class="o">=</span> <span class="s2">&quot;big:eileen happy&quot;</span>
-</pre></div>
-</div>
-<p>or in any other place where a displayable is required.</p>
 </div>
 </div>
 
@@ -1061,8 +1023,8 @@ The prefix can then be used to define images:</p>
       
     </p>
     <p>
-        &copy; Copyright 2012-2019, Tom Rothamel.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.<br/>
+        &copy; Copyright 2012-2017, Tom Rothamel.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.<br/>
     </p>
   </div>
 </footer>

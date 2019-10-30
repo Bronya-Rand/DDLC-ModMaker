@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -21,8 +21,6 @@
 
 # This file mediates access to the _renpy module, which is a C module that
 # allows us to enhance the feature set of pygame in a renpy specific way.
-
-from __future__ import print_function
 
 import pygame_sdl2; pygame_sdl2
 import renpy.display
@@ -150,23 +148,6 @@ def map(src, dst, rmap, gmap, bmap, amap):  # @ReservedAssignment
     convert_and_call(_renpy.map,
                      src, dst,
                      *endian_order(dst, rmap, gmap, bmap, amap))
-
-
-def blur(src, wrk, dst, xrad, yrad=None):  # @ReservedAssignment
-    """
-    This blurs the source surface. It approximates a Gaussian blur
-    using several box blurs with box sizes based on the desired
-    standard deviation.
-
-    Unlike other operations, blur requires an additional surface
-    to use as a holding location for intermediate results. This
-    surface should not be expected to contain anything usable and
-    it's final state is not defined.
-
-    The surfaces must all be the same size and colour depth.
-    """
-
-    convert_and_call(_renpy.blur, src, wrk, dst, xrad, yrad)
 
 
 def twomap(src, dst, white, black):

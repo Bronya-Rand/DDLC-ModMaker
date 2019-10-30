@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -59,7 +59,7 @@ init -1500 python:
                     the character's name, and uses that. (The 'girl' placeholder
                     is used when the service can't guess.)
 
-                    The webservice will only be contacted when :var:`config.developer`
+                    The webservice will only be contacted when config.developer
                     is True.
 
             `full`
@@ -106,21 +106,20 @@ init -1500 python:
             if tag in persistent._placeholder_gender:
                 return persistent._placeholder_gender[tag]
 
-#             try:
-#                 import urllib2
-#                 import json
-#
-#                 u = urllib2.urlopen("http://api.genderize.io/?name=" + tag.encode("utf-8"), timeout=3)
-#                 data = json.loads(u.read())
-#
-#                 if data.get("gender", "") == "male":
-#                     rv = "boy"
-#                 else:
-#                     rv = "girl"
-#             except:
-#                 rv = "girl"
+            try:
+                import urllib2
+                import json
 
-            rv = "girl"
+                u = urllib2.urlopen("http://api.genderize.io/?name=" + tag.encode("utf-8"), timeout=3)
+                data = json.loads(u.read())
+
+                if data.get("gender", "") == "male":
+                    rv = "boy"
+                else:
+                    rv = "girl"
+            except:
+                rv = "girl"
+
             persistent._placeholder_gender[tag] = rv
 
             return rv

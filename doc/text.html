@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 
+
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Text &#8212; Ren&#39;Py Documentation</title>
+    
+    <title>Text &mdash; Ren&#39;Py Documentation</title>
+    
     <link rel="stylesheet" href="_static/renpydoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-3.3.6/css/bootstrap-theme.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '7.3.5',
+        VERSION:     '6.99.12',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
+        HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -26,8 +29,7 @@
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
     <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Ren&#39;Py Documentation" href="index.html" />
     <link rel="next" title="Translation" href="translation.html" />
     <link rel="prev" title="Voice" href="voice.html" />
 <meta charset='utf-8'>
@@ -36,7 +38,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 
   </head>
-  <body>
+  <body role="document">
 
   <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -49,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           Ren&#39;Py Documentation</a>
-        <span class="navbar-text navbar-version pull-left"><b>7.3.5</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>6.99.12</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -90,7 +92,6 @@
 <li class="toctree-l1"><a class="reference internal" href="transforms.html">Transforms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="transitions.html">Transitions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="atl.html">Animation and Transformation Language</a></li>
-<li class="toctree-l1"><a class="reference internal" href="layeredimage.html">Layered Images</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="style.html">Styles</a></li>
@@ -100,12 +101,7 @@
 <li class="toctree-l1"><a class="reference internal" href="screen_special.html">Special Screen Names</a></li>
 <li class="toctree-l1"><a class="reference internal" href="screen_optimization.html">Screen Language Optimization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">Configuration Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="preferences.html">Preference Variables</a></li>
 <li class="toctree-l1"><a class="reference internal" href="store_variables.html">Store Variables</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="developer_tools.html">Developer Tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="director.html">Interactive Director</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="nvl_mode.html">NVL-Mode Tutorial</a></li>
@@ -115,16 +111,15 @@
 <li class="toctree-l1"><a class="reference internal" href="drag_drop.html">Drag and Drop</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sprites.html">Sprites</a></li>
 <li class="toctree-l1"><a class="reference internal" href="keymap.html">Customizing the Keymap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer_tools.html">Developer Tools</a></li>
 <li class="toctree-l1"><a class="reference internal" href="achievement.html">Achievements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="history.html">Dialogue History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="multiple.html">Multiple Character Dialogue</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="statement_equivalents.html">Statement Equivalents</a></li>
 <li class="toctree-l1"><a class="reference internal" href="save_load_rollback.html">Saving, Loading, and Rollback</a></li>
 <li class="toctree-l1"><a class="reference internal" href="persistent.html">Persistent Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="trans_trans_python.html">Transforms and Transitions in Python</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gui_advanced.html">Advanced GUI</a></li>
 <li class="toctree-l1"><a class="reference internal" href="screen_python.html">Screens and Python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modes.html">Modes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="udd.html">Creator-Defined Displayables</a></li>
@@ -143,12 +138,11 @@
 <li class="toctree-l1"><a class="reference internal" href="ios.html">iOS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="iap.html">In-App Purchasing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gesture.html">Gestures</a></li>
-<li class="toctree-l1"><a class="reference internal" href="raspi.html">Raspberry Pi</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="problems.html">Dealing with Problems</a></li>
 <li class="toctree-l1"><a class="reference internal" href="environment_variables.html">Environment Variables</a></li>
-<li class="toctree-l1"><a class="reference internal" href="self_voicing.html">Self-Voicing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="self_voicing.html">Self Voicing</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="editor.html">Text Editor Integration</a></li>
@@ -160,8 +154,7 @@
 <li class="toctree-l1"><a class="reference internal" href="incompatible.html">Incompatible Changes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="distributor.html">Distributor Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="credits.html">Credits</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sponsors.html">Ren'Py Development Sponsors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Documentation and Translation Credits</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="thequestion.html">Script of The Question</a></li>
@@ -216,9 +209,10 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#text-displayables">Text Displayables</a></li>
-<li><a class="reference internal" href="#text-utility-functions">Text Utility Functions</a></li>
-<li><a class="reference internal" href="#slow-text-concerns">Slow Text Concerns</a></li>
+<li><a class="reference internal" href="#slow-text-concerns">Slow Text Concerns</a><ul>
 <li><a class="reference internal" href="#text-overflow-logging">Text Overflow Logging</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -230,7 +224,7 @@
   <div class="section" id="text">
 <span id="id1"></span><h1>Text<a class="headerlink" href="#text" title="Permalink to this headline"> link</a></h1>
 <p>Ren'Py contains several ways of displaying text. The <a class="reference internal" href="dialogue.html#say-statement"><span class="std std-ref">say</span></a>
-and <a class="reference internal" href="menus.html#menu-statement"><span class="std std-ref">menu</span></a> statements are primarily concerned with the
+and <a class="reference internal" href="menus.html#menu-statement"><span class="std std-ref">menu</span></a> are primarily concerned with the
 display of text to the user. The user interface often contains text,
 displayed using the <a class="reference internal" href="screens.html#sl-text"><span class="std std-ref">text</span></a>, <a class="reference internal" href="screens.html#sl-textbutton"><span class="std std-ref">textbutton</span></a>,
 and <a class="reference internal" href="screens.html#sl-label"><span class="std std-ref">label</span></a> screen language statements. These
@@ -274,10 +268,10 @@ space character.</dd>
 <dt>[ (left bracket)</dt>
 <dd>The left bracket is used to introduce interpolation of a value
 into the text. To include a single left bracket in your text,
-double it – write <code class="docutils literal"><span class="pre">[[</span></code>.</dd>
+double it - write <code class="docutils literal"><span class="pre">[[</span></code>.</dd>
 <dt>{ (left brace)</dt>
 <dd>The left brace is used to introduce a text tag. To include a left
-brace in your text, double it – write <code class="docutils literal"><span class="pre">{{</span></code>.</dd>
+brace in your text, double it - write <code class="docutils literal"><span class="pre">{{</span></code>.</dd>
 </dl>
 </div>
 <div class="section" id="interpolating-data">
@@ -293,12 +287,13 @@ using a text widget in a screen, Ren'Py will also interpolate screen
 local variables. (This can be overridden by supplying an explicit
 scope argument to the Text displayable.)</p>
 <p>Ren'Py isn't limited to interpolating simple variables. It can also
-interpolate fields and components of tuples. So it's possible to have:</p>
+interpolate fields and components of tuples. So it's possible to have
+code like:</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="s2">&quot;My first name is [player.names[0]].&quot;</span>
 </pre></div>
 </div>
-<p>It's possible to apply formatting when displaying numbers. This
-will display a floating point number to two decimal places:</p>
+<p>It's possible to apply formatting codes when displaying numbers. This
+code will display a floating point number to two decimal places:</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">percent</span> <span class="o">=</span> <span class="mf">100.0</span> <span class="o">*</span> <span class="n">points</span> <span class="o">/</span> <span class="n">max_points</span>
 <span class="n">g</span> <span class="s2">&quot;I like you [percent:.2] percent!&quot;</span>
 </pre></div>
@@ -306,14 +301,14 @@ will display a floating point number to two decimal places:</p>
 <p>Ren'Py's string interpolation is taken from the <span class="target" id="index-0"></span><a class="pep reference external" href="https://www.python.org/dev/peps/pep-3101"><strong>PEP 3101</strong></a> string
 formatting syntax. Ren'Py uses [ to introduce string formatting
 because { was taken by text tags.</p>
-<p>Along with the <code class="docutils literal"><span class="pre">!s</span></code> and <code class="docutils literal"><span class="pre">!r</span></code> conversion flags supported by Python, Ren'Py
-supports several more flags. The <code class="docutils literal"><span class="pre">!q</span></code> conversion flag ensures that
+<p>Along with the !s and !r conversion flags supported by Python, Ren'Py
+supports !q and !t conversion flag. The !q conversion flag ensures that
 text tags are properly quoted, so that displaying a string will not
 introduce unwanted formatting constructs. For example:</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="s2">&quot;Don&#39;t pull a fast one on me, [playername!q].&quot;</span>
 </pre></div>
 </div>
-<p>The <code class="docutils literal"><span class="pre">!t</span></code> flag will translate the interpolated string:</p>
+<p>The !t flag will translate the interpolated string:</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">points</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>
     <span class="k">$</span> <span class="n">mood</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;happy&quot;</span><span class="p">)</span>
 <span class="k">else</span><span class="p">:</span>
@@ -322,10 +317,6 @@ introduce unwanted formatting constructs. For example:</p>
 <span class="n">g</span> <span class="s2">&quot;I&#39;m [mood!t] to see you.&quot;</span>
 </pre></div>
 </div>
-<p>The <code class="docutils literal"><span class="pre">!u</span></code> flag forces the text to uppercase and the <code class="docutils literal"><span class="pre">!l</span></code> flag forces the
-text to lowercase. The <code class="docutils literal"><span class="pre">!c</span></code> flag acts only on the first character,
-capitalizing it. These flags may be combined, for example using <code class="docutils literal"><span class="pre">!cl</span></code> would
-capitalize the first character, and force the remaining text to lowercase.</p>
 </div>
 <div class="section" id="styling-and-text-tags">
 <h2>Styling and Text Tags<a class="headerlink" href="#styling-and-text-tags" title="Permalink to this headline"> link</a></h2>
@@ -337,9 +328,9 @@ especially the section on <a class="reference internal" href="style_properties.h
 styling a portion of text block, or a small fraction of the text
 blocks in the program. If you find yourself applying the same text
 tags to every line of text, consider using a style instead.</p>
-<p>There are two types of text tags. Some text tags are self-closing, while others
+<p>There are two text tags. Some text tags are self-closing, while others
 require a closing tag. When multiple closing tags are used, they
-should be closed last open, first closed order – Ren'Py will reject
+should be closed last open, first closed order - Ren'Py will reject
 incorrect nesting. For example:</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="c1"># This line is correct.</span>
 <span class="s2">&quot;Plain {b}Bold {i}Bold-Italic{/i} Bold{/b} Plain&quot;</span>
@@ -356,7 +347,7 @@ argument varies based on the text tag.</p>
 <div class="section" id="general-text-tags">
 <h3>General Text Tags<a class="headerlink" href="#general-text-tags" title="Permalink to this headline"> link</a></h3>
 <p>Tags that apply to all text are:</p>
-<span class="target" id="a-tag"></span><dl class="text-tag">
+<dl class="text-tag">
 <dt id="text-tag-a">
 <code class="descname">a</code><a class="headerlink" href="#text-tag-a" title="Permalink to this definition"> link</a></dt>
 <dd><p>The anchor tag creates a hyperlink between itself and its closing
@@ -364,30 +355,27 @@ tag. While the behavior of the hyperlink is controlled by the
 <a class="reference internal" href="style_properties.html#style-property-hyperlink_functions"><code class="xref std std-propref docutils literal"><span class="pre">hyperlink_functions</span></code></a> style property, the default handler
 has the following behavior.</p>
 <ul class="simple">
-<li>When the argument begins with <code class="docutils literal"><span class="pre">jump:</span></code>, the rest of the argument is a label to jump to.</li>
-<li>When the argument begins with <code class="docutils literal"><span class="pre">call:</span></code>, the rest of the argument is a label
-to call. As usual, a call ends the current Ren'Py statement.</li>
-<li>When the argument begins with <code class="docutils literal"><span class="pre">call_in_new_context:</span></code>, the rest of the argument
-is a label to call in a new context (using <a class="reference internal" href="label.html#renpy.call_in_new_context" title="renpy.call_in_new_context"><code class="xref py py-func docutils literal"><span class="pre">renpy.call_in_new_context()</span></code></a>).</li>
-<li>Otherwise, the argument is a URL that is opened by the system web browser.</li>
+<li>Hyperlinks are rendered using the <code class="docutils literal"><span class="pre">style.hyperlink_text</span></code> style.</li>
+<li>If the argument begins with the text <code class="docutils literal"><span class="pre">&quot;http://&quot;</span></code>, clicking on
+it opens the url in a web browser. Otherwise, the argument is
+interpreted as a label, which is called in a new context. This
+allows hyperlinks to be used to define terms.</li>
+<li>Apart from the change in style, there is no specific behavior
+when a hyperlink is hovered.</li>
 </ul>
-<p>If there is no protocol section in the argument, <a class="reference internal" href="config.html#var-config.hyperlink_protocol"><code class="xref std std-var docutils literal"><span class="pre">config.hyperlink_protocol</span></code></a>
-is prepended to it. If config.hyperlink_protocol has been set to &quot;jump&quot;,
-{a=label} and {a=jump:label} become equivalent. Creators can define new
-protocols using <a class="reference internal" href="config.html#var-config.hyperlink_handlers"><code class="xref std std-var docutils literal"><span class="pre">config.hyperlink_handlers</span></code></a>.</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">test</span><span class="p">:</span>
 
-    <span class="n">e</span> <span class="s2">&quot;Why don&#39;t you visit {a=https://renpy.org}Ren&#39;Py&#39;s home page{/a}?&quot;</span>
+    <span class="n">e</span> <span class="s2">&quot;Why don&#39;t you visit {a=http://renpy.org}Ren&#39;Py&#39;s home page{/a}?&quot;</span>
 
-    <span class="n">e</span> <span class="s2">&quot;Or {a=jump:more_text}here for more info{/a}.&quot;</span>
+    <span class="n">e</span> <span class="s2">&quot;The {a=define_trebuchet}trebuchet{/a} is at the gates.&quot;</span>
 
     <span class="k">return</span>
 
-<span class="k">label</span> <span class="n">more_text</span><span class="p">:</span>
+<span class="k">label</span> <span class="n">define_trebuchet</span><span class="p">:</span>
 
-    <span class="n">e</span> <span class="s2">&quot;In Hot Springs, Arkansas, there&#39;s a statue of Al Capone you can take a picture with.&quot;</span>
-
-    <span class="n">e</span> <span class="s2">&quot;That&#39;s more info, but not the kind you wanted, is it?&quot;</span>
+    <span class="n">e</span> <span class="s2">&quot;A trebuchet is a kind of siege engine.&quot;</span>
+    <span class="n">e</span> <span class="s2">&quot;It uses a lever to fling things at targets.&quot;</span>
+    <span class="n">e</span> <span class="s2">&quot;Like us!&quot;</span>
 
     <span class="k">return</span>
 </pre></div>
@@ -409,14 +397,6 @@ that amount.</p>
 <span class="s2">&quot;{alpha=*0.5}This text is half as opaque as the default.{/alpha}&quot;</span>
 </pre></div>
 </div>
-</dd></dl>
-
-<dl class="text-tag">
-<dt id="text-tag-art">
-<code class="descname">art</code><a class="headerlink" href="#text-tag-art" title="Permalink to this definition"> link</a></dt>
-<dd><p>The alternate ruby top tag marks text between itself and its closing tag as
-alternate ruby top text. See the section on <a class="reference internal" href="#ruby-text"><span class="std std-ref">Ruby Text</span></a> for
-more information.</p>
 </dd></dl>
 
 <dl class="text-tag">
@@ -475,18 +455,6 @@ in italics.</p>
 </dd></dl>
 
 <dl class="text-tag">
-<dt id="text-tag-image">
-<code class="descname">image</code><a class="headerlink" href="#text-tag-image" title="Permalink to this definition"> link</a></dt>
-<dd><p>The image tag is a self-closing tag that inserts an image into the
-text. The image should be the height of a single line of text. The
-argument should be either the image filename, or the name of an
-image defined with the image statement.</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="s2">&quot;Good to see you! {image=heart.png}&quot;</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="text-tag">
 <dt id="text-tag-k">
 <code class="descname">k</code><a class="headerlink" href="#text-tag-k" title="Permalink to this definition"> link</a></dt>
 <dd><p>The kerning tag is a tag that adjust the kerning of characters
@@ -500,22 +468,23 @@ kerning.)</p>
 </dd></dl>
 
 <dl class="text-tag">
-<dt id="text-tag-outlinecolor">
-<code class="descname">outlinecolor</code><a class="headerlink" href="#text-tag-outlinecolor" title="Permalink to this definition"> link</a></dt>
-<dd><p>The outline text tag changes all the outlines (including drop
-shadows) to the given color. The color should be in #rgb, #rgba,
-#rrggbb, or #rrggbbaa format.</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="s2">&quot;Let&#39;s have a {outlinecolor=#00ff00}Green{/outlinecolor} outline.&quot;</span>
+<dt id="text-tag-image">
+<code class="descname">image</code><a class="headerlink" href="#text-tag-image" title="Permalink to this definition"> link</a></dt>
+<dd><p>The image tag is a self-closing tag that inserts an image into the
+text. The image should be the height of a single line of text. The
+argument should be either the image filename, or the name of an
+image defined with the image statement.</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="s2">&quot;Good to see you! {image=heart.png}&quot;</span>
 </pre></div>
 </div>
 </dd></dl>
 
 <dl class="text-tag">
-<dt id="text-tag-plain">
-<code class="descname">plain</code><a class="headerlink" href="#text-tag-plain" title="Permalink to this definition"> link</a></dt>
-<dd><p>The plain tag ensures the text does not have, bold, italics, underline,
-or strikethrough applied.</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="s2">&quot;{b}This is bold. {plain}This is not.{/plain} This is bold.{/b}&quot;</span>
+<dt id="text-tag-s">
+<code class="descname">s</code><a class="headerlink" href="#text-tag-s" title="Permalink to this definition"> link</a></dt>
+<dd><p>The strikethrough tag draws a line through text between itself and
+its closing tag.</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="s2">&quot;It&#39;s good {s}to see you{/s}.&quot;</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -534,16 +503,6 @@ for more information.</p>
 <dd><p>The ruby top tag marks text between itself and its closing tag as
 ruby top text. See the section on <a class="reference internal" href="#ruby-text"><span class="std std-ref">Ruby Text</span></a> for
 more information.</p>
-</dd></dl>
-
-<dl class="text-tag">
-<dt id="text-tag-s">
-<code class="descname">s</code><a class="headerlink" href="#text-tag-s" title="Permalink to this definition"> link</a></dt>
-<dd><p>The strikethrough tag draws a line through text between itself and
-its closing tag.</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="s2">&quot;It&#39;s good {s}to see you{/s}.&quot;</span>
-</pre></div>
-</div>
 </dd></dl>
 
 <dl class="text-tag">
@@ -629,8 +588,6 @@ has been displayed.</p>
 <span class="n">g</span> <span class="s2">&quot;Looks like they&#39;re{fast} playing with their trebuchet again.&quot;</span>
 </pre></div>
 </div>
-<p>The no-wait tag will wait for voice and self-voicing to complete before
-advancing.</p>
 </dd></dl>
 
 <dl class="text-tag">
@@ -654,26 +611,6 @@ click to continue. If it is given an argument, the argument is
 interpreted as a number, and the wait automatically ends after
 that many seconds have passed.</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="s2">&quot;Line 1{w} Line 1{w=1.0} Line 1&quot;</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="text-tag">
-<dt id="text-tag-clear">
-<code class="descname">clear</code><a class="headerlink" href="#text-tag-clear" title="Permalink to this definition"> link</a></dt>
-<dd><p>The clear text tag only makes sense on a line by itself in the <a class="reference internal" href="nvl_mode.html#nvl-monologue-mode"><span class="std std-ref">NVL monologue mode</span></a>.
-It does the same thing at the <code class="docutils literal"><span class="pre">nvl</span> <span class="pre">clear</span></code> statement without ending the block of text.</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Block 1 on page 1.</span>
-
-<span class="sd">Block 2 on page 1.</span>
-
-<span class="sd">{clear}</span>
-
-<span class="sd">Block 1 on page 2.</span>
-
-<span class="sd">etc.</span>
-<span class="sd">&quot;&quot;&quot;</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -709,31 +646,37 @@ properties set to those defined in the style:</p>
 other languages. For size reasons, it doesn't contain the characters
 required to render other languages, including Chinese, Japanese, and
 Korean. In order to support these language, a project must first
-change the fonts it uses.</p>
+change the default font, using code like:</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">init</span> <span class="k">python</span><span class="p">:</span>
+    <span class="k">style</span><span class="o">.</span><span class="na">default</span><span class="o">.</span><span class="na">font</span> <span class="o">=</span> <span class="s2">&quot;mikachan.ttf&quot;</span>
+</pre></div>
+</div>
 <p>Ren'Py should then support most world languages without further
 configuration. However, Korean can be written with or without spacing
 between words. Ren'Py has a special mode to support Korean with
-spaces, which can be enabled by setting:</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">gui</span><span class="o">.</span><span class="na">language</span> <span class="o">=</span> <span class="s2">&quot;korean-with-spaces&quot;</span>
+spaces, which can be enabled with the code:</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">init</span> <span class="k">python</span><span class="p">:</span>
+     <span class="k">style</span><span class="o">.</span><span class="na">default</span><span class="o">.</span><span class="na">language</span> <span class="o">=</span> <span class="s2">&quot;korean-with-spaces&quot;</span>
 </pre></div>
 </div>
-<p>This can be changed from the default of &quot;unicode&quot; in gui.rpy.</p>
 <p>Japanese has multiple rules for line breaking. We recommend starting with
 &quot;japanese-normal&quot;, and moving to &quot;japanese-loose&quot; or &quot;japanese-strict&quot; for
-more or less break opportunities, respectively.</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">gui</span><span class="o">.</span><span class="na">language</span> <span class="o">=</span> <span class="s2">&quot;japanese-loose&quot;</span>
+more or less break opportunities, respectively.:</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">init</span> <span class="k">python</span><span class="p">:</span>
+     <span class="k">style</span><span class="o">.</span><span class="na">default</span><span class="o">.</span><span class="na">language</span> <span class="o">=</span> <span class="s2">&quot;japanese-normal&quot;</span>
 </pre></div>
 </div>
 <p>Ideographic languages provide a large number of opportunities
 for line breaking. To enable a faster but less-accurate line-breaking
-algorithm, use:</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">gui</span><span class="o">.</span><span class="na">language</span> <span class="o">=</span> <span class="s2">&quot;greedy&quot;</span>
+algorithm, use the code:</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">init</span> <span class="k">python</span><span class="p">:</span>
+     <span class="k">style</span><span class="o">.</span><span class="na">default</span><span class="o">.</span><span class="na">layout</span> <span class="o">=</span> <span class="s2">&quot;greedy&quot;</span>
 </pre></div>
 </div>
 <p>The faster line-breaking algorithm is not be necessary unless the
 game is displaying huge amounts of text, such as in NVL-mode.</p>
 <p>The line breaking algorithms can be further configured using the
-<a class="reference internal" href="other.html#renpy.language_tailor" title="renpy.language_tailor"><code class="xref py py-func docutils literal"><span class="pre">renpy.language_tailor()</span></code></a> function.</p>
+<code class="xref py py-func docutils literal"><span class="pre">renpy.language_tailor()</span></code> function.</p>
 <div class="section" id="vertical-text">
 <h3>Vertical Text<a class="headerlink" href="#vertical-text" title="Permalink to this headline"> link</a></h3>
 <p>When the <a class="reference internal" href="style_properties.html#style-property-vertical"><code class="xref std std-propref docutils literal"><span class="pre">vertical</span></code></a> style property is set, Ren'Py will produce
@@ -766,7 +709,7 @@ releases.</p>
 <span id="id2"></span><h2>Ruby Text<a class="headerlink" href="#ruby-text" title="Permalink to this headline"> link</a></h2>
 <p>Ruby text (also known as furigana or interlinear annotations) is a way
 of placing small text above a character or word. There are several
-steps required for your game to support ruby text.</p>
+steps required for your game to support Ruby text.</p>
 <p>First, you must set up styles for the ruby text. The following style
 changes are required:</p>
 <ol class="arabic simple">
@@ -775,26 +718,26 @@ vertical space for the ruby text.</li>
 <li>A new named style must be created. The properties of this style,
 such as <a class="reference internal" href="style_properties.html#style-property-size"><code class="xref std std-propref docutils literal"><span class="pre">size</span></code></a> should be set in a fashion appropriate
 for ruby text.</li>
-<li>The <a class="reference internal" href="style_properties.html#style-property-yoffset"><code class="xref std std-propref docutils literal"><span class="pre">yoffset</span></code></a> of the new style should be set, in order to move the
+<li>The yoffset of the new style should be set, in order to move the
 ruby text above the baseline.</li>
 <li>The <a class="reference internal" href="style_properties.html#style-property-ruby_style"><code class="xref std std-propref docutils literal"><span class="pre">ruby_style</span></code></a> field of the text's style should be set
 to the newly-created style.</li>
 </ol>
 <p>For example:</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">style</span> <span class="na">ruby_style</span> <span class="k">is</span> <span class="k">default</span><span class="p">:</span>
-    <span class="na">size</span> <span class="mi">12</span>
-    <span class="na">yoffset</span> <span class="o">-</span><span class="mi">20</span>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">init</span> <span class="k">python</span><span class="p">:</span>
+    <span class="k">style</span><span class="o">.</span><span class="na">default</span><span class="o">.</span><span class="na">line_leading</span> <span class="o">=</span> <span class="mi">12</span>
 
-<span class="k">style</span> <span class="n">say_dialogue</span><span class="p">:</span>
-    <span class="na">line_leading</span> <span class="mi">12</span>
-    <span class="na">ruby_style</span> <span class="k">style</span><span class="o">.</span><span class="na">ruby_style</span>
+    <span class="k">style</span><span class="o">.</span><span class="na">ruby_style</span> <span class="o">=</span> <span class="n">Style</span><span class="p">(</span><span class="k">style</span><span class="o">.</span><span class="na">default</span><span class="p">)</span>
+    <span class="k">style</span><span class="o">.</span><span class="na">ruby_style</span><span class="o">.</span><span class="na">size</span> <span class="o">=</span> <span class="mi">12</span>
+    <span class="k">style</span><span class="o">.</span><span class="na">ruby_style</span><span class="o">.</span><span class="na">yoffset</span> <span class="o">=</span> <span class="o">-</span><span class="mi">20</span>
+
+    <span class="k">style</span><span class="o">.</span><span class="na">default</span><span class="o">.</span><span class="na">ruby_style</span> <span class="o">=</span> <span class="k">style</span><span class="o">.</span><span class="na">ruby_style</span>
 </pre></div>
 </div>
-<p>(Use <code class="docutils literal"><span class="pre">style.style_name</span></code> to refer to a style for this purpose.)</p>
 <p>Once Ren'Py has been configured, ruby text can be included using the
-{rt} and {rb} text tags. The {rt} tag is used to mark one or more characters
+rt and rb text tags. The rt tag is used to mark one or more characters
 to be displayed as ruby text. If the ruby text is preceded by text
-enclosed in the {rb} tag, the ruby text is centered over that
+enclosed in the rb tag, the ruby text is centered over that
 text. Otherwise, it is centered over the preceding character.</p>
 <p>For example:</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="n">e</span> <span class="s2">&quot;Ruby can be used for furigana (東{rt}とう{/rt} 京{rt}きょう{/rt}).&quot;</span>
@@ -806,21 +749,18 @@ text. Otherwise, it is centered over the preceding character.</p>
 leave the boundaries of the text. It may be necessary to add leading
 or spaces to the left and right of the text to prevent these errors
 from occurring.</p>
-<p>Ren'Py also supports alternate ruby text, which is a second kind of
-ruby top text. This is introduced with the {art} text tag (instead of {rt}),
-and the <a class="reference internal" href="style_properties.html#style-property-altruby_style"><code class="xref std std-propref docutils literal"><span class="pre">altruby_style</span></code></a> property (instead of <a class="reference internal" href="style_properties.html#style-property-ruby_style"><code class="xref std std-propref docutils literal"><span class="pre">ruby_style</span></code></a>).</p>
 </div>
 <div class="section" id="fonts">
 <h2>Fonts<a class="headerlink" href="#fonts" title="Permalink to this headline"> link</a></h2>
 <p>Ren'Py supports TrueType/OpenType fonts and collections, and
 Image-Based fonts.</p>
 <p>A TrueType or OpenType font is specified by giving the name of the font
-file. The file must be present in the game directory or one of the archive
+file. The file must be present in the game directory, or one of the archive
 files.</p>
 <p>Ren'Py also supports TrueType/OpenType collections that define more than one
 font. When accessing a collection, use the 0-based font index,
-followed by an at-sign and the file name. For example, &quot;0&#64;font.ttc&quot; is
-the first font in a collection, &quot;1&#64;font.ttc&quot; the second, and so on.</p>
+followed by an at-sign and the file name. For example, &quot;<a class="reference external" href="mailto:0&#37;&#52;&#48;font&#46;ttc">0<span>&#64;</span>font<span>&#46;</span>ttc</a>&quot; is
+the first font in a collection, &quot;<a class="reference external" href="mailto:1&#37;&#52;&#48;font&#46;ttc">1<span>&#64;</span>font<span>&#46;</span>ttc</a>&quot; the second, and so on.</p>
 <div class="section" id="font-replacement">
 <h3>Font Replacement<a class="headerlink" href="#font-replacement" title="Permalink to this headline"> link</a></h3>
 <p>The <a class="reference internal" href="config.html#var-config.font_replacement_map"><code class="xref std std-var docutils literal"><span class="pre">config.font_replacement_map</span></code></a> variable is used to map
@@ -828,8 +768,8 @@ fonts. The combination of font filename, boldness, and italics is
 mapped to a similar combination. This allows a font with proper
 italics to be used instead of the automatically-generated italics.</p>
 <p>Once such mapping would be to replace the italic version of the Deja
-Vu Sans font with the official oblique version (You'll need to
-download the oblique font from the web):</p>
+Vu Sans font with the official oblique version. (You'll need to
+download the oblique font from the web.):</p>
 <div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">init</span> <span class="k">python</span><span class="p">:</span>
     <span class="n">config</span><span class="o">.</span><span class="n">font_replacement_map</span><span class="p">[</span><span class="s2">&quot;DejaVuSans.ttf&quot;</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="bp">True</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;DejaVuSans-Oblique.ttf&quot;</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
 </pre></div>
@@ -911,7 +851,7 @@ those characters.</dd>
 
 <dl class="function">
 <dt id="renpy.register_sfont">
-<code class="descclassname">renpy.</code><code class="descname">register_sfont</code><span class="sig-paren">(</span><em>name=None</em>, <em>size=None</em>, <em>bold=False</em>, <em>italics=False</em>, <em>underline=False</em>, <em>filename=None</em>, <em>spacewidth=10</em>, <em>baseline=None</em>, <em>default_kern=0</em>, <em>kerns={}</em>, <em>charset=u'!&quot;#$%&amp;'()*+</em>, <em>-./0123456789:;&lt;=&gt;?&#64;ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~'</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.register_sfont" title="Permalink to this definition"> link</a></dt>
+<code class="descclassname">renpy.</code><code class="descname">register_sfont</code><span class="sig-paren">(</span><em>name=None</em>, <em>size=None</em>, <em>bold=False</em>, <em>italics=False</em>, <em>underline=False</em>, <em>filename=None</em>, <em>spacewidth=10</em>, <em>default_kern=0</em>, <em>kerns={}</em>, <em>charset=u'!&quot;#$%&amp;'()*+</em>, <em>-./0123456789:;&lt;=&gt;?&#64;ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~'</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.register_sfont" title="Permalink to this definition"> link</a></dt>
 <dd><p>This registers an SFont with the given details. Please note that size, bold,
 italic, and underline are all advisory (used for matching), and do not
 change the appearance of the font.</p>
@@ -931,20 +871,13 @@ change the appearance of the font.</p>
 <dd>The file containing the sfont image, a string.</dd>
 <dt><cite>spacewidth</cite></dt>
 <dd>The width of a space character, an integer in pixels.</dd>
-<dt><cite>baseline</cite></dt>
-<dd>The distance from the top of the font to the baseline (the invisible
-line letters sit on), an integer in pixels.  If this font is mixed with
-other fonts, their baselines will be aligned.  Negative values indicate
-distance from the bottom of the font instead, and <code class="docutils literal"><span class="pre">None</span></code> means the
-baseline equals the height (i.e., is at the very bottom of the font).</dd>
 <dt><cite>default_kern</cite></dt>
 <dd>The default kern spacing between characters, in pixels.</dd>
 <dt><cite>kerns</cite></dt>
 <dd>A map from two-character strings to the kern that should be used between
 those characters.</dd>
-<dt><cite>charset</cite></dt>
-<dd><p class="first">The character set of the font. A string containing characters in
-the order in which they are found in the image. The default character
+<dt><cite>charset</cite> - The character set of the font. A string containing characters in</dt>
+<dd><p class="first">the order in which they are found in the image. The default character
 set for a SFont is:</p>
 <div class="last highlight-renpy"><div class="highlight"><pre><span></span><span class="err">!</span> <span class="s2">&quot; # $ % &amp; &#39; ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ?</span>
 <span class="err">@</span> <span class="n">A</span> <span class="n">B</span> <span class="n">C</span> <span class="n">D</span> <span class="n">E</span> <span class="n">F</span> <span class="n">G</span> <span class="n">H</span> <span class="n">I</span> <span class="n">J</span> <span class="n">K</span> <span class="n">L</span> <span class="n">M</span> <span class="n">N</span> <span class="n">O</span> <span class="n">P</span> <span class="n">Q</span> <span class="n">R</span> <span class="n">S</span> <span class="n">T</span> <span class="n">U</span> <span class="n">V</span> <span class="n">W</span> <span class="n">X</span> <span class="n">Y</span> <span class="n">Z</span> <span class="p">[</span> \ <span class="p">]</span> <span class="o">^</span> <span class="n">_</span>
@@ -976,13 +909,13 @@ font that covers every writing system the game use while projecting the
 the mood the creator intends. To support this, Ren'Py supports font groups
 that can take characters from two or more fonts and combine them into a
 single font.</p>
-<p>To create a font group, create a <a class="reference internal" href="#FontGroup" title="FontGroup"><code class="xref py py-class docutils literal"><span class="pre">FontGroup</span></code></a> object and call the <code class="docutils literal"><span class="pre">.add</span></code> method
-on it once or more. A FontGroup can be used wherever a font name can be
-used. The add method takes the start and end of a range of Unicode character
+<p>To create a font group, create a FontGroup object and call the .add method
+on it once or more. a FontGroup can be used wherever a font name can be
+used. The add method takes the start and end of a range of unicode character
 points, and the first range to cover a point is used.</p>
 <p>For example:</p>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">style</span> <span class="k">default</span><span class="p">:</span>
-     <span class="na">font</span> <span class="n">FontGroup</span><span class="p">()</span><span class="o">.</span><span class="k">add</span><span class="p">(</span><span class="s2">&quot;english.ttf&quot;</span><span class="p">,</span> <span class="mh">0x0020</span><span class="p">,</span> <span class="mh">0x007f</span><span class="p">)</span><span class="o">.</span><span class="k">add</span><span class="p">(</span><span class="s2">&quot;japanese.ttf&quot;</span><span class="p">,</span> <span class="mh">0x0000</span><span class="p">,</span> <span class="mh">0xffff</span><span class="p">)</span>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">init</span> <span class="k">python</span><span class="p">:</span>
+     <span class="k">style</span><span class="o">.</span><span class="na">default</span><span class="o">.</span><span class="na">font</span> <span class="o">=</span> <span class="n">FontGroup</span><span class="p">()</span><span class="o">.</span><span class="k">add</span><span class="p">(</span><span class="s2">&quot;english.ttf&quot;</span><span class="p">,</span> <span class="mh">0x0020</span><span class="p">,</span> <span class="mh">0x007f</span><span class="p">)</span><span class="o">.</span><span class="k">add</span><span class="p">(</span><span class="s2">&quot;japanese.ttf&quot;</span><span class="p">,</span> <span class="mh">0x0000</span><span class="p">,</span> <span class="mh">0xffff</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="function">
@@ -996,8 +929,7 @@ points, and the first range to cover a point is used.</p>
 <dl class="docutils">
 <dt><cite>start</cite></dt>
 <dd>The start of the range. This may be a single-character string, or
-an integer giving a unicode code point. If start is None, then the
-font is used as the default.</dd>
+an integer giving a unicode code point.</dd>
 <dt><cite>end</cite></dt>
 <dd>The end of the range. This may be a single-character string, or an
 integer giving a unicode code point.</dd>
@@ -1059,37 +991,23 @@ None, they are controlled by <a class="reference internal" href="config.html#var
 </dl>
 </dd></dl>
 
+<dl class="function">
+<dt id="renpy.ParameterizedText">
+<code class="descclassname">renpy.</code><code class="descname">ParameterizedText</code><span class="sig-paren">(</span><em>style='default'</em>, <em>**properties</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.ParameterizedText" title="Permalink to this definition"> link</a></dt>
+<dd><p>This is a displayable that can be shown with an additional string
+parameter, which then shows that string as if it was an image.
+This is usually used as part of the pre-defined <code class="docutils literal"><span class="pre">text</span></code> image.</p>
+<p>For example, one can do:</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">show</span> <span class="k">text</span> <span class="s2">&quot;Hello, World&quot;</span> <span class="k">at</span> <span class="n">truecenter</span>
+<span class="k">with</span> <span class="n">dissolve</span>
+<span class="k">pause</span> <span class="mi">1</span>
+<span class="k">hide</span> <span class="k">text</span>
+<span class="k">with</span> <span class="n">dissolve</span>
+</pre></div>
 </div>
-<div class="section" id="text-utility-functions">
-<h2>Text Utility Functions<a class="headerlink" href="#text-utility-functions" title="Permalink to this headline"> link</a></h2>
-<dl class="function">
-<dt id="renpy.filter_text_tags">
-<code class="descclassname">renpy.</code><code class="descname">filter_text_tags</code><span class="sig-paren">(</span><em>s</em>, <em>allow=None</em>, <em>deny=None</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.filter_text_tags" title="Permalink to this definition"> link</a></dt>
-<dd><p>Returns a copy of <cite>s</cite> with the text tags filtered. Exactly one of the <cite>allow</cite> and <cite>deny</cite> keyword
-arguments must be given.</p>
-<dl class="docutils">
-<dt><cite>allow</cite></dt>
-<dd>A set of tags that are allowed. If a tag is not in this list, it is removed.</dd>
-<dt><cite>deny</cite></dt>
-<dd>A set of tags that are denied. If a tag is not in this list, it is kept in the string.</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="renpy.transform_text">
-<code class="descclassname">renpy.</code><code class="descname">transform_text</code><span class="sig-paren">(</span><em>s</em>, <em>function</em><span class="sig-paren">)</span><a class="headerlink" href="#renpy.transform_text" title="Permalink to this definition"> link</a></dt>
-<dd><p>Transforms <cite>s</cite>, while leaving text tags and interpolation the same.</p>
-<dl class="docutils">
-<dt><cite>function</cite></dt>
-<dd>A function that is called with strings corresponding to runs of
-text, and should return a second string that replaces that run
-of text.</dd>
-</dl>
-<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">init</span> <span class="k">python</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">upper</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-
-<span class="k">$</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">renpy</span><span class="o">.</span><span class="n">transform_text</span><span class="p">(</span><span class="s2">&quot;{b}Not Upper{/b}&quot;</span><span class="p">)</span>
+<p>You can use ParameterizedText directly to define similar images with
+different style properties. For example, one can write:</p>
+<div class="highlight-renpy"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">top_text</span> <span class="o">=</span> <span class="n">ParameterizedText</span><span class="p">(</span><span class="na">xalign</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="na">yalign</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -1112,9 +1030,8 @@ together, but these artifacts are less severe, as they exist for only
 a single frame.</p>
 <p>Artifacts aren't a problem for static text, like the text in menus and
 other parts of the user interface.</p>
-</div>
 <div class="section" id="text-overflow-logging">
-<h2>Text Overflow Logging<a class="headerlink" href="#text-overflow-logging" title="Permalink to this headline"> link</a></h2>
+<h3>Text Overflow Logging<a class="headerlink" href="#text-overflow-logging" title="Permalink to this headline"> link</a></h3>
 <p>Ren'Py can log cases where text expands outside of the area allocated
 for it. To enable text overflow logging, the following steps are
 necessary.</p>
@@ -1125,7 +1042,8 @@ displayable, or a container enclosing it.</li>
 <li>Run the game.</li>
 </ol>
 <p>Whenever text is displayed that overflows the available area, Ren'Py
-will log an error to the text_overflow.txt file.</p>
+will log an error to the <code class="docutils literal"><span class="pre">text_overflow.txt</span></code> file.</p>
+</div>
 </div>
 </div>
 
@@ -1141,8 +1059,8 @@ will log an error to the text_overflow.txt file.</p>
       
     </p>
     <p>
-        &copy; Copyright 2012-2019, Tom Rothamel.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.<br/>
+        &copy; Copyright 2012-2017, Tom Rothamel.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.<br/>
     </p>
   </div>
 </footer>

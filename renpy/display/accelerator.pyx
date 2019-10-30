@@ -1,5 +1,5 @@
 #cython: profile=False
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -19,8 +19,6 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-from __future__ import print_function
 
 import renpy
 import math
@@ -100,7 +98,7 @@ def transform_render(self, widtho, heighto, st, at):
     child = self.child
 
     if child is None:
-        child = renpy.display.transform.get_null()
+        raise Exception("Transform does not have a child.")
 
     state = self.state
 
@@ -191,8 +189,7 @@ def transform_render(self, widtho, heighto, st, at):
         if state.rotate:
             clipcr = Render(width, height)
             clipcr.subpixel_blit(cr, (-negative_xo, -negative_yo))
-            clipcr.xclipping = True
-            clipcr.yclipping = True
+            clipcr.clipping = True
             cr = clipcr
         else:
             xo = -negative_xo
@@ -201,13 +198,6 @@ def transform_render(self, widtho, heighto, st, at):
 
     # Size.
     size = state.size
-    maxsize = state.maxsize
-
-    if (maxsize is not None) and (width != 0) and (height != 0):
-        maxsizex, maxsizey = maxsize
-        mul = min(maxsizex / width, maxsizey / height)
-        size = (width * mul, height * mul)
-
     if (size is not None) and (size != (width, height)) and (width != 0) and (height != 0):
         nw, nh = size
 
@@ -354,8 +344,7 @@ def transform_render(self, widtho, heighto, st, at):
     rv.alpha = alpha
 
     rv.over = 1.0 - state.additive
-    rv.xclipping = clipping
-    rv.yclipping = clipping
+    rv.clipping = clipping
 
     pos = (xo, yo)
 
