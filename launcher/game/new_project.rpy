@@ -34,13 +34,20 @@ init python:
                 if renpy.macintosh:
                     ddlc = persistent.projects_directory + '/temp'
                 else:
-                    ddlc = persistent.projects_directory + '/temp/DDLC-1.1.1-pc'
-            shutil.move(ddlc, persistent.project_dir)
+                    ddlc = persistent.projects_directory + '/temp/DDLC-1.1.1-pc/game'
         except:
             if renpy.macintosh:
                 interface.error(_("Cannot Locate 'ddlc-mac.zip' in [persistent.zip_directory!q]."), _("Make sure you have DDLC downloaded from 'https://ddlc.moe' and check if it exists."),) 
             else:
                 interface.error(_("Cannot Locate 'ddlc-win.zip' in [persistent.zip_directory!q]."), _("Make sure you have DDLC downloaded from 'https://ddlc.moe' and check if it exists."),)
+        try:
+            shutil.move(ddlc, persistent.project_dir)
+        except:
+            shutil.rmtree(persistent.projects_directory + '/temp')
+            if renpy.macintosh:
+                interface.error(_("The `ddlc-win.zip` file extracted is zipped improperly or corrupted."), _("Please re-download the ZIP from 'https://ddlc.moe'"))
+            else:
+                interface.error(_("The `ddlc-mac.zip` file extracted is zipped improperly or corrupted."), _("Please re-download the ZIP from 'https://ddlc.moe'"))
         os.remove(persistent.project_dir + '/game/scripts.rpa')
     def ddlc_copy():
         import shutil
@@ -98,6 +105,10 @@ label new_project:
                 zip_extract()
             interface.interaction(_("Copying Template Files"), _("Extracting DDLC Mod Template. Please wait..."),)
             template_extract()
+            f = open(persistent.project_dir + '/renpy-version.txt','w+')
+            f.write("7.3.5")
+            persistent.project_dir = None
+            interface.info(_('A file named `renpy-version.txt` has been created.'), _("Do not delete this file as it is needed to determine which version of Ren'Py it uses for building your mod."))
             persistent.project_dir = None
             break
     return

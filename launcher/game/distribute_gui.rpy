@@ -193,11 +193,6 @@ screen build_distributions:
                             textbutton _("Edit options.rpy") action editor.Edit("game/options.rpy", check=True)
                             textbutton _("Add from clauses to calls, once") action Jump("add_from")
                             textbutton _("Refresh") action Jump("build_distributions")
-
-                            add HALF_SPACER
-
-                            textbutton _("Upload to itch.io") action Jump("itch")
-
                 # Right side.
                 frame:
                     style "l_indent"
@@ -273,6 +268,16 @@ label build_update_dump:
     return
 
 label build_distributions:
+    python:
+        ver = persistent.projects_directory + '/' + project.current.name + '/renpy-version.txt'
+        try:
+            with open(ver) as f:
+                if f.readline() != "7.3.5":
+                    interface.error(_("You are trying to compile a Ren'Py 6.99 DDLC mod in Ren'Py 7"), _("Please use DDMMaker 6.99 in order to comile your Ren'Py 6.99 mod."),)
+                else:
+                    pass
+        except IOError:
+            interface.error(_("`renpy-version.txt` missing or corrupt."), _("Check if this file exists or attempt to compile guess."),)
 
     call build_update_dump
 
