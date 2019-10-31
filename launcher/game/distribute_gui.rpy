@@ -273,6 +273,16 @@ label build_update_dump:
     return
 
 label build_distributions:
+    python:
+        ver = persistent.projects_directory + '/' + project.current.name + '/renpy-version.txt'
+        try:
+            with open(ver) as f:
+                if f.readline() != "6.99.12.4":
+                    interface.error(_("You are trying to compile a Ren'Py 7 DDLC mod in Ren'Py 6.99.12.4."), _("Please use DDMMaker 7.3.5 in order to comile your Ren'Py 7 mod."),)
+                else:
+                    pass
+        except IOError:
+            interface.error(_("`renpy-version.txt` missing or corrupted."), _("Check if this file exists or attempt to compile guess."),)
 
     call build_update_dump
 

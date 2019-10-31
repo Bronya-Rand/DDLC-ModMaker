@@ -71,9 +71,8 @@ label new_project:
             project_name = interface.input(
                 _("Project Name"),
                 _("Please enter the name of your project:"),
-                allow=interface.PROJECT_LETTERS,
+                filename=True,
                 cancel=Jump("front_page"),
-                default=project_name,
             )
 
             project_name = project_name.strip()
@@ -94,6 +93,9 @@ label new_project:
                 zip_extract()
             interface.interaction(_("Copying Template Files"), _("Extracting DDLC Mod Template. Please wait..."),)
             template_extract()
+            f = open(persistent.project_dir + '/renpy-version.txt','w+')
+            f.write("6.99.12")
             persistent.project_dir = None
+            interface.info(_('A file named `renpy-version.txt` has been created.'), _("Do not delete this file as it is needed to determine which version of Ren'Py it uses for building your mod."))
             break
     return
