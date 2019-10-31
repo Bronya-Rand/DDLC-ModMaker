@@ -194,10 +194,6 @@ screen build_distributions:
                             textbutton _("Add from clauses to calls, once") action Jump("add_from")
                             textbutton _("Refresh") action Jump("build_distributions")
 
-                            add HALF_SPACER
-
-                            textbutton _("Upload to itch.io") action Jump("itch")
-
                 # Right side.
                 frame:
                     style "l_indent"
@@ -282,7 +278,7 @@ label build_distributions:
                 else:
                     pass
         except IOError:
-            interface.error(_("`renpy-version.txt` missing or corrupted."), _("Check if this file exists or attempt to compile guess."),)
+            interface.error(_("`renpy-version.txt` missing or corrupt."), _("Check if this file exists or attempt to compile guess."),)
 
     call build_update_dump
 

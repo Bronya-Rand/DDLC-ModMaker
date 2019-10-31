@@ -35,12 +35,16 @@ init python:
                     ddlc = persistent.projects_directory + '/temp'
                 else:
                     ddlc = persistent.projects_directory + '/temp/DDLC-1.1.1-pc'
-            shutil.move(ddlc, persistent.project_dir)
         except:
             if renpy.macintosh:
                 interface.error(_("Cannot Locate 'ddlc-mac.zip' in [persistent.zip_directory!q]."), _("Make sure you have DDLC downloaded from 'https://ddlc.moe' and check if it exists."),) 
             else:
                 interface.error(_("Cannot Locate 'ddlc-win.zip' in [persistent.zip_directory!q]."), _("Make sure you have DDLC downloaded from 'https://ddlc.moe' and check if it exists."),)
+        try:
+            shutil.move(ddlc, persistent.project_dir)
+        except:
+            shutil.rmtree(persistent.projects_directory + '/temp')
+            interface.error(_("The `ddlc-win.zip` file extracted is zipped improperly or corrupted."), _("Please re-download the ZIP from 'https://ddlc.moe'"))
         os.remove(persistent.project_dir + '/game/scripts.rpa')
     def ddlc_copy():
         try:
@@ -94,7 +98,7 @@ label new_project:
             interface.interaction(_("Copying Template Files"), _("Extracting DDLC Mod Template. Please wait..."),)
             template_extract()
             f = open(persistent.project_dir + '/renpy-version.txt','w+')
-            f.write("6.99.12")
+            f.write("6.99.12.4")
             persistent.project_dir = None
             interface.info(_('A file named `renpy-version.txt` has been created.'), _("Do not delete this file as it is needed to determine which version of Ren'Py it uses for building your mod."))
             break
