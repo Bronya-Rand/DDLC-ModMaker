@@ -88,7 +88,7 @@ screen front_page:
                     has hbox:
                         xfill True
 
-                    text _("PROJECTS:") style "l_label_text" size 36 yoffset 10
+                    text _("Projects:") style "l_label_text" size 36 yoffset 10
 
                     textbutton _("refresh"):
                         xalign 1.0
@@ -162,10 +162,6 @@ screen front_page_project_list:
 
             null height 12
 
-        textbutton _("Tutorial") action project.Select("tutorial") style "l_list" alt _("Select project [text].")
-        textbutton _("The Question") action project.Select("the_question") style "l_list" alt _("Select project [text].")
-
-
 # This is used for the right side of the screen, which is where the project-specific
 # buttons are.
 screen front_page_project:
@@ -214,15 +210,8 @@ screen front_page_project:
                         textbutton _("All script files") action editor.EditAll()
 
         add SPACER
-        add SEPARATOR
-        add SPACER
 
-        frame style "l_indent":
-            has vbox
-
-            textbutton _("Navigate Script") text_size 30 action Jump("navigation")
-
-        add SPACER
+        label _("Actions") style "l_label_small"
 
         grid 2 1:
             xfill True
@@ -230,15 +219,12 @@ screen front_page_project:
 
             frame style "l_indent":
                 has vbox
-
+                textbutton _("Navigate Script") action Jump("navigation")
                 textbutton _("Check Script (Lint)") action Jump("lint")
-
-                if project.current.exists("game/gui.rpy"):
-                    textbutton _("Change/Update GUI") action Jump("change_gui")
-                else:
-                    textbutton _("Change Theme") action Jump("choose_theme")
-
-
+                # if project.current.exists("game/gui.rpy"):
+                #     textbutton _("Change/Update GUI") action Jump("change_gui")
+                # else:
+                #     textbutton _("Change Theme") action Jump("choose_theme")
                 textbutton _("Delete Persistent") action Jump("rmpersistent")
                 textbutton _("Force Recompile") action Jump("force_recompile")
 
@@ -249,9 +235,6 @@ screen front_page_project:
 
                 if ability.can_distribute:
                     textbutton _("Build Distributions") action Jump("build_distributions")
-
-                textbutton _("Android") action Jump("android")
-                textbutton _("iOS") action Jump("ios")
                 textbutton _("Generate Translations") action Jump("translate")
                 textbutton _("Extract Dialogue") action Jump("extract_dialogue")
 

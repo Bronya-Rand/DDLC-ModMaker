@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -20,159 +20,80 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 init python:
+    import zipfile
     import shutil
     import os
-    import time
-    import re
-
-    def check_language_support():
-
-        language = _preferences.language
-
-
-        new = False
-        legacy = False
-
-
-        # Check for a translation of the words "New GUI Interface".
-        if (language is None) or (__("New GUI Interface") != "New GUI Interface"):
-            new = True
-
+    def zip_extract():
         try:
-            if (language is None) or os.path.exists(os.path.join(config.renpy_base, "templates", language)):
-                legacy = True
+            if renpy.macintosh:
+                zip = "/ddlc-mac.zip"
+            else:
+                zip = "/ddlc-win.zip"
+            with zipfile.ZipFile(persistent.zip_directory + zip, "r") as z:
+                z.extractall(persistent.projects_directory + "/temp")
+                if renpy.macintosh:
+                    ddlc = persistent.projects_directory + '/temp'
+                else:
+                    ddlc = persistent.projects_directory + '/temp/DDLC-1.1.1-pc'
+            shutil.move(ddlc, persistent.project_dir)
         except:
-            pass
-
-        if new and legacy:
-            store.language_support = _("Both interfaces have been translated to your language.")
-        elif new:
-            store.language_support = _("Only the new GUI has been translated to your language.")
-        elif legacy:
-            store.language_support = _("Only the legacy theme interface has been translated to your language.")
-        else:
-            store.language_support = _("Neither interface has been translated to your language.")
-
+            if renpy.macintosh:
+                interface.error(_("Cannot Locate 'ddlc-mac.zip' in [persistent.zip_directory!q]."), _("Make sure you have DDLC downloaded from 'https://ddlc.moe' and check if it exists."),) 
+            else:
+                interface.error(_("Cannot Locate 'ddlc-win.zip' in [persistent.zip_directory!q]."), _("Make sure you have DDLC downloaded from 'https://ddlc.moe' and check if it exists."),)
+        os.remove(persistent.project_dir + '/game/scripts.rpa')
+    def ddlc_copy():
+        try:
+            shutil.copytree(persistent.zip_directory + "/ddlc-mac", persistent.project_dir)
+        except:
+            interface.error(_("Cannot find DDLC.app."). _("Please make sure your OS and ZIP Directory are set correctly."),)
+        os.remove(persistent.project_dir + '/DDLC.app/Contents/Resources/autorun/game/scripts.rpa')
+    def template_extract():
+        try:
+            with zipfile.ZipFile(config.basedir + "/templates/DDLCModTemplate-2.2.4-Standard.zip", "r") as z:
+                z.extractall(persistent.project_dir)
+        except:
+            shutil.rmtree(persistent.project_dir)
+            interface.error(_("Template ZIP file missing, or corrupt."), _("Check if the ZIP exists or re-download the tool."))
 
 label new_project:
-
     if persistent.projects_directory is None:
         call choose_projects_directory
-
     if persistent.projects_directory is None:
         $ interface.error(_("The projects directory could not be set. Giving up."))
-
+    if persistent.zip_directory is None:
+        call ddlc_zip
+    if persistent.zip_directory is None:
+        $ interface.error(_("The DDLC ZIP directory could not be set. Giving up."))
     python:
-
-        check_language_support()
-
-        gui_kind = interface.choice(
-            _("Which interface would you like to use? The new GUI has a modern look, supports wide screens and mobile devices, and is easier to customize. Legacy themes might be necessary to work with older example code.\n\n[language_support!t]\n\nIf in doubt, choose the new GUI, then click Continue on the bottom-right."),
-            [ ( 'new_gui_project', _("New GUI Interface") ), ( 'new_theme_project', _("Legacy Theme Interface")) ],
-            "new_gui_project",
-            cancel=Jump("front_page"),
+        project_name = ""
+        while True:
+            project_name = interface.input(
+                _("Project Name"),
+                _("Please enter the name of your project:"),
+                allow=interface.PROJECT_LETTERS,
+                cancel=Jump("front_page"),
+                default=project_name,
             )
 
-        renpy.jump(gui_kind)
+            project_name = project_name.strip()
+            if not project_name:
+                interface.error(_("The project name may not be empty."), label=None)
 
-screen select_template:
+            persistent.project_dir = os.path.join(persistent.projects_directory, project_name)
 
-    default result = project.manager.get("english")
-
-    frame:
-        style_group "l"
-        style "l_root"
-
-        window:
-
-            has vbox
-
-            label _("Choose Project Template")
-
-            hbox:
-
-                frame:
-                    style "l_indent"
-                    xmaximum ONETHIRD
-
-                    viewport:
-                        scrollbars "vertical"
-                        vbox:
-                            for p in project.manager.templates:
-                                textbutton "[p.name!q]" action SetScreenVariable("result", p) style "l_list"
-
-                frame:
-                    style "l_indent"
-                    xmaximum TWOTHIRDS
-
-                    text _("Please select a template to use for your new project. The template sets the default font and the user interface language. If your language is not supported, choose 'english'.")
-
-
-    textbutton _("Return") action Jump("front_page") style "l_left_button"
-    textbutton _("Continue") action Return(result) style "l_right_button"
-
-
-label new_theme_project:
-
-    python hide:
-
-        project_name = interface.input(
-            _("PROJECT NAME"),
-            _("Please enter the name of your project:"),
-            filename=True,
-            cancel=Jump("front_page"))
-
-        project_name = project_name.strip()
-        if not project_name:
-            interface.error(_("The project name may not be empty."))
-
-        project_dir = os.path.join(persistent.projects_directory, project_name)
-
-        if project.manager.get(project_name) is not None:
-            interface.error(_("[project_name!q] already exists. Please choose a different project name."), project_name=project_name)
-
-        if os.path.exists(project_dir):
-            interface.error(_("[project_dir!q] already exists. Please choose a different project name."), project_dir=project_dir)
-
-        if len(project.manager.templates) == 1:
-            template = project.manager.templates[0]
-        else:
-            template = renpy.call_screen("select_template")
-
-        template_path = template.path
-
-        with interface.error_handling("creating a new project"):
-            shutil.copytree(template_path, project_dir, symlinks=False)
-
-            # Delete the tmp directory, if it exists.
-            if os.path.isdir(os.path.join(project_dir, "tmp")):
-                shutil.rmtree(os.path.join(project_dir, "tmp"))
-
-            # Delete project.json, which must exist.
-            os.unlink(os.path.join(project_dir, "project.json"))
-
-            # Change the save directory in options.rpy
-            fn = os.path.join(project_dir, "game/options.rpy")
-            with open(fn, "rb") as f:
-                options = f.read().decode("utf-8")
-
-            options = options.replace("PROJECT_NAME", project_name)
-            options = options.replace("UNIQUE", str(int(time.time())))
-
-            with open(fn, "wb") as f:
-                f.write(options.encode("utf-8"))
-
-            font = template.data.get("font", None)
-            if font is not None:
-                src = os.path.join(config.gamedir, "fonts", font)
-                dst = os.path.join(project_dir, "game", "tl", "None", font)
-                shutil.copy(src, dst)
-
-        # Activate the project.
-        with interface.error_handling("activating the new project"):
-            project.manager.scan()
-            project.Select(project.manager.get(project_name))()
-
-    call choose_theme_callable
-
-    jump front_page
+            if project.manager.get(project_name) is not None:
+                interface.error(_("[project_name!q] already exists. Please choose a different project name."), project_name=project_name, label=None)
+            if os.path.exists(persistent.project_dir):
+                interface.error(_("[persistent.project_dir!q] already exists. Please choose a different project name."), project_dir=project_dir, label=None)
+            if persistent.safari == True and renpy.macintosh:
+                interface.interaction(_("Making a DDLC Folder"), _("Copying DDLC. Please wait..."),)
+                ddlc_copy()
+            else:
+                interface.interaction(_("Making a DDLC Folder"), _("Extracting DDLC. Please wait..."),)
+                zip_extract()
+            interface.interaction(_("Copying Template Files"), _("Extracting DDLC Mod Template. Please wait..."),)
+            template_extract()
+            persistent.project_dir = None
+            break
+    return

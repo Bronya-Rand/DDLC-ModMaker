@@ -45,7 +45,7 @@ init python:
         Returns True if the DLC is installed, False otherwise.
         """
 
-        dlc_url = "http://update.renpy.org/{}/updates.json".format(".".join(str(i) for i in version_tuple[:-1]))
+        dlc_url = "http://update.renpy.org/7.3.5/updates.json"
 
         return renpy.invoke_in_new_context(updater.update, dlc_url, add=[name], public_key=PUBLIC_KEY, simulate=UPDATE_SIMULATE, restart=restart)
 
