@@ -127,11 +127,35 @@ screen front_page:
             use front_page_project
 
     if project.current is not None:
-        textbutton _("Launch Project") action project.Launch() style "l_right_button"
-        key "K_F5" action project.Launch()
-
-
-
+        python:
+            ver = persistent.projects_directory + '/' + project.current.name + '/renpy-version.txt'
+            try:
+                with open(ver) as f:
+                    if f.readline() < "7":
+                        launch = False
+                    else:
+                        launch = True
+            except IOError:
+                launch = "error"
+        if launch == False:
+            textbutton _("DDMMaker 6.99.12.4 Needed"):
+                xalign 0.95
+                yalign 0.83
+                style "l_button"
+                action NullAction()
+                right_margin HALF_INDENT
+        elif launch == True:
+            textbutton _("Launch Project") action project.Launch() style "l_right_button"
+            key "K_F5" action project.Launch()
+        else:
+            textbutton _("Cannot determine version."):
+                xalign 0.95
+                yalign 0.83
+                style "l_button"
+                action Jump('version_error')
+                right_margin HALF_INDENT
+        #textbutton _("Launch Project") action project.Launch() style "l_right_button"
+        
 # This is used by front_page to display the list of known projects on the screen.
 screen front_page_project_list:
 
@@ -282,3 +306,8 @@ label force_recompile:
         project.current.launch([ 'compile' ], wait=True)
 
     jump front_page
+
+label version_error:
+    python:
+        interface.info(_("This project is unavailable to launch as this is either a non-DDLC mod/game or is missing 'renpy-version.txt'"), _("Please check if 'renpy-version.txt' exists or run normal Ren'Py for non-DDLC games/mods."),)
+        renpy.jump('front_page')
