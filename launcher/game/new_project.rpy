@@ -54,10 +54,10 @@ init python:
         import shutil
         import os
         try:
-            shutil.move(persistent.zip_directory + "/ddlc-mac/DDLC.app/Contents/Resources/autorun/game", persistent.project_dir + '/game')
+            shutil.copytree(persistent.zip_directory + "/ddlc-mac/DDLC.app/Contents/Resources/autorun/game", persistent.project_dir + '/game')
         except:
             interface.error(_("Cannot find DDLC.app."). _("Please make sure your OS and ZIP Directory are set correctly."),)
-        os.remove(persistent.project_dir + '/DDLC.app/Contents/Resources/autorun/game/scripts.rpa')
+        os.remove(persistent.project_dir + '/game/scripts.rpa')
     def template_extract():
         import zipfile
         import shutil
@@ -73,15 +73,16 @@ label new_project:
         call choose_projects_directory
     if persistent.projects_directory is None:
         $ interface.error(_("The projects directory could not be set. Giving up."))
-    if persistent.zip_directory is None:
-        call ddlc_zip
-    if persistent.zip_directory is None:
-        $ interface.error(_("The DDLC ZIP directory could not be set. Giving up."))
     if renpy.macintosh:
         if persistent.safari is None:
             call auto_extract
         if persistent.safari is None:
             $ interface.error(_("Couldn't check if OS auto-extracts ZIPs. Please reconfigure your settings."))
+    if persistent.zip_directory is None:
+        call ddlc_zip
+    if persistent.zip_directory is None:
+        $ interface.error(_("The DDLC ZIP directory could not be set. Giving up."))
+
     python:
         project_name = ""
         while True:
