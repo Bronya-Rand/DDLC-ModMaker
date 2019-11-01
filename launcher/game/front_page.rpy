@@ -167,11 +167,12 @@ screen front_page_project_list:
 screen front_page_project:
 
     $ p = project.current
+    $ version = renpy.version()
 
     window:
 
         has vbox
-
+        label _("Current Ren'Py Version: [version!q]") style "l_alternate"
         frame style "l_label":
             has hbox xfill True
             text "[p.display_name!q]" style "l_label_text"
