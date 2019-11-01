@@ -177,7 +177,35 @@ screen preferences:
 
                         if renpy.windows:
                             textbutton _("Console output") style "l_checkbox" action ToggleField(persistent, "windows_console")
+                    
+                    if renpy.macintosh:
+                        add SPACER
+                        frame:
+                            style "l_indent"
+                            yminimum 75
+                            has vbox
 
+                            textbutton _("Change Auto-Extract Setting") style "l_nonbox" action Jump("auto_extract")
+
+                        add SPACER
+                        add SEPARATOR2
+
+                        frame:
+                            style "l_indent"
+                            yminimum 75
+                            has vbox
+
+                            text _("OS Extracts ZIPs?")
+                            add HALF_SPACER
+
+                            frame style "l_indent":
+                                if persistent.safari != None:
+                                    if persistent.safari == True:
+                                        text _("Yes")
+                                    else:
+                                        text _("No")
+                                else:
+                                    text _("Not Set")
 
                 frame:
                     style "l_indent"

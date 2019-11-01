@@ -44,8 +44,11 @@ init python:
             shutil.move(ddlc, persistent.project_dir)
         except:
             shutil.rmtree(persistent.projects_directory + '/temp')
-            interface.error(_("The `ddlc-win.zip` file extracted is zipped improperly or corrupted."), _("Please re-download the ZIP from 'https://ddlc.moe'"))
-        os.remove(persistent.project_dir + '/game/scripts.rpa')
+            if renpy.macintosh:
+                interface.error(_("The `ddlc-mac.zip` file extracted is zipped improperly or corrupted."), _("Please re-download the ZIP from 'https://ddlc.moe'"))
+            else:
+                interface.error(_("The `ddlc-win.zip` file extracted is zipped improperly or corrupted."), _("Please re-download the ZIP from 'https://ddlc.moe'"))
+        os.remove(persistent.project_dir + '/DDLC.app/Contents/Resources/autorun//game/scripts.rpa')
     def ddlc_copy():
         try:
             shutil.copytree(persistent.zip_directory + "/ddlc-mac", persistent.project_dir)
@@ -53,18 +56,38 @@ init python:
             interface.error(_("Cannot find DDLC.app."). _("Please make sure your OS and ZIP Directory are set correctly."),)
         os.remove(persistent.project_dir + '/DDLC.app/Contents/Resources/autorun/game/scripts.rpa')
     def template_extract():
-        try:
-            with zipfile.ZipFile(config.basedir + "/templates/DDLCModTemplate-2.2.4-Standard.zip", "r") as z:
-                z.extractall(persistent.project_dir)
-        except:
-            shutil.rmtree(persistent.project_dir)
-            interface.error(_("Template ZIP file missing, or corrupt."), _("Check if the ZIP exists or re-download the tool."))
+        if renpy.macintosh and persistent.safari == True:
+            try:
+                with zipfile.ZipFile(config.basedir + "/templates/DDLCModTemplate-2.2.4-Standard.zip", "r") as z:
+                    z.extractall(persistent.project_dir + '/DDLC.app/Contents/Resources/autorun')
+            except:
+                shutil.rmtree(persistent.project_dir)
+                interface.error(_("Template ZIP file missing, or corrupt."), _("Check if the ZIP exists or re-download the tool."))
+        elif renpy.macintosh and persistent.safari == False:
+            try:
+                with zipfile.ZipFile(config.basedir + "/templates/DDLCModTemplate-2.2.4-Standard.zip", "r") as z:
+                    z.extractall(persistent.project_dir + '/DDLC.app/Contents/Resources/autorun')
+            except:
+                shutil.rmtree(persistent.project_dir)
+                interface.error(_("Template ZIP file missing, or corrupt."), _("Check if the ZIP exists or re-download the tool."))
+        else:
+            try:
+                with zipfile.ZipFile(config.basedir + "/templates/DDLCModTemplate-2.2.4-Standard.zip", "r") as z:
+                    z.extractall(persistent.project_dir)
+            except:
+                shutil.rmtree(persistent.project_dir)
+                interface.error(_("Template ZIP file missing, or corrupt."), _("Check if the ZIP exists or re-download the tool."))
 
 label new_project:
     if persistent.projects_directory is None:
         call choose_projects_directory
     if persistent.projects_directory is None:
         $ interface.error(_("The projects directory could not be set. Giving up."))
+    if renpy.macintosh:
+        if persistent.safari is None:
+            call auto_extract
+        if persistent.safari is None:
+            $ interface.error(_("Couldn't check if OS auto-extracts ZIPs. Please reconfigure your settings."))
     if persistent.zip_directory is None:
         call ddlc_zip
     if persistent.zip_directory is None:
@@ -98,8 +121,9 @@ label new_project:
             interface.interaction(_("Copying Template Files"), _("Extracting DDLC Mod Template. Please wait..."),)
             template_extract()
             f = open(persistent.project_dir + '/renpy-version.txt','w+')
-            f.write("6.99.12.4")
+            f.write("6")
             persistent.project_dir = None
             interface.info(_('A file named `renpy-version.txt` has been created.'), _("Do not delete this file as it is needed to determine which version of Ren'Py it uses for building your mod."))
+            project.manager.scan()
             break
     return

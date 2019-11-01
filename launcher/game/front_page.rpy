@@ -237,6 +237,7 @@ screen front_page_project:
                     textbutton _("Build Distributions") action Jump("build_distributions")
                 textbutton _("Generate Translations") action Jump("translate")
                 textbutton _("Extract Dialogue") action Jump("extract_dialogue")
+                textbutton _("Delete Project") action Jump("delete_folder")
 
 label main_menu:
     return
