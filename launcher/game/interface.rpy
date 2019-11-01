@@ -118,6 +118,7 @@ screen bottom_info:
                     spacing INDENT
                     textbutton _("Documentation") style "l_link" action interface.OpenDocumentation()
                     textbutton _("Ren'Py Website") style "l_link" action OpenURL(interface.RENPY_URL)
+                    textbutton _("About") style "l_link" action Jump("about")
 
                 hbox:
                     spacing INDENT

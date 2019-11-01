@@ -35,6 +35,7 @@ init python:
                     ddlc = persistent.projects_directory + '/temp'
                 else:
                     ddlc = persistent.projects_directory + '/temp/DDLC-1.1.1-pc/game'
+            shutil.move(ddlc, persistent.project_dir + '/game')
         except:
             if renpy.macintosh:
                 interface.error(_("Cannot Locate 'ddlc-mac.zip' in [persistent.zip_directory!q]."), _("Make sure you have DDLC downloaded from 'https://ddlc.moe' and check if it exists."),) 
