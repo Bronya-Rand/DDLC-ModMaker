@@ -100,7 +100,8 @@ label new_project:
             project_name = project_name.strip()
             if not project_name:
                 interface.error(_("The project name may not be empty."), label=None)
-
+            if project_name == "launcher":
+                interface.error(_("'launcher' is a reserved project name. Please choose a different project name."))
             persistent.project_dir = os.path.join(persistent.projects_directory, project_name)
 
             if project.manager.get(project_name) is not None:
