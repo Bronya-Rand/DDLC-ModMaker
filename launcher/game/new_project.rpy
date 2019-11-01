@@ -54,10 +54,10 @@ init python:
         import shutil
         import os
         try:
-            shutil.move(persistent.zip_directory + "/ddlc-mac/DDLC.app/Contents/Resources/autorun/game", persistent.project_dir + '/game')
+            shutil.copytree(persistent.zip_directory + "/ddlc-mac/DDLC.app/Contents/Resources/autorun/game", persistent.project_dir + '/game')
         except:
             interface.error(_("Cannot find DDLC.app."). _("Please make sure your OS and ZIP Directory are set correctly."),)
-        os.remove(persistent.project_dir + '/DDLC.app/Contents/Resources/autorun/game/scripts.rpa')
+        os.remove(persistent.project_dir + '/game/scripts.rpa')
     def template_extract():
         import zipfile
         import shutil
