@@ -269,17 +269,6 @@ init python:
     build.classify_renpy("**/thumbs.db", None)
     build.classify_renpy("**/.*", None)
 
-    build.classify_renpy("rapt/**", "rapt")
-
-    build.classify_renpy("renios/prototype/base/", None)
-    build.classify_renpy("renios/prototype/prototype.xcodeproj/*.xcworkspace/", None)
-    build.classify_renpy("renios/prototype/prototype.xcodeproj/xcuserdata/", None)
-    build.classify_renpy("renios/prototype/**", "renios")
-    build.classify_renpy("renios/buildlib/**", "renios")
-    build.classify_renpy("renios/ios.py", "renios")
-    build.classify_renpy("renios/version.txt", "renios")
-    build.classify_renpy("renios/", "renios")
-
     build.classify_renpy("**.old", None)
     build.classify_renpy("**.new", None)
     build.classify_renpy("**.bak", None)
@@ -316,11 +305,9 @@ init python:
     build.classify_renpy("gui/game/gui/", None)
 
     source_and_binary("launcher")
+    source_and_binary("templates/DDLCModTemplate-2.2.4-Standard.zip")
     source_and_binary("templates", binary=None)
     source_and_binary("gui", binary=None)
-
-    source_and_binary("the_question")
-    source_and_binary("tutorial")
 
     # docs.
     build.classify_renpy("doc/", "source")
@@ -354,18 +341,6 @@ init python:
 
     # jedit rules.
     build.classify_renpy("jedit/**", "jedit")
-
-    # editra rules.
-    build.classify_renpy("editra/", "editra-all")
-    build.classify_renpy("editra/Editra.edit.py", "editra-all")
-    build.classify_renpy("editra/Editra/**", "editra-linux editra-windows")
-    build.classify_renpy("editra/Editra-mac.app/**", "editra-mac")
-    build.classify_renpy("editra/lib/**", "editra-windows")
-    build.classify_renpy("editra/editra.exe", "editra-windows")
-
-
-    # Executable rules.
-    build.executable("editra/Editra/Editra")
 
     # Packages.
     build.packages = [ ]

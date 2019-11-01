@@ -269,6 +269,14 @@ label build_update_dump:
     return
 
 label build_distributions:
+    if project.current.name == "launcher":
+        call build_update_dump
+        if not project.current.dump["build"]["directory_name"]:
+            jump build_missing
+        call screen build_distributions
+    else:
+        pass
+
     python:
         ver = persistent.projects_directory + '/' + project.current.name + '/renpy-version.txt'
         try:
