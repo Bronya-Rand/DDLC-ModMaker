@@ -29,7 +29,7 @@ init python in interface:
     import contextlib
 
     RENPY_URL = "http://www.renpy.org"
-    RENPY_GAMES_URL = "http://games.renpy.org"
+    DDLC_URL = "http://ddlc.moe"
     DOC_PATH = os.path.join(config.renpy_base, "doc/index.html")
     DOC_URL = "http://www.renpy.org/doc/html/"
 
@@ -119,6 +119,7 @@ screen bottom_info:
                     textbutton _("Documentation") style "l_link" action interface.OpenDocumentation()
                     textbutton _("Ren'Py Website") style "l_link" action OpenURL(interface.RENPY_URL)
                     textbutton _("About") style "l_link" action Jump("about")
+                    textbutton _("Download DDLC") style "l_link" action OpenURL(interface.DDLC_URL)
 
                 hbox:
                     spacing INDENT

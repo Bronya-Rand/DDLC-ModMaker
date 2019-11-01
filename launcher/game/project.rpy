@@ -21,6 +21,10 @@
 
 # Code that manages projects.
 
+default persistent.projects_directory = None
+default persistent.zip_directory = None
+default persistent.safari = None
+
 init python:
     if renpy.windows:
         import EasyDialogsWin as EasyDialogs
@@ -792,6 +796,57 @@ label ddlc_zip:
         persistent.zip_directory = path
 
     return
+
+label auto_extract:
+
+    python:
+
+        browser_kind = interface.choice(
+            _("Does your operating system auto-extract '.zip' files? DDLC's ZIP may be affected if your OS auto-extracts ZIP files."),
+            [ ( 'safari_download', _("Yes") ), ( 'regular_download', _("No")) ],
+            "safari_download",
+            cancel=Jump("front_page"),
+            )
+
+        renpy.jump(browser_kind)
+
+# Set Auto-Extract On
+label safari_download:
+    $ persistent.safari = True
+    return
+# Set Auto-Extract Off
+label regular_download:
+    $ persistent.safari = False
+    return
+
+label delete_folder:
+    python:
+        delete_response = interface.input(
+            _("Deleting a Project"),
+            _("Are you sure you want to delete '[project.current.name!q]'? Type either Yes or No."),
+            filename=False,
+            cancel=Jump("front_page"))
+
+        delete_response = delete_response.strip()
+
+        if not delete_response:
+            interface.error(_("The operation has been cancelled."))
+
+        response = delete_response
+
+        if response == "No" or response == "no":
+            interface.error(_("The operation has been cancelled."))
+        elif response == "Yes" or response == "yes":
+            deleted_name = project.current.name
+            import shutil
+            shutil.rmtree(persistent.projects_directory + '/' + project.current.name)
+        else:
+            interface.error(_("Invalid Input."))
+
+        project.manager.scan()
+        interface.info(deleted_name + " has been deleted.")
+
+    jump front_page
 
 init python:
 

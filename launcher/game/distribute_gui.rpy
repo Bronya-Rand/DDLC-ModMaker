@@ -272,7 +272,7 @@ label build_distributions:
         ver = persistent.projects_directory + '/' + project.current.name + '/renpy-version.txt'
         try:
             with open(ver) as f:
-                if f.readline() != "7.3.5":
+                if f.readline() < "7":
                     interface.error(_("You are trying to compile a Ren'Py 6.99 DDLC mod in Ren'Py 7"), _("Please use DDMMaker 6.99 in order to comile your Ren'Py 6.99 mod."),)
                 else:
                     pass

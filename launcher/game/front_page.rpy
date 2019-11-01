@@ -236,6 +236,7 @@ screen front_page_project:
                 if ability.can_distribute:
                     textbutton _("Build Distributions") action Jump("build_distributions")
                 textbutton _("Extract Dialogue") action Jump("extract_dialogue")
+                textbutton _("Delete Project") action Jump("delete_folder")
 
 label main_menu:
     return
