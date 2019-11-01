@@ -219,6 +219,26 @@ screen preferences:
                                 else:
                                     text _("Not Set")
 
+                        add SPACER
+                        add SEPARATOR2
+
+                        frame:
+                            style "l_indent"
+                            yminimum 75
+                            has vbox
+
+                            text _("OS Extracts ZIPs?")
+                            add HALF_SPACER
+
+                            frame style "l_indent":
+                                if persistent.safari != None:
+                                    if persistent.safari == True:
+                                        text _("Yes")
+                                    else:
+                                        text _("No")
+                                else:
+                                    text _("Not Set")
+
                 frame:
                     style "l_indent"
                     xmaximum ONETHIRD
