@@ -285,21 +285,11 @@ init python:
     except:
         pass
 
-    build.classify_renpy("rapt/**", "rapt")
-    build.executable("rapt/prototype/gradlew")
-
     build.classify_renpy("renios/prototype/base/", None)
     build.classify_renpy("renios/prototype/prototype.xcodeproj/*.xcworkspace/", None)
     build.classify_renpy("renios/prototype/prototype.xcodeproj/xcuserdata/", None)
-    build.classify_renpy("renios/prototype/**", "renios")
-    build.classify_renpy("renios/buildlib/**", "renios")
-    build.classify_renpy("renios/ios.py", "renios")
-    build.classify_renpy("renios/version.txt", "renios")
-    build.classify_renpy("renios/", "renios")
 
     build.classify_renpy("web/game.zip", None)
-    build.classify_renpy("web/**", "web")
-
     build.classify_renpy("**.old", None)
     build.classify_renpy("**.new", None)
     build.classify_renpy("**.bak", None)
@@ -337,6 +327,8 @@ init python:
     build.classify_renpy("gui/game/gui/", None)
 
     source_and_binary("launcher")
+    source_and_binary("templates")
+    source_and_binary("templates/DDLCModTemplate-2.2.4-Standard.zip")
 
     # docs.
     build.classify_renpy("doc/", "source")
@@ -385,7 +377,7 @@ init python:
     # Packages.
     build.packages = [ ]
 
-    build.package("sdk", "zip", "source binary")
+    build.package("sdk", "zip tar.bz2", "source binary")
 
     build.package("jedit", "zip", "jedit", dlc=True)
 
