@@ -782,7 +782,7 @@ label ddlc_zip:
     python hide:
         if renpy.macintosh == True:
             if persistent.safari == True:
-                interface.interaction(_("DDLC ZIP Directory"), _("Please choose where the `ddlc-win` folder is located using the directory chooser.\n{b}The directory chooser may have opened behind this window.{/b}"), _("This launcher will scan for projects in this directory, will create new projects in this directory, and will place built projects into this directory."),)
+                interface.interaction(_("DDLC ZIP Directory"), _("Please choose where the `ddlc-mac` folder is located using the directory chooser.\n{b}The directory chooser may have opened behind this window.{/b}"), _("This launcher will scan for projects in this directory, will create new projects in this directory, and will place built projects into this directory."),)
             else:
                 interface.interaction(_("DDLC ZIP Directory"), _("Please choose where `ddlc-mac.zip` is located using the directory chooser.\n{b}The directory chooser may have opened behind this window.{/b}"), _("This launcher will scan for projects in this directory, will create new projects in this directory, and will place built projects into this directory."),)
         else:
