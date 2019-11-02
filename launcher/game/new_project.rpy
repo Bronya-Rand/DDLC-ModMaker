@@ -59,14 +59,7 @@ init python:
             interface.error(_("Cannot find DDLC.app."). _("Please make sure your OS and ZIP Directory are set correctly."),)
         os.remove(persistent.project_dir + '/DDLC.app/Contents/Resources/autorun/game/scripts.rpa')
     def template_extract():
-        if renpy.macintosh and persistent.safari == True:
-            try:
-                with zipfile.ZipFile(config.basedir + "/templates/DDLCModTemplate-2.2.4-Standard.zip", "r") as z:
-                    z.extractall(persistent.project_dir + '/DDLC.app/Contents/Resources/autorun')
-            except:
-                shutil.rmtree(persistent.project_dir)
-                interface.error(_("Template ZIP file missing, or corrupt."), _("Check if the ZIP exists or re-download the tool."))
-        elif renpy.macintosh and persistent.safari == False:
+        if renpy.macintosh:
             try:
                 with zipfile.ZipFile(config.basedir + "/templates/DDLCModTemplate-2.2.4-Standard.zip", "r") as z:
                     z.extractall(persistent.project_dir + '/DDLC.app/Contents/Resources/autorun')
