@@ -65,7 +65,6 @@ init -1500 python in build:
         ( "**/.*", None),
         ( "**.old", None),
         ( "**.new", None),
-        ( "**.rpa", None),
 
         ( "**/*.pyc", None),
 
@@ -123,6 +122,16 @@ init -1500 python in build:
         ("update/", None),
         ("common/", None),
         ("update/", None),
+        ( "audio.rpa", None),
+        ( "fonts.rpa", None),
+        ( "images.rpa", None),
+        ( "DDLCModTemplate.xcodeproj/", None),
+        ( "original_scripts/", None),
+        ( "XCODE.md", None),
+        ( "README.md", None),
+        ( "images.rpa", None),
+        ( "Config.xcconfig", None),
+        ( "renpy-version.txt", None),
 
         ("icon.ico", None),
         ("icon.icns", None),
@@ -208,6 +217,10 @@ init -1500 python in build:
         archives.append((name, make_file_lists(file_list)))
 
     archive("archive", "all")
+    archive("scripts", "all")
+    archive("mod_assets", "all")
+    classify("game/**.rpyc", "scripts")
+    classify("game/mod_assets/**", "mod_assets")
 
     # Documentation patterns.
 
