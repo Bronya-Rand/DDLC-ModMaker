@@ -144,7 +144,7 @@ screen front_page:
                 style "l_button"
                 action NullAction()
                 right_margin HALF_INDENT
-        elif launch == True:
+        elif launch == True or project.current.name == "launcher":
             textbutton _("Launch Project") action project.Launch() style "l_right_button"
             key "K_F5" action project.Launch()
         else:

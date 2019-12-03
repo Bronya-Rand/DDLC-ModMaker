@@ -228,9 +228,9 @@ init python:
     # directory 'mygame-1.0-win', in the 'mygame-1.0-win.zip' file.
 
     if 'RENPY_BUILD_VERSION' in os.environ:
-        build.directory_name = "renpy-" + os.environ['RENPY_BUILD_VERSION']
+        build.directory_name = "DDMMaker-" + os.environ['RENPY_BUILD_VERSION']
     else:
-        build.directory_name = "renpy-" + config.version.rsplit('.', 1)[0]
+        build.directory_name = "DDMMaker-" + config.version.rsplit('.', 1)[0]
 
     # The name that's uses for executables - the program that users will run
     # to start the game. For example, if this is 'mygame', then on Windows,

@@ -48,10 +48,7 @@ init python:
                 interface.error(_("The `ddlc-mac.zip` file extracted is zipped improperly or corrupted."), _("Please re-download the ZIP from 'https://ddlc.moe'"))
             else:
                 interface.error(_("The `ddlc-win.zip` file extracted is zipped improperly or corrupted."), _("Please re-download the ZIP from 'https://ddlc.moe'"))
-        if renpy.macintosh:
-            os.remove(persistent.project_dir + '/DDLC.app/Contents/Resources/autorun/game/scripts.rpa')
-        else:
-            os.remove(persistent.project_dir + '/game/scripts.rpa')
+        os.remove(persistent.project_dir + '/game/scripts.rpa')
         shutil.rmtree(persistent.projects_directory + '/temp')
     def ddlc_copy():
         import shutil
@@ -100,7 +97,8 @@ label new_project:
             project_name = project_name.strip()
             if not project_name:
                 interface.error(_("The project name may not be empty."), label=None)
-
+            if project_name == "launcher":
+                interface.error(_("'launcher' is a reserved project name. Please choose a different project name."))
             persistent.project_dir = os.path.join(persistent.projects_directory, project_name)
 
             if project.manager.get(project_name) is not None:
