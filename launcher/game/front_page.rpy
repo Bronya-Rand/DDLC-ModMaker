@@ -263,7 +263,7 @@ screen front_page_project:
                 has vbox
 
                 if ability.can_distribute:
-                    textbutton _("Build Project/Mod") action Jump("build_distributions")
+                    textbutton _("Build Project") action Jump("build_distributions")
                 textbutton _("Generate Translations") action Jump("translate")
                 textbutton _("Extract Dialogue") action Jump("extract_dialogue")
                 textbutton _("Delete Project") action Jump("delete_folder")
