@@ -16,23 +16,20 @@ install:
     - tar xf renpy-6.99.12.4-sdk.tar.bz2
     - rm renpy-6.99.12.4-sdk.tar.bz2
     - mv renpy-6.99.12.4-sdk renpy
+    - mkdir ddmm
 
     # now this is where it gets interesting
     # we're copying over the template files into the renpy SDK
     # and CD into the renpy
 
     #- bash ./ddcc/travis/setup.sh
-    - cd renpy
-    - rm -r launcher
-    - mkdir launcher
-    - cd ..
-    - cd DDLC-ModMaker
-    - cp -vRf DDLC-ModMaker/launcher/* renpy/launcher
+    - cp -vRf DDLC-ModMaker/* ddmm
+    - rm ddmm/renpy.sh
+    - mv renpy/renpy.sh ddmm/renpy.sh
 
     #- bash DDLC-ModMaker/travis/inject_version.sh
 
     #- bash DDLC-ModMaker/travis/patch_renpy.sh
-
 
 env:
     # this is required as there was build issues without this, don't remove this.
