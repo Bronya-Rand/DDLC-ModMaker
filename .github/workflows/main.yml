@@ -1,0 +1,75 @@
+# Set the name of the workflow here
+name: DDMMaker Builder
+
+# Specify when to run this workflow
+on:
+
+  # We want this to run on every push
+  push:
+    branches:
+      - '*'
+
+  # We also want it to run when we publish a release on GitHub
+  release:
+    types: [published]
+
+# Write the jobs and its steps
+# This is where things get interesting.
+jobs:
+  build:
+    name: Building with 6.99
+    runs-on: ubuntu-latest
+
+    # Here's where we starting telling it how to run the workflow.
+    steps:
+
+      # First we clone the repo
+      - name: Clone repository
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 50
+
+          # We need this since sample_mod is actually a Git submodule.
+          # This may not apply to you if your mod is in the repo itself.
+          submodules: true
+
+      # Finally, let's build the project.
+      - name: Build 6.99 Ver
+        run: |
+              sdk_name=renpy-$1-sdk
+              echo "Downloading the specified SDK (${sdk_name})..."
+              wget -q https://www.renpy.org/dl/$1/${sdk_name}.tar.bz2
+              clear
+
+              echo "Downloaded SDK version (${sdk_name})."
+              echo "Setting up the specified SDK (${sdk_name})..."
+              tar -xf ./${sdk_name}.tar.bz2
+              rm ./${sdk_name}.tar.bz2
+              mv ./${sdk_name} ../renpy
+              
+              cd renpy
+              rm -r launcher
+              rm -r templates
+              cp DDLC-ModMaker/launcher renpy/launcher
+              cp DDLC-ModMaker/templates renpy/templates
+              echo "Building the project at $2..."
+              if ../renpy/renpy.sh ../renpy/launcher distribute $2; then
+                  built_dir=$(ls | grep '\-dists')
+                  echo ::set-output name=dir::$built_dir
+                  echo ::set-output name=version::${built_dir%'-dists'}
+              else
+                  return 1
+              fi
+      - name: Publish artifact to GitHub Actions
+        uses: actions/upload-artifact@v1
+        with:
+          name: ${{ steps.buildseq.outputs.dir }}
+          path: ${{ format('{0}/{1}-sdk.zip', steps.buildseq.outputs.dir, steps.buildseq.outputs.version) }}
+      - name: Upload files to release
+        uses: skx/github-action-publish-binaries@master
+        if: github.event.release # Runs ONLY when it's a published release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # We use the outputs here to tell it where exactly the file is.
+          args: ${{ format('{0}/{1}-sdk.zip', steps.buildseq.outputs.dir, steps.buildseq.outputs.version) }}
