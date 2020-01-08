@@ -26,11 +26,9 @@ install:
     - cp -vRf DDLC-ModMaker/* ddmm
     - rm ddmm/renpy.sh
     - mv renpy/renpy.sh ddmm/renpy.sh
-
     #- bash DDLC-ModMaker/travis/inject_version.sh
-
     #- bash DDLC-ModMaker/travis/patch_renpy.sh
-
+    - cd ddmm
 env:
     # this is required as there was build issues without this, don't remove this.
     - SDL_AUDIODRIVER=dummy SDL_VIDEODRIVER=dummy
