@@ -12,24 +12,26 @@ sudo: required
 
 install:
     - cd ..
-    # - wget https://www.renpy.org/dl/6.99.12.4/renpy-6.99.12.4-sdk.tar.bz2
-    # - tar xf renpy-6.99.12.4-sdk.tar.bz2
-    # - rm renpy-6.99.12.4-sdk.tar.bz2
-    # - mv renpy-6.99.12.4-sdk renpy
+    - wget https://www.renpy.org/dl/6.99.12.4/renpy-6.99.12.4-sdk.tar.bz2
+    - tar xf renpy-6.99.12.4-sdk.tar.bz2
+    - rm renpy-6.99.12.4-sdk.tar.bz2
+    - mv renpy-6.99.12.4-sdk renpy
 
     # now this is where it gets interesting
     # we're copying over the template files into the renpy SDK
     # and CD into the renpy
 
     #- bash ./ddcc/travis/setup.sh
-    - mkdir renpy
-    - cp -vRf DDLC-ModMaker/* renpy
+    - cd renpy
+    - rm -r launcher
+    - mkdir launcher
+    - cd ..
+    - cd DDLC-ModMaker
+    - cp -vRf DDLC-ModMaker/launcher/* renpy/launcher
 
     #- bash DDLC-ModMaker/travis/inject_version.sh
 
     #- bash DDLC-ModMaker/travis/patch_renpy.sh
-
-    - cd renpy
 
 
 env:
