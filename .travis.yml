@@ -1,0 +1,60 @@
+language: python
+python:
+    - "2.7"
+
+sudo: required
+
+# Travis build script for RenPy
+# based on Monika-After-Story script.
+
+# This is the install stage
+# All your dependencies go here. We have done the RenPy SDK part done for you.
+
+install:
+    # - cd ..
+    # - wget https://www.renpy.org/dl/6.99.12.4/renpy-6.99.12.4-sdk.tar.bz2
+    # - tar xf renpy-6.99.12.4-sdk.tar.bz2
+    # - rm renpy-6.99.12.4-sdk.tar.bz2
+    # - mv renpy-6.99.12.4-sdk renpy
+
+    # now this is where it gets interesting
+    # we're copying over the template files into the renpy SDK
+    # and CD into the renpy
+
+    #- bash ./ddcc/travis/setup.sh
+
+    #cp -vRf DDLC-ModMaker/* mod/game
+
+    #- bash DDLC-ModMaker/travis/inject_version.sh
+
+    #- bash DDLC-ModMaker/travis/patch_renpy.sh
+
+
+    #- cd renpy
+
+
+env:
+    # this is required as there was build issues without this, don't remove this.
+    - SDL_AUDIODRIVER=dummy SDL_VIDEODRIVER=dummy
+
+# This is the script part. This is where the actual building is happening.
+# This produces an artifact which we'll use later on to publish a release.
+
+script: ./renpy.sh "../launcher/" lint && ./renpy.sh launcher distribute "../launcher/" && cd ..
+
+
+# This is where the actual releases happen. Travis has the ability to publish releases from GitHub, Amazon S3, OpenShift, etc.
+# Read on https://docs.travis-ci.com/user/deployment/releases/ to learn more
+# For this type of configuration, we're using the GitHub releases schema
+
+deploy:
+  provider: releases
+  api_key:
+    # DO NOT CHANGE THIS! Travis can replace this since it's a Environment Variable.
+    # Head to Settings > Environment variables and set this.
+    secure: $GITHUB_API_KEY
+  file_glob: true
+  file: "*-dists/*sdk.zip"
+  skip_cleanup: true
+  on:
+    tags: true # your mods only builds and uploads releases on a GitHub Git tag so make sure you tag and release accordingly!
