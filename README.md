@@ -1,6 +1,8 @@
 
 # Welcome to the Doki Doki Mod Maker (DDMMaker) Repository!
-DDMMaker is a Ren'Py SDK Modification for DDLC Modding. It allows the user to install  This tool adheres to the Team Salvato IP Guidelines and RenpyTom Guidelines for DDLC and Ren'Py SDK modding as listed in **README.md** and **LICENSE**.
+[![Build Status](https://travis-ci.org/GanstaKingofSA/DDLC-ModMaker.svg?branch=master)](https://travis-ci.org/GanstaKingofSA/DDLC-ModMaker)
+
+DDMMaker is a Ren'Py SDK Modification for the use of making DDLC Modding easier and efficient with easier wording, auto-mod template install, and more coming soon. This tool adheres to the Team Salvato IP Guidelines and RenpyTom Guidelines for DDLC and Ren'Py SDK modding as listed in **README.md** and **LICENSE**.
 
 **DISCLAIMER**
 
@@ -16,9 +18,7 @@ on is located in one of the following repositories:
 * https://github.com/renpy/renpy (Ren'Py)
 * https://github.com/renpy/pygame_sdl2 (Pygame_SDL2)
 * https://github.com/renpy/renpy-deps (Desktop dependencies)
-* https://github.com/renpy/python-for-android (Android)
-* https://github.com/renpy/rapt (Android Build Tools)
-* https://github.com/renpy/renios (iOS)
 * https://github.com/GanstaKingofSA/DDLC-ModMaker (Doki Doki Mod Maker)
+NOTE: Some features like Android Tools, and iOS have been removed for TS IPG Compliance.
 
 This program contains free software licensed under a number of licenses, including the GNU Lesser General Public License. A complete list of software is available at http://www.renpy.org/doc/html/license.html.
