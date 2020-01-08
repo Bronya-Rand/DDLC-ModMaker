@@ -11,7 +11,7 @@ sudo: required
 # All your dependencies go here. We have done the RenPy SDK part done for you.
 
 install:
-    # - cd ..
+    - cd ..
     # - wget https://www.renpy.org/dl/6.99.12.4/renpy-6.99.12.4-sdk.tar.bz2
     # - tar xf renpy-6.99.12.4-sdk.tar.bz2
     # - rm renpy-6.99.12.4-sdk.tar.bz2
@@ -22,14 +22,14 @@ install:
     # and CD into the renpy
 
     #- bash ./ddcc/travis/setup.sh
-    - mkdir ddmmaker
-    - cp -vRf DDLC-ModMaker/* ddmmaker
+    - mkdir renpy
+    - cp -vRf DDLC-ModMaker/* renpy
 
     #- bash DDLC-ModMaker/travis/inject_version.sh
 
     #- bash DDLC-ModMaker/travis/patch_renpy.sh
 
-    - cd ddmmaker
+    - cd renpy
 
 
 env:
