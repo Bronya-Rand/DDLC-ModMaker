@@ -28,7 +28,7 @@ init python in interface:
     import os.path
     import contextlib
 
-    RENPY_URL = "http://www.renpy.org"
+    GIT_URL = "http://www.github.com/GanstaKingofSA/DDLC-ModMaker/releases"
     DDLC_URL = "http://ddlc.moe"
     DOC_PATH = os.path.join(config.renpy_base, "doc/index.html")
     DOC_URL = "http://www.renpy.org/doc/html/"
@@ -105,9 +105,9 @@ screen bottom_info:
                 hbox:
                     spacing INDENT
                     textbutton _("Documentation") style "l_link" action interface.OpenDocumentation()
-                    textbutton _("Ren'Py Website") style "l_link" action OpenURL(interface.RENPY_URL)
                     textbutton _("About") style "l_link" action Jump("about")
                     textbutton _("Download DDLC") style "l_link" action OpenURL(interface.DDLC_URL)
+                    textbutton _("Updates") style "l_link" action OpenURL(interface.GIT_URL)
 
                 hbox:
                     spacing INDENT

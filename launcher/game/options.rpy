@@ -269,6 +269,22 @@ init python:
     build.classify_renpy("**/thumbs.db", None)
     build.classify_renpy("**/.*", None)
 
+    # Atom rules. These have to be very early, since Atom uses names like
+    # tmp for packages.
+    build.classify_renpy("atom/", "atom-all source_only")
+    build.classify_renpy("atom/Atom.edit.py", "atom-all source_only")
+    build.classify_renpy("atom/default-dot-atom/**", "atom-all")
+    build.classify_renpy("atom/atom-windows/**", "atom-windows")
+    build.classify_renpy("atom/Atom.app/**", "atom-mac")
+    build.classify_renpy("atom/atom-linux**", "atom-linux")
+
+    try:
+        with open(os.path.join(config.renpy_base, "atom", "executable.txt")) as f:
+            for l in f:
+                build.executable(l.strip())
+    except:
+        pass
+
     build.classify_renpy("**.old", None)
     build.classify_renpy("**.new", None)
     build.classify_renpy("**.bak", None)
@@ -348,6 +364,9 @@ init python:
     build.package("sdk", "zip tar.bz2 dmg", "source binary")
     build.package("source", "tar.bz2", "source source_only", update=False)
     build.package("jedit", "zip", "jedit", dlc=True)
+    build.package("atom-linux", "tar.bz2", "atom-all atom-linux", dlc=True)
+    build.package("atom-mac", "zip", "atom-all atom-mac", dlc=True)
+    build.package("atom-windows", "zip", "atom-all atom-windows", dlc=True)
 
 # Enable the special launcher translation mode.
 define config.translate_launcher = True

@@ -59,14 +59,7 @@ init python:
             interface.error(_("Cannot find DDLC.app."). _("Please make sure your OS and ZIP Directory are set correctly."),)
         os.remove(persistent.project_dir + '/DDLC.app/Contents/Resources/autorun/game/scripts.rpa')
     def template_extract():
-        if renpy.macintosh and persistent.safari == True:
-            try:
-                with zipfile.ZipFile(config.basedir + "/templates/DDLCModTemplate-2.2.4-Standard.zip", "r") as z:
-                    z.extractall(persistent.project_dir + '/DDLC.app/Contents/Resources/autorun')
-            except:
-                shutil.rmtree(persistent.project_dir)
-                interface.error(_("Template ZIP file missing, or corrupt."), _("Check if the ZIP exists or re-download the tool."))
-        elif renpy.macintosh and persistent.safari == False:
+        if renpy.macintosh:
             try:
                 with zipfile.ZipFile(config.basedir + "/templates/DDLCModTemplate-2.2.4-Standard.zip", "r") as z:
                     z.extractall(persistent.project_dir + '/DDLC.app/Contents/Resources/autorun')
@@ -108,7 +101,8 @@ label new_project:
             project_name = project_name.strip()
             if not project_name:
                 interface.error(_("The project name may not be empty."), label=None)
-
+            if project_name == "launcher":
+                interface.error(_("'launcher' is a reserved project name. Please chose an different project name."))
             persistent.project_dir = os.path.join(persistent.projects_directory, project_name)
 
             if project.manager.get(project_name) is not None:
