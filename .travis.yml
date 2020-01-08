@@ -38,7 +38,7 @@ env:
 # This is the script part. This is where the actual building is happening.
 # This produces an artifact which we'll use later on to publish a release.
 
-script: ./renpy.sh "../ddmm/launcher/" lint && ./renpy.sh launcher distribute "../ddmm/launcher/" && cd ..
+script: ./renpy.sh launcher distribute "../ddmm/launcher/" && cd ..
 
 
 # This is where the actual releases happen. Travis has the ability to publish releases from GitHub, Amazon S3, OpenShift, etc.
