@@ -36,16 +36,15 @@ jobs:
       # Finally, let's build the project.
       - name: Build 6.99 Ver
         run: |
-              sdk_name=renpy-$1-sdk
-              echo "Downloading the specified SDK (${sdk_name})..."
-              wget -q https://www.renpy.org/dl/$1/${sdk_name}.tar.bz2
+              echo "Downloading 6.99..."
+              wget -q https://www.renpy.org/dl/6.99.12.4/renpy-6.99.12.4-sdk.tar.bz2
               clear
 
-              echo "Downloaded SDK version (${sdk_name})."
-              echo "Setting up the specified SDK (${sdk_name})..."
-              tar -xf ./${sdk_name}.tar.bz2
-              rm ./${sdk_name}.tar.bz2
-              mv ./${sdk_name} ../renpy
+              echo "Downloaded 6.99."
+              echo "Setting up 6.99..."
+              tar -xf ./renpy-6.99.12.4-sdk.tar.bz2
+              rm ./renpy-6.99.12.4-sdk.tar.bz2
+              mv ./renpy-6.99.12.4-sdk ../renpy
               
               cd renpy
               rm -r launcher
