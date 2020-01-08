@@ -212,7 +212,7 @@ screen front_page_project:
 
             vbox:
 
-                label _("Open Directory") style "l_label_small"
+                label _("Open Folder") style "l_label_small"
 
                 frame style "l_indent":
                     has vbox
@@ -240,7 +240,7 @@ screen front_page_project:
 
         add SPACER
 
-        label _("Actions") style "l_label_small"
+        label _("Options") style "l_label_small"
 
         grid 2 1:
             xfill True
@@ -249,7 +249,7 @@ screen front_page_project:
             frame style "l_indent":
                 has vbox
                 textbutton _("Navigate Script") action Jump("navigation")
-                textbutton _("Check Script (Lint)") action Jump("lint")
+                textbutton _("Check Script for Errors") action Jump("lint")
                 # if project.current.exists("game/gui.rpy"):
                 #     textbutton _("Change/Update GUI") action Jump("change_gui")
                 # else:
@@ -263,7 +263,7 @@ screen front_page_project:
                 has vbox
 
                 if ability.can_distribute:
-                    textbutton _("Build Distributions") action Jump("build_distributions")
+                    textbutton _("Build Project") action Jump("build_distributions")
                 textbutton _("Generate Translations") action Jump("translate")
                 textbutton _("Extract Dialogue") action Jump("extract_dialogue")
                 textbutton _("Delete Project") action Jump("delete_folder")

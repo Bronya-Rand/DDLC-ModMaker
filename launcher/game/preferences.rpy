@@ -82,7 +82,7 @@ screen preferences:
                         yminimum 75
                         has vbox
 
-                        text _("Projects Directory:")
+                        text _("Projects Folder Directory:")
 
                         add HALF_SPACER
 
