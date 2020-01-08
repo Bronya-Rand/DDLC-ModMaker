@@ -25,7 +25,9 @@ install:
     #- bash ./ddcc/travis/setup.sh
     - cp -vRf DDLC-ModMaker/* ddmm
     - rm ddmm/renpy.sh
+    - rm -r ddmm/lib
     - mv renpy/renpy.sh ddmm/renpy.sh
+    - mv renpy/lib ddmm/lib
     #- bash DDLC-ModMaker/travis/inject_version.sh
     #- bash DDLC-ModMaker/travis/patch_renpy.sh
     - cd ddmm
