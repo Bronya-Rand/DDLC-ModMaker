@@ -11,17 +11,18 @@ sudo: required
 # All your dependencies go here. We have done the RenPy SDK part done for you.
 
 install:
-    - cd ..
-    - wget https://www.renpy.org/dl/6.99.12.4/renpy-6.99.12.4-sdk.tar.bz2
-    - tar xf renpy-6.99.12.4-sdk.tar.bz2
-    - rm renpy-6.99.12.4-sdk.tar.bz2
-    - mv renpy-6.99.12.4-sdk renpy
+    # - cd ..
+    # - wget https://www.renpy.org/dl/6.99.12.4/renpy-6.99.12.4-sdk.tar.bz2
+    # - tar xf renpy-6.99.12.4-sdk.tar.bz2
+    # - rm renpy-6.99.12.4-sdk.tar.bz2
+    # - mv renpy-6.99.12.4-sdk renpy
 
     # now this is where it gets interesting
     # we're copying over the template files into the renpy SDK
     # and CD into the renpy
 
     #- bash ./ddcc/travis/setup.sh
+    mkdir renpy
 
     cp -vRf DDLC-ModMaker/* renpy
 
@@ -40,7 +41,7 @@ env:
 # This is the script part. This is where the actual building is happening.
 # This produces an artifact which we'll use later on to publish a release.
 
-script: ./renpy.sh "launcher/" lint && ./renpy.sh launcher distribute "launcher/" && cd ..
+script: ./renpy.sh launcher distribute "../launcher/" && cd ..
 
 
 # This is where the actual releases happen. Travis has the ability to publish releases from GitHub, Amazon S3, OpenShift, etc.
