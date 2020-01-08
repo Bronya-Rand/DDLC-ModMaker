@@ -22,13 +22,12 @@ install:
     # and CD into the renpy
 
     #- bash ./ddcc/travis/setup.sh
+    - mkdir renpy
+    - cp -vRf DDLC-ModMaker/* renpy
 
-    - cp -vRf DDLC-ModMaker/* mod/game
-
-    - bash DDLC-ModMaker/travis/inject_version.sh
+    #- bash DDLC-ModMaker/travis/inject_version.sh
 
     #- bash DDLC-ModMaker/travis/patch_renpy.sh
-
 
     - cd renpy
 
