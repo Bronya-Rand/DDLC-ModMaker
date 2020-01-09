@@ -62,11 +62,28 @@ init python:
         import zipfile
         import shutil
         try:
-            with zipfile.ZipFile(config.basedir + "/templates/DDLCModTemplate-2.2.4-Standard.zip", "r") as z:
-                z.extractall(persistent.project_dir)
+            if renpy.macintosh:
+                with zipfile.ZipFile(config.basedir + "/templates/DDLCModTemplate-2.2.4-Standard.zip", "r") as z:
+                    z.extractall(persistent.project_dir + "/DDLC.app")
+            else:
+                with zipfile.ZipFile(config.basedir + "/templates/DDLCModTemplate-2.2.4-Standard.zip", "r") as z:
+                    z.extractall(persistent.project_dir)
         except:
             shutil.rmtree(persistent.project_dir)
             interface.error(_("Template ZIP file missing, or corrupt."), _("Check if the ZIP exists or re-download the tool."))
+    def mpt_extract():
+        import zipfile
+        import shutil
+        try:
+            with zipfile.ZipFile(persistent.zip_directory + "/DDLC_MPT-1.0-unpacked.zip", "r") as z:
+                z.extractall(persistent.project_dir + '/temp/DDLC_Mood_Posing_Tool')
+            if renpy.macintosh:
+                shutil.move(ddlc, persistent.project_dir + '/DDLC.app')
+            else:
+                shutil.move(ddlc, persistent.project_dir)
+        #except:
+            #shutil.rmtree(persistent.project_dir)
+            #interface.error(_("MPT ZIP file missing, or corrupt."), _("Check if the ZIP exists or re-download the tool."))
 
 label new_project:
     if persistent.projects_directory is None:
@@ -120,3 +137,43 @@ label new_project:
             project.manager.scan()
             break
     return
+
+label mpt:
+    python:
+        project_name = ""
+        while True:
+            project_name = interface.input(
+                _("Project Name"),
+                _("Please enter the name of your project:"),
+                allow=interface.PROJECT_LETTERS,
+                cancel=Jump("front_page"),
+                default=project_name,
+            )
+
+            project_name = project_name.strip()
+            if not project_name:
+                interface.error(_("The project name may not be empty."), label=None)
+            if project_name == "launcher":
+                interface.error(_("'launcher' is a reserved project name. Please choose a different project name."))
+            persistent.project_dir = os.path.join(persistent.projects_directory, project_name)
+
+            if project.manager.get(project_name) is not None:
+                interface.error(_("[project_name!q] already exists. Please choose a different project name."), project_name=project_name, label=None)
+            if os.path.exists(persistent.project_dir):
+                interface.error(_("[persistent.project_dir!q] already exists. Please choose a different project name."), project_dir=project_dir, label=None)
+            interface.info(_('Make sure the MPT Unpacked ZIP is in your DDLC Folder Directory.'), _("Make sure that it's ZIP exists in that folder."))
+            interface.interaction(_("Installing MPT"), _("Please wait..."),)
+            if persistent.safari == True and renpy.macintosh:
+                interface.interaction(_("Making a DDLC Folder"), _("Copying DDLC. Please wait..."),)
+                ddlc_copy()
+            else:
+                interface.interaction(_("Making a DDLC Folder"), _("Extracting DDLC. Please wait..."),)
+                zip_extract()
+            template_extract()
+            mpt_extract()
+            f = open(persistent.project_dir + '/renpy-version.txt','w+')
+            f.write("7")
+            persistent.project_dir = None
+            interface.info(_('A file named `renpy-version.txt` has been created in the base directory.'), _("Do not delete this file as it is needed to determine which version of Ren'Py it uses for building your mod."))
+            project.manager.scan()
+            break

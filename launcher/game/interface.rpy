@@ -116,9 +116,10 @@ screen bottom_info:
 
                 hbox:
                     spacing INDENT
-                    textbutton _("Documentation") style "l_link" action interface.OpenDocumentation()
+                    textbutton _("Ren'Py Docs") style "l_link" action interface.OpenDocumentation()
                     textbutton _("About") style "l_link" action Jump("about")
                     textbutton _("Download DDLC") style "l_link" action OpenURL(interface.DDLC_URL)
+                    textbutton _("Install MPT") style "l_link" action Jump("mpt")
                     textbutton _("Updates") style "l_link" action OpenURL(interface.GIT_URL)
 
                 hbox:
