@@ -19,7 +19,11 @@ jobs:
   build:
     name: Building with 6.99
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        renpy-versions:
+          - '7.3.5'
+          - '6.99.12.4'
     # Here's where we starting telling it how to run the workflow.
     steps:
 
@@ -34,31 +38,14 @@ jobs:
           submodules: true
 
       # Finally, let's build the project.
-      - name: Build 6.99 Ver
-        run: |
-              echo "Downloading 6.99..."
-              wget -q https://www.renpy.org/dl/6.99.12.4/renpy-6.99.12.4-sdk.tar.bz2
-              clear
-
-              echo "Downloaded 6.99."
-              echo "Setting up 6.99..."
-              tar -xf ./renpy-6.99.12.4-sdk.tar.bz2
-              rm ./renpy-6.99.12.4-sdk.tar.bz2
-              mv ./renpy-6.99.12.4-sdk ../renpy
-              
-              cd renpy
-              rm -r launcher
-              rm -r templates
-              cp DDLC-ModMaker/launcher renpy/launcher
-              cp DDLC-ModMaker/templates renpy/templates
-              echo "Building the project at $2..."
-              if ../renpy/renpy.sh ../renpy/launcher distribute $2; then
-                  built_dir=$(ls | grep '\-dists')
-                  echo ::set-output name=dir::$built_dir
-                  echo ::set-output name=version::${built_dir%'-dists'}
-              else
-                  return 1
-              fi
+      - name: Build VN project
+        uses: GanstaKingofSA/renpy-build-action@master
+        with:
+          sdk-version: ${{ matrix.renpy-versions }}
+          project-dir: '../renpy/launcher'
+        env:
+          SDL_AUDIODRIVER: dummy
+          SDL_VIDEODRIVER: dummy
       - name: Publish artifact to GitHub Actions
         uses: actions/upload-artifact@v1
         with:
