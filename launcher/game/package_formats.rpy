@@ -28,16 +28,9 @@ init python in distribute:
     import struct
     import stat
     import shutil
-    import sys
     import threading
 
-    from renpy import six
     from zipfile import crc32
-
-
-    # Since the long type doesn't exist on py3, define it here
-    if six.PY3:
-        long = int
 
     zlib.Z_DEFAULT_COMPRESSION = 5
 
@@ -163,9 +156,9 @@ init python in distribute:
             zi.create_system = 3
 
             if xbit:
-                zi.external_attr = long(0o100755) << 16
+                zi.external_attr = long(0100755) << 16
             else:
-                zi.external_attr = long(0o100644) << 16
+                zi.external_attr = long(0100644) << 16
 
             self.zipfile.write_with_info(zi, path)
 
@@ -177,7 +170,7 @@ init python in distribute:
             zi.date_time = self.get_date_time(path)
             zi.compress_type = zipfile.ZIP_STORED
             zi.create_system = 3
-            zi.external_attr = (long(0o040755) << 16) | 0x10
+            zi.external_attr = (long(0040755) << 16) | 0x10
 
             self.zipfile.write_with_info(zi, path)
 
@@ -208,9 +201,9 @@ init python in distribute:
                 info.type = tarfile.DIRTYPE
 
             if xbit:
-                info.mode = 0o755
+                info.mode = 0755
             else:
-                info.mode = 0o644
+                info.mode = 0644
 
             info.uid = 1000
             info.gid = 1000
@@ -274,7 +267,7 @@ init python in distribute:
 
         def mkdir(self, path):
             if not os.path.isdir(path):
-                os.makedirs(path, 0o755)
+                os.makedirs(path, 0755)
 
         def __init__(self, path):
             self.path = path
@@ -289,9 +282,9 @@ init python in distribute:
             shutil.copy2(path, fn)
 
             if xbit:
-                os.chmod(fn, 0o755)
+                os.chmod(fn, 0755)
             else:
-                os.chmod(fn, 0o644)
+                os.chmod(fn, 0644)
 
         def add_directory(self, name, path):
             fn = os.path.join(self.path, name)
@@ -318,24 +311,14 @@ init python in distribute:
 
             if os.path.exists(self.path):
                 os.unlink(self.path)
-            if renpy.windows:
-                p = subprocess.Popen(
-                    ['powershell',
-                    'Compress-Archive',
-                    '-Path',
-                    os.path.abspath(self.directory) + '/*',
-                    '-CompressionLevel Optimal -DestinationPath',
-                    os.path.abspath(self.path),
-                    '-Force']
-                )
-            else:
-                p = subprocess.Popen([
-                    "zip",
-                    "-9rq",
-                    os.path.abspath(self.path),
-                ] + os.listdir(self.directory),
-                cwd=os.path.abspath(self.directory)
-                )
+
+            p = subprocess.Popen([
+                "zip",
+                "-9rq",
+                os.path.abspath(self.path),
+            ] + os.listdir(self.directory),
+            cwd=os.path.abspath(self.directory)
+            )
 
             p.wait()
 
@@ -413,3 +396,7 @@ init python in distribute:
         for i in parallel_threads:
             if i.done:
                 i.done()
+
+
+
+
