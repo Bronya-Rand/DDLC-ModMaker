@@ -38,7 +38,7 @@ jobs:
           submodules: true
       # Finally, let's build the project.
       - name: Build Launcher
-        uses: ProjectAliceDev/renpy-build-action@v1.1.1
+        uses: GanstaKingofSA/renpy-build-action@v1.1.1
         # This ID is needed for the release step.
         id: buildseq
         with:
