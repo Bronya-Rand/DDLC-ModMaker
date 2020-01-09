@@ -17,7 +17,7 @@ on:
 # This is where things get interesting.
 jobs:
   build:
-    name: Building with 6.99
+    name: Building with MM Mods
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -42,7 +42,7 @@ jobs:
         uses: GanstaKingofSA/renpy-build-action@master
         with:
           sdk-version: ${{ matrix.renpy-versions }}
-          project-dir: '../renpy/launcher'
+          project-dir: '.'
         env:
           SDL_AUDIODRIVER: dummy
           SDL_VIDEODRIVER: dummy
