@@ -241,6 +241,8 @@ screen launcher_input:
                 size 24
                 xalign 0.5
                 color INPUT_COLOR
+                allow allow
+                copypaste True
 
             if filename:
                 add SPACER
@@ -258,6 +260,7 @@ init python in interface:
 
     import traceback
     from store import Jump
+    import store._errorhandling as _errorhandling
 
     def common(title, title_color, message, submessage=None, back=None, continue_=None, pause0=False, show_screen=False, **kwargs):
         """
@@ -341,6 +344,13 @@ init python in interface:
 
         common(_("ERROR"), store.ERROR_COLOR, message=message, submessage=submessage, back=action, **kwargs)
 
+
+    store._ignore_action = Jump("front_page")
+
+    _errorhandling.rollback = False
+    _errorhandling.ignore = True
+    _errorhandling.reload = False
+    _errorhandling.console = False
 
     @contextlib.contextmanager
     def error_handling(what, label="front_page"):

@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -1308,10 +1308,7 @@ init python in distribute:
             elif format == "update":
                 pkg = UpdatePackage(path, filename, self.destination)
             elif format == "zip" or format == "app-zip":
-                if self.build['renpy']:
-                    pkg = ExternalZipPackage(path)
-                else:
-                    pkg = ZipPackage(path)
+                pkg = ZipPackage(path)
             elif dmg:
 
                 def make_dmg():
