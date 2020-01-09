@@ -168,7 +168,7 @@ label mpt:
                 interface.error(_("[project_name!q] already exists. Please choose a different project name."), project_name=project_name, label=None)
             if os.path.exists(persistent.project_dir):
                 interface.error(_("[persistent.project_dir!q] already exists. Please choose a different project name."), project_dir=project_dir, label=None)
-            interface.info(_('Make sure the MPT Unpacked ZIP is in your DDLC Folder Directory.'), _("Make sure that it's ZIP exists in that folder."))
+            interface.info(_('Make sure the MPT Unpacked ZIP is in your DDLC Folder Directory.'), _("This will be installed in a NEW DDLC folder."))
             interface.interaction(_("Installing MPT"), _("Please wait..."),)
             if persistent.safari == True and renpy.macintosh:
                 interface.interaction(_("Making a DDLC Folder"), _("Copying DDLC. Please wait..."),)
@@ -176,6 +176,7 @@ label mpt:
             else:
                 interface.interaction(_("Making a DDLC Folder"), _("Extracting DDLC. Please wait..."),)
                 zip_extract()
+            import shutil
             shutil.rmtree(persistent.project_dir + '/game/python-packages')
             mpt_extract()
             f = open(persistent.project_dir + '/renpy-version.txt','w+')
