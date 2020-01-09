@@ -74,13 +74,20 @@ init python:
     def mpt_extract():
         import zipfile
         import shutil
-        try:
-            with zipfile.ZipFile(persistent.zip_directory + "/DDLC_MPT-1.0-unpacked.zip", "r") as z:
-                z.extractall(persistent.project_dir + '/temp/DDLC_Mood_Posing_Tool')
-            if renpy.macintosh:
-                shutil.move(ddlc, persistent.project_dir + '/DDLC.app')
-            else:
-                shutil.move(ddlc, persistent.project_dir)
+        #try:
+        with zipfile.ZipFile(persistent.zip_directory + '/DDLC_MPT-1.0-unpacked.zip', "r") as z:
+            z.extractall(persistent.projects_directory + "/temp")
+            ddlc = persistent.projects_directory + '/temp/DDLC_Mood_Posing_Tool/game'
+        # if renpy.macintosh:
+        #     shutil.move(ddlc, persistent.project_dir + '/DDLC.app')
+        # else:
+        files = os.listdir(ddlc)
+
+        for f in files:
+            shutil.move(ddlc+'/'+f, persistent.project_dir + '/game')
+        ddlc = persistent.projects_directory + '/temp/DDLC_Mood_Posing_Tool'
+        shutil.move(ddlc + "/commands.txt", persistent.project_dir)
+        shutil.move(ddlc + "/credits.txt", persistent.project_dir)
         #except:
             #shutil.rmtree(persistent.project_dir)
             #interface.error(_("MPT ZIP file missing, or corrupt."), _("Check if the ZIP exists or re-download the tool."))
@@ -169,7 +176,7 @@ label mpt:
             else:
                 interface.interaction(_("Making a DDLC Folder"), _("Extracting DDLC. Please wait..."),)
                 zip_extract()
-            template_extract()
+            shutil.rmtree(persistent.project_dir + '/game/python-packages')
             mpt_extract()
             f = open(persistent.project_dir + '/renpy-version.txt','w+')
             f.write("7")
