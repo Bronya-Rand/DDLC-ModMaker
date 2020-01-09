@@ -36,10 +36,6 @@ jobs:
           # We need this since sample_mod is actually a Git submodule.
           # This may not apply to you if your mod is in the repo itself.
           submodules: true
-      - name: Set up mod for build
-        shell: bash
-        run: |
-          rm -r renpy
       # Finally, let's build the project.
       - name: Build Launcher
         uses: ProjectAliceDev/renpy-build-action@v1.1.1
