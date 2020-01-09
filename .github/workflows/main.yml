@@ -17,7 +17,7 @@ on:
 # This is where things get interesting.
 jobs:
   build:
-    name: Building with MM Mods
+    name: Setting up SDK and OS
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -28,7 +28,7 @@ jobs:
     steps:
 
       # First we clone the repo
-      - name: Clone repository
+      - name: Clone the repo
         uses: actions/checkout@v1
         with:
           fetch-depth: 50
@@ -36,13 +36,18 @@ jobs:
           # We need this since sample_mod is actually a Git submodule.
           # This may not apply to you if your mod is in the repo itself.
           submodules: true
-
+      - name: Set up mod for build
+        shell: bash
+        run: |
+          rm -r renpy
       # Finally, let's build the project.
-      - name: Build VN project
-        uses: GanstaKingofSA/renpy-build-action@master
+      - name: Build Launcher
+        uses: ProjectAliceDev/renpy-build-action@v1.1.1
+        # This ID is needed for the release step.
+        id: buildseq
         with:
-          sdk-version: ${{ matrix.renpy-versions }}
-          project-dir: '.'
+          sdk-version: ${{ matrix.rnpy_versions }}
+          project-dir: launcher
         env:
           SDL_AUDIODRIVER: dummy
           SDL_VIDEODRIVER: dummy
