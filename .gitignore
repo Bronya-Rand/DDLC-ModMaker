@@ -7,3 +7,4 @@ errors.txt
 tmp
 renpy-*.*.*-dists
 DDMMaker-*.*.*-dists
+*.pyo
