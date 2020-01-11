@@ -86,11 +86,12 @@ init python:
                 ddlc = persistent.projects_directory + '/temp/DDLC_Mood_Posing_Tool'
                 shutil.move(ddlc + "/commands.txt", persistent.project_dir + '/DDLC.app/Contents/Resources/autorun')
                 shutil.move(ddlc + "/credits.txt", persistent.project_dir + '/DDLC.app/Contents/Resources/autorun')
-            for f in files:
-                shutil.move(ddlc+'/'+f, persistent.project_dir + '/game')
-            ddlc = persistent.projects_directory + '/temp/DDLC_Mood_Posing_Tool'
-            shutil.move(ddlc + "/commands.txt", persistent.project_dir)
-            shutil.move(ddlc + "/credits.txt", persistent.project_dir)
+            else:
+                for f in files:
+                    shutil.move(ddlc+'/'+f, persistent.project_dir + '/game')
+                ddlc = persistent.projects_directory + '/temp/DDLC_Mood_Posing_Tool'
+                shutil.move(ddlc + "/commands.txt", persistent.project_dir)
+                shutil.move(ddlc + "/credits.txt", persistent.project_dir)
         except:
             shutil.rmtree(persistent.project_dir)
             interface.error(_("MPT ZIP file not original, missing, or corrupt."), _("Check if the ZIP exists or re-download the tool."))
