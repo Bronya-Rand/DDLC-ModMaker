@@ -104,10 +104,11 @@ screen bottom_info:
 
                 hbox:
                     spacing INDENT
-                    textbutton _("Documentation") style "l_link" action interface.OpenDocumentation()
+                    textbutton _("Ren'Py Docs") style "l_link" action interface.OpenDocumentation()
                     textbutton _("About") style "l_link" action Jump("about")
                     textbutton _("Download DDLC") style "l_link" action OpenURL(interface.DDLC_URL)
                     textbutton _("Updates") style "l_link" action OpenURL(interface.GIT_URL)
+                    textbutton _("Install DDCC") style "l_link" action Jump("ddcc")
 
                 hbox:
                     spacing INDENT
@@ -115,7 +116,6 @@ screen bottom_info:
 
                     # if ability.can_update:
                     #     textbutton _("update") action Jump("update") style "l_link"
-
                     textbutton _("Settings") style "l_link" action Jump("preferences")
                     textbutton _("Exit") style "l_link" action Quit(confirm=False)
 

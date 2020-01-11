@@ -138,7 +138,7 @@ screen front_page:
             except IOError:
                 launch = "error"
         if launch == False:
-            textbutton _("DDMMaker 7 Needed"):
+            textbutton _("DDMMaker 7.3.5 Needed"):
                 xalign 0.95
                 yalign 0.83
                 style "l_button"
@@ -263,7 +263,7 @@ screen front_page_project:
                 has vbox
 
                 if ability.can_distribute:
-                    textbutton _("Build Project") action Jump("build_distributions")
+                    textbutton _("Build Project/Mod") action Jump("build_distributions")
                 textbutton _("Generate Translations") action Jump("translate")
                 textbutton _("Extract Dialogue") action Jump("extract_dialogue")
                 textbutton _("Delete Project") action Jump("delete_folder")

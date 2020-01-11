@@ -73,6 +73,14 @@ init python:
             except:
                 shutil.rmtree(persistent.project_dir)
                 interface.error(_("Template ZIP file missing, or corrupt."), _("Check if the ZIP exists or re-download the tool."))
+    def cc_extract():
+        with zipfile.ZipFile(persistent.ddcc_directory + '/ddcc-master.zip', "r") as z:
+            z.extractall(persistent.projects_directory + "/temp")
+            ddcc = persistent.projects_directory + '/temp/ddcc-master'
+        shutil.rmtree(persistent.project_dir + '/game/python-packages')
+        files = os.listdir(ddcc)
+        for f in files:
+            shutil.move(ddcc+'/'+f, persistent.project_dir + '/game')
 
 label new_project:
     if persistent.projects_directory is None:
@@ -124,3 +132,55 @@ label new_project:
             project.manager.scan()
             break
     return
+
+label ddcc:
+
+    python:
+        interface.info(_("Making a Comedy Club Skit requires you to download the Comedy Club ZIP from https://github.com/logokas/ddcc."), _("Select Clone and Download and Download ZIP. Then in DDMMaker, point to where it's downloaded."),)
+
+        if renpy.macintosh and persistent.safari:
+            interface.interaction(_("DDCC ZIP Directory"), _("Please choose where the `ddcc-master` folder is located using the directory chooser.\n{b}The directory chooser may have opened behind this window.{/b}"), _("This launcher will scan for projects in this directory, will create new projects in this directory, and will place built projects into this directory."),)
+        else:
+            interface.interaction(_("DDCC ZIP Directory"), _("Please choose where `ddlc-master.zip` is located using the directory chooser.\n{b}The directory chooser may have opened behind this window.{/b}"), _("This launcher will scan for projects in this directory, will create new projects in this directory, and will place built projects into this directory."),)
+
+        path, is_default = choose_directory(persistent.ddcc_directory)
+
+        if is_default:
+            interface.error(_("The operation was cancelled:"),)
+
+        persistent.ddcc_directory = path
+        project_name = ""
+        while True:
+            project_name = interface.input(
+                _("Project Name"),
+                _("Please enter the name of your project:"),
+                filename=True,
+                cancel=Jump("front_page"),
+            )
+            
+            project_name = project_name.strip()
+            if not project_name:
+                interface.error(_("The project name may not be empty."), label=None)
+            if project_name == "launcher":
+                interface.error(_("'launcher' is a reserved project name. Please choose an different project name."))
+            persistent.project_dir = os.path.join(persistent.projects_directory, project_name)
+            
+            if project.manager.get(project_name) is not None:
+                interface.error(_("[project_name!q] already exists. Please choose a different project name."), project_name=project_name, label=None)
+            if os.path.exists(persistent.project_dir):
+                interface.error(_("[persistent.project_dir!q] already exists. Please choose a different project name."), project_dir=project_dir, label=None)
+            if persistent.safari == True and renpy.macintosh:
+                interface.interaction(_("Making a DDLC Folder"), _("Copying DDLC. Please wait..."),)
+                ddlc_copy()
+            else:
+                interface.interaction(_("Making a DDLC Folder"), _("Extracting DDLC. Please wait..."),)
+                zip_extract()
+            interface.interaction(_("Copying Template Files"), _("Copying DDCC Skit Template. Please wait..."),)
+            cc_extract()
+            f = open(persistent.project_dir + '/renpy-version.txt','w+')
+            f.write("6")
+            interface.info(_("Please read ddcc_submission_guidelines.txt in the game folder on the DDCC Submission Guidelines you should follow."),)
+            interface.info(_('A file named `renpy-version.txt` has been created.'), _("Do not delete this file as it is needed to determine which version of Ren'Py it uses for building your mod."))
+            project.manager.scan()
+            break
+    jump front_page
