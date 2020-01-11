@@ -7,4 +7,5 @@ errors.txt
 tmp
 renpy-*.*.*-dists
 DDMMaker-*.*.*-dists
-*.pyo
+renpy/*.pyo
+launcher/project.json

@@ -161,6 +161,7 @@ label mpt:
         $ interface.error(_("The DDLC ZIP directory could not be set. Giving up."))
 
     python:
+        interface.info(_("Installing Mood Pose Tool requires you to download the Unpacked ZIP from http://bit.ly/DDLC_MPT_v1p0"), _("Download the ZIP and put it in your DDLC ZIP Directory."),)
         project_name = ""
         while True:
             project_name = interface.input(
