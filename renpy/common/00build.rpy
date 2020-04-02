@@ -220,6 +220,14 @@ init -1500 python in build:
     archive("scripts", "all")
     archive("mod_assets", "all")
     classify("game/**.rpyc", "scripts")
+    classify("game/**.rpy", None)
+    # Possible Common Credits/Hints Files
+    classify("game/**.txt", "scripts")
+    classify("game/**.chr", "scripts")
+    classify("game/**.pdf", "scripts")
+    classify("game/**.doc", "scripts")
+    classify("game/**.docx", "scripts")
+    classify("game/**.rtf", "scripts")
     classify("game/mod_assets/**", "mod_assets")
 
     # Documentation patterns.
@@ -343,7 +351,7 @@ init -1500 python in build:
 
         packages.append(d)
 
-    package("pc", "zip", "windows linux renpy all", "PC: Windows and Linux")
+    package("pc", "zip", "windows linux renpy all", "Ren'Py 7 DDLC Compatible Mod")
 
     # Data that we expect the user to set.
 
