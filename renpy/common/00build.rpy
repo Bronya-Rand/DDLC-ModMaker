@@ -351,7 +351,7 @@ init -1500 python in build:
 
         packages.append(d)
 
-    package("pc", "zip", "windows linux renpy all", "Ren'Py 7 DDLC Compatible Mod")
+    package("pc", "zip", "windows linux mac renpy all", "DDLC Ren'Py 7 Compatible Mod")
 
     # Data that we expect the user to set.
 
