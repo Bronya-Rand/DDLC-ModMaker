@@ -81,6 +81,13 @@ init python:
         files = os.listdir(ddcc)
         for f in files:
             shutil.move(ddcc+'/'+f, persistent.project_dir + '/game')
+    def cc_copy():
+        ddcc = persistent.zip_directory + '/ddcc-master'
+        shutil.copytree(ddcc, persistent.project_dir + '/temp/ddcc-master')
+        shutil.rmtree(persistent.project_dir + '/DDLC.app/Contents/Resources/autorun/game/python-packages')
+        files = os.listdir(ddcc)
+        for f in files:
+            shutil.move(ddcc+'/'+f, persistent.project_dir + '/DDLC.app/Contents/Resources/autorun/game')
 
 label new_project:
     if persistent.projects_directory is None:
@@ -136,19 +143,8 @@ label new_project:
 label ddcc:
 
     python:
-        interface.info(_("Making a Comedy Club Skit requires you to download the Comedy Club ZIP from https://github.com/logokas/ddcc."), _("Select Clone and Download and Download ZIP. Then in DDMMaker, point to where it's downloaded."),)
+        interface.info(_("Making a Comedy Club Skit requires you to download the Comedy Club ZIP from https://github.com/logokas/ddcc."), _("Select Clone and Download and Download ZIP to your DDLC ZIP Directory."),)
 
-        if renpy.macintosh and persistent.safari:
-            interface.interaction(_("DDCC ZIP Directory"), _("Please choose where the `ddcc-master` folder is located using the directory chooser.\n{b}The directory chooser may have opened behind this window.{/b}"), _("This launcher will scan for projects in this directory, will create new projects in this directory, and will place built projects into this directory."),)
-        else:
-            interface.interaction(_("DDCC ZIP Directory"), _("Please choose where `ddlc-master.zip` is located using the directory chooser.\n{b}The directory chooser may have opened behind this window.{/b}"), _("This launcher will scan for projects in this directory, will create new projects in this directory, and will place built projects into this directory."),)
-
-        path, is_default = choose_directory(persistent.ddcc_directory)
-
-        if is_default:
-            interface.error(_("The operation was cancelled:"),)
-
-        persistent.ddcc_directory = path
         project_name = ""
         while True:
             project_name = interface.input(
@@ -176,7 +172,10 @@ label ddcc:
                 interface.interaction(_("Making a DDLC Folder"), _("Extracting DDLC. Please wait..."),)
                 zip_extract()
             interface.interaction(_("Copying Template Files"), _("Copying DDCC Skit Template. Please wait..."),)
-            cc_extract()
+            if renpy.macintosh and persistent.safari == True:
+                cc_copy()
+            else:
+                cc_extract()
             f = open(persistent.project_dir + '/renpy-version.txt','w+')
             f.write("6")
             interface.info(_("Please read ddcc_submission_guidelines.txt in the game folder on the DDCC Submission Guidelines you should follow."),)

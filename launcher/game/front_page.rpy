@@ -127,16 +127,21 @@ screen front_page:
             use front_page_project
 
     if project.current is not None:
-        python:
-            ver = persistent.projects_directory + '/' + project.current.name + '/renpy-version.txt'
-            try:
-                with open(ver) as f:
-                    if f.readline() > "6":
-                        launch = False
-                    else:
-                        launch = True
-            except IOError:
+        if persistent.projects_directory is None:
+            python:
                 launch = "error"
+            pass
+        else:
+            python:
+                ver = persistent.projects_directory + '/' + project.current.name + '/renpy-version.txt'
+                try:
+                    with open(ver) as f:
+                        if f.readline() > "6":
+                            launch = False
+                        else:
+                            launch = True
+                except IOError:
+                    launch = "error"
         if launch == False:
             textbutton _("DDMMaker 7.3.5 Needed"):
                 xalign 0.95
