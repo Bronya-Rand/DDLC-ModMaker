@@ -68,7 +68,7 @@ init python:
                 interface.error(_("Template ZIP file missing, or corrupt."), _("Check if the ZIP exists or re-download the tool."))
         else:
             try:
-                with zipfile.ZipFile(config.basedir + "/templates/DDLCModTemplate-2.2.4-Standard.zip", "r") as z:
+                with zipfile.ZipFile(config.basedir + "/templates/DDLCModTemplate-2.3.0.zip", "r") as z:
                     z.extractall(persistent.project_dir)
             except:
                 shutil.rmtree(persistent.project_dir)
