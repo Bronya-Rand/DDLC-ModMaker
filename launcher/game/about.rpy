@@ -36,9 +36,13 @@ screen about:
 
             null height 15
 
-            text _("[version!q]") xalign 0.5 bold True
+            text _("DDMMaker [config.version!q]") xalign 0.5 bold True
 
-            null height 20
+            null height 5
+
+            text _("Ren'Py " + renpy.version().split()[1]) xalign 0.5 bold False
+
+            null height 15
 
             textbutton _("View license") action interface.OpenLicense() xalign 0.5
 
