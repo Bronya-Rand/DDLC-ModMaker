@@ -122,16 +122,6 @@ init -1500 python in build:
         ("update/", None),
         ("common/", None),
         ("update/", None),
-        ( "audio.rpa", None),
-        ( "fonts.rpa", None),
-        ( "images.rpa", None),
-        ( "DDLCModTemplate.xcodeproj/", None),
-        ( "original_scripts/", None),
-        ( "XCODE.md", None),
-        ( "README.md", None),
-        ( "images.rpa", None),
-        ( "Config.xcconfig", None),
-        ( "renpy-version.txt", None),
 
         ("icon.ico", None),
         ("icon.icns", None),
@@ -215,20 +205,6 @@ init -1500 python in build:
         """
 
         archives.append((name, make_file_lists(file_list)))
-
-    archive("archive", "all")
-    archive("scripts", "all")
-    archive("mod_assets", "all")
-    classify("game/**.rpyc", "scripts")
-    classify("game/**.rpy", None)
-    # Possible Common Credits/Hints Files
-    classify("game/**.txt", "scripts")
-    classify("game/**.chr", "scripts")
-    classify("game/**.pdf", "scripts")
-    classify("game/**.doc", "scripts")
-    classify("game/**.docx", "scripts")
-    classify("game/**.rtf", "scripts")
-    classify("game/mod_assets/**", "mod_assets")
 
     # Documentation patterns.
 
@@ -350,8 +326,6 @@ init -1500 python in build:
             }
 
         packages.append(d)
-
-    package("pc", "zip", "windows linux mac renpy all", "DDLC Ren'Py 7 Compatible Mod")
 
     # Data that we expect the user to set.
 

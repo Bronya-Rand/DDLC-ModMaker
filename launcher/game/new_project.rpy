@@ -62,7 +62,7 @@ init python:
         import zipfile
         import shutil
         try:
-            with zipfile.ZipFile(config.basedir + "/templates/DDLCModTemplate-2.2.4-Standard.zip", "r") as z:
+            with zipfile.ZipFile(config.basedir + "/templates/DDLCModTemplate-2.3.0.zip", "r") as z:
                 z.extractall(persistent.pd)
         except:
             shutil.rmtree(persistent.pd)
@@ -208,7 +208,10 @@ label mpt:
 
     python:
         import glob
-        interface.info(_("Installing Mood Pose Tool requires you to download the Unpacked ZIP from http://bit.ly/DDLC_MPT_v1p0"), _("Download the ZIP and put it in your DDLC ZIP Directory."),)
+        if renpy.macintosh:
+            interface.info(_("Installing MPT requires you to download the {i}unpacked{/i} ZIP from {i}http://bit.ly/DDLC_MPT_v1p0{/i}"), _("Download MPT's ZIP and place it in the directory where {i}ddlc-mac.zip{/i} is located."),)
+        else:
+            interface.info(_("Installing MPT requires you to download the {i}unpacked{/i} ZIP from {i}http://bit.ly/DDLC_MPT_v1p0{/i}"), _("Download MPT's ZIP and place it in the directory where {i}ddlc-win.zip{/i} is located."),)
         project_name = ""
         while True:
             project_name = interface.input(
