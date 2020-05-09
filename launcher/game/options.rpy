@@ -44,7 +44,7 @@ init -1 python hide:
     # This controls the title of the window, when Ren'Py is
     # running in a window.
 
-    config.window_title = u"Doki Doki Mod Maker"
+    config.window_title = u"Doki Doki Mod Maker 7.3.5"
 
     # These control the name and version of the game, that are reported
     # with tracebacks and other debugging logs.
@@ -160,7 +160,7 @@ init -1 python hide:
     # stored. (It needs to be set early, before any other init code
     # is run, so the persistent information can be found by the init code.)
 python early:
-    config.save_directory = "DDMMaker"
+    config.save_directory = "DDMMaker7"
 
 init -1 python hide:
     #####################
@@ -228,9 +228,9 @@ init python:
     # directory 'mygame-1.0-win', in the 'mygame-1.0-win.zip' file.
 
     if 'RENPY_BUILD_VERSION' in os.environ:
-        build.directory_name = "DDMMaker-" + os.environ['RENPY_BUILD_VERSION']
+        build.directory_name = "DDMMaker7-" + os.environ['RENPY_BUILD_VERSION']
     else:
-        build.directory_name = "DDMMaker-" + config.version.rsplit('.', 1)[0]
+        build.directory_name = "DDMMaker7-" + config.version
 
     # The name that's uses for executables - the program that users will run
     # to start the game. For example, if this is 'mygame', then on Windows,

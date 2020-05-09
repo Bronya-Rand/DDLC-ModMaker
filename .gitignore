@@ -7,5 +7,7 @@ errors.txt
 tmp
 renpy-*.*.*-dists
 DDMMaker-*.*.*-dists
+DDMMaker7-*.*.*-dists
+DDMMaker6-*.*.*-dists
 renpy/*.pyo
 launcher/project.json
