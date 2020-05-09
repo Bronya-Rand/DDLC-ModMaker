@@ -221,7 +221,7 @@ init python:
     build.renpy = True
 
     # The version number that's supplied to the updater.
-    build.version = "Ren'Py {}".format(config.version)
+    build.version = "Ren'Py {}".format(renpy.version().split()[1])
 
     # The name that's used for directories and archive files. For example, if
     # this is 'mygame-1.0', the windows distribution will be in the
