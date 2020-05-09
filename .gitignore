@@ -10,5 +10,7 @@ atom
 jedit
 atom-*.zsync.part
 DDMMaker-*.*.*-dists
+DDMMaker7-*.*.*-dists
+DDMMaker6-*.*.*-dists
 clear_7_files.py
 *.pyo
