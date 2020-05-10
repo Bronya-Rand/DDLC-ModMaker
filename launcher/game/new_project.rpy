@@ -234,14 +234,9 @@ label mpt:
             if renpy.macintosh and persistent.safari == True:
                 pass
             else:
-                if renpy.linux:
-                    if not glob.glob(persistent.zip_directory + '/./DDLC_MPT-[0-9].*_unpacked.*'):
-                        interface.error(_("MPT ZIP file cannot be found by glob."), _("Check if the ZIP exists or re-download the tool."), label=None)
-                        break
-                else:
-                    if not glob.glob(persistent.zip_directory + './DDLC_MPT-[0-9].*_unpacked.*'):
-                        interface.error(_("MPT ZIP file cannot be found by glob."), _("Check if the ZIP exists or re-download the tool."), label=None)
-                        break
+                if not glob.glob(persistent.zip_directory + '/DDLC_MPT-[0-9].*_unpacked.*'):
+                    interface.error(_("MPT ZIP file cannot be found by glob."), _("Check if the ZIP exists or re-download the tool."), label=None)
+                    break
             if project.manager.get(project_name) is not None:
                 interface.error(_("[project_name!q] already exists. Please choose a different project name."), project_name=project_name, label=None)
                 continue
