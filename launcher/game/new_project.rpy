@@ -74,7 +74,7 @@ init python:
                 shutil.rmtree(persistent.project_dir)
                 interface.error(_("Template ZIP file missing, or corrupt."), _("Check if the ZIP exists or re-download the tool."))
     def cc_extract():
-        with zipfile.ZipFile(persistent.ddcc_directory + '/ddcc-master.zip', "r") as z:
+        with zipfile.ZipFile(persistent.zip_directory + '/ddcc-master.zip', "r") as z:
             z.extractall(persistent.projects_directory + "/temp")
             ddcc = persistent.projects_directory + '/temp/ddcc-master'
         shutil.rmtree(persistent.project_dir + '/game/python-packages')
