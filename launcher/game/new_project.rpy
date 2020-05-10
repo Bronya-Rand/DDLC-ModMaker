@@ -71,10 +71,7 @@ init python:
         import zipfile
         import shutil
         import glob
-        if renpy.linux:
-            mptzip = glob.glob(persistent.zip_directory + '/./DDLC_MPT-[0-9].*_unpacked.*')
-        else:
-            mptzip = glob.glob(persistent.zip_directory + './DDLC_MPT-[0-9].*_unpacked.*')
+        mptzip = glob.glob(persistent.zip_directory + '/DDLC_MPT-[0-9].*_unpacked.*')
 
         with zipfile.ZipFile(mptzip[0], "r") as z:
             z.extractall(persistent.projects_directory + "/temp")
