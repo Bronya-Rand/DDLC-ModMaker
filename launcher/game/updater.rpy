@@ -49,6 +49,17 @@ init python:
 
         return renpy.invoke_in_new_context(updater.update, dlc_url, add=[name], public_key=PUBLIC_KEY, simulate=UPDATE_SIMULATE, restart=restart)
 
+    def add_rapt(name, restart=False):
+        """
+        Adds RAPT for 6.99, if it doesn't already exist.
+
+        Returns True if the DLC is installed, False otherwise.
+        """
+
+        dlc_url = "http://update.renpy.org/6.99.12.4/updates.json"
+
+        return renpy.invoke_in_new_context(updater.update, dlc_url, add=[name], public_key=PUBLIC_KEY, simulate=UPDATE_SIMULATE, restart=restart)
+
 # This should NEVER Happen
 screen update_channel:
 

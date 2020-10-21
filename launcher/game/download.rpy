@@ -56,10 +56,7 @@ init python:
 
             try:
                 # Open the URL.
-
-                import ssl
-                context = ssl.create_default_context(purpose=ssl.Purpose.SERVER_AUTH, cafile=renpy.loader.transfn("cacert.pem"))
-                self.urlfile = urllib2.urlopen(url, context=context)
+                self.urlfile = urllib2.urlopen(url)
 
                 t = threading.Thread(target=self.thread)
                 t.daemon = True

@@ -88,7 +88,7 @@ screen front_page:
                     has hbox:
                         xfill True
 
-                    text _("Projects:") style "l_label_text" size 36 yoffset 10
+                    text _("Mod Projects:") style "l_label_text" size 36 yoffset 10
 
                     textbutton _("refresh"):
                         xalign 1.0
@@ -150,7 +150,7 @@ screen front_page:
                 action NullAction()
                 right_margin HALF_INDENT
         elif launch == True or project.current.name == "launcher":
-            textbutton _("Launch Project") action project.Launch() style "l_right_button"
+            textbutton _("Launch Mod") action project.Launch() style "l_right_button"
             key "K_F5" action project.Launch()
         else:
             textbutton _("Cannot determine version."):
@@ -209,7 +209,7 @@ screen front_page_project:
         frame style "l_label":
             has hbox xfill True
             text "[p.name!q]" style "l_label_text"
-            label _("Active Project") style "l_alternate"
+            label _("Active Mod") style "l_alternate"
 
         grid 2 1:
             xfill True
@@ -261,6 +261,7 @@ screen front_page_project:
                 #     textbutton _("Change Theme") action Jump("choose_theme")
                 textbutton _("Delete Persistent") action Jump("rmpersistent")
                 textbutton _("Force Recompile") action Jump("force_recompile")
+                textbutton _("Set Version") action Jump("set_version")
 
                 # textbutton "Relaunch" action Relaunch
 
@@ -268,7 +269,8 @@ screen front_page_project:
                 has vbox
 
                 if ability.can_distribute:
-                    textbutton _("Build Project/Mod") action Jump("build_distributions")
+                    textbutton _("Build Mod") action Jump("build_distributions")
+                textbutton _("Build Mod for Android") action Jump("android")
                 textbutton _("Generate Translations") action Jump("translate")
                 textbutton _("Extract Dialogue") action Jump("extract_dialogue")
                 textbutton _("Delete Project") action Jump("delete_folder")
@@ -314,3 +316,36 @@ label force_recompile:
         project.current.launch([ 'compile' ], wait=True)
 
     jump front_page
+
+label set_version:
+    python hide:
+        ver = persistent.projects_directory + '/' + project.current.name + '/renpy-version.txt'
+        try:
+            with open(ver) as f:
+                if f.readline() > "6":
+                    delete_response = interface.input(
+                        _("Warning"),
+                        _("This mod is set to Ren'Py 7 Mode. If you change this, it will revert to Ren'Py 6 and may result in a unloadable mod. Are you sure you want to proceed? Type either Yes or No."),
+                        filename=False,
+                        cancel=Jump("front_page"))
+
+                    delete_response = delete_response.strip()
+
+                    if not delete_response:
+                        interface.error(_("The operation has been cancelled."))
+
+                    response = delete_response
+
+                    if response == "No" or response == "no":
+                        interface.error(_("The operation has been cancelled."))
+                    elif response == "Yes" or response == "yes":
+                        f = open(ver,'w+')
+                        f.write("6")
+                    else:
+                        interface.error(_("Invalid Input."))
+                else:
+                    f = open(ver,'w+')
+                    f.write("6")
+        except IOError:
+            f = open(ver,'w+')
+            f.write("6")
