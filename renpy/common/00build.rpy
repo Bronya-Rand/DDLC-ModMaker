@@ -327,6 +327,8 @@ init -1500 python in build:
 
         packages.append(d)
 
+    package("android", "directory", "android all", hidden=True, update=False, dlc=True)
+
     # Data that we expect the user to set.
 
     # A base name that's used to create the other names.

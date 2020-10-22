@@ -12,3 +12,4 @@ DDMMaker6-*.*.*-dists
 renpy/*.pyo
 launcher/project.json
 rapt
+clean_renpy_files.py
