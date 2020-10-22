@@ -12,6 +12,6 @@ atom-*.zsync.part
 DDMMaker-*.*.*-dists
 DDMMaker7-*.*.*-dists
 DDMMaker6-*.*.*-dists
-clear_7_files.py
+clean_renpy_files.py
 *.pyo
 rapt
