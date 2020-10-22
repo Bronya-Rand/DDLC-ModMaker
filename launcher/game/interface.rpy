@@ -121,6 +121,7 @@ screen bottom_info:
                     textbutton _("Download DDLC") style "l_link" action OpenURL(interface.DDLC_URL)
                     textbutton _("Install MPT") style "l_link" action Jump("mpt")
                     textbutton _("Updates") style "l_link" action OpenURL(interface.GIT_URL)
+                    textbutton _("Restart") style "l_link" action Jump("restart_ddmm")
 
                 hbox:
                     spacing INDENT
@@ -520,3 +521,8 @@ init python in interface:
         """
 
         return common(_("CHOICE"), store.QUESTION_COLOR, message, choices=choices, selected=selected, **kwargs)
+
+label restart_ddmm:
+    python:
+        renpy.quit(relaunch=True)
+    return 

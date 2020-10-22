@@ -88,7 +88,7 @@ screen front_page:
                     has hbox:
                         xfill True
 
-                    text _("Projects:") style "l_label_text" size 36 yoffset 10
+                    text _("Mod Projects:") style "l_label_text" size 36 yoffset 10
 
                     textbutton _("refresh"):
                         xalign 1.0
@@ -150,7 +150,7 @@ screen front_page:
                 action NullAction()
                 right_margin HALF_INDENT
         elif launch == True or project.current.name == "launcher":
-            textbutton _("Launch Project") action project.Launch() style "l_right_button"
+            textbutton _("Launch Mod") action project.Launch() style "l_right_button"
             key "K_F5" action project.Launch()
         else:
             textbutton _("Cannot determine version."):
@@ -205,7 +205,7 @@ screen front_page_project:
         frame style "l_label":
             has hbox xfill True
             text "[p.display_name!q]" style "l_label_text"
-            label _("Active Project") style "l_alternate"
+            label _("Active Mod") style "l_alternate"
 
         grid 2 1:
             xfill True
@@ -257,6 +257,7 @@ screen front_page_project:
                 textbutton _("Check Script for Errors") action Jump("lint")
                 textbutton _("Delete Persistent") action Jump("rmpersistent")
                 textbutton _("Force Recompile") action Jump("force_recompile")
+                textbutton _("Set Version") action Jump("set_version")
 
                 # textbutton "Relaunch" action Relaunch
 
@@ -264,7 +265,8 @@ screen front_page_project:
                 has vbox
 
                 if ability.can_distribute:
-                    textbutton _("Build Project/Mod") action Jump("build_distributions")
+                    textbutton _("Build Mod") action Jump("build_distributions")
+                textbutton _("Build Mod for Android") action Jump("android")
                 textbutton _("Generate Translations") action Jump("translate")
                 textbutton _("Extract Dialogue") action Jump("extract_dialogue")
                 textbutton _("Delete Project") action Jump("delete_folder")
@@ -316,3 +318,40 @@ label version_error:
     python:
         interface.info(_("This project is unavailable to launch as this is either a non-DDLC mod/game or is missing 'renpy-version.txt'"), _("Please check if 'renpy-version.txt' exists or run normal Ren'Py for non-DDLC games/mods."),)
         renpy.jump('front_page')
+
+label set_version:
+    python hide:
+        ver = persistent.projects_directory + '/' + project.current.name + '/renpy-version.txt'
+        try:
+            with open(ver) as f:
+                if f.readline() < "7":
+                    delete_response = interface.input(
+                        _("Warning"),
+                        _("This mod is set to Ren'Py 6 Mode. If you change this, it will revert to Ren'Py 7 and may result in a improperly packaged mod. Are you sure you want to proceed? Type either Yes or No."),
+                        filename=False,
+                        cancel=Jump("front_page"))
+
+                    delete_response = delete_response.strip()
+
+                    if not delete_response:
+                        interface.error(_("The operation has been cancelled."))
+
+                    response = delete_response
+
+                    if response == "No" or response == "no":
+                        interface.error(_("The operation has been cancelled."))
+                    elif response == "Yes" or response == "yes":
+                        f = open(ver,'w+')
+                        f.write("7")
+                        interface.info(_("Set the Ren'Py mode version to Ren'Py 7."))
+                    else:
+                        interface.error(_("Invalid Input."))
+                else:
+                    f = open(ver,'w+')
+                    f.write("7")
+                    interface.info(_("Set the Ren'Py mode version to Ren'Py 7."))
+        except IOError:
+            f = open(ver,'w+')
+            f.write("7") 
+            interface.info(_('A file named `renpy-version.txt` has been created in the base directory.'), _("Do not delete this file as it is needed to determine which version of Ren'Py it uses for building your mod."))
+    return
