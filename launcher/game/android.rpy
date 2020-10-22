@@ -32,7 +32,7 @@ init python:
     NO_SDK_TEXT = _("RAPT is installed, but you'll need to install the Android SDK before you can build your mod for Android. Choose Install SDK to do this.")
     NO_KEY_TEXT = _("RAPT is installed, but a key hasn't been configured. Please create a new key, or restore android.keystore.")
     NO_CONFIG_TEXT = _("The current mod project has not been configured. Use \"Configure\" to configure it before building.")
-    OK_TEXT = _("Choose \"Build\" to build the mod, or attach an Android device and choose \"Build & Install\" to build and install it on the device.")
+    OK_TEXT = _("Choose \"Build Mod\" to build your mod for Android, or attach an Android device and choose \"Build Mod & Install\" to build and install it on the device.")
 
     PHONE_TEXT = _("Attempts to emulate an Android phone.\n\nTouch input is emulated through the mouse, but only when the button is held down. Escape is mapped to the menu button, and PageUp is mapped to the back button.")
     TABLET_TEXT = _("Attempts to emulate an Android tablet.\n\nTouch input is emulated through the mouse, but only when the button is held down. Escape is mapped to the menu button, and PageUp is mapped to the back button.")
@@ -302,6 +302,7 @@ screen android:
             has vbox
 
             label _("Android: [project.current.name!q]")
+            text _("While Ren'Py will ask you to setup app purchases and such, this is against Team Salvato's IPG for mods. Please do not set these settings up. Refer to {i}guide.pdf{/i} for more info.")
 
             add HALF_SPACER
 
@@ -366,15 +367,15 @@ screen android:
                                 action AndroidIfState(state, ANDROID_NO_CONFIG, Jump("android_configure"))
                                 hovered tt.Action(CONFIGURE_TEXT)
 
-                            textbutton _("Build Package"):
+                            textbutton _("Build Mod"):
                                 action AndroidIfState(state, ANDROID_OK, AndroidBuild("android_build"))
                                 hovered tt.Action(BUILD_TEXT)
 
-                            textbutton _("Build & Install"):
+                            textbutton _("Build Mod & Install"):
                                 action AndroidIfState(state, ANDROID_OK, AndroidBuild("android_build_and_install"))
                                 hovered tt.Action(BUILD_AND_INSTALL_TEXT)
 
-                            textbutton _("Build, Install & Launch"):
+                            textbutton _("Build Mod, Install & Launch"):
                                 action AndroidIfState(state, ANDROID_OK, AndroidBuild("android_build_install_and_launch"))
                                 hovered tt.Action(BUILD_INSTALL_AND_LAUNCH_TEXT)
 
