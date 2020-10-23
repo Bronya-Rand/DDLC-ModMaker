@@ -49,6 +49,7 @@ init python:
 
     DEBUG_TEXT = _("Selects the Debug build, which can be accessed through Android Studio. Changing between debug and release builds requires an uninstall from your device.")
     RELEASE_TEXT = _("Selects the Release build, which can be uploaded to stores. Changing between debug and release builds requires an uninstall from your device.")
+    GUIDE_TEXT = _("Opens guide.pdf which goes through the process of releasing mods to Android that are Team Salvato IPG compliant.")
 
 
     import subprocess
@@ -312,7 +313,7 @@ screen android:
             has vbox
 
             label _("Android: [project.current.display_name!q]")
-            text _("While Ren'Py will ask you to setup app purchases and such, this is against Team Salvato's IPG for mods. Please do not set these settings up. Refer to {i}guide.pdf{/i} for more info.")
+            text _("Before continuing, refer to {b}Building Your Mod{/b} in {i}guide.pdf{/i} for building mods for Android.")
 
             add HALF_SPACER
 
@@ -421,7 +422,10 @@ screen android:
                             textbutton _("Logcat"):
                                 action AndroidIfState(state, ANDROID_NO_KEY, Jump("logcat"))
                                 hovered tt.Action(LOGCAT_TEXT)
-
+                            
+                            textbutton _("Open {i}guide.pdf{/i}"): 
+                                action OpenDirectory(config.basedir + "/templates/guide.pdf")
+                                hovered tt.Action(GUIDE_TEXT)
 
                 # Right side.
                 frame:

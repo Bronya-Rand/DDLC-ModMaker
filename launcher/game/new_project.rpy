@@ -62,7 +62,7 @@ init python:
         import zipfile
         import shutil
         try:
-            with zipfile.ZipFile(config.basedir + "/templates/DDLCModTemplate-2.3.0.zip", "r") as z:
+            with zipfile.ZipFile(config.basedir + "/templates/DDLCModTemplate-2.4.0.zip", "r") as z:
                 z.extractall(persistent.pd)
         except:
             shutil.rmtree(persistent.pd)
