@@ -48,7 +48,7 @@ init python:
     CONNECT_TEXT = _("Connects to an Android device running ADB in TCP/IP mode.")
     DISCONNECT_TEXT = _("Disconnects from an Android device running ADB in TCP/IP mode.")
     LOGCAT_TEXT = _("Retrieves the log from the Android device and writes it to a file.")
-
+    GUIDE_TEXT = _("Opens guide.pdf which goes through the process of releasing mods to Android that are Team Salvato IPG compliant.")
 
     import subprocess
     import re
@@ -302,7 +302,7 @@ screen android:
             has vbox
 
             label _("Android: [project.current.name!q]")
-            text _("While Ren'Py will ask you to setup app purchases and such, this is against Team Salvato's IPG for mods. Please do not set these settings up. Refer to {i}guide.pdf{/i} for more info.")
+            text _("Before continuing, refer to {b}Building Your Mod{/b} in {i}guide.pdf{/i} for building mods for Android.")
 
             add HALF_SPACER
 
@@ -405,6 +405,10 @@ screen android:
                             textbutton _("Logcat"):
                                 action AndroidIfState(state, ANDROID_NO_KEY, Jump("logcat"))
                                 hovered tt.Action(LOGCAT_TEXT)
+                            
+                            textbutton _("Open {i}guide.pdf{/i}"): 
+                                action OpenDirectory(config.basedir + "/templates/guide.pdf")
+                                hovered tt.Action(GUIDE_TEXT)
 
 
                 # Right side.
