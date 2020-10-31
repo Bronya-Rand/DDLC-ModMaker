@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -22,9 +22,11 @@
 # This file contains displayables that move, zoom, rotate, or otherwise
 # transform displayables. (As well as displayables that support them.)
 
-from __future__ import print_function
+from __future__ import division, absolute_import, with_statement, print_function, unicode_literals
+from renpy.compat import *
 
-from renpy.display.transform import *  # @UnusedWildImport
+# Some imports are here to handle pickles of a moved class.
+from renpy.display.transform import Transform, Proxy, TransformState, ATLTransform, null  # @UnusedImport
 
 import math
 

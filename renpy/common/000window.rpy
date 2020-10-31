@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -34,19 +34,28 @@ init -1200 python:
     # A list of statements that cause the window to be auto-hidden.
     config.window_auto_hide = [ "scene", "call screen", "menu" ]
 
+    config.window_functions_set_auto = True
+
     _window_auto = False
 
-    def _window_show(trans=False):
+    def _window_show(trans=False, auto=False):
         """
         :doc: window
 
-        The Python equivalent of the "window show" statement.
+        The Python equivalent of the ``window show`` statement.
 
         `trans`
             If False, the default window show transition is used. If None,
             no transition is used. Otherwise, the specified transition is
             used.
+
+        `auto`
+            If True, this becomes the equivalent of the ``window auto show``
+            statment.
         """
+
+        if config.window_functions_set_auto:
+            store._window_auto = auto
 
         if store._window:
             return
@@ -61,17 +70,24 @@ init -1200 python:
         else:
             store._window = True
 
-    def _window_hide(trans=False):
+    def _window_hide(trans=False, auto=False):
         """
         :doc: window
 
-        The Python equivalent of the "window hide" statement.
+        The Python equivalent of the ``window hide`` statement.
 
         `trans`
             If False, the default window hide transition is used. If None,
             no transition is used. Otherwise, the specified transition is
             used.
+
+        `auto`
+            If True, this becomes the equivalent of the ``window auto hide``
+            statment.
         """
+
+        if config.window_functions_set_auto:
+            store._window_auto = auto
 
         if not store._window:
             return
@@ -174,11 +190,11 @@ python early hide:
 
         if "hide" in p:
             trans = eval(p["hide"])
-            _window_hide(trans)
+            _window_hide(trans, auto=True)
 
         if "show" in p:
             trans = eval(p["show"])
-            _window_show(trans)
+            _window_show(trans, auto=True)
 
 
     renpy.register_statement('window show',

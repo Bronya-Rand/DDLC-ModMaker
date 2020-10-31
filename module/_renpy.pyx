@@ -1,5 +1,5 @@
 # -*- python -*-
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -27,11 +27,11 @@ def version():
 
 from sdl2 cimport *
 from pygame_sdl2 cimport *
+from pygame_sdl2 import Surface
 
 cdef extern from "renpy.h":
 
     void core_init()
-    void subpixel_init()
 
     void save_png_core(object, SDL_RWops *, int)
 
@@ -94,14 +94,10 @@ cdef extern from "renpy.h":
     void staticgray_core(object, object,
                          int, int, int, int, int, char *)
 
-    int subpixel32(object, object, float, float, int)
-
     void PyErr_Clear()
 
 
-import pygame
-
-PygameSurface = pygame.Surface
+from pygame_sdl2 import Surface as PygameSurface
 
 def save_png(surf, file, compress=-1):
 
@@ -459,10 +455,6 @@ def staticgray(pysrc, pydst, rmul, gmul, bmul, amul, shift, vmap):
 
 
 def subpixel(pysrc, pydst, xoffset, yoffset, shift):
-
-    if subpixel32(pysrc, pydst, xoffset, yoffset, shift):
-        return
-
     pydst.blit(pysrc, (int(xoffset), int(yoffset)))
 
 
@@ -470,4 +462,3 @@ def subpixel(pysrc, pydst, xoffset, yoffset, shift):
 
 import_pygame_sdl2()
 core_init()
-subpixel_init()

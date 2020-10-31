@@ -26,6 +26,8 @@ cdef class Environ
 
 cdef class GLDraw:
 
+    cdef bint gles
+    cdef bint angle
     cdef bint did_init
     cdef bint did_texture_test
     cdef Environ environ
@@ -47,7 +49,6 @@ cdef class GLDraw:
     cdef object display_info
     cdef tuple clip_cache
     cdef bint fast_dissolve
-    cdef bint allow_fixed
     cdef tuple default_clip
     cdef bint did_render_to_texture
     cdef float dpi_scale
@@ -89,7 +90,7 @@ cdef class Environ:
     cdef void imageblend(self, double fraction, int ramp)
     cdef void set_vertex(self, float *vertices)
     cdef void set_texture(self, int unit, float *coords)
-    cdef void set_color(self, double r, double g, double b, double a)
+    cdef void set_color(self, float r, float g, float b, float a)
     cdef void set_clip(self, tuple clip_box, GLDraw draw)
     cdef void unset_clip(self, GLDraw draw)
     cdef void ortho(self, double left, double right, double bottom, double top, double near, double far)

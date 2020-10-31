@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -19,7 +19,8 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from __future__ import print_function
+from __future__ import division, absolute_import, with_statement, print_function, unicode_literals
+from renpy.compat import *
 
 import collections
 import renpy.sl2
@@ -524,6 +525,7 @@ def register_sl_displayable(*args, **kwargs):
             rv.add(i)
 
     rv.add(if_statement)
+    rv.add(pass_statement)
 
     return rv
 
@@ -614,10 +616,7 @@ class DisplayableParser(Parser):
         self.parse_contents(l, rv, layout_mode=layout_mode, can_has=can_has, can_tag=False)
 
         if len(rv.positional) != len(self.positional):
-            for i in rv.keyword:
-                if i[0] == 'arguments':
-                    break
-            else:
+            if not rv.keyword_exist("arguments"):
                 l.error("{} statement expects {} positional arguments, got {}.".format(self.name, len(self.positional), len(rv.positional)))
 
         return rv
@@ -826,11 +825,12 @@ class PassParser(Parser):
     def parse(self, loc, l, parent, keyword):
 
         l.expect_eol()
+        l.expect_noblock('pass statement')
 
         return slast.SLPass(loc)
 
 
-PassParser("pass")
+pass_statement = PassParser("pass")
 
 
 class DefaultParser(Parser):
@@ -913,9 +913,6 @@ class CustomParser(Parser):
         This must be a word. It's the name of the custom screen language
         statement.
 
-    `positional`
-        The number of positional parameters this statement takes.
-
     `children`
         The number of children this custom statement takes. This should
         be 0, 1, or "many", which means zero or more.
@@ -928,7 +925,7 @@ class CustomParser(Parser):
     returned by :class:`renpy.register_sl_displayable`.
     """
 
-    def __init__(self, name, positional=0, children="many", screen=None):
+    def __init__(self, name, children="many", screen=None):
         Parser.__init__(self, name)
 
         if children == "many":
@@ -947,7 +944,11 @@ class CustomParser(Parser):
             for i in all_statements:
                 self.add(i)
 
+        self.add_property("arguments")
+        self.add_property("properties")
+
         self.add(if_statement)
+        self.add(pass_statement)
 
         global parser
         parser = None
@@ -958,35 +959,29 @@ class CustomParser(Parser):
         else:
             self.screen = name
 
-        # The number of positional parameters required.
-        self.positional = positional
-
     def parse(self, loc, l, parent, keyword):
 
         arguments = [ ]
 
         # Parse positional arguments.
-        for _i in range(self.positional):
-            expr = l.require(l.simple_expression)
-            arguments.append((None, expr))
+        for _i in self.positional:
+            expr = l.simple_expression()
+
+            if expr is None:
+                break
+
+            arguments.append(expr)
 
         # Parser keyword arguments and children.
         block = slast.SLBlock(loc)
         can_has = (self.nchildren == 1)
         self.parse_contents(l, block, can_has=can_has, can_tag=False)
 
-        # Add the keyword arguments, and create an ArgumentInfo object.
-        arguments.extend(block.keyword)
-        block.keyword = [ ]
+        if len(arguments) != len(self.positional):
+            if not block.keyword_exist("arguments"):
+                l.error("{} statement expects {} positional arguments, got {}.".format(self.name, len(self.positional), len(arguments)))
 
-        args = renpy.ast.ArgumentInfo(arguments, None, None)
-
-        # We only need a SLBlock if we have children.
-        if not block.children:
-            block = None
-
-        # Create the Use statement.
-        return slast.SLUse(loc, self.screen, args, None, block)
+        return slast.SLCustomUse(loc, self.screen, arguments, block)
 
 
 class ScreenParser(Parser):
@@ -1036,6 +1031,7 @@ def init():
             i.add(all_statements)
         else:
             i.add(if_statement)
+            i.add(pass_statement)
 
 
 def parse_screen(l, loc):

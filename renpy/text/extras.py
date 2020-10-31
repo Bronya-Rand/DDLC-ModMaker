@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -21,19 +21,21 @@
 
 # Other text-related things.
 
-from __future__ import print_function
+from __future__ import division, absolute_import, with_statement, print_function, unicode_literals
+from renpy.compat import *
 
 import renpy.text
 
 from renpy.text.textsupport import TAG, PARAGRAPH
 import renpy.text.textsupport as textsupport
 
-
 # A list of text tags, mapping from the text tag prefix to if it
 # requires a closing tag.
 text_tags = dict(
     alpha=True,
+    alt=True,
     art=True,
+    done=False,
     image=False,
     p=False,
     w=False,
@@ -47,6 +49,7 @@ text_tags = dict(
     color=True,
     outlinecolor=True,
     size=True,
+    noalt=True,
     nw=False,
     s=True,
     rt=True,
@@ -81,13 +84,13 @@ def check_text_tags(s):
         all_tags.update(dict.fromkeys(self_closing_custom_tags, False))
 
     try:
-        tokens = textsupport.tokenize(unicode(s))
+        tokens = textsupport.tokenize(str(s))
     except Exception as e:
         return e.args[0]
 
     tag_stack = [ ]
 
-    for type, text in tokens:  # @ReservedAssignment
+    for type, text in tokens: # @ReservedAssignment
         if type != TAG:
             continue
 
@@ -141,7 +144,7 @@ def filter_text_tags(s, allow=None, deny=None):
     if (allow is not None) and (deny is not None):
         raise Exception("Only one of the allow and deny keyword arguments should be given to filter_text_tags.")
 
-    tokens = textsupport.tokenize(unicode(s))
+    tokens = textsupport.tokenize(str(s))
 
     rv = [ ]
 
@@ -162,7 +165,46 @@ def filter_text_tags(s, allow=None, deny=None):
                 if kind not in deny:
                     rv.append("{" + text + "}")
         else:
-            rv.append(text)
+            rv.append(text.replace("{", "{{"))
+
+    return "".join(rv)
+
+
+def filter_alt_text(s):
+    """
+    Returns a copy of `s` with the contents of text tags that shouldn't be in
+    alt text filtered. This returns just the text to say, with no text tags
+    at all in it.
+    """
+
+    tokens = textsupport.tokenize(str(s))
+
+    rv = [ ]
+
+    active = set()
+
+    for tokentype, text in tokens:
+
+        if tokentype == PARAGRAPH:
+            rv.append("\n")
+        elif tokentype == TAG:
+            kind = text.partition("=")[0]
+
+            if kind.startswith("/"):
+                kind = kind[1:]
+                end = True
+            else:
+                end = False
+
+            if kind in renpy.config.tts_filter_tags:
+                if end:
+                    active.discard(kind)
+                else:
+                    active.add(kind)
+
+        else:
+            if not active:
+                rv.append(text)
 
     return "".join(rv)
 
@@ -222,11 +264,11 @@ def textwrap(s, width=78, asian=False):
 
     glyphs = [ ]
 
-    for c in unicode(s):
+    for c in str(s):
 
         eaw = unicodedata.east_asian_width(c)
 
-        if (eaw == "F") or (eaw =="W"):
+        if (eaw == "F") or (eaw == "W"):
             gwidth = 20
         elif (eaw == "A"):
             if asian:

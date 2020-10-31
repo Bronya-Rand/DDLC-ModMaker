@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -22,7 +22,8 @@
 # TODO: Use overlap (rather than simple pointer location) to determine
 # drag and drop.
 
-from __future__ import print_function
+from __future__ import division, absolute_import, with_statement, print_function, unicode_literals
+from renpy.compat import *
 
 import renpy.display
 from renpy.display.render import render, Render, redraw

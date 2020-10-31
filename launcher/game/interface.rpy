@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -117,19 +117,18 @@ screen bottom_info:
                 hbox:
                     spacing INDENT
                     textbutton _("Ren'Py Docs") style "l_link" action interface.OpenDocumentation()
-                    textbutton _("About") style "l_link" action Jump("about")
                     textbutton _("Download DDLC") style "l_link" action OpenURL(interface.DDLC_URL)
                     textbutton _("Install MPT") style "l_link" action Jump("mpt")
-                    textbutton _("Updates") style "l_link" action OpenURL(interface.GIT_URL)
-                    textbutton _("Restart") style "l_link" action Jump("restart_ddmm")
+                    textbutton _("About") style "l_link" action Jump("about")
 
                 hbox:
                     spacing INDENT
                     xalign 1.0
 
-                    #if ability.can_update:
-                        #textbutton _("update") action Jump("update") style "l_link"
-                    #textbutton _("Advanced") style "l_link" action Jump("advanced")
+                    if ability.can_update:
+                        textbutton _("Updates") style "l_link" action OpenURL(interface.GIT_URL)
+
+                    textbutton _("Restart") style "l_link" action Jump("restart_ddmm")
                     textbutton _("Settings") style "l_link" action Jump("preferences")
                     textbutton _("Exit") style "l_link" action Quit(confirm=False)
 
@@ -386,9 +385,9 @@ init python in interface:
 
     import string
     DIGITS_LETTERS = string.digits
-    PROJECT_LETTERS = DIGITS_LETTERS + string.ascii_letters + " _"
+    PROJECT_LETTERS = string.digits + string.ascii_letters + " _"
     FILENAME_LETTERS = PROJECT_LETTERS + "\\/"
-    TRANSLATE_LETTERS = string.ascii_letters + "_"
+    TRANSLATE_LETTERS = string.ascii_letters + string.digits + "_"
 
     def input(title, message, filename=False, sanitize=True, cancel=None, allow=None, default=""):
         """

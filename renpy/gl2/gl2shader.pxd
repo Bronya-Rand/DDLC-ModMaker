@@ -1,4 +1,4 @@
-from uguugl cimport *
+from renpy.uguu.gl cimport *
 
 cdef class Program:
 
@@ -16,6 +16,8 @@ cdef class Program:
 
     cdef public list attributes
 
-    cdef public int sampler
+    cdef public int samplers
+
+    cdef public int nearest
 
     cdef GLuint load_shader(self, GLenum shader_type, source) except? 0

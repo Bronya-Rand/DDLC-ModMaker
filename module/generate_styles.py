@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -21,15 +21,15 @@
 
 from __future__ import print_function, unicode_literals, division, absolute_import
 
-str = unicode  # @ReservedAssignment
+from future import standard_library
+standard_library.install_aliases()
+
+from builtins import str
 
 import collections
 import os
 
-try:
-    from io import StringIO  # @UnusedImport
-except:
-    from StringIO import StringIO  # @Reimport
+from io import StringIO  # @UnusedImport
 
 # Paths
 BASE = os.path.dirname(os.path.abspath(__file__))
@@ -213,7 +213,7 @@ style_properties = sorted_dict(
     xfill=None,
     xfit=None,
     xmaximum=None,
-    xminimum=None,
+    xminimum='none_is_0',
     xoffset=None,
     xpos=None,
     xspacing=None,
@@ -221,7 +221,7 @@ style_properties = sorted_dict(
     yfill=None,
     yfit=None,
     ymaximum=None,
-    yminimum=None,
+    yminimum='none_is_0',
     yoffset=None,
     ypos=None,
     yspacing=None,
@@ -459,13 +459,13 @@ class CodeGen(object):
         text = self.f.getvalue()
 
         if os.path.exists(self.filename):
-            with open(self.filename, "rb") as f:
+            with open(self.filename, "r") as f:
                 old = f.read()
 
             if old == text:
                 return
 
-        with open(self.filename, "wb") as f:
+        with open(self.filename, "w") as f:
             f.write(text)
 
     def write(self, s, *args, **kwargs):

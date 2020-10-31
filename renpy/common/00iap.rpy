@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -123,6 +123,8 @@ init -1500 python in iap:
             self.store.clearSKUs()
 
             for p in products.values():
+                print("Adding sku:", self.identifier(p))
+
                 self.store.addSKU(self.identifier(p))
 
         def get_store_name(self):
@@ -236,8 +238,8 @@ init -1500 python in iap:
                 if interact:
                     renpy.pause(.1)
                 else:
-                    import pygame
-                    pygame.event.pump()
+                    import pygame_sdl2
+                    pygame_sdl2.event.pump()
                     time.sleep(.1)
 
         def validate_products(self, interact):

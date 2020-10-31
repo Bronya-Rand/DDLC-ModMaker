@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -22,15 +22,17 @@
 # This file contains code responsible for managing the execution of a
 # renpy object, as well as the context object.
 
-from __future__ import print_function
+from __future__ import division, absolute_import, with_statement, print_function, unicode_literals
+from renpy.compat import *
+from future.utils import reraise
+
 import sys
 import time
 
 import renpy.display
 import renpy.test
-from renpy import six
 
-pyast = __import__("ast", { })
+import ast as pyast
 
 # The number of statements that have been run since the last infinite loop
 # check.
@@ -288,9 +290,7 @@ class Context(renpy.object.Object):
 
             vars(self.info).update(vars(context.info))
 
-            for k, v in context.music.items():
-                self.music[k] = v.copy()
-
+            self.music = dict(context.music)
             self.movie = dict(context.movie)
 
             self.images = renpy.display.image.ShownImageInfo(context.images)
@@ -376,7 +376,7 @@ class Context(renpy.object.Object):
 
         dynamic = self.dynamic_stack.pop()
 
-        for k, v in dynamic.iteritems():
+        for k, v in dynamic.items():
             if isinstance(v, Delete):
                 store.pop(k, None)
             else:
@@ -395,7 +395,7 @@ class Context(renpy.object.Object):
 
         for dynamic in reversed(self.dynamic_stack):
 
-            for k, v in dynamic.iteritems():
+            for k, v in dynamic.items():
                 name = "store." + k
 
                 if isinstance(v, Delete) and (name in roots):
@@ -597,7 +597,7 @@ class Context(renpy.object.Object):
                     except renpy.game.CONTROL_EXCEPTIONS as ce:
                         raise ce
                     except Exception as ce:
-                        six.reraise(exc_info[0], exc_info[1], exc_info[2])
+                        reraise(exc_info[0], exc_info[1], exc_info[2])
 
                 node = self.next_node
 
@@ -620,7 +620,7 @@ class Context(renpy.object.Object):
                 renpy.store._kwargs = e.kwargs
 
             if self.seen:
-                renpy.game.persistent._seen_ever[self.current] = True  # @UndefinedVariable
+                renpy.game.persistent._seen_ever[self.current] = True # @UndefinedVariable
                 renpy.game.seen_session[self.current] = True
 
             renpy.plog(2, "    end {} ({}:{})", type_node_name, this_node.filename, this_node.linenumber)
@@ -692,15 +692,29 @@ class Context(renpy.object.Object):
 
             if node is None:
 
-                if renpy.config.developer:
-                    raise Exception("Could not find return label {!r}.".format(self.return_stack[-1]))
+                if not pop:
+                    return None
 
-                self.return_stack.pop()
-                self.call_location_stack.pop()
-                self.pop_dynamic()
-                self.abnormal = self.abnormal_stack.pop()
+                # If we can't find anything, try to recover.
 
-                continue
+                if renpy.config.return_not_found_label:
+
+                    while len(self.return_stack) > 1:
+                        self.pop_call()
+
+                    node = renpy.game.script.lookup(renpy.config.return_not_found_label)
+
+                else:
+
+                    if renpy.config.developer:
+                        raise Exception("Could not find return label {!r}.".format(self.return_stack[-1]))
+
+                    self.return_stack.pop()
+                    self.call_location_stack.pop()
+                    self.pop_dynamic()
+                    self.abnormal = self.abnormal_stack.pop()
+
+                    continue
 
             if pop:
                 self.return_stack.pop()
@@ -791,7 +805,7 @@ class Context(renpy.object.Object):
         for label in renpy.config.predict_statements_callback(self.current):
 
             if not renpy.game.script.has_label(label):
-                return
+                continue
 
             node = renpy.game.script.lookup(label)
 
@@ -827,9 +841,9 @@ class Context(renpy.object.Object):
                 if renpy.config.debug_image_cache:
                     import traceback
 
-                    print()
-                    traceback.print_exc()
                     print("While predicting images.")
+                    traceback.print_exc()
+                    print()
 
             self.images = old_images
             self.predict_return_stack = None
@@ -852,7 +866,7 @@ class Context(renpy.object.Object):
             return False
 
         if ever:
-            seen = renpy.game.persistent._seen_ever  # @UndefinedVariable
+            seen = renpy.game.persistent._seen_ever # @UndefinedVariable
         else:
             seen = renpy.game.seen_session
 

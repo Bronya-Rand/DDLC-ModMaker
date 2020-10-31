@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -23,15 +23,18 @@
 # size-based caching and constructing images from operations (like
 # cropping and scaling).
 
-from __future__ import print_function
+from __future__ import division, absolute_import, with_statement, print_function, unicode_literals
+from renpy.compat import *
+
 import renpy.display
+import renpy.webloader
 
 import math
 import zipfile
-import cStringIO
 import threading
 import time
 import io
+import os.path
 
 
 # This is an entry in the image cache.
@@ -71,7 +74,6 @@ class CacheEntry(object):
 
         return rv
 
-
 # This is the singleton image cache.
 
 
@@ -95,7 +97,7 @@ class Cache(object):
         # A lock that must be held when updating the cache.
         self.lock = threading.Condition()
 
-        # A lock that mist be held to notify the preload thread.
+        # A lock that must be held to notify the preload thread.
         self.preload_lock = threading.Condition()
 
         # Is the preload_thread alive?
@@ -166,7 +168,7 @@ class Cache(object):
         else:
             self.cache_limit = int(renpy.config.image_cache_size_mb * 1024 * 1024 // 4)
 
-    def quit(self):  # @ReservedAssignment
+    def quit(self): # @ReservedAssignment
         if not self.preload_thread.isAlive():
             return
 
@@ -363,7 +365,7 @@ class Cache(object):
         # If we're outside the cache limit, we need to go and start
         # killing off some of the entries until we're back inside it.
 
-        for ce in sorted(self.cache.itervalues(), key=lambda a : a.time):
+        for ce in sorted(self.cache.values(), key=lambda a : a.time):
 
             if ce.time == self.time:
                 # If we're bigger than the limit, and there's nothing
@@ -378,6 +380,21 @@ class Cache(object):
                 break
 
         return True
+
+    def flush_file(self, fn):
+        """
+        This flushes all cache entries that refer to `fn` from the cache.
+        """
+
+        to_flush = [ ]
+
+        for ce in self.cache.values():
+            if fn in ce.what.predict_files():
+                to_flush.append(ce)
+
+        for ce in to_flush:
+            renpy.exports.redraw(ce.what, 0)
+            self.kill(ce)
 
     def preload_texture(self, im):
         """
@@ -484,7 +501,7 @@ class Cache(object):
 
             # Remove things that are not in the workset from the pin cache,
             # and remove things that are in the workset from pin cache.
-            for i in self.pin_cache.keys():
+            for i in list(self.pin_cache.keys()):
 
                 if i in workset:
                     workset.remove(i)
@@ -555,7 +572,7 @@ class ImageBase(renpy.display.core.Displayable):
         properties.setdefault('style', 'image')
 
         super(ImageBase, self).__init__(**properties)
-        self.identity = (type(self).__name__, ) + args
+        self.identity = (type(self).__name__,) + args
 
     def __hash__(self):
         return hash(self.identity)
@@ -622,10 +639,25 @@ class Image(ImageBase):
 
         try:
 
-            if unscaled:
-                surf = renpy.display.pgrender.load_image_unscaled(renpy.loader.load(self.filename), self.filename)
-            else:
-                surf = renpy.display.pgrender.load_image(renpy.loader.load(self.filename), self.filename)
+            exception = None
+            try:
+                filelike = renpy.loader.load(self.filename)
+                filename = self.filename
+            except renpy.webloader.DownloadNeeded as exception:
+                renpy.webloader.enqueue(exception.relpath, 'image', self.filename)
+                # temporary placeholder:
+                filelike = open(os.path.join('_placeholders', exception.relpath), 'rb')
+                filename = 'use_png_format.png'
+
+            with filelike as f:
+                if unscaled:
+                    surf = renpy.display.pgrender.load_image_unscaled(f, filename)
+                else:
+                    surf = renpy.display.pgrender.load_image(f, filename)
+
+            if exception is not None:
+                # avoid size-related exceptions (e.g. Crop on a smaller placeholder)
+                surf = renpy.display.pgrender.transform_scale(surf, exception.size)
 
             return surf
 
@@ -692,11 +724,10 @@ class ZipFileImage(ImageBase):
 
     def load(self):
         try:
-            zf = zipfile.ZipFile(self.zipfilename, 'r')
-            data = zf.read(self.filename)
-            sio = cStringIO.StringIO(data)
-            rv = renpy.display.pgrender.load_image(sio, self.filename)
-            zf.close()
+            with zipfile.ZipFile(self.zipfilename, 'r') as zf:
+                data = zf.read(self.filename)
+                sio = io.BytesIO(data)
+                rv = renpy.display.pgrender.load_image(sio, self.filename)
             return rv
         except:
             return renpy.display.pgrender.surface((2, 2), True)
@@ -1028,9 +1059,9 @@ def ramp(start, end):
 
         for i in range(0, 256):
             i = i / 255.0
-            chars.append(chr(int( end * i + start * (1.0 - i) ) ) )
+            chars.append(bchr(int(end * i + start * (1.0 - i))))
 
-        rv = "".join(chars)
+        rv = b"".join(chars)
         ramp_cache[start, end] = rv
 
     return rv
@@ -1270,7 +1301,7 @@ class MatrixColor(ImageBase):
 
 class matrix(tuple):
     """
-    :doc: im_matrixcolor
+    :doc: im_matrix
 
     Constructs an im.matrix object from `matrix`. im.matrix objects
     support The operations supported are matrix multiplication, scalar
@@ -1324,10 +1355,10 @@ class matrix(tuple):
 
     def vector_mul(self, o):
 
-        return (o[0]*self[0] + o[1]*self[1] + o[2]*self[2] + o[3]*self[3] + self[4],
-                o[0]*self[5] + o[1]*self[6] + o[2]*self[7] + o[3]*self[8] + self[9],
-                o[0]*self[10] + o[1]*self[11] + o[2]*self[12] + o[3]*self[13] + self[14],
-                o[0]*self[15] + o[1]*self[16] + o[2]*self[17] + o[3]*self[18] + self[19],
+        return (o[0] * self[0] + o[1] * self[1] + o[2] * self[2] + o[3] * self[3] + self[4],
+                o[0] * self[5] + o[1] * self[6] + o[2] * self[7] + o[3] * self[8] + self[9],
+                o[0] * self[10] + o[1] * self[11] + o[2] * self[12] + o[3] * self[13] + self[14],
+                o[0] * self[15] + o[1] * self[16] + o[2] * self[17] + o[3] * self[18] + self[19],
                 1)
 
     def __add__(self, other):
@@ -1369,7 +1400,7 @@ im.matrix(%f, %f, %f, %f, %f.
     @staticmethod
     def identity():
         """
-        :doc: im_matrixcolor
+        :doc: im_matrix
         :name: im.matrix.identity
 
         Returns an identity matrix, one that does not change color or
@@ -1384,7 +1415,7 @@ im.matrix(%f, %f, %f, %f, %f.
     @staticmethod
     def saturation(level, desat=(0.2126, 0.7152, 0.0722)):
         """
-        :doc: im_matrixcolor
+        :doc: im_matrix
         :name: im.matrix.saturation
 
         Returns an im.matrix that alters the saturation of an
@@ -1417,7 +1448,7 @@ im.matrix(%f, %f, %f, %f, %f.
     @staticmethod
     def desaturate():
         """
-        :doc: im_matrixcolor
+        :doc: im_matrix
         :name: im.matrix.desaturate
 
         Returns an im.matrix that desaturates the image (makes it
@@ -1430,7 +1461,7 @@ im.matrix(%f, %f, %f, %f, %f.
     @staticmethod
     def tint(r, g, b):
         """
-        :doc: im_matrixcolor
+        :doc: im_matrix
         :name: im.matrix.tint
 
         Returns an im.matrix that tints an image, without changing
@@ -1449,7 +1480,7 @@ im.matrix(%f, %f, %f, %f, %f.
     @staticmethod
     def invert():
         """
-        :doc: im_matrixcolor
+        :doc: im_matrix
         :name: im.matrix.invert
 
         Returns an im.matrix that inverts the red, green, and blue
@@ -1464,7 +1495,7 @@ im.matrix(%f, %f, %f, %f, %f.
     @staticmethod
     def brightness(b):
         """
-        :doc: im_matrixcolor
+        :doc: im_matrix
         :name: im.matrix.brightness
 
         Returns an im.matrix that alters the brightness of an image.
@@ -1483,7 +1514,7 @@ im.matrix(%f, %f, %f, %f, %f.
     @staticmethod
     def opacity(o):
         """
-        :doc: im_matrixcolor
+        :doc: im_matrix
         :name: im.matrix.opacity
 
         Returns an im.matrix that alters the opacity of an image. An
@@ -1498,7 +1529,7 @@ im.matrix(%f, %f, %f, %f, %f.
     @staticmethod
     def contrast(c):
         """
-        :doc: im_matrixcolor
+        :doc: im_matrix
         :name: im.matrix.contrast
 
         Returns an im.matrix that alters the contrast of an image. `c` should
@@ -1512,7 +1543,7 @@ im.matrix(%f, %f, %f, %f, %f.
     @staticmethod
     def hue(h):
         """
-        :doc: im_matrixcolor
+        :doc: im_matrix
         :name: im.matrix.hue
 
         Returns an im.matrix that rotates the hue by `h` degrees, while
@@ -1526,9 +1557,9 @@ im.matrix(%f, %f, %f, %f, %f.
         lumG = 0.715
         lumB = 0.072
         return matrix(
-            lumR+cosVal*(1-lumR)+sinVal*(-lumR), lumG+cosVal*(-lumG)+sinVal*(-lumG), lumB+cosVal*(-lumB)+sinVal*(1-lumB), 0, 0,
-            lumR+cosVal*(-lumR)+sinVal*(0.143), lumG+cosVal*(1-lumG)+sinVal*(0.140), lumB+cosVal*(-lumB)+sinVal*(-0.283), 0, 0,
-            lumR+cosVal*(-lumR)+sinVal*(-(1-lumR)), lumG+cosVal*(-lumG)+sinVal*(lumG), lumB+cosVal*(1-lumB)+sinVal*(lumB), 0, 0,
+            lumR + cosVal * (1 - lumR) + sinVal * (-lumR), lumG + cosVal * (-lumG) + sinVal * (-lumG), lumB + cosVal * (-lumB) + sinVal * (1 - lumB), 0, 0,
+            lumR + cosVal * (-lumR) + sinVal * (0.143), lumG + cosVal * (1 - lumG) + sinVal * (0.140), lumB + cosVal * (-lumB) + sinVal * (-0.283), 0, 0,
+            lumR + cosVal * (-lumR) + sinVal * (-(1 - lumR)), lumG + cosVal * (-lumG) + sinVal * (lumG), lumB + cosVal * (1 - lumB) + sinVal * (lumB), 0, 0,
             0, 0, 0, 1, 0,
             0, 0, 0, 0, 1
             )
@@ -1536,7 +1567,7 @@ im.matrix(%f, %f, %f, %f, %f.
     @staticmethod
     def colorize(black_color, white_color):
         """
-        :doc: im_matrixcolor
+        :doc: im_matrix
         :name: im.matrix.colorize
 
         Returns an im.matrix that colorizes a black and white image.
@@ -1561,9 +1592,9 @@ im.matrix(%f, %f, %f, %f, %f.
         g1 /= 255.0
         b1 /= 255.0
 
-        return matrix((r1-r0), 0, 0, 0, r0,
-                      0, (g1-g0), 0, 0, g0,
-                      0, 0, (b1-b0), 0, b0,
+        return matrix((r1 - r0), 0, 0, 0, r0,
+                      0, (g1 - g0), 0, 0, g0,
+                      0, 0, (b1 - b0), 0, b0,
                       0, 0, 0, 1, 0)
 
 

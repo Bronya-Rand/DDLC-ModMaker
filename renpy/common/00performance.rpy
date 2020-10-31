@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -50,6 +50,8 @@ screen _performance:
             cur_time = ift[-1] * 1000
             max_time = max(ift) * 1000
 
+        renderer = renpy.get_renderer_info()["renderer"]
+
     zorder 1000
 
     drag:
@@ -67,7 +69,7 @@ screen _performance:
             xminimum 150
 
             vbox:
-                text "[fps:.1f] fps\n[cur_time:.3f] ms\n[max_time:.3f] ms max":
+                text "[fps:.1f] fps\n[cur_time:.3f] ms\n[max_time:.3f] ms max\n[renderer]":
                     style "_default"
                     color "#fff"
                     size gui._scale(14)

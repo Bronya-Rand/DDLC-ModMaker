@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -108,14 +108,12 @@ init python in project:
 
         def load_data(self):
             try:
-                f = open(os.path.join(self.path, "project.json"), "rb")
-                self.data = json.load(f)
-                f.close()
+                with open(os.path.join(self.path, "project.json"), "rb") as f:
+                    self.data = json.load(f)
             except:
                 self.data = { }
 
             self.update_data()
-
 
         def save_data(self):
             """
@@ -341,12 +339,14 @@ init python in project:
                 for l, line in enumerate(data):
                     l += 1
 
+                    line = line[:1024]
+
                     try:
                         line = line.decode("utf-8")
                     except:
                         continue
 
-                    m = re.search(ur".*#\s*TODO(\s*:\s*|\s+)(.*)", line, re.I)
+                    m = re.search(r"#\s*TODO(\s*:\s*|\s+)(.*)", line, re.I)
 
                     if m is None:
                         continue
@@ -866,8 +866,6 @@ init python:
     def get_projects_directory_command():
         ap = renpy.arguments.ArgumentParser()
         args = ap.parse_args()
-
-        print renpy.fsencode(persistent.projects_directory)
 
         return False
 

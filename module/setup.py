@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -28,8 +28,10 @@ import sys
 import os
 import subprocess
 
+import future
+
 # Change to the directory containing this file.
-BASE=os.path.abspath(os.path.dirname(sys.argv[0]))
+BASE = os.path.abspath(os.path.dirname(sys.argv[0]))
 os.chdir(BASE)
 
 # Create the gen directory if it doesn't exist.
@@ -112,10 +114,14 @@ if steam_sdk:
     setuplib.library_dirs.append("{}/redistributable_bin/{}".format(steam_sdk, steam_platform))
     setuplib.include_dirs.append("{}/public".format(steam_sdk))
 
+cubism = os.environ.get("CUBISM", None)
+if cubism:
+    setuplib.include_dirs.append("{}/Core/include".format(cubism))
+
 # Modules directory.
 cython(
     "_renpy",
-    [ "IMG_savepng.c", "core.c", "subpixel.c"],
+    [ "IMG_savepng.c", "core.c" ],
     sdl + [ png, 'z', 'm' ])
 
 FRIBIDI_SOURCES = """
@@ -143,7 +149,6 @@ cython(
         ("FRIBIDI_ENTRY", ""),
         ("HAVE_CONFIG_H", "1"),
         ])
-
 
 cython("_renpysteam", language="c++", compile_if=steam_sdk, libs=["steam_api"])
 
@@ -173,6 +178,9 @@ cython("renpy.parsersupport")
 cython("renpy.pydict")
 cython("renpy.style")
 
+# renpy.compat
+cython("renpy.compat.dictviews")
+
 # renpy.styledata
 cython("renpy.styledata.styleclass")
 cython("renpy.styledata.stylesets")
@@ -185,69 +193,27 @@ cython("renpy.display.matrix")
 cython("renpy.display.render", libs=[ 'z', 'm' ])
 cython("renpy.display.accelerator", libs=sdl + [ 'z', 'm' ])
 
-# renpy.gl
-if (android or ios):
-    glew_libs = [ 'GLESv2', 'z', 'm' ]
-    gl2_only = True
-    egl = "egl_none.c"
-elif emscripten:
-    glew_libs = []
-    gl2_only = True
-    egl = "egl_none.c"
-elif raspi:
-    glew_libs = [ 'SDL2', 'GLESv2', 'EGL', 'z', 'm' ]
-    gl2_only = True
-    egl = "egl_x11.c"
-elif has_libglew:
-    glew_libs = [ 'GLEW' ]
-    gl2_only = False
-    egl = "egl_none.c"
-else:
-    glew_libs = [ 'glew32', 'opengl32' ]
-    gl2_only = False
-    egl = "egl_none.c"
+cython("renpy.uguu.gl", libs=sdl)
+cython("renpy.uguu.uguu", libs=sdl)
+cython("renpy.uguu.angle", libs=sdl)
 
-cython("renpy.gl.gl", libs=glew_libs)
-cython("renpy.gl.gl1", libs=glew_libs, compile_if=not gl2_only)
-cython("renpy.gl.gldraw", libs=glew_libs, source=[ egl ])
-cython("renpy.gl.gltexture", libs=glew_libs)
-cython("renpy.gl.glenviron_shader", libs=glew_libs)
-cython("renpy.gl.glenviron_fixed", libs=glew_libs, compile_if=not gl2_only)
-cython("renpy.gl.glenviron_limited", libs=glew_libs, compile_if=not gl2_only)
-cython("renpy.gl.glrtt_copy", libs=glew_libs)
-cython("renpy.gl.glrtt_fbo", libs=glew_libs)
+cython("renpy.gl.gldraw", libs=sdl)
+cython("renpy.gl.gltexture", libs=sdl)
+cython("renpy.gl.glenviron_shader", libs=sdl)
+cython("renpy.gl.glrtt_copy", libs=sdl)
+cython("renpy.gl.glrtt_fbo", libs=sdl)
 
-cython("renpy.gl2.uguugl", libs=sdl)
-cython("renpy.gl2.uguu", libs=sdl)
-cython("renpy.gl2.gl2geometry")
+cython("renpy.gl2.gl2mesh")
+cython("renpy.gl2.gl2mesh2")
+cython("renpy.gl2.gl2mesh3")
+cython("renpy.gl2.gl2polygon")
+cython("renpy.gl2.gl2model")
 cython("renpy.gl2.gl2draw", libs=sdl)
 cython("renpy.gl2.gl2texture", libs=sdl)
 cython("renpy.gl2.gl2shader", libs=sdl)
 
-if not (android or ios or emscripten):
-    # renpy.angle
-    def anglecopy(fn):
-        copyfile("renpy/gl/" + fn, "renpy/angle/" + fn, "DEF ANGLE = False", "DEF ANGLE = True")
-
-    anglecopy("gldraw.pxd")
-    anglecopy("gldraw.pyx")
-    anglecopy("glenviron_shader.pyx")
-    anglecopy("glrtt_fbo.pyx")
-    anglecopy("glrtt_copy.pyx")
-    anglecopy("gltexture.pxd")
-    anglecopy("gltexture.pyx")
-
-    angle_libs = [ "SDL2", "EGL", "GLESv2" ]
-
-    def anglecython(name, source=[]):
-        cython(name, libs=angle_libs, compile_if=has_angle, define_macros=[ ( "ANGLE", None ) ], source=source)
-
-    anglecython("renpy.angle.gl")
-    anglecython("renpy.angle.gldraw", source=[ "egl_angle.c" ])
-    anglecython("renpy.angle.gltexture")
-    anglecython("renpy.angle.glenviron_shader")
-    anglecython("renpy.angle.glrtt_fbo")
-    anglecython("renpy.angle.glrtt_copy")
+if cubism:
+    cython("renpy.gl2.live2dmodel", libs=sdl)
 
 # renpy.text
 cython("renpy.text.textsupport")
@@ -265,4 +231,4 @@ sys.path.insert(0, '..')
 
 import renpy
 
-setuplib.setup("Ren'Py", renpy.version[7:])  # @UndefinedVariable
+setuplib.setup("Ren'Py", renpy.version[7:]) # @UndefinedVariable

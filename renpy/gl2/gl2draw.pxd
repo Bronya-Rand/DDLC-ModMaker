@@ -22,9 +22,13 @@
 from renpy.display.matrix cimport Matrix, Matrix2D
 cimport renpy.display.render as render
 from renpy.gl2.gl2texture cimport TextureLoader
-from uguugl cimport *
+from renpy.uguu.gl cimport *
 
 cdef class GL2Draw:
+
+
+    cdef public bint gles
+    cdef public bint angle
 
     cdef bint did_init
     cdef object window
@@ -56,8 +60,12 @@ cdef class GL2Draw:
     cdef public Matrix virt_to_draw
     cdef public Matrix draw_to_virt
 
+    # The matrix that goes from drawable space to the window. This isn't used
+    # directly, it's used to determine if something is being drawn in a wa
+    # that it shoudl be lined up with pixels.
+    cdef public Matrix draw_transform
+
     cdef public int fast_redraw_frames
-    cdef public bint gles
 
     # The color texture object used for offscreen rendering.
     cdef GLuint color_texture

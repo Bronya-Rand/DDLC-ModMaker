@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -19,7 +19,8 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from __future__ import print_function
+from __future__ import division, absolute_import, with_statement, print_function, unicode_literals
+from renpy.compat import *
 
 import math
 import renpy.display
@@ -31,7 +32,7 @@ import renpy.text.texwrap as texwrap
 import renpy.text.font as font
 import renpy.text.extras as extras
 
-from _renpybidi import log2vis, WRTL, RTL, ON  # @UnresolvedImport
+from _renpybidi import log2vis, WRTL, RTL, ON # @UnresolvedImport
 
 BASELINE = -65536
 
@@ -188,12 +189,14 @@ class TextSegment(object):
             self.ruby_bottom = source.ruby_bottom
             self.hinting = source.hinting
             self.outline_color = source.outline_color
+            self.ignore = source.ignore
 
         else:
             self.hyperlink = 0
             self.cps = 0
             self.ruby_top = False
             self.ruby_bottom = False
+            self.ignore = False
 
     def __repr__(self):
         return "<TextSegment font={font}, size={size}, bold={bold}, italic={italic}, underline={underline}, color={color}, black_color={black_color}, hyperlink={hyperlink}, vertical={vertical}>".format(**self.__dict__)
@@ -238,6 +241,9 @@ class TextSegment(object):
         """
         Return the list of glyphs corresponding to unicode string s.
         """
+
+        if self.ignore:
+            return [ ]
 
         fo = font.get_font(self.font, self.size, self.bold, self.italic, 0, self.antialias, self.vertical, self.hinting, layout.oversample)
         rv = fo.glyphs(s)
@@ -515,12 +521,16 @@ class Layout(object):
 
             self.outline_step = text.style.outline_scaling != "linear"
 
+            self.pixel_perfect = True
+
         else:
 
             self.oversample = 1.0
             self.reverse = renpy.display.render.IDENTITY
             self.forward = renpy.display.render.IDENTITY
             self.outline_step = True
+
+            self.pixel_perfect = False
 
         style = text.style
 
@@ -641,7 +651,7 @@ class Layout(object):
             self.paragraph_glyphs.append(list(par_glyphs))
 
             if splits_from:
-                textsupport.copy_splits(splits_from.paragraph_glyphs[p_num], par_glyphs)  # @UndefinedVariable
+                textsupport.copy_splits(splits_from.paragraph_glyphs[p_num], par_glyphs) # @UndefinedVariable
 
             else:
 
@@ -748,7 +758,7 @@ class Layout(object):
             elif adjust_spacing == "vertical":
                 target_x_delta = 0.0
 
-            textsupport.tweak_glyph_spacing(all_glyphs, lines, target_x_delta, target_y_delta, maxx, y)  # @UndefinedVariable
+            textsupport.tweak_glyph_spacing(all_glyphs, lines, target_x_delta, target_y_delta, maxx, y) # @UndefinedVariable
 
             maxx = target_x
             y = target_y
@@ -817,6 +827,9 @@ class Layout(object):
 
                 ts.draw(glyphs, di, self.add_left, self.add_top, self)
 
+            if renpy.config.debug_text_alignment:
+                self.make_alignment_grid(surf)
+
             renpy.display.draw.mutated_surface(surf)
             tex = renpy.display.draw.load_texture(surf)
 
@@ -846,6 +859,22 @@ class Layout(object):
                 renpy.display.to_log.write("File \"%s\", line %d, text overflow:", filename, line)
                 renpy.display.to_log.write("     Available: (%d, %d) Laid-out: (%d, %d)", width, height, sw, sh)
                 renpy.display.to_log.write("     Text: %r", text.text)
+
+    def make_alignment_grid(self, surf):
+        w, h = surf.get_size()
+
+        for x in range(w):
+            for y in range(h):
+
+                if surf.get_at((x, y))[3] > 0:
+                    continue
+
+                if x == 0 or y == 0 or x == w - 1 or y == h - 1:
+                    surf.set_at((x, y), (255, 0, 0, 255))
+                elif (x ^ y) & 1:
+                    surf.set_at((x, y), (255, 255, 255, 255))
+                else:
+                    surf.set_at((x, y), (0, 0, 0, 255))
 
     def scale(self, n):
         if n is None:
@@ -935,7 +964,7 @@ class Layout(object):
 
             line.extend(tss[-1].subsegment(u"\u200B"))
 
-        for type, text in tokens:  # @ReservedAssignment
+        for type, text in tokens: # @ReservedAssignment
 
             try:
 
@@ -1014,6 +1043,9 @@ class Layout(object):
                     pass
 
                 elif tag == "fast":
+                    pass
+
+                elif tag == "done":
                     pass
 
                 elif tag == "nw":
@@ -1172,6 +1204,13 @@ class Layout(object):
                     ts = push()
                     ts.vertical = False
 
+                elif tag == "alt":
+                    ts = push()
+                    ts.ignore = True
+
+                elif tag == "noalt":
+                    ts = push()
+
                 elif tag[0] == "#":
                     pass
 
@@ -1202,7 +1241,7 @@ class Layout(object):
         l = [ ]
 
         for ts, s in p:
-            s, direction = log2vis(s, direction)
+            s, direction = log2vis(unicode(s), direction)
             l.append((ts, s))
 
         rtl = (direction == RTL or direction == WRTL)
@@ -1326,13 +1365,13 @@ class Layout(object):
             if g.x + g.advance > max_x:
                 max_x = g.x + g.advance
 
-            if g.x  < min_x:
+            if g.x < min_x:
                 min_x = g.x
 
         ly = min(l.y + l.height + self.line_overlap_split, max_height)
 
         if min_x < max_x:
-            rv.append(Blit(min_x, max_y, max_x - min_x, ly - max_y, left=left, right=right, top=top, bottom=(l is self.lines[-1]) ))
+            rv.append(Blit(min_x, max_y, max_x - min_x, ly - max_y, left=left, right=right, top=top, bottom=(l is self.lines[-1])))
 
         return rv
 
@@ -1605,10 +1644,8 @@ class Text(renpy.display.core.Displayable):
                     i, did_sub = renpy.substitutions.substitute(i, scope, substitute)
                     uses_scope = uses_scope or did_sub
 
-                if isinstance(i, str):
-                    i = unicode(i, "utf-8", "replace")
-                else:
-                    i = unicode(i)
+                if isinstance(i, bytes):
+                    i = str(i, "utf-8", "replace")
 
             new_text.append(i)
 
@@ -1732,7 +1769,7 @@ class Text(renpy.display.core.Displayable):
         rv = "".join(rv)
         _, _, rv = rv.rpartition("{fast}")
 
-        rv = renpy.translation.dialogue.notags_filter(rv)
+        rv = renpy.text.extras.filter_alt_text(rv)
 
         alt = self.style.alt
 
@@ -2149,6 +2186,9 @@ class Text(renpy.display.core.Displayable):
             vrv.blit(rv, (rv.height, 0))
             rv = vrv
 
+        if layout.pixel_perfect:
+            rv.properties = { "pixel_perfect" : True }
+
         return rv
 
     def tokenize(self, text):
@@ -2160,11 +2200,11 @@ class Text(renpy.display.core.Displayable):
 
         for i in text:
 
-            if isinstance(i, unicode):
+            if isinstance(i, str):
                 tokens.extend(textsupport.tokenize(i))
 
-            elif isinstance(i, str):
-                tokens.extend(textsupport.tokenize(unicode(i)))
+            elif isinstance(i, basestring):
+                tokens.extend(textsupport.tokenize(str(i)))
 
             elif isinstance(i, renpy.display.core.Displayable):
                 tokens.append((DISPLAYABLE, i))
@@ -2187,7 +2227,7 @@ class Text(renpy.display.core.Displayable):
             kind, text = t
 
             if kind == TEXT and renpy.config.replace_text:
-                rv.append((TEXT, unicode(renpy.config.replace_text(text))))
+                rv.append((TEXT, str(renpy.config.replace_text(text))))
 
             elif kind != TAG:
                 rv.append(t)
@@ -2250,8 +2290,8 @@ class Text(renpy.display.core.Displayable):
                 new_tokens = [ ]
 
                 for kind2, text2 in new_contents:
-                    if isinstance(text2, str):
-                        text2 = unicode(text2)
+                    if isinstance(text2, bytes):
+                        text2 = str(text2)
 
                     new_tokens.append((kind2, text2))
 

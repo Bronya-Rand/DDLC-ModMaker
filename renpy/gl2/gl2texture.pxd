@@ -19,9 +19,9 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from uguugl cimport *
+from renpy.uguu.gl cimport *
 from renpy.gl2.gl2shader cimport Program
-from renpy.gl2.gl2geometry cimport Mesh
+from renpy.gl2.gl2model cimport Model
 from renpy.gl2.gl2draw cimport GL2Draw
 
 cdef class TextureLoader:
@@ -49,12 +49,10 @@ cdef class TextureLoader:
     cdef GLint max_texture_width
     cdef GLint max_texture_height
 
+    cdef GLfloat max_anisotropy
 
-cdef class GLTexture:
 
-    # The size of the texture, in pixels.
-    cdef public int width
-    cdef public int height
+cdef class GLTexture(Model):
 
     # The number of the texture in OpenGL.
     cdef public unsigned int number
@@ -66,9 +64,14 @@ cdef class GLTexture:
     # that.
     cdef object surface
 
-    # If we're not doing in-place loading, this is the data that's used for
-    # that.
-    cdef unsigned char *data
-
     # The texture loader associated with this texture.
     cdef TextureLoader loader
+
+
+    # The width and height of the texture. (Which may be a different size
+    # than the model, if the texture is being rendered in the drawable
+    # space.
+    cdef public int texture_width
+    cdef public int texture_height
+
+    cpdef subsurface(GLTexture self, t)

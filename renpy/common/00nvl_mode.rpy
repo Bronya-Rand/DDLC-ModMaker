@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -334,7 +334,8 @@ init -1500 python:
             store.nvl_list.append((who, what, kwargs))
 
         def pop_nvl_list(self):
-            store.nvl_list.pop()
+            if store.nvl_list:
+                store.nvl_list.pop()
 
         def do_add(self, who, what, multiple=None):
 
@@ -402,7 +403,7 @@ init -1500 python:
             if self.clear:
                 nvl_clear()
 
-            self.add_history("adv", who, what)
+            self.add_history("nvl", who, what)
 
         def do_extend(self):
             renpy.mode(self.mode)

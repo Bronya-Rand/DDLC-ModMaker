@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -91,7 +91,7 @@ init -1 python:
         def log(self, msg):
             with open(self.filename, "a") as f:
                 f.write("\n")
-                f.write(msg)
+                f.write(unicode(msg))
                 f.write("\n")
 
         def info(self, prompt):
@@ -170,7 +170,7 @@ init -1 python:
 
             self.cmd = cmd
 
-            f = open(self.filename, "a")
+            f = open(self.filename, "ab")
 
             f.write("\n\n\n")
 

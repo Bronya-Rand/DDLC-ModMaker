@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -48,15 +48,16 @@ coverage = "RENPY_COVERAGE" in os.environ
 # Are we doing a static build?
 static = "RENPY_STATIC" in os.environ
 
-if coverage:
-    gen = "gen.coverage"
-else:
-    gen = "gen"
+gen = "gen"
 
+if sys.version_info.major > 2:
+    gen += "3"
+
+if coverage:
+    gen += "-coverage"
 
 if static:
     gen += "-static"
-
 
 # The cython command.
 cython_command = os.environ.get("RENPY_CYTHON", "cython")
@@ -149,7 +150,7 @@ def library(name, optional=False):
 
         for ldir in [i, os.path.join(i, "lib"), os.path.join(i, "lib64"), os.path.join(i, "lib32") ]:
 
-            for suffix in ( ".so", ".a", ".dll.a", ".dylib" ):
+            for suffix in (".so", ".a", ".dll.a", ".dylib"):
 
                 fn = os.path.join(ldir, "lib" + name + suffix)
 
@@ -230,24 +231,22 @@ def cython(name, source=[], libs=[], includes=[], compile_if=True, define_macros
     # Figure out what it depends on.
     deps = [ fn ]
 
-    f = file(fn)
-    for l in f:
+    with open(fn) as f:
+        for l in f:
+            m = re.search(r'from\s*([\w.]+)\s*cimport', l)
+            if m:
+                deps.append(m.group(1).replace(".", "/") + ".pxd")
+                continue
 
-        m = re.search(r'from\s*([\w.]+)\s*cimport', l)
-        if m:
-            deps.append(m.group(1).replace(".", "/") + ".pxd")
-            continue
+            m = re.search(r'cimport\s*([\w.]+)', l)
+            if m:
+                deps.append(m.group(1).replace(".", "/") + ".pxd")
+                continue
 
-        m = re.search(r'cimport\s*([\w.]+)', l)
-        if m:
-            deps.append(m.group(1).replace(".", "/") + ".pxd")
-            continue
-
-        m = re.search(r'include\s*"(.*?)"', l)
-        if m:
-            deps.append(m.group(1))
-            continue
-    f.close()
+            m = re.search(r'include\s*"(.*?)"', l)
+            if m:
+                deps.append(m.group(1))
+                continue
 
     # Filter out cython stdlib dependencies.
     deps = [ i for i in deps if (not i.startswith("cpython/")) and (not i.startswith("libc/")) ]
@@ -326,14 +325,45 @@ def cython(name, source=[], libs=[], includes=[], compile_if=True, define_macros
                 c_fn])
 
             # Fix-up source for static loading
-            if static and (len(split_name) > 1):
+            if static:
+
                 parent_module = '.'.join(split_name[:-1])
                 parent_module_identifier = parent_module.replace('.', '_')
+
                 with open(c_fn, 'r') as f:
                     ccode = f.read()
-                ccode = re.sub('Py_InitModule4\("([^"]+)"', 'Py_InitModule4("'+parent_module+'.\\1"', ccode)
-                ccode = re.sub('^__Pyx_PyMODINIT_FUNC init', '__Pyx_PyMODINIT_FUNC init'+parent_module_identifier+'_', ccode, 0, re.MULTILINE)  # Cython 0.28.2
-                ccode = re.sub('^PyMODINIT_FUNC init', 'PyMODINIT_FUNC init'+parent_module_identifier+'_', ccode, 0, re.MULTILINE)  # Cython 0.25.2
+
+                with open(c_fn + ".dynamic", 'w') as f:
+                    f.write(ccode)
+
+                if len(split_name) > 1:
+
+                    ccode = re.sub('Py_InitModule4\("([^"]+)"', 'Py_InitModule4("' + parent_module + '.\\1"', ccode) # Py2
+                    ccode = re.sub('(__pyx_moduledef.*?"){}"'.format(re.escape(split_name[-1])), '\\1' + '.'.join(split_name) + '"', ccode, count=1, flags=re.DOTALL) # Py3
+                    ccode = re.sub('^__Pyx_PyMODINIT_FUNC init', '__Pyx_PyMODINIT_FUNC init' + parent_module_identifier + '_', ccode, 0, re.MULTILINE) # Py2 Cython 0.28+
+                    ccode = re.sub('^__Pyx_PyMODINIT_FUNC PyInit_', '__Pyx_PyMODINIT_FUNC PyInit_' + parent_module_identifier + '_', ccode, 0, re.MULTILINE) # Py3 Cython 0.28+
+                    ccode = re.sub('^PyMODINIT_FUNC init', 'PyMODINIT_FUNC init' + parent_module_identifier + '_', ccode, 0, re.MULTILINE) # Py2 Cython 0.25.2
+
+                cname = "_".join(split_name)
+
+                ccode += """
+
+static struct _inittab CNAME_inittab[] = {
+#if PY_MAJOR_VERSION < 3
+    { "PYNAME", initCNAME },
+#else
+    { "PYNAME", PyInit_CNAME },
+#endif
+    { NULL, NULL },
+};
+
+static void CNAME_constructor(void) __attribute__((constructor));
+
+static void CNAME_constructor(void) {
+    PyImport_ExtendInittab(CNAME_inittab);
+}
+""".replace("PYNAME", name).replace("CNAME", cname)
+
                 with open(c_fn, 'w') as f:
                     f.write(ccode)
 
@@ -390,18 +420,16 @@ def copyfile(source, dest, replace=None, replace_with=None):
         if os.path.getmtime(sfn) <= os.path.getmtime(dfn):
             return
 
-    sf = file(sfn, "rb")
-    data = sf.read()
-    sf.close()
+    with open(sfn, "r") as sf:
+        data = sf.read()
 
     if replace:
         data = data.replace(replace, replace_with)
 
-    df = file(dfn, "wb")
-    df.write("# This file was automatically generated from " + source + "\n")
-    df.write("# Modifications will be automatically overwritten.\n\n")
-    df.write(data)
-    df.close()
+    with open(dfn, "w") as df:
+        df.write("# This file was automatically generated from " + source + "\n")
+        df.write("# Modifications will be automatically overwritten.\n\n")
+        df.write(data)
 
     import shutil
     shutil.copystat(sfn, dfn)
@@ -411,6 +439,9 @@ def setup(name, version):
     """
     Calls the distutils setup function.
     """
+
+    if (len(sys.argv) >= 2) and (sys.argv[1] == "generate"):
+        return
 
     distutils.core.setup(
         name=name,

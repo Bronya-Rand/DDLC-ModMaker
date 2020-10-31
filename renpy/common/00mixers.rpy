@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -40,7 +40,7 @@ init -1600 python hide:
 
     # Register 8 channels by default, for compatiblity with older version
     # of Ren'Py.
-    for i in xrange(0, 8):
+    for i in range(0, 8):
         renpy.music.register_channel(i)
 
     # Set up default names for some of the channels.

@@ -1,1 +1,1 @@
-{"android_build": "Release", "type": "hidden", "renamed_all": true, "renamed_steam": true, "force_recompile": false, "build_update": false, "packages": ["sdk"], "add_from": false}
+{"android_build": "Release", "add_from": false, "renamed_all": true, "renamed_steam": true, "force_recompile": false, "build_update": false, "packages": ["linux", "mac", "win", "sdk", "editra-mac", "editra-linux", "editra-windows", "pc"], "type": "hidden"}

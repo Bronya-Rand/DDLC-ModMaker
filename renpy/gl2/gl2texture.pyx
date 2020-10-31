@@ -1,6 +1,6 @@
 #@PydevCodeAnalysisIgnore
 #cython: profile=False
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -40,14 +40,21 @@ import weakref
 import math
 
 import renpy
-from renpy.gl2.uguugl cimport *
+from renpy.uguu.gl cimport *
 from renpy.gl2.gl2draw cimport GL2Draw
-from renpy.gl2.gl2geometry cimport rectangle, texture_rectangle, Mesh
+
+from renpy.gl2.gl2mesh cimport Mesh
+from renpy.gl2.gl2mesh2 cimport Mesh2
+from renpy.gl2.gl2model cimport Model
 
 from renpy.display.matrix cimport Matrix
 
 # This has different names in GL and GLES, but the same value.
 cdef GLenum RGBA8 = 0x8058
+
+# An extension here,
+cdef GLenum TEXTURE_MAX_ANISOTROPY_EXT = 0x84FE
+cdef GLenum MAX_TEXTURE_MAX_ANISOTROPY_EXT = 0x84FF
 
 ################################################################################
 
@@ -60,7 +67,16 @@ cdef class TextureLoader:
         self.texture_load_queue = weakref.WeakSet()
         self.draw = draw
 
-        self.ftl_program = draw.shader_cache.get(("renpy.ftl",))
+    def init(self):
+
+        self.ftl_program = self.draw.shader_cache.get(("renpy.ftl",))
+
+        self.allocated = set()
+        self.free_list = [ ]
+        self.total_texture_size = 0
+        self.texture_load_queue = weakref.WeakSet()
+
+        glGetFloatv(MAX_TEXTURE_MAX_ANISOTROPY_EXT, &self.max_anisotropy)
 
     def quit(self):
         """
@@ -93,19 +109,20 @@ cdef class TextureLoader:
         if bl or bt or br or bb:
             w, h = size
 
-            mesh = Mesh()
-            mesh.add_attribute("aTexCoord", 2)
-
             pw = w - bl - br
             ph = h - bt - bb
 
             if (w and h):
 
-                mesh.add_texture_rectangle(
+                mesh = Mesh2.texture_rectangle(
                     0.0, 0.0, pw, ph,
                     1.0 * bl / w, 1.0 * bt / h, 1.0 - 1.0 * br / w, 1.0 - 1.0 * bb / h)
+            else:
+                mesh = Mesh2.texture_rectangle(
+                    0.0, 0.0, pw, ph,
+                    0.0, 0.0, 0.0, 0.0)
 
-            rv = Model((pw, ph), mesh, ("renpy.texture",), { "uTex0" : rv })
+            rv = Model((pw, ph), mesh, ("renpy.texture",), { "tex0" : rv })
 
         return rv
 
@@ -174,13 +191,13 @@ cdef class TextureLoader:
 
         return rv
 
-    def render_to_texture(self, what):
+    def render_to_texture(self, what, anisotropic=True):
         """
         Renders `what` to a texture.
         """
 
         rv = Texture(what.get_size(), self)
-        rv.from_render(what)
+        rv.from_render(what, anisotropic)
         return rv
 
 
@@ -194,7 +211,11 @@ cdef class TextureLoader:
         for texture_number in self.free_list:
             texnums[0] = texture_number
             glDeleteTextures(1, texnums)
-            self.allocated.remove(texture_number)
+
+            if texture_number not in self.allocated:
+                print("Leaking texture:", texture_number)
+
+            self.allocated.discard(texture_number)
 
         self.free_list = [ ]
 
@@ -217,7 +238,7 @@ cdef class TextureLoader:
 
         return False
 
-cdef class GLTexture:
+cdef class GLTexture(Model):
     """
     This class represents an OpenGL texture that needs to be loaded by
     Ren'Py. It's responsible for handling deferred loading of textures,
@@ -231,8 +252,14 @@ cdef class GLTexture:
         cdef unsigned char *data
         cdef unsigned char *p
 
-        # The width and height of this texture.
-        self.width, self.height = size
+        width, height = size
+
+        mesh = Mesh2.texture_rectangle(
+            0.0, 0.0, width, height,
+            0.0, 0.0, 1.0, 1.0,
+            )
+
+        Model.__init__(self, size, mesh, ("renpy.texture",), None)
 
         # The number of the OpenGL texture this texture object
         # represents.
@@ -242,53 +269,23 @@ cdef class GLTexture:
         self.loaded = False
 
         # Used for loading surfaces.
-        self.data = NULL
         self.surface = None
 
         # Update the loader.
         self.loader = loader
         self.loader.total_texture_size += self.width * self.height * 4
 
+
     def from_surface(GLTexture self, surface):
         """
         Called to indicate this texture should be loaded from a surface.
         """
 
-        # Make a copy of the texture data.
-        cdef SDL_Surface *s
-        s = PySurface_AsSurface(surface)
-
-        pitch_pixels = s.pitch / 4
-        margin = pitch_pixels - s.w
-
-        if s.w and s.h and (margin < 64) and s.w < self.loader.max_texture_width:
-            # In-place path.
-
-            self.data = NULL
-            self.surface = surface
-
-        else:
-            # Copying path.
-
-            pixels = <unsigned char *> s.pixels
-            data = <unsigned char *> malloc(s.h * s.w * 4)
-            p = data
-
-            if s.pitch == s.w * 4:
-                memcpy(p, pixels, s.h * s.w * 4)
-            else:
-                for 0 <= i < s.h:
-                    memcpy(p, pixels, s.w * 4)
-
-                    pixels += s.pitch
-                    p += (s.w * 4)
-
-            self.data = data
-            self.surface = None
+        self.surface = surface
 
         self.loader.texture_load_queue.add(self)
 
-    def from_render(GLTexture self, what):
+    def from_render(GLTexture self, what, anisotropic):
         """
         This renders `what` to this texture.
         """
@@ -299,8 +296,17 @@ cdef class GLTexture:
         draw = self.loader.draw
 
         # The visible size of the texture.
-        tw = min(int(math.ceil(cw * draw.draw_per_virt)), loader.max_texture_width)
-        th = min(int(math.ceil(ch * draw.draw_per_virt)), loader.max_texture_height)
+
+        tw, th = draw.virt_to_draw.transform(cw, ch)
+
+        tw = min(int(tw), loader.max_texture_width)
+        th = min(int(th), loader.max_texture_height)
+
+        tw = max(tw, 1)
+        th = max(th, 1)
+
+        cw = max(cw, 1)
+        ch = max(ch, 1)
 
         cdef GLuint premultiplied
 
@@ -309,38 +315,36 @@ cdef class GLTexture:
         # Bind the framebuffer.
         draw.change_fbo(draw.fbo)
 
+        # Project the child from virtual space to the screen space.
+        cdef Matrix transform
+        transform = Matrix.ctexture_projection(cw, ch)
+
+        self.allocate_texture(premultiplied, tw, th, anisotropic)
+
         # Set up the viewport.
         glViewport(0, 0, tw, th)
 
         # Clear the screen.
-        clear_r, clear_g, clear_b = renpy.color.Color(renpy.config.gl_clear_color).rgb
-        glClearColor(clear_r, clear_g, clear_b, 0.0)
+        glClearColor(0.0, 0.0, 0.0, 0.0)
         glClear(GL_COLOR_BUFFER_BIT)
-
-        # Project the child from virtual space to the screen space.
-        cdef Matrix transform
-        transform = renpy.display.matrix.texture_projection(cw, ch)
-        if what.reverse:
-            transform *= what.reverse
 
         # Set up the default modes.
         glEnable(GL_BLEND)
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA)
 
-        context = renpy.gl2.gl2draw.GL2DrawingContext(draw)
+        context = renpy.gl2.gl2draw.GL2DrawingContext(draw, tw, th)
         context.draw(what, transform)
 
         glBindTexture(GL_TEXTURE_2D, premultiplied)
         glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 0, 0, tw, th, 0)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE)
+
+        self.mipmap_texture(premultiplied, tw, th)
 
         self.number = premultiplied
         self.loader.allocated.add(self.number)
 
         self.loaded = True
+
 
     def __repr__(self):
         return "<GLTexture {}x{} {}>".format(self.width, self.height, self.number)
@@ -361,6 +365,8 @@ cdef class GLTexture:
 
         draw = self.loader.draw
 
+        s = PySurface_AsSurface(self.surface)
+
         # Generate the old textures.
         glGenTextures(1, &tex)
         glGenTextures(1, &premultiplied)
@@ -372,22 +378,16 @@ cdef class GLTexture:
         glActiveTexture(GL_TEXTURE0)
         glBindTexture(GL_TEXTURE_2D, tex)
 
+        # Setup the non-premultiplied texture.
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE)
 
-        mesh = Mesh()
-        mesh.add_attribute("aTexCoord", 2)
+        glPixelStorei(GL_UNPACK_ROW_LENGTH, s.pitch // 4)
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, self.width, self.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, s.pixels)
 
-        # Load the texture through zero-copy and normal paths.
-        if self.surface is not None:
-            s = PySurface_AsSurface(self.surface)
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, s.pitch / 4, self.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, s.pixels)
-            mesh.add_texture_rectangle(-1.0, -1.0, 1.0, 1.0, 0.0, 0.0, 4.0 * s.w / s.pitch, 1.0)
-        else:
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, self.width, self.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, self.data)
-            mesh.add_texture_rectangle(-1.0, -1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0)
+        mesh = Mesh2.texture_rectangle(-1.0, -1.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0)
 
         # Set up the viewport.
         glViewport(0, 0, self.width, self.height)
@@ -399,17 +399,16 @@ cdef class GLTexture:
         # Draw.
         program = self.loader.ftl_program
         program.start()
-        program.set_uniform("uTex0", tex)
-        program.draw(mesh)
+        program.set_uniform("tex0", tex)
+        program.draw(mesh, {})
         program.finish()
 
         # Create premultiplied.
-        glBindTexture(GL_TEXTURE_2D, premultiplied)
+        self.allocate_texture(premultiplied, self.width, self.height, True)
+
         glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 0, 0, self.width, self.height, 0)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE)
+
+        self.mipmap_texture(premultiplied, self.width, self.height)
 
         # Delete tex.
         glDeleteTextures(1, &tex)
@@ -419,19 +418,67 @@ cdef class GLTexture:
         self.loader.allocated.add(self.number)
 
         self.loaded = True
-
-        # Free the data memory.
-        if self.data != NULL:
-            free(self.data)
-            self.data = NULL
-
         self.surface = None
 
-    def __dealloc__(self):
+    def allocate_texture(GLTexture self, GLuint tex, int tw, int th, anisotropic):
+        """
+        Allocates the VRAM required to store `tex`, which is a `tw` x `th`
+        texture, including all mipmap levels.
+        """
 
-        if self.data:
-            free(self.data)
-            self.data = NULL
+        # It's not 100% clear why we need this function, but it does seem to
+        # significantly speed things up on my GeForce GTX 1060 3GB/PCIe/SSE2.
+        # Going from a single to multiple mipmap levels takes ~9ms when loading
+        # each mipmap, while allocating the space first reduces that to ~1ms.
+
+        glBindTexture(GL_TEXTURE_2D, tex)
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE)
+
+        if anisotropic:
+            glTexParameterf(GL_TEXTURE_2D, TEXTURE_MAX_ANISOTROPY_EXT, self.loader.max_anisotropy)
+
+        # Store the texture size that was loaded.
+        self.texture_width = tw
+        self.texture_height = th
+
+        cdef GLuint level = 0
+
+        while True:
+
+            glTexImage2D(GL_TEXTURE_2D, level, GL_RGBA, tw, th, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+
+            if tw == 1 and th == 1:
+                break
+
+            tw = max(tw >> 1, 1)
+            th = max(th >> 1, 1)
+            level += 1
+
+            if level > renpy.config.max_mipmap_level:
+                break
+
+    def mipmap_texture(GLTexture self, GLuint tex, int tw, int th):
+        """
+        Generate the mipmaps for a texture.
+        """
+
+        cdef GLuint level = renpy.config.max_mipmap_level
+
+        glBindTexture(GL_TEXTURE_2D, tex)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, level)
+
+        if level == 0:
+            return
+
+        if tw == 0 or th == 0:
+            return
+
+        glHint(GL_GENERATE_MIPMAP_HINT, GL_NICEST)
+        glGenerateMipmap(GL_TEXTURE_2D)
 
     def __del__(self):
         try:
@@ -442,112 +489,21 @@ cdef class GLTexture:
         except TypeError:
             pass # Let's not error on shutdown.
 
-
-################################################################################
-
-class Model(object):
-    """
-    A Model can be placed in the render tree, and contains the information
-    required to be drawn to a screen.
-    """
-
-    def __init__(self, size, mesh, shaders, uniforms):
-        # The size of this model's bounding box, in virtual pixels.
-        self.size = size
-
-        # The mesh.
-        self.mesh = mesh
-
-        # A tuple giving the shaders used with this model.
-        self.shaders = shaders
-
-        # Either a dictionary giving uniforms associated with this model,
-        # or None.
-        self.uniforms = uniforms
-
-        # The cached_texture that comes from this model.
-        self.cached_texture = None
-
-    def load(self):
-        """
-        Loads the textures associated with this model.
-        """
-
-        for i in self.uniforms.itervalues():
-            if isinstance(i, GLTexture):
-                i.load_gltexture()
-
-    def program_uniforms(self, shader):
-        """
-        Called by the rest of the drawing code to set up the textures associated
-        with this model.
-        """
-
-        shader.set_uniforms(self.uniforms)
-
-    def get_size(self):
-        """
-        Returns the size of this Model.
-        """
-
-        return self.size
-
-    def subsurface(self, rect):
-        """
-        Creates Model that fits within `rect`.
-        """
-
-        x, y, w, h = rect
-
-        mesh = self.mesh.crop(rectangle(x, y, x+w, y+h))
-
-        if mesh is self.mesh:
-            if (x == 0) and (y == 0):
-                return self
-
-            mesh = mesh.offset(-x, -y, 0)
-        else:
-            mesh.offset_inplace(-x, -y, 0)
-
-        rv = Model((w, h), self.mesh, self.shaders, self.uniforms)
-        rv.mesh = mesh
-
-        return rv
-
-
-class Texture(GLTexture, Model):
-    """
-    A texture is Model and a GLTexture at the same time.
-
-    This also implies that the Model has texture coordinates that range from
-    (0.0, 0.0) to (1.0, 1.0) - and hence, that the GLTexture can be used to
-    represent it.
-    """
-
-    def __init__(self, size, loader):
-
-        GLTexture.__init__(self, size, loader)
-
-        mesh = Mesh()
-        mesh.add_attribute("aTexCoord", 2)
-
-        w, h = size
-
-        mesh.add_texture_rectangle(
-            0.0, 0.0, w, h,
-            0.0, 0.0, 1.0, 1.0,
-            )
-
-        Model.__init__(self, size, mesh, ("renpy.texture",), None)
-
     def load(self):
         self.load_gltexture()
 
     def program_uniforms(self, shader):
-        shader.set_uniform("uTex0", self)
+        shader.set_uniform("tex0", self)
 
-    def subsurface(self, rect):
+    cpdef subsurface(self, rect):
         rv = Model.subsurface(self, rect)
         if rv is not self:
-            rv.uniforms = { "uTex0" : self }
+            rv.uniforms = { "tex0" : self }
         return rv
+
+class Texture(GLTexture):
+    """
+    Use a Python class to make  sure __del__ works.
+    """
+
+    pass

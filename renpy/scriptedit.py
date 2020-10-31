@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -22,12 +22,12 @@
 # This file contains code to add and remove statements from the AST
 # and the textual representation of Ren'Py code.
 
-from __future__ import print_function
+from __future__ import division, absolute_import, with_statement, print_function, unicode_literals
+from renpy.compat import *
 
 import renpy
 import re
 import codecs
-
 
 # A map from line loc (elided filename, line) to the Line object representing
 # that line.
@@ -124,7 +124,7 @@ def adjust_line_locations(filename, linenumber, char_offset, line_offset):
 
     new_lines = { }
 
-    for key, line in lines.iteritems():
+    for key, line in lines.items():
 
         (fn, ln) = key
 
@@ -251,7 +251,7 @@ def nodes_on_line(filename, linenumber):
     rv = [ ]
 
     for i in renpy.game.script.all_stmts:
-        if (i.filename == filename) and (i.linenumber == linenumber):
+        if (i.filename == filename) and (i.linenumber == linenumber) and (i.rollback != "never"):
             rv.append(i)
 
     return rv
@@ -267,7 +267,8 @@ def nodes_on_line_at_or_after(filename, linenumber):
     lines = [ i.linenumber
               for i in renpy.game.script.all_stmts
               if (i.filename == filename)
-              if (i.linenumber >= linenumber) ]
+              if (i.linenumber >= linenumber)
+              if (i.rollback != "never") ]
 
     if not lines:
         return [ ]

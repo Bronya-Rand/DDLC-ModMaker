@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -21,7 +21,10 @@
 
 # Functions that make the user's life easier.
 
-from __future__ import print_function
+from __future__ import division, absolute_import, with_statement, print_function, unicode_literals
+from renpy.compat import *
+
+
 import renpy.display
 import renpy.styledata
 import contextlib
@@ -149,10 +152,10 @@ def dynamic_image(d, scope=None, prefix=None, search=None):
 
     def find(name):
 
-        if renpy.loader.loadable(name):
+        if renpy.exports.image_exists(name):
             return True
 
-        if renpy.exports.image_exists(name):
+        if renpy.loader.loadable(name):
             return True
 
         if lookup_displayable_prefix(name):
@@ -247,7 +250,7 @@ def split_properties(properties, *prefixes):
 
     prefix_d = list(zip(prefixes, rv))
 
-    for k, v in properties.iteritems():
+    for k, v in properties.items():
         for prefix, d in prefix_d:
             if k.startswith(prefix):
                 d[k[len(prefix):]] = v

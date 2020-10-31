@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -21,7 +21,8 @@
 
 # This code supports sprite and particle animation.
 
-from __future__ import print_function
+from __future__ import division, absolute_import, with_statement, print_function, unicode_literals
+from renpy.compat import *
 
 from renpy.display.render import render, BLIT
 
@@ -299,7 +300,7 @@ class SpriteManager(renpy.display.core.Displayable):
         return rv
 
     def event(self, ev, x, y, st):
-        for i in xrange(len(self.children) -1, -1, -1):
+        for i in range(len(self.children) -1, -1, -1):
             s = self.children[i]
 
             if s.events:
@@ -415,6 +416,9 @@ class Particles(renpy.display.core.Displayable, renpy.python.NoRollback):
     def render(self, w, h, st, at):
         return renpy.display.render.render(self.sm, w, h, st, at)
 
+    def visit(self):
+        return [ self.sm ]
+
 
 class SnowBlossomFactory(renpy.python.NoRollback):
 
@@ -437,7 +441,7 @@ class SnowBlossomFactory(renpy.python.NoRollback):
         self.init()
 
     def init(self):
-        self.starts = [ random.uniform(0, self.start) for _i in xrange(0, self.count) ]  # W0201
+        self.starts = [ random.uniform(0, self.start) for _i in range(0, self.count) ]  # W0201
         self.starts.append(self.start)
         self.starts.sort()
 
@@ -452,7 +456,7 @@ class SnowBlossomFactory(renpy.python.NoRollback):
         if (st == 0) and not particles and self.fast:
             rv = [ ]
 
-            for _i in xrange(0, self.count):
+            for _i in range(0, self.count):
                 rv.append(SnowBlossomParticle(self.image,
                                               ranged(self.xspeed),
                                               ranged(self.yspeed),

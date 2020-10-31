@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -19,7 +19,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from __future__ import print_function
+from __future__ import print_function, unicode_literals
 
 from cpython.ref cimport PyObject, Py_XDECREF
 from libc.string cimport memset
@@ -781,10 +781,10 @@ def build_styles():
     for i in renpy.config.build_styles_callbacks:
         i()
 
-    for s in styles.values():
+    for s in list(styles.values()):
         unbuild_style(s)
 
-    for s in styles.values():
+    for s in list(styles.values()):
         build_style(s)
 
 def rebuild(prepare_screens=True):
@@ -815,7 +815,7 @@ def backup():
 
     rv = { }
 
-    for k, v in styles.iteritems():
+    for k, v in styles.items():
         rv[k] = (v.parent, copy_properties(v.properties))
 
     return rv
@@ -834,7 +834,7 @@ def restore(o):
             del styles[i]
 
 
-    for k, v in o.iteritems():
+    for k, v in o.items():
 
         s = get_or_create_style(k[0])
 

@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -22,7 +22,8 @@
 ##############################################################################
 # Definitions of screen language statements.
 
-from __future__ import print_function
+from __future__ import division, absolute_import, with_statement, print_function, unicode_literals
+from renpy.compat import *
 
 import renpy.display
 import renpy.text.text
@@ -133,6 +134,7 @@ DisplayableParser("grid", renpy.display.layout.Grid, "grid", many)
 Positional("cols")
 Positional("rows")
 Keyword("transpose")
+Keyword("allow_underfull")
 add(grid_properties)
 
 DisplayableParser("side", renpy.display.layout.Side, "side", many)

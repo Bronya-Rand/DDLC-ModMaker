@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -194,6 +194,11 @@ init -1900 python:
             config.audio_directory = None
             config.early_start_store = True
 
+        if version <= (7, 3, 5):
+            config.side_image_requires_attributes = False
+            config.window_functions_set_auto = False
+
+
     # The version of Ren'Py this script is intended for, or
     # None if it's intended for the current version.
     config.script_version = None
@@ -201,7 +206,8 @@ init -1900 python:
 python early hide:
     try:
         import ast
-        script_version = renpy.file("script_version.txt").read()
+        with renpy.file("script_version.txt") as f:
+            script_version = f.read()
         script_version = ast.literal_eval(script_version)
 
         if script_version <= (7, 2, 2):
@@ -214,7 +220,8 @@ python early hide:
 init -1000 python hide:
     try:
         import ast
-        script_version = renpy.file("script_version.txt").read()
+        with renpy.file("script_version.txt") as f:
+            script_version = f.read()
         config.script_version = ast.literal_eval(script_version)
         renpy.write_log("Set script version to: %r", config.script_version)
     except:

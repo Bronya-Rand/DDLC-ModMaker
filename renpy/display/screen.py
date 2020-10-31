@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -19,7 +19,9 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from __future__ import print_function
+from __future__ import division, absolute_import, with_statement, print_function, unicode_literals
+from renpy.compat import *
+
 import renpy.display
 import time
 import collections
@@ -178,7 +180,7 @@ def cache_get(screen, args, kwargs):
     for sc in pc:
 
         # Reuse w/ same arguments.
-        if sc.args == args and sc.args == kwargs:
+        if sc.args == args and sc.kwargs == kwargs:
             pc.remove(sc)
             break
     else:
@@ -188,8 +190,8 @@ def cache_get(screen, args, kwargs):
 
     return sc.cache
 
-
 # Screens #####################################################################
+
 
 class Screen(renpy.object.Object):
     """
@@ -230,7 +232,7 @@ class Screen(renpy.object.Object):
 
         # If this is a SL2 screen, the SLScreen node at the root of this
         # screen.
-        if isinstance(function, renpy.sl2.slast.SLScreen):  # @UndefinedVariable
+        if isinstance(function, renpy.sl2.slast.SLScreen): # @UndefinedVariable
             self.ast = function
         else:
             self.ast = None
@@ -270,11 +272,11 @@ class Screen(renpy.object.Object):
 
 
 # Phases we can be in.
-PREDICT = 0  # Predicting the screen before it is shown.
-SHOW = 1    # Showing the screen for the first time.
-UPDATE = 2  # Showing the screen for the second and later times.
-HIDE = 3    # After the screen has been hid with "hide screen" (or the end of call screen).
-OLD = 4     # A copy of the screen in the old side of a transition.
+PREDICT = 0 # Predicting the screen before it is shown.
+SHOW = 1 # Showing the screen for the first time.
+UPDATE = 2 # Showing the screen for the second and later times.
+HIDE = 3 # After the screen has been hid with "hide screen" (or the end of call screen).
+OLD = 4 # A copy of the screen in the old side of a transition.
 
 phase_name = [
     "PREDICT",
@@ -431,7 +433,8 @@ class ScreenDisplayable(renpy.display.layout.Container):
 
         try:
             push_current_screen(self)
-            self.child.visit_all(callback, seen=None)
+            if self.child is not None:
+                self.child.visit_all(callback, seen=None)
         finally:
             pop_current_screen()
 
@@ -454,6 +457,9 @@ class ScreenDisplayable(renpy.display.layout.Container):
                 self.child.find_focusable(callback, focus_name)
         finally:
             pop_current_screen()
+
+        if self.modal:
+            raise renpy.display.layout.IgnoreLayers()
 
     def copy(self):
         rv = ScreenDisplayable(self.screen, self.tag, self.layer, self.widget_properties, self.scope, **self.properties)
@@ -781,13 +787,15 @@ def get_all_screen_variants(name):
     order.
     """
 
-    rv = [ ]
+    if isinstance(name, basestring):
+        name = tuple(name.split())
 
-    for k, v in screens.iteritems():
-        if k[0] == name:
-            rv.append((k[1], v))
+    name = name[0]
 
-    return rv
+    if name not in screens_by_name:
+        return [ ]
+
+    return list(screens_by_name[name].items())
 
 
 # Have all screens been analyzed?
@@ -862,7 +870,7 @@ def sort_screens():
         del reverse[name]
 
     # Store the use cycle for later reporting.
-    use_cycle = reverse.keys()
+    use_cycle = list(reverse.keys())
     use_cycle.sort()
 
     sorted_screens = rv
@@ -936,7 +944,7 @@ def prepare_screens():
         renpy.display.predict.predicting = old_predicting
 
     if renpy.config.developer and use_cycle:
-        raise Exception("The following screens use each other in a loop: " + ", ".join(use_cycle) +". This is not allowed.")
+        raise Exception("The following screens use each other in a loop: " + ", ".join(use_cycle) + ". This is not allowed.")
 
 
 def define_screen(*args, **kwargs):
@@ -1022,7 +1030,7 @@ def get_screen(name, layer=None):
         layer = get_screen_layer(name)
 
     if isinstance(name, basestring):
-        name = (name, )
+        name = (name,)
 
     sl = renpy.exports.scene_lists()
 
@@ -1034,7 +1042,7 @@ def get_screen(name, layer=None):
 
     for tag in name:
 
-        sd = sl.get_displayable_by_name(layer, (tag, ))
+        sd = sl.get_displayable_by_name(layer, (tag,))
         if sd is not None:
             return sd
 
@@ -1173,6 +1181,9 @@ def predict_screen(_screen_name, *_args, **kwargs):
     if screen is None:
         return
 
+    if not screen.predict:
+        return
+
     if _layer is None:
         _layer = get_screen_layer(name)
 
@@ -1187,12 +1198,6 @@ def predict_screen(_screen_name, *_args, **kwargs):
 
     try:
 
-        if screen is None:
-            raise Exception("Screen %s is not known.\n" % (name[0],))
-
-        if not screen.predict:
-            return
-
         d = ScreenDisplayable(screen, None, None, _widget_properties, scope)
         d.cache = cache_get(screen, _args, kwargs)
         d.update()
@@ -1206,6 +1211,7 @@ def predict_screen(_screen_name, *_args, **kwargs):
 
             print("While predicting screen", _screen_name)
             traceback.print_exc()
+            print()
 
     finally:
         del scope["_scope"]
@@ -1272,7 +1278,7 @@ def current_screen():
     return _current_screen
 
 
-def get_widget(screen, id, layer=None):  # @ReservedAssignment
+def get_widget(screen, id, layer=None): # @ReservedAssignment
     """
     :doc: screens
 
@@ -1302,7 +1308,7 @@ def get_widget(screen, id, layer=None):  # @ReservedAssignment
     return rv
 
 
-def get_widget_properties(id, screen=None, layer=None):  # @ReservedAssignment
+def get_widget_properties(id, screen=None, layer=None): # @ReservedAssignment
     """
     :doc: screens
 
@@ -1341,7 +1347,7 @@ def before_restart():
     longer defined.
     """
 
-    for k, layer in renpy.display.interface.old_scene.iteritems():
+    for k, layer in renpy.display.interface.old_scene.items():
         if k is None:
             continue
 

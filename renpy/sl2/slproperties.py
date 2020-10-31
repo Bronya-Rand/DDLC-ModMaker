@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -19,7 +19,8 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from __future__ import print_function
+from __future__ import division, absolute_import, with_statement, print_function, unicode_literals
+from renpy.compat import *
 
 from renpy.sl2.slparser import Keyword, Style, PrefixStyle
 
@@ -103,9 +104,7 @@ text_property_names = [
 text_properties = [ Style(i) for i in text_property_names ]
 text_text_properties = [ PrefixStyle("text_", i) for i in text_property_names ]
 
-window_properties = [ Style(i) for i in [
-    "background",
-    "foreground",
+margin_properties = [ Style(i) for i in [
     "left_margin",
     "right_margin",
     "bottom_margin",
@@ -113,6 +112,9 @@ window_properties = [ Style(i) for i in [
     "xmargin",
     "ymargin",
     "margin",
+    ] ]
+
+padding_properties = [ Style(i) for i in [
     "left_padding",
     "right_padding",
     "top_padding",
@@ -120,8 +122,13 @@ window_properties = [ Style(i) for i in [
     "xpadding",
     "ypadding",
     "padding",
-    "size_group",
     ] ]
+
+window_properties = [ Style(i) for i in [
+    "background",
+    "foreground",
+    "size_group",
+    ] ] + margin_properties + padding_properties
 
 button_properties = [ Style(i) for i in [
     "sound",
@@ -187,7 +194,7 @@ grid_properties = [ Style(i) for i in [
     "spacing",
     "xspacing",
     "yspacing",
-    ] ]
+    ] ] + margin_properties
 
 
 ui_properties = [

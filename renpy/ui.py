@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -26,7 +26,8 @@
 
 # All functions in the is file should be documented in the wiki.
 
-from __future__ import print_function
+from __future__ import division, absolute_import, with_statement, print_function, unicode_literals
+from renpy.compat import *
 
 import sys
 import renpy.display
@@ -438,7 +439,10 @@ screen = None
 class Wrapper(renpy.object.Object):
 
     def __reduce__(self):
-        return self.name
+        if PY2:
+            return bytes(self.name)
+        else:
+            return self.name
 
     def __init__(self, function, one=False, many=False, imagemap=False, replaces=False, style=None, **kwargs):
 
@@ -651,10 +655,12 @@ soundstopbehavior = Wrapper(renpy.display.behavior.SoundStopBehavior)
 
 def _key(key, action=None, activate_sound=None):
 
-    if action is None:
-        raise Exception("Action is required in ui.key.")
+    if isinstance(key, (list, tuple)):
+        keymap = {k: action for k in key}
+    else:
+        keymap = {key: action}
 
-    return renpy.display.behavior.Keymap(activate_sound=activate_sound, **{ key : action})
+    return renpy.display.behavior.Keymap(activate_sound=activate_sound, **keymap)
 
 
 key = Wrapper(_key)
@@ -1471,6 +1477,6 @@ def screen_id(id_, d):
 
 # Update the wrappers to have names.
 k, v = None, None
-for k, v in globals().iteritems():
+for k, v in globals().items():
     if isinstance(v, Wrapper):
         v.name = k

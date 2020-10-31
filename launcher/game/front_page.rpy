@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -143,7 +143,7 @@ screen front_page:
                 except IOError:
                     launch = "error"
         if launch == False:
-            textbutton _("DDMMaker 6.99.12.4 Needed"):
+            textbutton _("DDMMaker 6.99.12 Needed"):
                 xalign 0.95
                 yalign 0.83
                 style "l_button"
@@ -159,8 +159,9 @@ screen front_page:
                 style "l_button"
                 action Jump('version_error')
                 right_margin HALF_INDENT
-        #textbutton _("Launch Project") action project.Launch() style "l_right_button"
-        
+
+
+
 # This is used by front_page to display the list of known projects on the screen.
 screen front_page_project_list:
 
@@ -191,6 +192,7 @@ screen front_page_project_list:
 
             null height 12
 
+
 # This is used for the right side of the screen, which is where the project-specific
 # buttons are.
 screen front_page_project:
@@ -201,7 +203,7 @@ screen front_page_project:
     window:
 
         has vbox
-        label _("Current Ren'Py Version: [version!q]") style "l_alternate"
+        label _("Ren'Py Version: [version!q]") style "l_alternate"
         frame style "l_label":
             has hbox xfill True
             text "[p.display_name!q]" style "l_label_text"
@@ -213,7 +215,7 @@ screen front_page_project:
 
             vbox:
 
-                label _("Open Folder") style "l_label_small"
+                label _("Open Directory") style "l_label_small"
 
                 frame style "l_indent":
                     has vbox
@@ -221,8 +223,8 @@ screen front_page_project:
                     textbutton _("game") action OpenDirectory("game")
                     textbutton _("base") action OpenDirectory(".")
                     textbutton _("images") action OpenDirectory("game/images")
+                    textbutton _("audio") action OpenDirectory("game/audio")
                     textbutton _("gui") action OpenDirectory("game/gui")
-                    # textbutton _("save") action None style "l_list"
 
             vbox:
                 if persistent.show_edit_funcs:
@@ -244,7 +246,7 @@ screen front_page_project:
 
         add SPACER
 
-        label _("Options") style "l_label_small"
+        label _("Actions") style "l_label_small"
 
         grid 2 1:
             xfill True
@@ -257,7 +259,6 @@ screen front_page_project:
                 textbutton _("Check Script for Errors") action Jump("lint")
                 textbutton _("Delete Persistent") action Jump("rmpersistent")
                 textbutton _("Force Recompile") action Jump("force_recompile")
-                textbutton _("Set Version") action Jump("set_version")
 
                 # textbutton "Relaunch" action Relaunch
 
@@ -266,11 +267,14 @@ screen front_page_project:
 
                 if ability.can_distribute:
                     textbutton _("Build Mod") action Jump("build_distributions")
+
                 textbutton _("Build Mod for Android") action Jump("android")
+                #textbutton _("iOS") action Jump("ios")
+                #textbutton _("Web") + " " + _("(Beta)") action Jump("web")
                 textbutton _("Generate Translations") action Jump("translate")
                 textbutton _("Extract Dialogue") action Jump("extract_dialogue")
                 textbutton _("Delete Project") action Jump("delete_folder")
-                
+
 label main_menu:
     return
 
@@ -316,7 +320,7 @@ label force_recompile:
 
 label version_error:
     python:
-        interface.info(_("This project is unavailable to launch as this is either a non-DDLC mod/game or is missing 'renpy-version.txt'"), _("Please check if 'renpy-version.txt' exists or run normal Ren'Py for non-DDLC games/mods."),)
+        interface.info(_("This project is unavailable to launch as it is missing 'renpy-version.txt'"), _("Please check if it exists or set the version in Settings."),)
         renpy.jump('front_page')
 
 label set_version:

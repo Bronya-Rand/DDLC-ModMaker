@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -20,7 +20,8 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-from __future__ import print_function
+from __future__ import division, absolute_import, with_statement, print_function, unicode_literals
+from renpy.compat import *
 
 
 class Curry(object):
@@ -37,10 +38,14 @@ class Curry(object):
         self.args = args
         self.kwargs = kwargs
         self.__doc__ = getattr(self.callable, "__doc__", None)
+        self.__name__ = getattr(self.callable, "__name__", None)
 
     def __call__(self, *args, **kwargs):
-        return self.callable(*(self.args + args),
-                             **dict(self.kwargs.items() + kwargs.items()))
+
+        merged_kwargs = dict(self.kwargs)
+        merged_kwargs.update(kwargs)
+
+        return self.callable(*(self.args + args), **merged_kwargs)
 
     def __repr__(self):
         return "<curry %s %r %r>" % (self.callable, self.args, self.kwargs)
@@ -59,7 +64,7 @@ class Curry(object):
     def __hash__(self):
 
         if self.hash is None:
-            self.hash ^= hash(self.callable) ^ hash(self.args)
+            self.hash = hash(self.callable) ^ hash(self.args)
 
             for i in self.kwargs.items():
                 self.hash ^= hash(i)
@@ -77,6 +82,7 @@ def curry(fn):
 
     rv = Curry(Curry, fn)
     rv.__doc__ = getattr(fn, "__doc__", None)
+    rv.__name__ = getattr(fn, "__name__", None)
     return rv
 
 

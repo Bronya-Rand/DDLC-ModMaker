@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -19,7 +19,8 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from __future__ import print_function
+from __future__ import division, absolute_import, with_statement, print_function, unicode_literals
+from renpy.compat import *
 
 import pygame_sdl2.controller
 import renpy.display
@@ -36,23 +37,20 @@ import os
 def load_mappings():
 
     try:
-        f = renpy.loader.load("renpycontrollerdb.txt")
-        pygame_sdl2.controller.add_mappings(f)
-        f.close()
+        with renpy.loader.load("renpycontrollerdb.txt") as f:
+            pygame_sdl2.controller.add_mappings(f)
     except:
         pass
 
     try:
-        f = renpy.loader.load("gamecontrollerdb.txt")
-        pygame_sdl2.controller.add_mappings(f)
-        f.close()
+        with renpy.loader.load("gamecontrollerdb.txt") as f:
+            pygame_sdl2.controller.add_mappings(f)
     except:
         pass
 
     try:
-        f = open(os.path.join(renpy.config.renpy_base, "gamecontrollerdb.txt"), "rb")
-        pygame_sdl2.controller.add_mappings(f)
-        f.close()
+        with open(os.path.join(renpy.config.renpy_base, "gamecontrollerdb.txt"), "rb") as f:
+            pygame_sdl2.controller.add_mappings(f)
     except:
         pass
 

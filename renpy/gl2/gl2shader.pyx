@@ -1,9 +1,10 @@
-from uguugl cimport *
+from renpy.uguu.gl cimport *
 from libc.stdlib cimport malloc, free
 
-from renpy.gl2.gl2geometry cimport Polygon, Mesh
+from renpy.gl2.gl2mesh cimport Mesh
 from renpy.gl2.gl2texture cimport GLTexture
 from renpy.display.matrix cimport Matrix
+
 
 class ShaderError(Exception):
     pass
@@ -30,6 +31,7 @@ cdef class Uniform:
         return
 
     cdef void finish(self):
+        self.ready = False
         return
 
 cdef class UniformFloat(Uniform):
@@ -50,15 +52,15 @@ cdef class UniformVec4(Uniform):
 
 cdef class UniformMat4(Uniform):
     cdef void assign(self, data):
-        glUniformMatrix4fv(self.location, 1, GL_TRUE, (<Matrix> data).m)
+        glUniformMatrix4fv(self.location, 1, GL_FALSE, (<Matrix> data).m)
 
 cdef class UniformSampler2D(Uniform):
     cdef int sampler
 
     def __init__(self, program, location):
         Uniform.__init__(self, program, location)
-        self.sampler = program.sampler
-        program.sampler += 1
+        self.sampler = program.samplers
+        program.samplers += 1
 
     cdef void assign(self, data):
         glActiveTexture(GL_TEXTURE0 + self.sampler)
@@ -66,12 +68,10 @@ cdef class UniformSampler2D(Uniform):
 
         if isinstance(data, GLTexture):
             glBindTexture(GL_TEXTURE_2D, data.number)
+            self.program.set_uniform("res{}".format(self.sampler), (data.texture_width, data.texture_height))
         else:
             glBindTexture(GL_TEXTURE_2D, data)
 
-    cdef void finish(self):
-        glActiveTexture(GL_TEXTURE0 + self.sampler)
-        return
 
 
 UNIFORM_TYPES = {
@@ -100,6 +100,14 @@ ATTRIBUTE_TYPES = {
     "vec4" : 4,
 }
 
+TEXTURE_SCALING = {
+    "nearest" : (GL_NEAREST, GL_NEAREST),
+    "linear" : (GL_LINEAR, GL_LINEAR),
+    "nearest_mipmap_nearest" : (GL_NEAREST, GL_NEAREST_MIPMAP_NEAREST),
+    "linear_mipmap_nearest" : (GL_LINEAR, GL_LINEAR_MIPMAP_NEAREST),
+    "nearest_mipmap_linear" : (GL_NEAREST, GL_NEAREST_MIPMAP_LINEAR),
+    "linear_mipmap_linear" : (GL_LINEAR, GL_LINEAR_MIPMAP_LINEAR),
+}
 
 cdef class Program:
     """
@@ -117,8 +125,8 @@ cdef class Program:
         # A list of Attribute objects
         self.attributes = [ ]
 
-        # The index of the next sampler to be added.
-        self.sampler = 0
+        # The number of samplers that have been added.
+        self.samplers = 0
 
     def find_variables(self, source):
 
@@ -264,32 +272,58 @@ cdef class Program:
             u.assign(value)
             u.ready = True
 
-    def draw(self, Mesh mesh):
+    def draw(self, Mesh mesh, dict properties):
 
         cdef Attribute a
+        cdef Uniform u
+        cdef int i
 
         # Set up the attributes.
         for a in self.attributes:
-            offset = mesh.attributes.get(a.name, None)
-            if offset is None:
-                self.missing("mesh attribute", a.ame)
+            if a.name == "a_position":
+                glVertexAttribPointer(a.location, mesh.point_size, GL_FLOAT, GL_FALSE, mesh.point_size * sizeof(float), mesh.point_data)
+            else:
+                offset = mesh.layout.offset.get(a.name, None)
+                if offset is None:
+                    self.missing("mesh attribute", a.name)
 
-            glVertexAttribPointer(a.location, a.size, GL_FLOAT, GL_FALSE, mesh.stride * sizeof(float), mesh.get_data(offset))
+                glVertexAttribPointer(a.location, a.size, GL_FLOAT, GL_FALSE, mesh.layout.stride * sizeof(float), mesh.attribute + <int> offset)
+
             glEnableVertexAttribArray(a.location)
 
-        if mesh.polygon_points == 3:
-            glDrawArrays(GL_TRIANGLES, 0, 3 * mesh.polygon_count)
-            return
+        for name, u in self.uniforms.iteritems():
+            if not u.ready:
+                self.missing("uniform", name)
 
-        cdef int i = 0
-        cdef Polygon p
+        if len(properties) > 1:
 
-        for p in mesh.polygons:
+            if "color_mask" in properties:
+                mask_r, mask_g, mask_b, mask_a = properties["color_mask"]
+                glColorMask(mask_r, mask_g, mask_b, mask_a)
 
-            glDrawArrays(GL_TRIANGLE_FAN, i, p.points)
-            i += p.points
+            if "texture_scaling" in properties:
+                magnify, minify = TEXTURE_SCALING[properties["texture_scaling"]]
 
-    def finish(self):
+                for 0 <= i < self.samplers:
+                    glActiveTexture(GL_TEXTURE0 + i)
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magnify)
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minify)
+
+        glDrawElements(GL_TRIANGLES, 3 * mesh.triangles, GL_UNSIGNED_SHORT, mesh.triangle)
+
+        if len(properties) > 1:
+
+            if "texture_scaling" in properties:
+                for 0 <= i < self.samplers:
+                    glActiveTexture(GL_TEXTURE0 + i)
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST)
+
+            if "color_mask" in properties:
+                glColorMask(True, True, True, True)
+
+
+    def finish(Program self):
         cdef Attribute a
         cdef Uniform u
 
@@ -298,5 +332,3 @@ cdef class Program:
 
         for u in self.uniforms.itervalues():
             u.finish()
-
-

@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -28,6 +28,8 @@ init python in gui:
     system_font = None
 
 init python:
+    renpy.load_module("_shaders")
+
     style._default = Style(None)
 
 init python hide:
@@ -283,11 +285,11 @@ init python:
 
         # Bindings present almost everywhere, unless explicitly
         # disabled.
-        toggle_fullscreen = [ 'f', 'alt_K_RETURN', 'alt_K_KP_ENTER', 'K_F11' ],
-        reload_game = [ 'R' ],
+        toggle_fullscreen = [ 'noshift_K_f', 'alt_K_RETURN', 'alt_K_KP_ENTER', 'K_F11' ],
+        reload_game = [ 'shift_K_r' ],
         quit = [ 'meta_q', 'alt_K_F4', 'alt_q' ],
         iconify = [ 'meta_m', 'alt_m' ],
-        choose_renderer = [ 'G' ],
+        choose_renderer = [ 'shift_K_g' ],
 
         # Focus.
         focus_left = [ 'K_LEFT' ],
@@ -438,7 +440,7 @@ init python:
             self.template = template
 
         def __call__(self):
-            import pygame.scrap
+            import pygame_sdl2.scrap
 
             with open(self.filename, "rb") as f:
                 f.read(3) # skip the BOM.
@@ -447,7 +449,7 @@ init python:
             s = s.replace("\n", "\r\n")
             s = s.replace("\r\r", "\r")
 
-            pygame.scrap.put(pygame.SCRAP_TEXT, s.encode("utf-8"))
+            pygame_sdl2.scrap.put(pygame_sdl2.SCRAP_TEXT, s.encode("utf-8"))
 
     def __can_open_traceback():
         return True
@@ -589,50 +591,53 @@ screen _exception:
             text fmt_short substitute False
             text fmt_full substitute False
 
-        vbox:
-            hbox:
-                spacing gui._scale(25)
+        hbox:
+            vbox:
+                hbox:
+                    spacing gui._scale(25)
+                    box_wrap True
+                    box_wrap_spacing gui._scale(5)
 
-                if rollback_action and _errorhandling.rollback:
-                    textbutton _("Rollback"):
-                        action rollback_action
-                        hovered tt.action(_("Attempts a roll back to a prior time, allowing you to save or choose a different choice."))
+                    if rollback_action and _errorhandling.rollback:
+                        textbutton _("Rollback"):
+                            action rollback_action
+                            hovered tt.action(_("Attempts a roll back to a prior time, allowing you to save or choose a different choice."))
 
-                if ignore_action and _errorhandling.ignore:
-                    textbutton _("Ignore"):
-                        action ignore_action
+                    if ignore_action and _errorhandling.ignore:
+                        textbutton _("Ignore"):
+                            action ignore_action
 
-                        if _ignore_action:
-                            hovered tt.action(_("Ignores the exception, allowing you to continue."))
-                        else:
-                            hovered tt.action(_("Ignores the exception, allowing you to continue. This often leads to additional errors."))
+                            if _ignore_action:
+                                hovered tt.action(_("Ignores the exception, allowing you to continue."))
+                            else:
+                                hovered tt.action(_("Ignores the exception, allowing you to continue. This often leads to additional errors."))
 
-                if config.developer and not renpy.mobile:
-                    if _errorhandling.reload:
-                        textbutton _("Reload"):
-                            action reload_action
-                            hovered tt.action(_("Reloads the game from disk, saving and restoring game state if possible."))
+                    if config.developer and not renpy.mobile:
+                        if _errorhandling.reload:
+                            textbutton _("Reload"):
+                                action reload_action
+                                hovered tt.action(_("Reloads the game from disk, saving and restoring game state if possible."))
 
-                    if _errorhandling.console:
-                        textbutton _("Console") :
-                            action __EnterConsole()
-                            hovered tt.action(_("Opens a console to allow debugging the problem."))
+                        if _errorhandling.console:
+                            textbutton _("Console") :
+                                action __EnterConsole()
+                                hovered tt.action(_("Opens a console to allow debugging the problem."))
 
-                use _exception_actions(traceback_fn, tt)
+                    use _exception_actions(traceback_fn, tt)
 
-                vbox:
-                    xfill True
+                # Tooltip.
+                text tt.value
 
-                    textbutton _("Quit"):
-                        xalign 1.0
-                        action __ErrorQuit()
-                        hovered tt.action(_("Quits the game."))
+            vbox:
+                xfill True
 
-            # Tooltip.
-            text tt.value
+                textbutton _("Quit"):
+                    xalign 1.0
+                    action __ErrorQuit()
+                    hovered tt.action(_("Quits the game."))
 
     if config.developer and reload_action:
-        key "R" action reload_action
+        key "reload_game" action reload_action
 
     key "console" action __EnterConsole()
 
@@ -698,4 +703,4 @@ screen _parse_errors:
             text tt.value
 
     if config.developer and reload_action:
-        key "R" action reload_action
+        key "reload_game" action reload_action

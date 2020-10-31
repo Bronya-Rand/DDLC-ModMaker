@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -72,12 +72,7 @@ init -1600 python:
 
         import os
 
-        if "RENPY_LANGUAGE" in os.environ:
-            language = os.environ["RENPY_LANGUAGE"]
-        elif config.language is not None:
-            language = config.language
-        else:
-            language = _preferences.language
+        language = os.environ.get("RENPY_LANGUAGE") or config.language or _preferences.language
 
         renpy.change_language(language)
 
@@ -175,6 +170,9 @@ label _splashscreen:
             renpy.dynamic("suppress_overlay", "_confirm_quit")
             suppress_overlay = True
             _confirm_quit = False
+
+        renpy.dynamic("_autosave")
+        _autosave = False
 
     jump expression "splashscreen"
 

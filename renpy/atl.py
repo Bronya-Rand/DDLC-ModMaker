@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -19,7 +19,8 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from __future__ import print_function
+from __future__ import division, absolute_import, with_statement, print_function, unicode_literals
+from renpy.compat import *
 
 import renpy.display
 import renpy.pyanalysis
@@ -28,13 +29,13 @@ import random
 
 
 def compiling(loc):
-    file, number = loc  # @ReservedAssignment
+    file, number = loc # @ReservedAssignment
 
     renpy.game.exception_info = "Compiling ATL code at %s:%d" % (file, number)
 
 
 def executing(loc):
-    file, number = loc  # @ReservedAssignment
+    file, number = loc # @ReservedAssignment
 
     renpy.game.exception_info = "Executing ATL code at %s:%d" % (file, number)
 
@@ -44,7 +45,7 @@ warpers = { }
 
 
 def atl_warper(f):
-    name = f.func_name
+    name = f.__name__
     warpers[name] = f
     return f
 
@@ -84,6 +85,22 @@ def float_or_none(x):
     return float(x)
 
 
+def matrixcolor(x):
+    if x is None:
+        return None
+    elif callable(x):
+        return x
+    else:
+        return renpy.display.matrix.Matrix(x)
+
+
+def mesh(x):
+    if isinstance(x, (renpy.gl2.gl2mesh2.Mesh2, renpy.gl2mesh3.Mesh3, tuple)):
+        return x
+
+    return bool(x)
+
+
 # A dictionary giving property names and the corresponding default
 # values.
 PROPERTIES = {
@@ -115,7 +132,10 @@ PROPERTIES = {
     "radius" : float,
     "crop" : (float, float, float, float),
     "crop_relative" : bool,
+    "xsize" : int,
+    "ysize" : int,
     "size" : (int, int),
+    "fit" : str,
     "maxsize" : (int, int),
     "corner1" : (float, float),
     "corner2" : (float, float),
@@ -132,6 +152,10 @@ PROPERTIES = {
     "ypan" : float_or_none,
     "xtile" : int,
     "ytile" : int,
+    "matrixcolor" : matrixcolor,
+    "shader" : any_object,
+    "mesh" : mesh,
+    "blur" : float_or_none,
     }
 
 
@@ -149,24 +173,34 @@ def correct_type(v, b, ty):
         return ty(v)
 
 
-def interpolate(t, a, b, type):  # @ReservedAssignment
+def interpolate(t, a, b, type): # @ReservedAssignment
     """
     Linearly interpolate the arguments.
     """
 
-    # Recurse into tuples.
-    if isinstance(b, tuple):
-        if a is None:
-            a = [ None ] * len(b)
-
-        return tuple(interpolate(t, i, j, ty) for i, j, ty in zip(a, b, type))
-
     # Deal with booleans, nones, etc.
-    elif b is None or isinstance(b, (bool, basestring)):
+    if b is None or isinstance(b, (bool, basestring, renpy.display.matrix.Matrix)):
         if t >= 1.0:
             return b
         else:
             return a
+
+    # Recurse into tuples.
+    elif isinstance(b, tuple):
+        if a is None:
+            a = [ None ] * len(b)
+
+        if not isinstance(type, tuple):
+            type = (type,) * len(b)
+
+        return tuple(interpolate(t, i, j, ty) for i, j, ty in zip(a, b, type))
+
+    # If something is callable, call it and return the result.
+    elif callable(b):
+        a_origin = getattr(a, "origin", None)
+        rv = b(a_origin, t)
+        rv.origin = b
+        return rv
 
     # Interpolate everything else.
     else:
@@ -193,25 +227,58 @@ def interpolate_spline(t, spline):
         rv = t_p * spline[0] + t * spline[-1]
 
     elif len(spline) == 3:
-        t_pp = (1.0 - t)**2
+        t_pp = (1.0 - t) ** 2
         t_p = 2 * t * (1.0 - t)
-        t2 = t**2
+        t2 = t ** 2
 
         rv = t_pp * spline[0] + t_p * spline[1] + t2 * spline[2]
 
     elif len(spline) == 4:
 
-        t_ppp = (1.0 - t)**3
-        t_pp = 3 * t * (1.0 - t)**2
-        t_p = 3 * t**2 * (1.0 - t)
-        t3 = t**3
+        t_ppp = (1.0 - t) ** 3
+        t_pp = 3 * t * (1.0 - t) ** 2
+        t_p = 3 * t ** 2 * (1.0 - t)
+        t3 = t ** 3
 
         rv = t_ppp * spline[0] + t_pp * spline[1] + t_p * spline[2] + t3 * spline[3]
 
     else:
-        raise Exception("ATL can't interpolate splines of length %d." % len(spline))
+
+        if t <= 0.0 or t >= 1.0:
+
+            rv = spline[0 if t <= 0.0 else -1]
+
+        else:
+
+            # Catmull-Rom (re-adjust the control points)
+            spline = ([spline[1], spline[0]]
+                    +list(spline[2:-2])
+                    +[spline[-1], spline[-2]])
+
+            inner_spline_count = float(len(spline) - 3)
+
+            # determine which spline values are relevant
+            sector = int(t // (1.0 / inner_spline_count) + 1)
+
+            # determine t for this sector
+            t = (t % (1.0 / inner_spline_count)) * inner_spline_count
+
+            rv = get_catmull_rom_value(t, *spline[sector - 1:sector + 3])
 
     return correct_type(rv, spline[-1], position)
+
+
+def get_catmull_rom_value(t, p_1, p0, p1, p2):
+    """
+    Very basic Catmull-Rom calculation with no alpha or handling
+    of multi-dimensional points
+    """
+    t = float(max(0.0, min(1.0, t)))
+    return type(p0)(
+        (t * ((2 - t) * t - 1) * p_1
+        +(t * t * (3 * t - 5) + 2) * p0
+        +t * ((4 - 3 * t) * t + 1) * p1
+        +(t - 1) * t * t * p2) / 2)
 
 
 # A list of atl transforms that may need to be compile.
@@ -241,9 +308,9 @@ class Context(object):
     def __init__(self, context):
         self.context = context
 
-    def eval(self, expr):  # @ReservedAssignment
+    def eval(self, expr): # @ReservedAssignment
         expr = renpy.python.escape_unicode(expr)
-        return eval(expr, renpy.store.__dict__, self.context)  # @UndefinedVariable
+        return eval(expr, renpy.store.__dict__, self.context) # @UndefinedVariable
 
     def __eq__(self, other):
         if not isinstance(other, Context):
@@ -428,7 +495,7 @@ class ATLTransformBase(renpy.object.Object):
             raise Exception("Too many arguments passed to ATL transform.")
 
         # Handle keyword arguments.
-        for k, v in kwargs.iteritems():
+        for k, v in kwargs.items():
 
             if k in positional:
                 positional.remove(k)
@@ -460,7 +527,7 @@ class ATLTransformBase(renpy.object.Object):
 
         return rv
 
-    def compile(self):  # @ReservedAssignment
+    def compile(self): # @ReservedAssignment
         """
         Compiles the ATL code into a block. As necessary, updates the
         properties.
@@ -601,7 +668,7 @@ class RawStatement(object):
 
     # Compiles this RawStatement into a Statement, by using ctx to
     # evaluate expressions as necessary.
-    def compile(self, ctx):  # @ReservedAssignment
+    def compile(self, ctx): # @ReservedAssignment
         raise Exception("Compile not implemented.")
 
     # Predicts the images used by this statement.
@@ -678,7 +745,7 @@ class RawBlock(RawStatement):
 
         self.animation = animation
 
-    def compile(self, ctx):  # @ReservedAssignment
+    def compile(self, ctx): # @ReservedAssignment
         compiling(self.loc)
 
         statements = [ i.compile(ctx) for i in self.statements ]
@@ -879,7 +946,7 @@ class RawMultipurpose(RawStatement):
     def add_spline(self, name, exprs):
         self.splines.append((name, exprs))
 
-    def compile(self, ctx):  # @ReservedAssignment
+    def compile(self, ctx): # @ReservedAssignment
 
         compiling(self.loc)
 
@@ -927,7 +994,7 @@ class RawMultipurpose(RawStatement):
 
         for name, expr in self.properties:
             if name not in PROPERTIES:
-                raise Exception("ATL Property %s is unknown at runtime." % property)
+                raise Exception("ATL Property %s is unknown at runtime." % name)
 
             value = ctx.eval(expr)
             properties.append((name, value))
@@ -936,7 +1003,7 @@ class RawMultipurpose(RawStatement):
 
         for name, exprs in self.splines:
             if name not in PROPERTIES:
-                raise Exception("ATL Property %s is unknown at runtime." % property)
+                raise Exception("ATL Property %s is unknown at runtime." % name)
 
             values = [ ctx.eval(i) for i in exprs ]
 
@@ -1012,7 +1079,7 @@ class RawContainsExpr(RawStatement):
 
         self.expression = expr
 
-    def compile(self, ctx):  # @ReservedAssignment
+    def compile(self, ctx): # @ReservedAssignment
         compiling(self.loc)
         child = ctx.eval(self.expression)
         return Child(self.loc, child, None)
@@ -1030,7 +1097,7 @@ class RawChild(RawStatement):
 
         self.children = [ child ]
 
-    def compile(self, ctx):  # @ReservedAssignment
+    def compile(self, ctx): # @ReservedAssignment
 
         children = [ ]
 
@@ -1226,7 +1293,7 @@ class Interpolation(Statement):
             linear, revolution, splines = state
 
         # Linearly interpolate between the things in linear.
-        for k, (old, new) in linear.iteritems():
+        for k, (old, new) in linear.items():
             value = interpolate(complete, old, new, PROPERTIES[k])
 
             setattr(trans.state, k, value)
@@ -1264,7 +1331,7 @@ class RawRepeat(RawStatement):
 
         self.repeats = repeats
 
-    def compile(self, ctx):  # @ReservedAssignment
+    def compile(self, ctx): # @ReservedAssignment
 
         compiling(self.loc)
 
@@ -1290,8 +1357,8 @@ class Repeat(Statement):
     def execute(self, trans, st, state, events):
         return "repeat", (self.repeats, st), 0
 
-
 # Parallel statement.
+
 
 class RawParallel(RawStatement):
 
@@ -1300,7 +1367,7 @@ class RawParallel(RawStatement):
         super(RawParallel, self).__init__(loc)
         self.blocks = [ block ]
 
-    def compile(self, ctx):  # @ReservedAssignment
+    def compile(self, ctx): # @ReservedAssignment
         return Parallel(self.loc, [i.compile(ctx) for i in self.blocks])
 
     def predict(self, ctx):
@@ -1369,8 +1436,8 @@ class Parallel(Statement):
     def visit(self):
         return [ j for i in self.blocks for j in i.visit() ]
 
-
 # The choice statement.
+
 
 class RawChoice(RawStatement):
 
@@ -1379,7 +1446,7 @@ class RawChoice(RawStatement):
 
         self.choices = [ (chance, block) ]
 
-    def compile(self, ctx):  # @ReservedAssignment
+    def compile(self, ctx): # @ReservedAssignment
         compiling(self.loc)
         return Choice(self.loc, [ (ctx.eval(chance), block.compile(ctx)) for chance, block in self.choices])
 
@@ -1445,8 +1512,8 @@ class Choice(Statement):
     def visit(self):
         return [ j for i in self.choices for j in i[1].visit() ]
 
-
 # The Time statement.
+
 
 class RawTime(RawStatement):
 
@@ -1455,7 +1522,7 @@ class RawTime(RawStatement):
         super(RawTime, self).__init__(loc)
         self.time = time
 
-    def compile(self, ctx):  # @ReservedAssignment
+    def compile(self, ctx): # @ReservedAssignment
         compiling(self.loc)
         return Time(self.loc, ctx.eval(self.time))
 
@@ -1473,8 +1540,8 @@ class Time(Statement):
     def execute(self, trans, st, state, events):
         return "continue", None, None
 
-
 # The On statement.
+
 
 class RawOn(RawStatement):
 
@@ -1486,24 +1553,24 @@ class RawOn(RawStatement):
         for i in names:
             self.handlers[i] = block
 
-    def compile(self, ctx):  # @ReservedAssignment
+    def compile(self, ctx): # @ReservedAssignment
         compiling(self.loc)
 
         handlers = { }
 
-        for k, v in self.handlers.iteritems():
+        for k, v in self.handlers.items():
             handlers[k] = v.compile(ctx)
 
         return On(self.loc, handlers)
 
     def predict(self, ctx):
-        for i in self.handlers.itervalues():
+        for i in self.handlers.values():
             i.predict(ctx)
 
     def mark_constant(self):
         constant = GLOBAL_CONST
 
-        for block in self.handlers.itervalues():
+        for block in self.handlers.values():
             block.mark_constant()
             constant = min(constant, block.constant)
 
@@ -1593,10 +1660,10 @@ class On(Statement):
                 return "event", (name, arg), None
 
     def visit(self):
-        return [ j for i in self.handlers.itervalues() for j in i.visit() ]
-
+        return [ j for i in self.handlers.values() for j in i.visit() ]
 
 # Event statement.
+
 
 class RawEvent(RawStatement):
 
@@ -1605,7 +1672,7 @@ class RawEvent(RawStatement):
 
         self.name = name
 
-    def compile(self, ctx):  # @ReservedAssignment
+    def compile(self, ctx): # @ReservedAssignment
         return Event(self.loc, self.name)
 
     def mark_constant(self):
@@ -1630,7 +1697,7 @@ class RawFunction(RawStatement):
 
         self.expr = expr
 
-    def compile(self, ctx):  # @ReservedAssignment
+    def compile(self, ctx): # @ReservedAssignment
         compiling(self.loc)
         return Function(self.loc, ctx.eval(self.expr))
 
@@ -1835,7 +1902,7 @@ def parse_atl(l):
 
                 prop = l.name()
 
-                if prop in PROPERTIES:
+                if (prop in PROPERTIES) or (prop and prop.startswith("u_")):
 
                     expr = l.require(l.simple_expression)
 

@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -23,7 +23,8 @@
 # This includes both simple settings (like the screen dimensions) and
 # methods that perform standard tasks, like the say and menu methods.
 
-from __future__ import print_function
+from __future__ import division, absolute_import, with_statement, print_function, unicode_literals
+from renpy.compat import *
 
 import collections
 import os
@@ -33,7 +34,7 @@ import renpy
 locked = False
 
 # Contains help for config variables.
-help = [ ]  # @ReservedAssignment
+help = [ ] # @ReservedAssignment
 
 # The title of the game window.
 window_title = None
@@ -237,17 +238,17 @@ frames = 0
 
 # NOT USED: A text editor that is launched at the location of the current
 # statement.
-editor = None  # os.environ.get('RENPY_EDITOR', None)
+editor = None # os.environ.get('RENPY_EDITOR', None)
 
 # NOT USED: Text editor, with arguments to reload or clobber the file - used,
 # for example, to display traceback.txt.
-editor_transient = None  # os.environ.get('RENPY_EDITOR_TRANSIENT', editor)
+editor_transient = None # os.environ.get('RENPY_EDITOR_TRANSIENT', editor)
 
 # NOT USED: The separator used between files in the text editor.
-editor_file_separator = None  # os.environ.get('RENPY_EDITOR_FILE_SEPARATOR', '" "')
+editor_file_separator = None # os.environ.get('RENPY_EDITOR_FILE_SEPARATOR', '" "')
 
 # Enable developer mode?
-developer = False  # Changed to True or False in the init code.
+developer = False # Changed to True or False in the init code.
 
 # The value of developer requested by the creator (True, False, or "auto")
 original_developer = False
@@ -316,7 +317,7 @@ show = None
 # The callback that is used by the hide statement.
 hide = None
 
-# Should we use cPickle or pickle for load/save?
+# Python 2.x only: Should we use cPickle or pickle for load/save?
 use_cpickle = True
 
 # The function to call as the inspector.
@@ -389,7 +390,7 @@ gamedir = None
 basedir = None
 renpy_base = None
 commondir = None
-logdir = None  # Where log and error files go.
+logdir = None # Where log and error files go.
 
 # Should we enable OpenGL mode?
 gl_enable = True
@@ -412,6 +413,10 @@ imagemap_cache = True
 
 # Callbacks that are called in order to predict images.
 predict_callbacks = [ ]
+
+# Callbacks that are called on expensive idle_frame one per tick
+# to predict screens or other hard stuff.
+expensive_predict_callbacks = [ ]
 
 # Should screens be predicted?
 predict_screens = True
@@ -453,6 +458,9 @@ log_enable = True
 
 # Should we log text overflows?
 debug_text_overflow = False
+
+# Should underfull grids raise an exception?
+allow_underfull_grids = False
 
 # Should we save the window size in the preferences?
 save_physical_size = True
@@ -691,7 +699,7 @@ movie_mixer = "music"
 # * mixer
 # * file prefix
 # * file suffix
-auto_channels = { "audio" : ( "sfx", "", ""  ) }
+auto_channels = { "audio" : ("sfx", "", "") }
 
 # The channel used by renpy.play.
 play_channel = "audio"
@@ -1009,6 +1017,49 @@ context_copy_remove_screens = [ "notify" ]
 # An exception handling callback.
 exception_handler = None
 
+# A label that is jumped to if return fails.
+return_not_found_label = None
+
+# A list of (regex, autoreload function) tuples.
+autoreload_functions = [ ]
+
+# A list of voice mixers (that should not be dropped when self voicing is
+# enabled).
+voice_mixers = [ "voice" ]
+
+# Should the text alignment pattern be drawn?
+debug_text_alignment = False
+
+# Init blocks taking longer than this amount of time to run are
+# reported to log.txt.
+profile_init = 0.25
+
+# Should live2d interpolate movements?
+live2d_interpolate = False
+
+# A list of text tags with contents that should be filtered by the TTS system.
+tts_filter_tags = [ "noalt", "rt", "art" ]
+
+# A function that merges uniforms together. This is a map from uniform name
+# to a function that takes the two values and merges them.
+merge_uniforms = { }
+
+# Does the side image required an attribute to be defined?
+side_image_requires_attributes = True
+
+# What is the max mipmap level?
+max_mipmap_level = 1000
+
+# Should we show the touch keyboard outside of emscripten/touch.
+touch_keyboard = os.environ.get("RENPY_TOUCH_KEYBOARD", False)
+
+# The size of the framebuffer Ren'Py creates, which doubles as the
+# largest texture size.
+fbo_size = (4096, 4096)
+
+# Names to ignore the redefinition of.
+lint_ignore_redefine = [ "gui.about" ]
+
 del os
 del collections
 
@@ -1030,3 +1081,9 @@ def init():
 
     global notify
     notify = renpy.exports.display_notify
+
+    global autoreload_functions
+    autoreload_functions = [
+        (r'\.(png|jpg|jpeg|webp|gif|tif|tiff|bmp)$', renpy.exports.flush_cache_file),
+        (r'\.(mp2|mp3|ogg|opus|wav)$', renpy.audio.audio.autoreload),
+        ]

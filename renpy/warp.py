@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -23,9 +23,11 @@
 # the Ren'Py source code, given the filename and line number of the
 # location.
 
-from __future__ import print_function
+from __future__ import division, absolute_import, with_statement, print_function, unicode_literals
+from renpy.compat import *
 
 import renpy
+import operator
 
 warp_spec = None
 
@@ -140,7 +142,7 @@ def warp():
         raise Exception("Could not find a statement to warp to. ({})".format(spec))
 
     # Sort the list of candidates, so they're ordered by linenumber.
-    candidates.sort()
+    candidates.sort(key=operator.itemgetter(0))
 
     # Pick the candidate immediately before (or on) the line.
     node = candidates[-1][1]

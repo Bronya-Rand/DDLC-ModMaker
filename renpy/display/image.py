@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -23,7 +23,8 @@
 # Most of the guts of this file have been moved into im.py, with only some
 # of the stuff thar uses images remaining.
 
-from __future__ import print_function
+from __future__ import division, absolute_import, with_statement, print_function, unicode_literals
+from renpy.compat import *
 
 import renpy.display
 import renpy.text
@@ -96,7 +97,7 @@ def get_tag_method(tag, method):
     it returns None.
     """
 
-    ti =  images.get((tag,), None)
+    ti = images.get((tag,), None)
 
     if ti is None:
         return None
@@ -229,7 +230,7 @@ def get_ordered_image_attributes(tag, attributes=(), sort=None):
 
     for attr in attrcount:
         if attr not in rv:
-            l.append((attrtotalpos[attr] / attrcount[attr], sort(attr), attr))
+            l.append((attrtotalpos[attr] // attrcount[attr], sort(attr), attr))
 
     l.sort()
     for i in l:
@@ -405,7 +406,6 @@ class ImageReference(renpy.display.core.Displayable):
         try:
 
             a = self._args.copy(name=name, args=args)
-
             self.target = target._duplicate(a)
 
         except Exception as e:
@@ -414,6 +414,7 @@ class ImageReference(renpy.display.core.Displayable):
                 raise
 
             error(str(e))
+            return False
 
         # Copy the old transform over.
         new_transform = self.target._target()
@@ -634,7 +635,7 @@ class DynamicImage(renpy.display.core.Displayable):
             search = [ ]
             target = renpy.easy.dynamic_image(self.name, scope, prefix=prefix, search=search)
         except KeyError as ke:
-            raise Exception("In DynamicImage %r: Could not find substitution '%s'." % (self.name, unicode(ke.args[0])))
+            raise Exception("In DynamicImage %r: Could not find substitution '%s'." % (self.name, str(ke.args[0])))
         except Exception as e:
             raise Exception("In DynamicImage %r: %r" % (self.name, e))
 
@@ -858,7 +859,7 @@ class ShownImageInfo(renpy.object.Object):
         if layer is None:
             layer = 'master'
 
-        for l, t in self.attributes.keys():
+        for l, t in list(self.attributes.keys()):
             if l == layer:
                 del self.attributes[l, t]
 
@@ -982,7 +983,7 @@ class ShownImageInfo(renpy.object.Object):
                     max_len = len_attrs
                     matches = [ ]
 
-                matches.append((tag, ) + attrs)
+                matches.append((tag,) + attrs)
 
         if matches is None:
             return None
@@ -997,7 +998,6 @@ class ShownImageInfo(renpy.object.Object):
 
 
 renpy.display.core.ImagePredictInfo = ShownImageInfo
-
 
 # Functions that have moved from this module to other modules,
 # that live here for the purpose of backward-compatibility.

@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -534,6 +534,16 @@ python early hide:
         fn = _audio_eval(fn)
         voice(fn)
 
+    def predict_voice(fn):
+        if renpy.emscripten or os.environ.get('RENPY_SIMULATE_DOWNLOAD', False):
+            fn = config.voice_filename_format.format(filename=_audio_eval(fn))
+            try:
+                with renpy.loader.load(fn) as f:
+                    pass
+            except renpy.webloader.DownloadNeeded as exception:
+                renpy.webloader.enqueue(exception.relpath, 'voice', None)
+        return [ ]
+
     def lint_voice(fn):
         _voice.seen_in_lint = True
 
@@ -552,6 +562,7 @@ python early hide:
     renpy.statements.register('voice',
                               parse=parse_voice,
                               execute=execute_voice,
+                              predict=predict_voice,
                               lint=lint_voice,
                               translatable=True)
 

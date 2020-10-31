@@ -30,9 +30,9 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>Ren'Py 7.3.5.606</string>
+	<string>Ren'Py 7.4.0.939</string>
 	<key>CFBundleVersion</key>
-	<string>1.0.1571355317</string>
+	<string>1.0.1603930145</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.simulation-games</string>
 	<key>NSSupportsAutomaticGraphicsSwitching</key>

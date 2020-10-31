@@ -1,5 +1,5 @@
 #cython: profile=False
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -77,7 +77,7 @@ def adjust_render_cache_times(old_time, new_time):
     old_time, it really started at new_time.
     """
 
-    for id_d, renders in render_cache.iteritems():
+    for id_d, renders in (<dict> render_cache).iteritems():
 
         # Check to see if we have a render with st_base = old_time. If so,
         # we need to rebase it.
@@ -89,7 +89,7 @@ def adjust_render_cache_times(old_time, new_time):
 
         new_renders = { }
 
-        for k, v in renders.iteritems():
+        for k, v in (<dict> renders).iteritems():
             w, h, st_base, at_base = k
 
             if st_base == old_time:
@@ -131,6 +131,10 @@ def check_at_shutdown():
     free_memory()
 
     gc.collect()
+
+    if gc.garbage:
+        del gc.garbage[:]
+
     l = gc.get_objects()
 
     count = 0
@@ -266,6 +270,7 @@ cpdef render(d, object widtho, object heighto, double st, double at):
         raise Exception("{!r}.render() must return a Render.".format(d))
 
     rv.render_of.append(d)
+    rv.cache_killed = False
 
     if d._clipping:
         renpy.plog(4, "before clipping")
@@ -322,7 +327,7 @@ def invalidate(d):
         redraw(d, 0)
         return
 
-    for v in render_cache[id(d)].values():
+    for v in list(render_cache[id(d)].values()):
         v.kill_cache()
 
 def check_redraws():
@@ -330,7 +335,7 @@ def check_redraws():
     Returns true if a redraw is required, and False otherwise.
     """
 
-    redraw_queue.sort()
+    redraw_queue.sort(key=lambda a : a[0])
 
     now = renpy.display.core.get_time()
 
@@ -353,7 +358,7 @@ def process_redraws():
 
     global redraw_queue
 
-    redraw_queue.sort()
+    redraw_queue.sort(key=lambda a : a[0])
 
     now = renpy.display.core.get_time()
     rv = False
@@ -380,7 +385,7 @@ def process_redraws():
             # render cache. But don't kill them yet, as that will kill the
             # children that we want to reuse.
 
-            for v in render_cache[id_d].values():
+            for v in list(render_cache[id_d].values()):
                 v.kill_cache()
 
             rv = True
@@ -422,10 +427,7 @@ def redraw(d, when):
     redraw_queue.append((when + renpy.game.interface.frame_time, d))
 
 
-
-
 IDENTITY = Matrix2D(1, 0, 0, 1)
-
 
 
 def take_focuses(focuses):
@@ -434,9 +436,9 @@ def take_focuses(focuses):
     """
 
     screen_render.take_focuses(
-        0, 0, screen_render.width, screen_render.height,
-        IDENTITY,
         0, 0,
+        screen_render.width, screen_render.height,
+        IDENTITY,
         None,
         focuses)
 
@@ -878,42 +880,12 @@ cdef class Render:
 
         reverse = self.reverse
 
-        # This code doesn't work. We need to do the clipping in the screen
-        # space, or it's too easy to get overlaps or lines. (At some point,
-        # we should optimize things and only clip when necessary.)
-
-#         if False and ((reverse is not None) and (reverse.xdx != 1.0 or reverse.ydy != 1.0) and
-#             (reverse.xdx > 0.0 and
-#             reverse.xdy == 0.0 and
-#             reverse.ydx == 0.0 and
-#             reverse.ydy > 0.0)):
-#
-#             # When rectangle-aligned but not 1:1, transform the rectangle and
-#             # keep cropping.
-#
-#             w, h = self.forward.transform(w + x, h + y)
-#             x, y = self.forward.transform(x, y)
-#
-#
-#             x = int(x)
-#             y = int(y)
-#             w = int(w) - x + 1
-#             h = int(h) - y
-#
-#             if (w <= 0) or (h <= 0):
-#                 return rv
-#
-#             xdx = 1.0 * rect[2] / w
-#             ydy = 1.0 * rect[3] / h
-#
-#             rv.reverse = Matrix2D(xdx, 0.0, 0.0, ydy)
-#             rv.forward = Matrix2D(1.0 / xdx, 0.0, 0.0, 1.0 / ydy)
-
         if ((reverse is not None) and
             (reverse.xdx != 1.0 or
             reverse.xdy != 0.0 or
             reverse.ydx != 0.0 or
-            reverse.ydy != 1.0)):
+            reverse.ydy != 1.0) or
+            self.mesh):
 
             # This doesn't actually make a subsurface, as we can't easily do
             # so for non-rectangle-aligned renders.
@@ -1027,7 +999,13 @@ cdef class Render:
         rv.operation_alpha = self.operation_alpha
         rv.operation_complete = self.operation_complete
         rv.nearest = self.nearest
-        rv.text_input =  self.text_input
+
+        rv.mesh = self.mesh
+        rv.shaders = self.shaders
+        rv.uniforms = self.uniforms
+        rv.properties = self.properties
+
+        rv.text_input = self.text_input
 
         return rv
 
@@ -1075,14 +1053,14 @@ cdef class Render:
             id_ro = id(ro)
 
             cache = render_cache[id_ro]
-            for k, v in cache.items():
+            for k, v in list(cache.items()):
                 if v is self:
                     del cache[k]
 
             if not cache:
                 del render_cache[id_ro]
 
-        self.render_of = None
+        self.render_of = [ ]
         self.focuses = None
         self.pass_focuses = None
 
@@ -1114,7 +1092,7 @@ cdef class Render:
         else:
             self.focuses.append(t)
 
-    def take_focuses(self, cminx, cminy, cmaxx, cmaxy, reverse, x, y, screen, focuses): #@DuplicatedSignature
+    def take_focuses(self, cminx, cminy, cmaxx, cmaxy, transform, screen, focuses): #@DuplicatedSignature
         """
         This adds to focuses Focus objects corresponding to the focuses
         added to this object and its children, transformed into screen
@@ -1126,16 +1104,12 @@ cdef class Render:
         `reverse`
             The transform from render to screen coordinates.
 
-        `x`, `y`
-            The offset of the upper-left corner of the render.
-
         `screen`
             The screen this is a render of, or None if this is not part of
             a screen.
 
         `focuses`
             The list of focuses to add to.
-
         """
 
         if self.focus_screen is not None:
@@ -1143,9 +1117,6 @@ cdef class Render:
 
         if self.modal:
             focuses[:] = [ ]
-
-        if self.reverse:
-            reverse = reverse * self.reverse
 
         if self.focuses:
 
@@ -1155,42 +1126,61 @@ cdef class Render:
                     focuses.append(renpy.display.focus.Focus(d, arg, None, None, None, None, screen))
                     continue
 
-                x1, y1 = reverse.transform(xo, yo)
-                x2, y2 = reverse.transform(xo + w, yo + h)
+                x1, y1 = transform.transform(xo, yo)
+                x2, y2 = transform.transform(xo + w, yo + h)
 
-                minx = min(x1, x2) + x
-                miny = min(y1, y2) + y
-                maxx = max(x1, x2) + x
-                maxy = max(y1, y2) + y
+                minx = min(x1, x2)
+                maxx = max(x1, x2)
+                miny = min(y1, y2)
+                maxy = max(y1, y2)
 
                 minx = max(minx, cminx)
-                miny = max(miny, cminy)
                 maxx = min(maxx, cmaxx)
+                miny = max(miny, cminy)
                 maxy = min(maxy, cmaxy)
 
-                if minx >= maxx or miny >= maxy:
+                if maxx <= minx:
+                    continue
+                if maxy <= miny:
                     continue
 
                 focuses.append(renpy.display.focus.Focus(d, arg, minx, miny, maxx - minx, maxy - miny, screen))
 
-        if self.xclipping:
-            cminx = max(cminx, x)
-            cmaxx = min(cmaxx, x + self.width)
+        if self.xclipping or self.yclipping:
 
-        if self.yclipping:
-            cminy = max(cminy, y)
-            cmaxy = min(cmaxx, x + self.height)
+            x1, y1 = transform.transform(0, 0)
+            x2, y2 = transform.transform(self.width, self.height)
 
-        for child, xo, yo, focus, main in self.children:
-            if not focus or not isinstance(child, Render):
+            if self.xclipping:
+                minx = min(x1, x2)
+                maxx = max(x1, x2)
+                cminx = max(minx, cminx)
+                cmaxx = min(maxx, cmaxx)
+
+            if self.yclipping:
+                miny = min(y1, y2)
+                maxy = max(y1, y2)
+                cminy = max(miny, cminy)
+                cmaxy = min(maxy, cmaxy)
+
+        for child, cx, cy, focus, main in self.children:
+
+            if not isinstance(child, Render):
                 continue
 
-            xo, yo = reverse.transform(xo, yo)
-            child.take_focuses(cminx, cminy, cmaxx, cmaxy, reverse, x + xo, y + yo, screen, focuses)
+            child_transform = transform
+
+            if (cx or cy):
+                child_transform = child_transform * Matrix.coffset(cx, cy, 0)
+
+            if (self.reverse is not None) and (self.reverse is not IDENTITY):
+                child_transform = child_transform * self.reverse
+
+            child.take_focuses(cminx, cminy, cmaxx, cmaxy, child_transform, screen, focuses)
 
         if self.pass_focuses:
             for child in self.pass_focuses:
-                child.take_focuses(cminx, cminy, cmaxx, cmaxy, reverse, x, y, screen, focuses)
+                child.take_focuses(cminx, cminy, cmaxx, cmaxy, transform, screen, focuses)
 
     def focus_at_point(self, x, y, screen): #@DuplicatedSignature
         """
@@ -1459,6 +1449,42 @@ cdef class Render:
             self.forward *= Matrix2D(1.0 / xzoom, 0, 0, 1.0 / yzoom)
         else:
             self.forward *= Matrix2D(0, 0, 0, 0)
+
+    def add_shader(self, shader):
+        """
+        Adds a shader to the list of shaders that will be used to render
+        this Render and its children.
+        """
+
+        if self.shaders is None:
+            self.shaders = (shader,)
+            return
+
+        if shader in self.shaders:
+            return
+
+        self.shaders = self.shaders + (shader,)
+
+    def add_uniform(self, name, value):
+        """
+        Adds a uniform with the given name and value that will be passed
+        to the shaders that render this Render and its children.
+        """
+
+        if self.uniforms is None:
+            self.uniforms = { name : value }
+        else:
+            self.uniforms[name] = value
+
+    def add_property(self, name, value):
+        """
+        Adds a render property with name and value.
+        """
+
+        if self.properties is None:
+            self.properties = { name : value }
+        else:
+            self.properties[name] = value
 
 class Canvas(object):
 

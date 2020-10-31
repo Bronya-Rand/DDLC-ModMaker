@@ -1,7 +1,8 @@
-from __future__ import print_function
+from __future__ import division, absolute_import, with_statement, print_function, unicode_literals
+from renpy.compat import *
 
 import renpy
-import pyobjus  # @UnresolvedImport
+import pyobjus # @UnresolvedImport
 
 from renpy.audio.audio import MusicContext
 
@@ -70,6 +71,18 @@ class IOSVideoChannel(object):
 
     context = property(get_context)
 
+    def copy_context(self):
+        """
+        Copies the MusicContext associated with this channel, updates the
+        ExecutionContext to point to the copy, and returns the copy.
+        """
+
+        mcd = renpy.game.context().music
+
+        ctx = self.get_context().copy()
+        mcd[self.name] = ctx
+        return ctx
+
     def start(self):
         """
         Starts playing the first video in the queue.
@@ -79,9 +92,8 @@ class IOSVideoChannel(object):
             return
 
         filename = self.queue.pop(0)
-        f = renpy.loader.load(filename)
-
-        real_fn = f.name
+        with renpy.loader.load(filename) as f:
+            real_fn = f.name
 
         self.filename = filename
         self.player = VideoPlayer.alloc().initWithFile_(real_fn)
@@ -112,6 +124,9 @@ class IOSVideoChannel(object):
             self.dequeue()
             self.stop()
             return
+
+        if self.player:
+            self.player.periodic()
 
         if self.get_playing():
             return
@@ -170,3 +185,12 @@ class IOSVideoChannel(object):
 
     def set_secondary_volume(self, volume, delay):
         pass
+
+    def reload(self):
+        return
+
+    def read_video(self):
+        return None
+
+    def video_ready(self):
+        return 1

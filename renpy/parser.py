@@ -1,4 +1,4 @@
-# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -22,7 +22,9 @@
 # This module contains the parser for the Ren'Py script language. It's
 # called when parsing is necessary, and creates an AST from the script.
 
-from __future__ import print_function
+from __future__ import division, absolute_import, with_statement, print_function, unicode_literals
+from renpy.compat import *
+
 import codecs
 import re
 import os
@@ -110,7 +112,7 @@ def unicode_filename(fn):
     Converts the supplied filename to unicode.
     """
 
-    if isinstance(fn, unicode):
+    if isinstance(fn, str):
         return fn
 
     # Windows.
@@ -154,17 +156,18 @@ def elide_filename(fn):
     or relative to the Ren'Py directory.
     """
 
-    ofn = fn
-    fn = os.path.abspath(fn)
-    basedir = os.path.abspath(renpy.config.basedir)
-    renpy_base = os.path.abspath(renpy.config.renpy_base)
+    original_fn = fn
+    fn = fn.replace("\\", "/")
 
-    if fn.startswith(basedir):
-        return os.path.relpath(fn, basedir).replace("\\", "/")
-    elif fn.startswith(renpy_base):
-        return os.path.relpath(fn, renpy_base).replace("\\", "/")
+    for d in [ renpy.config.basedir, renpy.config.renpy_base ]:
+        d = os.path.abspath(d).replace("\\", "/") + "/"
+        if fn.startswith(d):
+            rv = fn[len(d):]
+            break
     else:
-        return ofn.replace("\\", "/")
+        rv = original_fn.replace("\\", "/")
+
+    return rv
 
 
 def unelide_filename(fn):
@@ -211,9 +214,8 @@ def list_logical_lines(filename, filedata=None, linenumber=1, add_lines=False):
     if filedata:
         data = filedata
     else:
-        f = open(filename, "rb")
-        data = f.read().decode("utf-8")
-        f.close()
+        with open(filename, "rb") as f:
+            data = f.read().decode("utf-8")
 
     filename = elide_filename(filename)
     prefix = munge_filename(filename)
@@ -285,7 +287,7 @@ def list_logical_lines(filename, filedata=None, linenumber=1, add_lines=False):
 
                 lines[loc].end_delim = endpos + 1
 
-                while data[endpos-1] in u' \r':
+                while data[endpos - 1] in u' \r':
                     endpos -= 1
 
                 lines[loc].end = endpos
@@ -308,7 +310,7 @@ def list_logical_lines(filename, filedata=None, linenumber=1, add_lines=False):
                 continue
 
             # Backslash/newline.
-            if c == u"\\" and data[pos+1] == u"\n":
+            if c == u"\\" and data[pos + 1] == u"\n":
                 pos += 2
                 number += 1
                 line.append(u"\\\n")
@@ -339,7 +341,7 @@ def list_logical_lines(filename, filedata=None, linenumber=1, add_lines=False):
                 escape = False
                 triplequote = False
 
-                if (pos < len_data - 1) and (data[pos] == delim) and (data[pos+1] == delim):
+                if (pos < len_data - 1) and (data[pos] == delim) and (data[pos + 1] == delim):
                     line.append(delim)
                     line.append(delim)
                     pos += 2
@@ -371,7 +373,7 @@ def list_logical_lines(filename, filedata=None, linenumber=1, add_lines=False):
                             s.append(c)
                             break
 
-                        if (pos < len_data - 2) and (data[pos+1] == delim) and (data[pos+2] == delim):
+                        if (pos < len_data - 2) and (data[pos + 1] == delim) and (data[pos + 2] == delim):
                             pos += 3
                             s.append(delim)
                             s.append(delim)
@@ -547,8 +549,8 @@ ESCAPED_OPERATORS = [
 
 operator_regexp = "|".join([ re.escape(i) for i in OPERATORS ] + ESCAPED_OPERATORS)
 
-word_regexp = ur'[a-zA-Z_\u00a0-\ufffd][0-9a-zA-Z_\u00a0-\ufffd]*'
-image_word_regexp = ur'[-0-9a-zA-Z_\u00a0-\ufffd][-0-9a-zA-Z_\u00a0-\ufffd]*'
+word_regexp = r'[a-zA-Z_\u00a0-\ufffd][0-9a-zA-Z_\u00a0-\ufffd]*'
+image_word_regexp = r'[-0-9a-zA-Z_\u00a0-\ufffd][-0-9a-zA-Z_\u00a0-\ufffd]*'
 
 
 class SubParse(object):
@@ -670,7 +672,7 @@ class Lexer(object):
 
         # print self.text[self.pos].encode('unicode_escape')
 
-        self.match_regexp(ur"(\s+|\\\n)+")
+        self.match_regexp(r"(\s+|\\\n)+")
 
     def match(self, regexp):
         """
@@ -815,7 +817,7 @@ class Lexer(object):
                 group2 = m.group(2)
 
                 if group2:
-                    return unichr(int(m.group(2), 16))
+                    return chr(int(m.group(2), 16))
             else:
                 return c
 
@@ -870,7 +872,7 @@ class Lexer(object):
                 group2 = m.group(2)
 
                 if group2:
-                    return unichr(int(m.group(2), 16))
+                    return chr(int(m.group(2), 16))
             else:
                 return c
 
@@ -904,7 +906,7 @@ class Lexer(object):
 
         return self.match(r'(\+|\-)?\d+')
 
-    def float(self):  # @ReservedAssignment
+    def float(self): # @ReservedAssignment
         """
         Tries to parse a number (float). Returns a string containing the
         number, or None.
@@ -943,8 +945,8 @@ class Lexer(object):
         oldpos = self.pos
         rv = self.word()
 
-        if (rv == "r") or (rv == "u"):
-            if self.text[self.pos:self.pos+1] in ( '"', "'", "`"):
+        if (rv == "r") or (rv == "u") or (rv == "ur"):
+            if self.text[self.pos:self.pos + 1] in ('"', "'", "`"):
                 self.pos = oldpos
                 return None
 
@@ -1001,7 +1003,7 @@ class Lexer(object):
         if not local_name:
             return global_name
 
-        return global_name+'.'+local_name
+        return global_name + '.' + local_name
 
     def label_name_declare(self):
         """
@@ -1019,7 +1021,7 @@ class Lexer(object):
         rv = self.match(image_word_regexp)
 
         if (rv == "r") or (rv == "u"):
-            if self.text[self.pos:self.pos+1] in ( '"', "'", "`"):
+            if self.text[self.pos:self.pos + 1] in ('"', "'", "`"):
                 self.pos = oldpos
                 return None
 
@@ -1040,23 +1042,24 @@ class Lexer(object):
         if self.eol():
             return False
 
+        old_pos = self.pos
         c = self.text[self.pos]
 
-        # Allow unicode strings.
-        if c == 'u':
+        # Allow unicode and raw strings.
+        for mod in ('u', 'r'):
+            if c != mod:
+                continue
+
             self.pos += 1
 
             if self.pos == len(self.text):
-                self.pos -= 1
+                self.pos = old_pos
                 return False
 
             c = self.text[self.pos]
 
-            if c not in ('"', "'"):
-                self.pos -= 1
-                return False
-
-        elif c not in ('"', "'"):
+        if c not in ('"', "'"):
+            self.pos = old_pos
             return False
 
         delim = c
@@ -1148,7 +1151,7 @@ class Lexer(object):
         if not pe:
             self.error("expected python_expression")
 
-        rv = self.expr(pe.strip(), expr)  # E1101
+        rv = self.expr(pe.strip(), expr) # E1101
 
         return rv
 
@@ -1298,7 +1301,7 @@ class Lexer(object):
             name = name or thing
             rv = self.match(thing)
         else:
-            name = name or thing.im_func.func_name
+            name = name or thing.__func__.__name__
             rv = thing()
 
         if rv is None:
@@ -1450,7 +1453,7 @@ def parse_image_name(l, string=False, nodash=False):
         s = l.simple_expression()
 
         if s is not None:
-            rv.append(unicode(s))
+            rv.append(str(s))
         else:
             points.pop()
 
@@ -1500,7 +1503,7 @@ def parse_image_specifier(l):
 
     if l.keyword("expression") or l.keyword("image"):
         expression = l.require(l.simple_expression)
-        image_name = ( expression.strip(), )
+        image_name = (expression.strip(),)
     else:
         image_name = parse_image_name(l, True)
         expression = None
@@ -1590,7 +1593,7 @@ def parse_menu(stmtl, loc, arguments):
     has_caption = False
 
     with_ = None
-    set = None  # @ReservedAssignment
+    set = None # @ReservedAssignment
 
     say_who = None
     say_what = None
@@ -1609,7 +1612,7 @@ def parse_menu(stmtl, loc, arguments):
             continue
 
         if l.keyword('set'):
-            set = l.require(l.simple_expression)  # @ReservedAssignment
+            set = l.require(l.simple_expression) # @ReservedAssignment
             l.expect_eol()
             l.expect_noblock('set menuitem')
 
@@ -1823,9 +1826,9 @@ def parse_arguments(l):
 
     return renpy.ast.ArgumentInfo(arguments, extrapos, extrakw)
 
-
 ##############################################################################
 # The parse trie.
+
 
 class ParseTrie(object):
     """
@@ -1880,9 +1883,9 @@ def statement(keywords):
 
     return wrap
 
-
 ##############################################################################
 # Statement functions.
+
 
 @statement("if")
 def if_statement(l, loc):
@@ -2180,7 +2183,20 @@ def define_statement(l, loc):
         store = store + "." + name
         name = l.require(l.word)
 
-    l.require('=')
+    if l.match(r'\['):
+        index = l.delimited_python(r']', True)
+        l.require(r']')
+    else:
+        index = None
+
+    if l.match(r'\+='):
+        operator = "+="
+    elif l.match(r'\|='):
+        operator = "|="
+    else:
+        l.require('=')
+        operator = "="
+
     expr = l.rest()
 
     if not expr:
@@ -2188,7 +2204,7 @@ def define_statement(l, loc):
 
     l.expect_noblock('define statement')
 
-    rv = ast.Define(loc, store, name, expr)
+    rv = ast.Define(loc, store, name, index, operator, expr)
 
     if not l.init:
         rv = ast.Init(loc, [ rv ], priority + l.init_offset)
@@ -2491,7 +2507,6 @@ def translate_strings(init_loc, language, l):
             bc = compile(s, "<string>", "eval", renpy.python.new_compile_flags, 1)
             return eval(bc, renpy.store.__dict__)
         except:
-            raise
             ll.error('could not parse string')
 
     while ll.advance():
@@ -2619,7 +2634,7 @@ def style_statement(l, loc):
         if l.keyword("del"):
             propname = l.require(l.name)
 
-            if propname not in renpy.style.prefixed_all_properties:  # @UndefinedVariable
+            if propname not in renpy.style.prefixed_all_properties: # @UndefinedVariable
                 l.error("style property %s is not known." % propname)
 
             rv.delattr.append(propname)
@@ -2636,7 +2651,7 @@ def style_statement(l, loc):
         propname = l.name()
 
         if propname is not None:
-            if (propname != "properties") and (propname not in renpy.style.prefixed_all_properties):  # @UndefinedVariable
+            if (propname != "properties") and (propname not in renpy.style.prefixed_all_properties): # @UndefinedVariable
                 l.error("style property %s is not known." % propname)
 
             if propname in rv.properties:
@@ -2672,6 +2687,20 @@ def style_statement(l, loc):
 
     l.advance()
 
+    return rv
+
+
+@statement("rpy python")
+def rpy_python_3(l, loc):
+
+    l.require('3')
+
+    l.expect_eol()
+    l.expect_noblock("rpy statement")
+
+    rv = ast.RPY(loc, ("python", "3"))
+
+    l.advance()
     return rv
 
 
@@ -2794,9 +2823,9 @@ def say_statement(l, loc):
     # This reports a parse error for any bad statement.
     l.error('expected statement.')
 
-
 ##############################################################################
 # Functions called to parse things.
+
 
 def parse_statement(l):
     """
@@ -2875,7 +2904,7 @@ def parse(fn, filedata=None, linenumber=1):
         return None
 
     if rv:
-        rv.append(ast.Return( (rv[-1].filename, rv[-1].linenumber), None ))
+        rv.append(ast.Return((rv[-1].filename, rv[-1].linenumber), None))
 
     return rv
 
@@ -2895,41 +2924,38 @@ def report_parse_errors():
     full_text = ""
 
     f, error_fn = renpy.error.open_error_file("errors.txt", "w")
-    f.write(codecs.BOM_UTF8)
+    with f:
+        f.write("\ufeff") # BOM
 
-    print("I'm sorry, but errors were detected in your script. Please correct the", file=f)
-    print("errors listed below, and try again.", file=f)
-    print(file=f)
+        print("I'm sorry, but errors were detected in your script. Please correct the", file=f)
+        print("errors listed below, and try again.", file=f)
+        print("", file=f)
 
-    for i in parse_errors:
+        for i in parse_errors:
 
-        full_text += i
-        full_text += "\n\n"
+            full_text += i
+            full_text += "\n\n"
 
-        try:
-            i = i.encode("utf-8")
-        except:
-            pass
+            if not isinstance(i, str):
+                i = str(i, "utf-8", "replace")
 
-        print(file=f)
-        print(i, file=f)
+            print("", file=f)
+            print(i, file=f)
 
-        try:
-            print()
-            print(i)
-        except:
-            pass
+            try:
+                print("")
+                print(i)
+            except:
+                pass
 
-    print(file=f)
-    print("Ren'Py Version:", renpy.version, file=f)
-    print(time.ctime(), file=f)
-
-    f.close()
+        print("", file=f)
+        print("Ren'Py Version:", renpy.version, file=f)
+        print(str(time.ctime()), file=f)
 
     renpy.display.error.report_parse_errors(full_text, error_fn)
 
     try:
-        if renpy.game.args.command == "run":  # @UndefinedVariable
+        if renpy.game.args.command == "run": # @UndefinedVariable
             renpy.exports.launch_editor([ error_fn ], 1, transient=1)
     except:
         pass
