@@ -2,6 +2,8 @@
 # Welcome to the Doki Doki Mod Maker (DDMMaker) Repository!
 [![Build Status](https://travis-ci.org/GanstaKingofSA/DDLC-ModMaker.svg?branch=master)](https://travis-ci.org/GanstaKingofSA/DDLC-ModMaker)
 
+[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/K3K22K8SU)
+
 DDMMaker is a Ren'Py SDK Modification for the use of making DDLC Modding easier and efficient with easier wording, auto-mod template install, and more coming soon. This tool adheres to the Team Salvato IP Guidelines and RenpyTom Guidelines for DDLC and Ren'Py SDK modding as listed in **README.md** and **LICENSE**.
 
 **DISCLAIMER**
