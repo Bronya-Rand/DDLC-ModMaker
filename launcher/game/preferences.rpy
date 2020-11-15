@@ -266,6 +266,22 @@ screen preferences:
                                 for tlname, tlvalue in translations:
                                     textbutton tlname action [ Language(tlvalue), project.SelectTutorial(True) ] style "l_list"
 
+                    # Text editor selection.
+                    add SEPARATOR2
+
+                    frame:
+                        style "l_indent"
+                        yminimum 75
+                        has vbox
+
+                        text _("Theme:")
+
+                        add HALF_SPACER
+
+                        textbutton _("Light") style "l_checkbox" action SetField(persistent, 'theme', 'light'), Function(renpy.exports.reload_script)
+                        textbutton _("Dark") style "l_checkbox" action SetField(persistent, 'theme', 'dark'), Function(renpy.exports.reload_script)
+
+                    add SPACER
 
     textbutton _("Return") action Jump("front_page") style "l_left_button"
 
