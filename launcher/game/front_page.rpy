@@ -257,7 +257,8 @@ screen front_page_project:
                 textbutton _("Check Script for Errors") action Jump("lint")
                 textbutton _("Delete Persistent") action Jump("rmpersistent")
                 textbutton _("Force Recompile") action Jump("force_recompile")
-                textbutton _("Set Version") action Jump("set_version")
+                if project.current.name != "launcher":
+                    textbutton _("Set Version") action Jump("set_version")
 
                 # textbutton "Relaunch" action Relaunch
 
@@ -266,10 +267,11 @@ screen front_page_project:
 
                 if ability.can_distribute:
                     textbutton _("Build Mod") action Jump("build_distributions")
-                textbutton _("Build Mod for Android") action Jump("android")
-                textbutton _("Generate Translations") action Jump("translate")
-                textbutton _("Extract Dialogue") action Jump("extract_dialogue")
-                textbutton _("Delete Project") action Jump("delete_folder")
+                if project.current.name != "launcher":
+                    textbutton _("Build Mod for Android") action Jump("android")
+                    textbutton _("Generate Translations") action Jump("translate")
+                    textbutton _("Extract Dialogue") action Jump("extract_dialogue")
+                    textbutton _("Delete Project") action Jump("delete_folder")
                 
 label main_menu:
     return

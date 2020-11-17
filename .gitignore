@@ -5,11 +5,8 @@ errors.txt
 *.rpyc
 *.rpyb
 tmp
-renpy-*.*.*-dists
-DDMMaker-*.*.*-dists
-DDMMaker7-*.*.*-dists
-DDMMaker6-*.*.*-dists
-renpy/*.pyo
-launcher/project.json
+DDMMaker-6.99.12.4-dists
+DDMMaker-7.3.5-dists
 rapt
 clean_renpy_files.py
+screenshot*.png
