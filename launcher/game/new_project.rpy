@@ -48,7 +48,7 @@ init python:
                 interface.error(_("The `ddlc-mac.zip` file extracted is zipped improperly or corrupted."), _("Please re-download the ZIP from 'https://ddlc.moe'"))
             else:
                 interface.error(_("The `ddlc-win.zip` file extracted is zipped improperly or corrupted."), _("Please re-download the ZIP from 'https://ddlc.moe'"))
-        os.remove(project_dir + '/game/scripts.rpa')
+        #os.remove(project_dir + '/game/scripts.rpa')
         shutil.rmtree(persistent.projects_directory + '/temp')
     def ddlc_copy():
         import shutil
@@ -57,7 +57,7 @@ init python:
             shutil.copytree(persistent.zip_directory + "/ddlc-mac/DDLC.app/Contents/Resources/autorun/game", persistent.pd + '/game')
         except:
             interface.error(_("Cannot find DDLC.app."), _("Please make sure your OS and ZIP Directory are set correctly."), label=None)
-        os.remove(persistent.pd + '/game/scripts.rpa')
+        #os.remove(persistent.pd + '/game/scripts.rpa')
     def template_extract():
         import zipfile
         import shutil
