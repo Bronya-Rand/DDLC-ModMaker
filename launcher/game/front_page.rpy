@@ -346,6 +346,8 @@ label set_version:
                         interface.info(_("Set the Ren'Py mode version to Ren'Py 6."))
                     else:
                         interface.error(_("Invalid Input. Please try again."))
+                elif f.readline() == "7":
+                    interface.error(_("The Ren'Py mode version is already set to Ren'Py 7."))
                 else:
                     f = open(ver,'w+')
                     f.write("6")
