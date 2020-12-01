@@ -24,6 +24,7 @@ init python:
         import zipfile
         import shutil
         import os
+        import glob
         try:
             if renpy.macintosh:
                 zip = "/ddlc-mac.zip"
@@ -51,26 +52,19 @@ init python:
         #os.remove(project_dir + '/game/scripts.rpa')
         shutil.rmtree(persistent.projects_directory + '/temp')
     def ddlc_copy():
-        import shutil
-        import os
         try:
             shutil.copytree(persistent.zip_directory + "/ddlc-mac/DDLC.app/Contents/Resources/autorun/game", persistent.pd + '/game')
         except:
             interface.error(_("Cannot find DDLC.app."), _("Please make sure your OS and ZIP Directory are set correctly."), label=None)
         #os.remove(persistent.pd + '/game/scripts.rpa')
     def template_extract():
-        import zipfile
-        import shutil
         try:
-            with zipfile.ZipFile(config.basedir + "/templates/DDLCModTemplate-2.4.0.zip", "r") as z:
+            with zipfile.ZipFile(config.basedir + "/templates/DDLCModTemplate-2.4.2.zip", "r") as z:
                 z.extractall(persistent.pd)
         except:
             shutil.rmtree(persistent.pd)
             interface.error(_("Template ZIP file missing, or corrupt."), _("Check if the ZIP exists or re-download the tool."), label=None)
     def mpt_extract():
-        import zipfile
-        import shutil
-        import glob
         mptzip = glob.glob(persistent.zip_directory + '/DDLC_MPT-[0-9].*_unpacked.*')
 
         with zipfile.ZipFile(mptzip[0], "r") as z:
@@ -98,9 +92,6 @@ init python:
                 else:
                     shutil.move(ddlc+'/'+f, persistent.pd + '/game/mod_assets')
     def mpt_copy():
-        import shutil
-        import glob
-        import os
         if glob.glob(persistent.zip_directory + '/DDLC_Mood_Posing_Tool/game/mod_assets/MPT'):
             ddlc = persistent.zip_directory + '/DDLC_Mood_Posing_Tool'
         else:

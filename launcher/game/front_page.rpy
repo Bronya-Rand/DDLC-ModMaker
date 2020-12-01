@@ -329,7 +329,7 @@ label set_version:
                 if f.readline() < "7":
                     delete_response = interface.input(
                         _("Warning"),
-                        _("This mod is set to Ren'Py 6 Mode. If you change this, it will revert to Ren'Py 7 and may result in a improperly packaged mod. Are you sure you want to proceed? Type either Yes or No."),
+                        _("This mod is set to Ren'Py 6 Mode. If you change this, it may result in a improperly packaged mod. Are you sure you want to proceed? Type either Yes or No."),
                         filename=False,
                         cancel=Jump("front_page"))
 
@@ -347,7 +347,7 @@ label set_version:
                         f.write("7")
                         interface.info(_("Set the Ren'Py mode version to Ren'Py 7."))
                     else:
-                        interface.error(_("Invalid Input."))
+                        interface.error(_("Invalid Input. Please try again."))
                 else:
                     f = open(ver,'w+')
                     f.write("7")
