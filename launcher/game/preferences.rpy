@@ -120,7 +120,7 @@ screen preferences:
 
 
                         frame style "l_indent":
-                            if persistent.projects_directory:
+                            if persistent.zip_directory:
                                 textbutton _("[persistent.zip_directory!q]"):
                                     action Jump("zip_directory_preference")
                                     alt _("DDLC ZIP directory: [text]")
