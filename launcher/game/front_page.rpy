@@ -261,7 +261,8 @@ screen front_page_project:
                 #     textbutton _("Change Theme") action Jump("choose_theme")
                 textbutton _("Delete Persistent") action Jump("rmpersistent")
                 textbutton _("Force Recompile") action Jump("force_recompile")
-                textbutton _("Set Version") action Jump("set_version")
+                if project.current.name != "launcher":
+                    textbutton _("Set Version") action Jump("set_version")
 
                 # textbutton "Relaunch" action Relaunch
 
@@ -270,10 +271,11 @@ screen front_page_project:
 
                 if ability.can_distribute:
                     textbutton _("Build Mod") action Jump("build_distributions")
-                textbutton _("Build Mod for Android") action Jump("android")
-                textbutton _("Generate Translations") action Jump("translate")
-                textbutton _("Extract Dialogue") action Jump("extract_dialogue")
-                textbutton _("Delete Project") action Jump("delete_folder")
+                if project.current.name != "launcher":
+                    textbutton _("Build Mod for Android") action Jump("android")
+                    textbutton _("Generate Translations") action Jump("translate")
+                    textbutton _("Extract Dialogue") action Jump("extract_dialogue")
+                    textbutton _("Delete Project") action Jump("delete_folder")
 
 label main_menu:
     return
@@ -325,7 +327,7 @@ label set_version:
                 if f.readline() > "6":
                     delete_response = interface.input(
                         _("Warning"),
-                        _("This mod is set to Ren'Py 7 Mode. If you change this, it will revert to Ren'Py 6 and may result in a unloadable mod. Are you sure you want to proceed? Type either Yes or No."),
+                        _("This mod is set to Ren'Py 7 Mode. If you change this, it may result in a unloadable mod. Are you sure you want to proceed? Type either Yes or No."),
                         filename=False,
                         cancel=Jump("front_page"))
 
@@ -341,11 +343,15 @@ label set_version:
                     elif response == "Yes" or response == "yes":
                         f = open(ver,'w+')
                         f.write("6")
+                        interface.info(_("Set the Ren'Py mode version to Ren'Py 6."))
                     else:
-                        interface.error(_("Invalid Input."))
+                        interface.error(_("Invalid Input. Please try again."))
                 else:
                     f = open(ver,'w+')
                     f.write("6")
+                    interface.info(_("Set the Ren'Py mode version to Ren'Py 6."))
         except IOError:
             f = open(ver,'w+')
             f.write("6")
+            interface.info(_('A file named `renpy-version.txt` has been created in the base directory.'), _("Do not delete this file as it is needed to determine which version of Ren'Py it uses for building your mod."))
+    return

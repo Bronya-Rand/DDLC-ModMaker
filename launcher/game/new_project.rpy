@@ -61,14 +61,14 @@ init python:
     def template_extract():
         if renpy.macintosh:
             try:
-                with zipfile.ZipFile(config.basedir + "/templates/DDLCModTemplate-2.4.0.zip", "r") as z:
+                with zipfile.ZipFile(config.basedir + "/templates/DDLCModTemplate-2.4.2.zip", "r") as z:
                     z.extractall(persistent.project_dir + '/DDLC.app/Contents/Resources/autorun')
             except:
                 shutil.rmtree(persistent.project_dir)
                 interface.error(_("Template ZIP file missing, or corrupt."), _("Check if the ZIP exists or re-download the tool."))
         else:
             try:
-                with zipfile.ZipFile(config.basedir + "/templates/DDLCModTemplate-2.4.0.zip", "r") as z:
+                with zipfile.ZipFile(config.basedir + "/templates/DDLCModTemplate-2.4.2.zip", "r") as z:
                     z.extractall(persistent.project_dir)
             except:
                 shutil.rmtree(persistent.project_dir)
@@ -135,7 +135,7 @@ label new_project:
             f = open(persistent.project_dir + '/renpy-version.txt','w+')
             f.write("6")
             persistent.project_dir = None
-            interface.info(_('A file named `renpy-version.txt` has been created.'), _("Do not delete this file as it is needed to determine which version of Ren'Py it uses for building your mod."))
+            interface.info(_('A file named `renpy-version.txt` has been created in the base directory.'), _("Do not delete this file as it is needed to determine which version of Ren'Py it uses for building your mod."))
             project.manager.scan()
             break
     return
@@ -179,7 +179,7 @@ label ddcc:
             f = open(persistent.project_dir + '/renpy-version.txt','w+')
             f.write("6")
             interface.info(_("Please read ddcc_submission_guidelines.txt in the game folder on the DDCC Submission Guidelines you should follow."),)
-            interface.info(_('A file named `renpy-version.txt` has been created.'), _("Do not delete this file as it is needed to determine which version of Ren'Py it uses for building your mod."))
+            interface.info(_('A file named `renpy-version.txt` has been created in the base directory.'), _("Do not delete this file as it is needed to determine which version of Ren'Py it uses for building your mod."))
             project.manager.scan()
             break
     jump front_page

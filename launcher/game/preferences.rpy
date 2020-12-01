@@ -82,7 +82,7 @@ screen preferences:
                         yminimum 75
                         has vbox
 
-                        text _("Projects Folder Directory:")
+                        text _("Projects Directory:")
 
                         add HALF_SPACER
 
@@ -139,6 +139,8 @@ screen preferences:
                             else:
                                 textbutton _("Not Set") action Jump("editor_preference") alt _("Text editor: [text]")
 
+                    add SPACER
+
                 frame:
                     style "l_indent"
                     xmaximum ONETHIRD
@@ -179,16 +181,9 @@ screen preferences:
                             textbutton _("Console output") style "l_checkbox" action ToggleField(persistent, "windows_console")
                     
                     if renpy.macintosh:
-                        add SPACER
-                        frame:
-                            style "l_indent"
-                            yminimum 75
-                            has vbox
-
-                            textbutton _("Change Auto-Extract Setting") style "l_nonbox" action Jump("auto_extract")
 
                         add SPACER
-                        add SEPARATOR2
+                        #add SEPARATOR2
 
                         frame:
                             style "l_indent"
@@ -201,11 +196,11 @@ screen preferences:
                             frame style "l_indent":
                                 if persistent.safari != None:
                                     if persistent.safari == True:
-                                        text _("Yes")
+                                        text _("Yes") style "l_nonbox"
                                     else:
-                                        text _("No")
+                                        text _("No") style "l_nonbox"
                                 else:
-                                    text _("Not Set")
+                                    text _("Not Set") style "l_nonbox"
 
                 frame:
                     style "l_indent"
@@ -226,6 +221,22 @@ screen preferences:
                         add HALF_SPACER
 
                         textbutton _("Open launcher project") style "l_nonbox" action [ project.Select("launcher"), Jump("front_page") ]
+
+                        if renpy.macintosh:
+                            textbutton _("Change Extract Settings") style "l_nonbox" action Jump("auto_extract")
+
+                    add SEPARATOR2
+
+                    frame:
+                        style "l_indent"
+                        yminimum 75
+                        has vbox
+
+                        text _("Theme:")
+
+                        add HALF_SPACER
+
+                        textbutton _("One UI") style "l_checkbox" action [ToggleField(persistent, "oneui"), Jump("restart_ddmm")]
 
                     if translations:
 

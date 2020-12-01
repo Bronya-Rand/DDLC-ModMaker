@@ -31,52 +31,97 @@ init -1:
     # Should places where the regular font used be bolded?
     define gui.REGULAR_BOLD = False
 
+    default persistent.oneui = False
+
 init -1 python:
 
     config.defer_styles = True
 
-    # The color of non-interactive text.
-    TEXT = "#545454"
+    if persistent.oneui == True:
+        # The color of non-interactive text.
+        TEXT = "#F5F5F5" #545454
 
-    # Colors for buttons in various states.
-    IDLE = "#42637b"
-    HOVER = "#d86b45"
-    DISABLED = "#808080"
+        # Colors for buttons in various states.
+        IDLE = "#d1d1d1" #42637b
+        HOVER = "#78a5c5" #d86b45
+        DISABLED = "#6b6b6b" #808080
 
-    # Colors for reversed text buttons (selected list entries).
-    REVERSE_IDLE = "#78a5c5"
-    REVERSE_HOVER = "#d86b45"
-    REVERSE_TEXT = "#ffffff"
+        # Colors for reversed text buttons (selected list entries).
+        REVERSE_IDLE = "#d1d1d1" #78a5c5
+        REVERSE_HOVER = "#909090" #d86b45
+        REVERSE_TEXT = "#111" #ffffff
 
-    # Colors for the scrollbar thumb.
-    SCROLLBAR_IDLE = "#dfdfdf"
-    SCROLLBAR_HOVER = "#d86b45"
+        # Colors for the scrollbar thumb.
+        SCROLLBAR_IDLE = "#5c6e91" #dfdfdf
+        SCROLLBAR_HOVER = "#31326f" #d86b45
+        # An image used as a separator pattern.
+        PATTERN = "images/pattern.png"
 
-    # An image used as a separator pattern.
-    PATTERN = "images/pattern.png"
+        # A displayable used for the background of everything.
+        BACKGROUND = "images/background_dark.png"
 
-    # A displayable used for the background of everything.
-    BACKGROUND = "images/background.png"
+        # A displayable used for the background of windows
+        # containing commands, preferences, and navigation info.
+        WINDOW = Frame("images/window_dark.png", 0, 0, tile=True) #ffffff80
 
-    # A displayable used for the background of windows
-    # containing commands, preferences, and navigation info.
-    WINDOW = Frame("images/window.png", 0, 0, tile=True)
+        # A displayable used for the background of the projects list.
+        PROJECTS_WINDOW = Null()
 
-    # A displayable used for the background of the projects list.
-    PROJECTS_WINDOW = Null()
+        # A displayable used the background of information boxes.
+        INFO_WINDOW = "#181818" #f9f9f9c0
 
-    # A displayable used the background of information boxes.
-    INFO_WINDOW = "#f9f9f9"
+        # Colors for the titles of information boxes.
+        ERROR_COLOR = "#f05454" #d15353
+        INFO_COLOR = "#34626c" #545454
+        INTERACTION_COLOR = "#9E9E9E" #d19753
+        QUESTION_COLOR = "#f5b461" #d19753
 
-    # Colors for the titles of information boxes.
-    ERROR_COLOR = "#d15353"
-    INFO_COLOR = "#545454"
-    INTERACTION_COLOR = "#d19753"
-    QUESTION_COLOR = "#d19753"
+        # The color of input text.
+        INPUT_COLOR = "#FAFAFA" #d86b45
 
-    # The color of input text.
-    INPUT_COLOR = "#d86b45"
+    else:
 
+        # The color of non-interactive text.
+        TEXT = "#545454"
+
+        # Colors for buttons in various states.
+        IDLE = "#42637b"
+        HOVER = "#d86b45"
+        DISABLED = "#808080"
+
+        # Colors for reversed text buttons (selected list entries).
+        REVERSE_IDLE = "#78a5c5"
+        REVERSE_HOVER = "#d86b45"
+        REVERSE_TEXT = "#ffffff"
+
+        # Colors for the scrollbar thumb.
+        SCROLLBAR_IDLE = "#dfdfdf"
+        SCROLLBAR_HOVER = "#d86b45"
+
+        # An image used as a separator pattern.
+        PATTERN = "images/pattern.png"
+
+        # A displayable used for the background of everything.
+        BACKGROUND = "images/background.png"
+
+        # A displayable used for the background of windows
+        # containing commands, preferences, and navigation info.
+        WINDOW = Frame("images/window.png", 0, 0, tile=True)
+
+        # A displayable used for the background of the projects list.
+        PROJECTS_WINDOW = Null()
+
+        # A displayable used the background of information boxes.
+        INFO_WINDOW = "#f9f9f9"
+
+        # Colors for the titles of information boxes.
+        ERROR_COLOR = "#d15353"
+        INFO_COLOR = "#545454"
+        INTERACTION_COLOR = "#d19753"
+        QUESTION_COLOR = "#d19753"
+
+        # The color of input text.
+        INPUT_COLOR = "#d86b45"
 
 init 1 python:
 
