@@ -20,11 +20,8 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 init python:
+    import zipfile, shutil, os, glob
     def zip_extract():
-        import zipfile
-        import shutil
-        import os
-        import glob
         try:
             if renpy.macintosh:
                 zip = "/ddlc-mac.zip"
@@ -38,9 +35,9 @@ init python:
                     ddlc = persistent.projects_directory + '/temp/DDLC-1.1.1-pc/game'
         except:
             if renpy.macintosh:
-                interface.error(_("Cannot Locate 'ddlc-mac.zip' in [persistent.zip_directory!q]."), _("Make sure you have DDLC downloaded from 'https://ddlc.moe' and check if it exists."),) 
+                interface.error(_("Cannot locate 'ddlc-mac.zip' in [persistent.zip_directory!q]."), _("Make sure you have DDLC downloaded from 'https://ddlc.moe' and check if it exists.")) 
             else:
-                interface.error(_("Cannot Locate 'ddlc-win.zip' in [persistent.zip_directory!q]."), _("Make sure you have DDLC downloaded from 'https://ddlc.moe' and check if it exists."),)
+                interface.error(_("Cannot locate 'ddlc-win.zip' in [persistent.zip_directory!q]."), _("Make sure you have DDLC downloaded from 'https://ddlc.moe' and check if it exists."))
         try:
             shutil.move(ddlc, project_dir + '/game')
         except:
@@ -55,7 +52,7 @@ init python:
         try:
             shutil.copytree(persistent.zip_directory + "/ddlc-mac/DDLC.app/Contents/Resources/autorun/game", persistent.pd + '/game')
         except:
-            interface.error(_("Cannot find DDLC.app."), _("Please make sure your OS and ZIP Directory are set correctly."), label=None)
+            interface.error(_("Cannot find DDLC.app."), _("Please make sure your OS and ZIP Directory are set correctly."))
         #os.remove(persistent.pd + '/game/scripts.rpa')
     def template_extract():
         try:
@@ -63,7 +60,7 @@ init python:
                 z.extractall(persistent.pd)
         except:
             shutil.rmtree(persistent.pd)
-            interface.error(_("Template ZIP file missing, or corrupt."), _("Check if the ZIP exists or re-download the tool."), label=None)
+            interface.error(_("Template ZIP file missing, or corrupt."), _("Check if the ZIP exists or re-download the tool."))
     def mpt_extract():
         mptzip = glob.glob(persistent.zip_directory + '/DDLC_MPT-[0-9].*_unpacked.*')
 
@@ -164,12 +161,12 @@ label new_project:
                 interface.error(_("[project_dir!q] already exists. Please choose a different project name."), project_dir=project_dir, label=None)
                 continue
             if persistent.safari == True and renpy.macintosh:
-                interface.interaction(_("Making a DDLC Folder"), _("Copying DDLC. Please wait..."),)
+                interface.interaction(_("Making a DDLC Folder"), _("Copying DDLC. Please wait..."))
                 ddlc_copy()
             else:
-                interface.interaction(_("Making a DDLC Folder"), _("Extracting DDLC. Please wait..."),)
+                interface.interaction(_("Making a DDLC Folder"), _("Extracting DDLC. Please wait..."))
                 zip_extract()
-            interface.interaction(_("Copying Template Files"), _("Extracting DDLC Mod Template. Please wait..."),)
+            interface.interaction(_("Copying Template Files"), _("Extracting DDLC Mod Template. Please wait..."))
             template_extract()
             f = open(project_dir + '/renpy-version.txt','w+')
             f.write("7")
@@ -226,7 +223,7 @@ label mpt:
                 pass
             else:
                 if not glob.glob(persistent.zip_directory + '/DDLC_MPT-[0-9].*_unpacked.*'):
-                    interface.error(_("MPT ZIP file cannot be found by glob."), _("Check if the ZIP exists or re-download the tool."), label=None)
+                    interface.error(_("MPT ZIP file cannot be found by glob."), _("Check if the ZIP exists or re-download the tool."))
                     break
             if project.manager.get(project_name) is not None:
                 interface.error(_("[project_name!q] already exists. Please choose a different project name."), project_name=project_name, label=None)
@@ -235,15 +232,15 @@ label mpt:
                 interface.error(_("[project_dir!q] already exists. Please choose a different project name."), project_dir=project_dir, label=None)
                 continue
             if persistent.safari == True and renpy.macintosh:
-                interface.interaction(_("Making a DDLC Folder"), _("Copying DDLC. Please wait..."),)
+                interface.interaction(_("Making a DDLC Folder"), _("Copying DDLC. Please wait..."))
                 ddlc_copy()
             else:
-                interface.interaction(_("Making a DDLC Folder"), _("Extracting DDLC. Please wait..."),)
+                interface.interaction(_("Making a DDLC Folder"), _("Extracting DDLC. Please wait..."))
                 zip_extract()
             import shutil
-            interface.interaction(_("Installing Mod Template"), _("Please wait..."),)
+            interface.interaction(_("Installing Mod Template"), _("Please wait..."))
             template_extract()
-            interface.interaction(_("Installing MPT"), _("Please wait..."),)
+            interface.interaction(_("Installing MPT"), _("Please wait..."))
             if renpy.macintosh and persistent.safari == True:
                 mpt_copy()
             else:
