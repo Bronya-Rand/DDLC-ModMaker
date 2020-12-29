@@ -21,6 +21,7 @@
 
 init python:
     import zipfile, shutil, os, glob
+
     def zip_extract():
         try:
             if renpy.macintosh:
@@ -62,39 +63,60 @@ init python:
             shutil.rmtree(persistent.pd)
             interface.error(_("Template ZIP file missing, or corrupt."), _("Check if the ZIP exists or re-download the tool."))
     def mpt_extract():
-        mptzip = glob.glob(persistent.zip_directory + '/DDLC_MPT-[0-9].*_unpacked.*')
+        if glob.glob(persistent.zip_directory + '/DDLC_MPT-[0-9].*-unpacked.*'):
+            mptzip = glob.glob(persistent.zip_directory + '/DDLC_MPT-[0-9].*-unpacked.*')
+            mptver = 1
+        elif glob.glob(persistent.zip_directory + '/DDLC_MPT-[0-9].*_unpacked.*'):
+            mptzip = glob.glob(persistent.zip_directory + '/DDLC_MPT-[0-9].*_unpacked.*')
+            mptver = 2
+        else:
+            mptzip = glob.glob(persistent.zip_directory + '/MPT v[0-9].*')
+            mptver = 3
 
         with zipfile.ZipFile(mptzip[0], "r") as z:
             z.extractall(persistent.projects_directory + "/temp")
             if glob.glob(persistent.projects_directory + '/temp/DDLC_Mood_Posing_Tool/game/mod_assets/MPT'):
                 ddlc = persistent.projects_directory + '/temp/DDLC_Mood_Posing_Tool/game/mod_assets/MPT'
-            else:
+            elif glob.glob(persistent.projects_directory + '/temp/DDLC_MPT_v[0-9].*/game/mod_assets/MPT'):
                 ddlc = glob.glob(persistent.projects_directory + '/temp/DDLC_MPT_v[0-9].*/game/mod_assets/MPT')
-                mptver = 2
-        if mptver == 2:
+            else:
+                ddlc = glob.glob(persistent.projects_directory + '/temp/game/mod_assets/MPT')
+
+        if mptver >= 2:
             files = os.listdir(ddlc[0])
         else:
             files = os.listdir(ddlc)
         os.mkdir(persistent.pd + '/game/mod_assets/MPT')
-        if renpy.macintosh:
-            for f in files:
-                if mptver == 2:
-                    shutil.move(ddlc[0]+'/'+f, persistent.pd + '/game/mod_assets/MPT')
-                else:
-                    shutil.move(ddlc+'/'+f, persistent.pd + '/game/mod_assets')
+        for f in files:
+            if mptver >= 2:
+                shutil.move(ddlc[0]+'/'+f, persistent.pd + '/game/mod_assets/MPT')
+            else:
+                shutil.move(ddlc+'/'+f, persistent.pd + '/game/mod_assets/MPT')
+        if mptver == 2:
+            ddlc = glob.glob(persistent.projects_directory + '/temp/DDLC_MPT_v[0-9].*/game/mod_assets/NOT DEFINED WARNING.png')
+            shutil.move(ddlc[0], persistent.pd + '/game/mod_assets')
         else:
-            for f in files:
-                if mptver == 2:
-                    shutil.move(ddlc[0]+'/'+f, persistent.pd + '/game/mod_assets/MPT')
-                else:
-                    shutil.move(ddlc+'/'+f, persistent.pd + '/game/mod_assets')
+            if mptver == 3:
+                pass
+            else:
+                shutil.move(persistent.projects_directory + '/temp/DDLC_Mood_Posing_Tool/game/mod_assets/NOT DEFINED WARNING.png', persistent.pd + '/game/mod_assets')
+
     def mpt_copy():
         if glob.glob(persistent.zip_directory + '/DDLC_Mood_Posing_Tool/game/mod_assets/MPT'):
             ddlc = persistent.zip_directory + '/DDLC_Mood_Posing_Tool'
-        else:
+            mptver = 1
+        elif glob.glob(persistent.zip_directory + '/DDLC_MPT_v[0-9].*'):
             ddlc = glob.glob(persistent.zip_directory + '/DDLC_MPT_v[0-9].*')
             mptver = 2
+        else:
+            ddlc = glob.glob(persistent.zip_directory + '/MPT v[0-9].*')
+            mptver = 3
         
+        if mptver == 3:
+            files = os.listdir(ddlc[0])
+            shutil.copytree(ddlc[0], persistent.projects_directory + '/temp/MPT v1.1')
+            ddlc = glob.glob(persistent.projects_directory + '/temp/MPT v1.1/game/mod_assets/MPT')
+            files = os.listdir(ddlc[0])
         if mptver == 2:
             files = os.listdir(ddlc[0])
             shutil.copytree(ddlc[0], persistent.projects_directory + '/temp/DDLC_MPT_v1.01')
@@ -107,15 +129,18 @@ init python:
             files = os.listdir(ddlc)
         os.mkdir(persistent.pd + '/game/mod_assets/MPT')
         for f in files:
-            if mptver == 2:
+            if mptver >= 2:
                 shutil.move(ddlc[0]+'/'+f, persistent.pd + '/game/mod_assets/MPT')
             else:
-                shutil.move(ddlc+'/'+f, persistent.pd + '/game/mod_assets')
+                shutil.move(ddlc+'/'+f, persistent.pd + '/game/mod_assets/MPT')
         if mptver == 2:
             ddlc = glob.glob(persistent.projects_directory + '/temp/DDLC_MPT_v[0-9].*/game/mod_assets/NOT DEFINED WARNING.png')
             shutil.move(ddlc[0], persistent.pd + '/game/mod_assets')
         else:
-            shutil.move(persistent.projects_directory + '/temp/DDLC_Mood_Posing_Tool/game/mod_assets/NOT DEFINED WARNING.png', persistent.pd + '/game/mod_assets')
+            if mptver == 3:
+                pass
+            else:
+                shutil.move(persistent.projects_directory + '/temp/DDLC_Mood_Posing_Tool/game/mod_assets/NOT DEFINED WARNING.png', persistent.pd + '/game/mod_assets')
                 
 
 label new_project:
@@ -197,9 +222,9 @@ label mpt:
     python:
         import glob
         if renpy.macintosh:
-            interface.info(_("Installing MPT requires you to download the {i}unpacked{/i} ZIP from {i}http://bit.ly/DDLC_MPT_v1p0{/i}"), _("Download MPT's ZIP and place it in the directory where {i}ddlc-mac.zip{/i} is located."),)
+            interface.info(_("Installing MPT requires you to download the {i}unpacked{/i} ZIP from the original source."), _("Download MPT's ZIP and place it in the directory where {i}ddlc-mac.zip{/i} is located."),)
         else:
-            interface.info(_("Installing MPT requires you to download the {i}unpacked{/i} ZIP from {i}http://bit.ly/DDLC_MPT_v1p0{/i}"), _("Download MPT's ZIP and place it in the directory where {i}ddlc-win.zip{/i} is located."),)
+            interface.info(_("Installing MPT requires you to download the {i}unpacked{/i} ZIP from the original source."), _("Download MPT's ZIP and place it in the directory where {i}ddlc-win.zip{/i} is located."),)
         project_name = ""
         while True:
             project_name = interface.input(
@@ -222,9 +247,19 @@ label mpt:
             if renpy.macintosh and persistent.safari == True:
                 pass
             else:
-                if not glob.glob(persistent.zip_directory + '/DDLC_MPT-[0-9].*_unpacked.*'):
+                if not glob.glob(persistent.zip_directory + '/MPT v[0-9].*') and not glob.glob(persistent.zip_directory + '/DDLC_MPT-[0-9].*_unpacked.*') and not glob.glob(persistent.zip_directory + '/DDLC_MPT-[0-9].*-unpacked.*'):
                     interface.error(_("MPT ZIP file cannot be found by glob."), _("Check if the ZIP exists or re-download the tool."))
                     break
+            mptzipcount = 0
+            if glob.glob(persistent.zip_directory + '/DDLC_MPT-[0-9].*-unpacked.*'):
+                mptzipcount += 1
+            if glob.glob(persistent.zip_directory + '/DDLC_MPT-[0-9].*_unpacked.*'):
+                mptzipcount += 1
+            if glob.glob(persistent.zip_directory + '/MPT v[0-9].*'):
+                mptzipcount += 1
+            if mptzipcount > 1:
+                interface.error(_("Multiple MPT ZIP files are located in your ZIP Directory"), _("Please remove the older ZIP version of MPT and try again."))
+                break
             if project.manager.get(project_name) is not None:
                 interface.error(_("[project_name!q] already exists. Please choose a different project name."), project_name=project_name, label=None)
                 continue
