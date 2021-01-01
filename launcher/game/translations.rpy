@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2017 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -22,7 +22,6 @@
 init python:
 
     import re
-    import tempfile
 
     if persistent.translate_language is None:
         persistent.translate_language = "english"
@@ -39,40 +38,13 @@ init python:
     def CheckLanguage():
         return SensitiveIf(re.match(r'^\w+$', persistent.translate_language))
 
+    try:
+        os.makedirs(os.path.join(config.basedir, "tmp"))
+    except:
+        pass
 
-    strings_json = None
 
-    def get_strings_json():
-
-        global strings_json
-
-        if strings_json is not None:
-            return strings_json
-
-        try:
-            tempdir = os.path.join(config.basedir, "tmp")
-
-            try:
-                os.makedirs(os.path.join(config.basedir, "tmp"))
-            except:
-                pass
-
-            write_test = os.path.join(tempdir, "writetest.txt")
-
-            if os.path.exists(write_test):
-                os.unlink(write_test)
-
-            with open(write_test, "w"):
-                pass
-
-            os.unlink(write_test)
-
-        except:
-            tempdir = tempfile.mkdtemp()
-
-        strings_json = os.path.join(tempdir, "strings.json")
-        return strings_json
-
+    STRINGS_JSON = os.path.join(config.basedir, "tmp", "strings.json")
 
 
 screen translate:
@@ -88,7 +60,7 @@ screen translate:
 
             has vbox
 
-            label _("Translations: [project.current.display_name!q]")
+            label _("Translations: [project.current.name!q]")
 
             add HALF_SPACER
 
@@ -116,7 +88,7 @@ screen translate:
                                 value FieldInputValue(persistent, "translate_language")
                                 size 24
                                 color INPUT_COLOR
-                                allow interface.TRANSLATE_LETTERS
+
                 # Left side.
                 frame:
                     style "l_indent"
@@ -271,14 +243,14 @@ label extract_strings:
 
         language = persistent.translate_language
 
-        args = [ "extract_strings", language,  get_strings_json() ]
+        args = [ "extract_strings", language,  STRINGS_JSON ]
 
         interface.processing(_("Ren'Py is extracting string translations..."))
         project.current.launch(args, wait=True)
 
         interface.info(_("Ren'Py has finished extracting [language] string translations."))
 
-    jump front_page
+    return
 
 label merge_strings:
 
@@ -288,7 +260,7 @@ label merge_strings:
 
         language = persistent.translate_language
 
-        args = [ "merge_strings", language,  get_strings_json() ]
+        args = [ "merge_strings", language,  STRINGS_JSON ]
 
         if persistent.replace_translations:
             args.append("--replace")
@@ -301,31 +273,25 @@ label merge_strings:
 
         interface.info(_("Ren'Py has finished merging [language] string translations."))
 
-    jump front_page
+    return
 
+label update_renpy_strings:
 
-
-label update_renpy_strings_common:
     python:
 
         language = _preferences.language
 
         interface.processing(_("Updating default interface translations..."))
 
-        renpy.translation.extract.extract_strings_core(language, get_strings_json())
+        renpy.translation.extract.extract_strings_core(language, STRINGS_JSON)
 
         args = [ "translate", "None", "--common-only", "--strings-only", "--max-priority", "399", "--no-todo" ]
         project.current.launch(args, wait=True)
 
-        args = [ "merge_strings", "None",  get_strings_json() ]
+        args = [ "merge_strings", "None",  STRINGS_JSON ]
         project.current.launch(args, wait=True)
 
     return
-
-
-label update_renpy_strings:
-    call update_renpy_strings_common
-    jump front_page
 
 
 
@@ -339,7 +305,7 @@ screen extract_dialogue:
 
             has vbox
 
-            label _("Extract Dialogue: [project.current.display_name!q]")
+            label _("Extract Dialogue: [project.current.name!q]")
 
             add HALF_SPACER
 
