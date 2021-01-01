@@ -394,13 +394,13 @@ screen android:
 
                             has vbox
 
-                            textbutton _("Remote ADB Connect"):
-                                action AndroidIfState(state, ANDROID_OK, Jump("android_connect"))
-                                hovered tt.Action(CONNECT_TEXT)
+                            # textbutton _("Remote ADB Connect"):
+                            #     action AndroidIfState(state, ANDROID_OK, Jump("android_connect"))
+                            #     hovered tt.Action(CONNECT_TEXT)
 
-                            textbutton _("Remote ADB Disconnect"):
-                                action AndroidIfState(state, ANDROID_OK, Jump("android_disconnect"))
-                                hovered tt.Action(DISCONNECT_TEXT)
+                            # textbutton _("Remote ADB Disconnect"):
+                            #     action AndroidIfState(state, ANDROID_OK, Jump("android_disconnect"))
+                            #     hovered tt.Action(DISCONNECT_TEXT)
 
                             textbutton _("Logcat"):
                                 action AndroidIfState(state, ANDROID_NO_KEY, Jump("logcat"))
