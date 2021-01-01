@@ -221,6 +221,8 @@ screen front_page_project:
                     textbutton _("game") action OpenDirectory("game")
                     textbutton _("base") action OpenDirectory(".")
                     textbutton _("images") action OpenDirectory("game/images")
+                    textbutton _("audio") action OpenDirectory("game/audio")
+                    textbutton _("mod_assets") action OpenDirectory("game/mod_assets")
                     textbutton _("gui") action OpenDirectory("game/gui")
                     # textbutton _("save") action None style "l_list"
 
@@ -235,6 +237,7 @@ screen front_page_project:
                         textbutton "script.rpy" action editor.Edit("game/script.rpy", check=True)
                         textbutton "options.rpy" action editor.Edit("game/options.rpy", check=True)
                         textbutton "gui.rpy" action editor.Edit("game/gui.rpy", check=True)
+                        textbutton "definitions.rpy" action editor.Edit("game/definitions.rpy", check=True)
                         textbutton "screens.rpy" action editor.Edit("game/screens.rpy", check=True)
 
                         if editor.CanEditProject():
