@@ -20,7 +20,31 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 init python:
-    import zipfile, shutil, os, glob
+    import zipfile, shutil, os, glob, time, re
+
+    def check_language_support():
+        language = _preferences.language
+
+        new = False
+        legacy = False
+
+        # Check for a translation of the words "New GUI Interface".
+        if (language is None) or (__("New GUI Interface") != "New GUI Interface"):
+            new = True
+        try:
+            if (language is None) or os.path.exists(os.path.join(config.renpy_base, "templates", language)):
+                legacy = True
+        except:
+            pass
+
+        if new and legacy:
+            store.language_support = _("Both interfaces have been translated to your language.")
+        elif new:
+            store.language_support = _("Only the new GUI has been translated to your language.")
+        elif legacy:
+            store.language_support = _("Only the legacy theme interface has been translated to your language.")
+        else:
+            store.language_support = _("Neither interface has been translated to your language.")
 
     def zip_extract():
         try:

@@ -20,11 +20,6 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 init python:
-    if persistent.gl_enable is None:
-        persistent.gl_enable = True
-
-    config.gl_enable = persistent.gl_enable
-
     if persistent.show_edit_funcs is None:
         persistent.show_edit_funcs = True
 
@@ -41,7 +36,12 @@ init python:
         rv = [ ( "English", None) ]
 
         for i in languages:
-            rv.append((i.replace("_", " ").title(), i))
+            rv.append((i.title(), i))
+
+        for i in (("Schinese", "schinese"), ("Tchinese", "tchinese")):
+            if i in rv:
+                rv.remove(i)
+                rv.append(({"schinese": "Simplified Chinese", "tchinese": "Traditional Chinese"}.get(i[1]), i[1]))
 
         rv.sort()
 
@@ -230,7 +230,9 @@ screen preferences:
 
                         add HALF_SPACER
 
+                        textbutton _("Install libraries") style "l_nonbox" action Jump("install")
                         textbutton _("Open launcher project") style "l_nonbox" action [ project.Select("launcher"), Jump("front_page") ]
+                        textbutton _("Reset window size") style "l_nonbox" action Preference("display", 1.0)
 
                         if renpy.macintosh:
                             textbutton _("Change Extract Settings") style "l_nonbox" action Jump("auto_extract")

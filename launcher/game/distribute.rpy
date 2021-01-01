@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -308,22 +308,18 @@ init python in distribute:
 
         def mac_lib_transform(self, app, duplicate):
             """
-            Moves the mac lib into position. If duplicate is set, the
-
             Creates a new file list that has lib/darwin-x86_64 and lib/pythonlib2.7
-            copied into the mac app, the latter iff it's not duplicated elsewhere.
+            copied into the mac app, the latter iff it's not duplicated elsewhere or
+            duplicate is set.
             """
 
             for f in list(self):
 
-                if f.name.startswith("lib/darwin-x86_64/lib/python2.7"):
-                    name = app + "/Contents/MacOS/lib/darwin-x86_64/Lib" + f.name[31:]
-
-                elif f.name.startswith("lib/pythonlib2.7") and (not duplicate):
-                    name = app + "/Contents/MacOS/lib/darwin-x86_64/Lib" + f.name[16:]
-
-                elif f.name.startswith("lib/darwin-x86_64"):
+                if f.name.startswith("lib/python2.7") and (not duplicate):
                     name = app + "/Contents/MacOS/" + f.name
+
+                elif f.name.startswith("lib/mac-x86_64"):
+                    name = app + "/Contents/MacOS/" + f.name[15:]
 
                 else:
                     continue
@@ -493,6 +489,7 @@ init python in distribute:
             # The various executables, which change names based on self.executable_name.
             self.app = self.executable_name + ".app"
             self.exe = self.executable_name + ".exe"
+            self.exe32 = self.executable_name + "-32.exe"
             self.sh = self.executable_name + ".sh"
             self.py = self.executable_name + ".py"
 
@@ -618,12 +615,12 @@ init python in distribute:
                     if match(match_name, pattern):
                         break
                 else:
-                    print(match_name.encode("utf-8"), "doesn't match anything.", file=self.log)
+                    print(str(match_name), "doesn't match anything.", file=self.log)
 
                     pattern = None
                     file_list = None
 
-                print(match_name.encode("utf-8"), "matches", pattern, "(" + str(file_list) + ").", file=self.log)
+                print(str(match_name), "matches", str(pattern), "(" + str(file_list) + ").", file=self.log)
 
                 if file_list is None:
                     return
@@ -793,7 +790,7 @@ init python in distribute:
                     script_version_txt = self.temp_filename("script_version.txt")
 
                     with open(script_version_txt, "w") as f:
-                        f.write(repr(renpy.renpy.version_tuple[:-1]))
+                        f.write(unicode(repr(renpy.renpy.version_tuple[:-1])))
 
                     self.add_file("all", "game/script_version.txt", script_version_txt)
 
@@ -804,7 +801,7 @@ init python in distribute:
 
             tfn = self.temp_filename(list_name + "_hash.txt")
 
-            with open(tfn, "w") as tf:
+            with open(tfn, "wb") as tf:
                 tf.write(self.file_lists[list_name].hash(self))
 
             self.add_file("binary", "launcher/game/" + list_name + "_hash.txt", tfn)
@@ -825,7 +822,7 @@ init python in distribute:
                 data = f.read()
 
             with open(tmp_fn, "wb") as f:
-                f.write("#!/usr/bin/env python2\n")
+                f.write(b"#!/usr/bin/env python2\n")
                 f.write(data)
 
             self.add_file("source_only", "renpy.py", tmp_fn, True)
@@ -846,7 +843,7 @@ init python in distribute:
                 CFBundleName=display_name,
                 CFBundlePackageType="APPL",
                 CFBundleShortVersionString=version,
-                CFBundleVersion="1.0.{0}".format(int(time.time())),
+                CFBundleVersion=time.strftime("%Y.%m%d.%H%M%S"),
                 LSApplicationCategoryType="public.app-category.simulation-games",
                 CFBundleDocumentTypes = [
                     {
@@ -866,6 +863,8 @@ init python in distribute:
 
             if self.build.get('allow_integrated_gpu', False):
                 plist["NSSupportsAutomaticGraphicsSwitching"] = True
+
+            plist.update(self.build.get("mac_info_plist", { }))
 
             rv = self.temp_filename("Info.plist")
             plistlib.writePlist(plist, rv)
@@ -887,16 +886,16 @@ init python in distribute:
             self.add_file(
                 linux,
                 "lib/linux-i686/" + self.executable_name,
-                os.path.join(config.renpy_base, "lib/linux-i686/pythonw"),
+                os.path.join(config.renpy_base, "lib/linux-i686/renpy"),
                 True)
 
             self.add_file(
                 linux,
                 "lib/linux-x86_64/" + self.executable_name,
-                os.path.join(config.renpy_base, "lib/linux-x86_64/pythonw"),
+                os.path.join(config.renpy_base, "lib/linux-x86_64/renpy"),
                 True)
 
-            armfn = os.path.join(config.renpy_base, "lib/linux-armv7l/pythonw")
+            armfn = os.path.join(config.renpy_base, "lib/linux-armv7l/renpy")
 
             if os.path.exists(armfn):
 
@@ -909,14 +908,10 @@ init python in distribute:
 
             self.add_file(
                 mac,
-                "lib/darwin-x86_64/" + self.executable_name,
-                os.path.join(config.renpy_base, "lib/darwin-x86_64/pythonw"),
+                "lib/mac-x86_64/" + self.executable_name,
+                os.path.join(config.renpy_base, "lib/mac-x86_64/renpy"),
                 True)
 
-#             self.add_file(
-#                 windows,
-#                 "lib/windows-i686/" + self.executable_name + ".exe",
-#                 os.path.join(config.renpy_base, "lib/windows-i686/renpy.exe"))
 
         def add_mac_files(self):
             """
@@ -936,7 +931,9 @@ init python in distribute:
 
             plist_fn = self.write_plist()
             self.add_file(filelist, contents + "/Info.plist", plist_fn)
-            self.add_file(filelist, contents + "/MacOS/" + self.executable_name, os.path.join(config.renpy_base, "renpy.sh"))
+            self.add_file(filelist,
+                contents + "/MacOS/" + self.executable_name,
+                os.path.join(config.renpy_base, "lib/mac-x86_64/renpy"))
 
             custom_fn = os.path.join(self.project.path, "icon.icns")
             default_fn = os.path.join(config.renpy_base, "launcher/icon.icns")
@@ -951,16 +948,10 @@ init python in distribute:
             self.add_directory(filelist, resources)
             self.add_file(filelist, resources + "/icon.icns", icon_fn)
 
-            self.add_directory(filelist, contents + "/MacOS/lib")
-            self.add_directory(filelist, contents + "/MacOS/lib/darwin-x86_64")
-            self.add_directory(filelist, contents + "/MacOS/lib/darwin-x86_64/Lib")
-            self.add_directory(filelist, contents + "/MacOS/lib/darwin-x86_64/Modules")
-
-            sfn = self.temp_filename("Setup")
-            with open(sfn, "wb") as f:
-                pass
-
-            self.add_file(filelist, contents + "/MacOS/lib/darwin-x86_64/Modules/Setup", sfn)
+            if not self.build['renpy']:
+                self.add_directory(filelist, contents + "/MacOS/lib")
+                self.add_directory(filelist, contents + "/MacOS/lib/mac-x86_64")
+                self.add_directory(filelist, contents + "/MacOS/lib/python2.7")
 
             self.file_lists[filelist].mac_lib_transform(self.app, self.build['renpy'])
 
@@ -974,27 +965,35 @@ init python in distribute:
             else:
                 windows = 'windows'
 
+
             icon_fn = os.path.join(self.project.path, "icon.ico")
-            old_exe_fn = os.path.join(config.renpy_base, "renpy.exe")
-            old_main_fn = os.path.join(config.renpy_base, "lib/windows-i686/renpy.exe")
 
-            if os.path.exists(icon_fn) and os.path.exists(old_exe_fn):
-                exe_fn = self.temp_filename("renpy.exe")
-                main_fn = self.temp_filename("main.exe")
 
-                with open(exe_fn, "wb") as f:
-                    f.write(change_icons(old_exe_fn, icon_fn))
+            def write_exe(src, dst, tmp):
+                """
+                Write the exe found at `src` (taken as relative to renpy-base)
+                as `dst` (in the distribution). `tmp` is the name of a tempfile
+                that is written if one is needed.
+                """
 
-                with open(main_fn, "wb") as f:
-                    f.write(change_icons(old_main_fn, icon_fn))
+                src = os.path.join(config.renpy_base, src)
+                tmp = self.temp_filename(tmp)
 
-            else:
-                exe_fn = old_exe_fn
-                main_fn = old_main_fn
+                if os.path.exists(icon_fn) and os.path.exists(src):
 
-            if os.path.exists(exe_fn):
-                self.add_file(windows, self.exe, exe_fn)
-                self.add_file(windows, "lib/windows-i686/" + self.exe, main_fn)
+                    with open(tmp, "wb") as f:
+                        f.write(change_icons(src, icon_fn))
+
+                else:
+                    tmp = src
+
+                if os.path.exists(tmp):
+                    self.add_file(windows, dst, tmp)
+
+            write_exe("lib/windows-i686/renpy.exe", self.exe32, self.exe32)
+            write_exe("lib/windows-i686/pythonw.exe", "lib/windows-i686/pythonw.exe", "pythonw-32.exe")
+            write_exe("lib/windows-x86_64/renpy.exe", self.exe, self.exe)
+            write_exe("lib/windows-x86_64/pythonw.exe", "lib/windows-x86_64/pythonw.exe", "pythonw-64.exe")
 
         def add_main_py(self):
             if self.build['renpy']:
@@ -1141,6 +1140,29 @@ init python in distribute:
                     sourcedir=sourcedir,
                     dmg=dmg,
                 )
+
+        def workaround_mac_notarization(self, fl):
+            """
+            This works around mac notarization by compressing the unsigned,
+            un-notarized, binaries in lib/mac-x86_64.
+            """
+
+            fl = fl.copy()
+
+            for f in fl:
+                if "/lib/mac-x86_64/" in f.name:
+                    with open(f.path, "rb") as inf:
+                        data = inf.read()
+
+                    tempfile = self.temp_filename(os.path.basename(f.name) + ".macho")
+
+                    with open(tempfile, "wb") as outf:
+                        outf.write(b"RENPY" + data)
+
+                    f.name += ".macho"
+                    f.path = tempfile
+
+            return fl
 
         def prepare_file_list(self, format, file_lists):
             """
@@ -1316,6 +1338,9 @@ init python in distribute:
                     shutil.rmtree(path)
 
                 pkg = DMGPackage(path, make_dmg)
+
+                fl = self.workaround_mac_notarization(fl)
+
             elif directory:
                 pkg = DirectoryPackage(path)
 

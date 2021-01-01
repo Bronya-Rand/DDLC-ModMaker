@@ -44,12 +44,12 @@ init -1 python hide:
     # This controls the title of the window, when Ren'Py is
     # running in a window.
 
-    config.window_title = u"Doki Doki Mod Maker (for Ren'Py 7.3.5)"
+    config.window_title = u"Doki Doki Mod Maker (for Ren'Py 7.4)"
 
     # These control the name and version of the game, that are reported
     # with tracebacks and other debugging logs.
     config.name = "Doki Doki Mod Maker"
-    config.version = "1.1.1"
+    config.version = "1.2.0"
 
     #####################
     # Themes
@@ -160,7 +160,7 @@ init -1 python hide:
     # stored. (It needs to be set early, before any other init code
     # is run, so the persistent information can be found by the init code.)
 python early:
-    config.save_directory = "DDMMaker7"
+    config.save_directory = "DDMMaker7-4"
 
 init -1 python hide:
     #####################
@@ -183,9 +183,7 @@ init -1 python hide:
 
     config.sound = False
     config.quit_action = Quit(confirm=False)
-    config.gl_resize = False
     config.window_icon = "images/logo.png"
-    config.windows_icon = "images/logo32.png"
     config.has_autosave = False
     config.log_enable = False
     config.mouse_hide_time = None
@@ -228,9 +226,9 @@ init python:
     # directory 'mygame-1.0-win', in the 'mygame-1.0-win.zip' file.
 
     if 'RENPY_BUILD_VERSION' in os.environ:
-        build.directory_name = "DDMMaker7-" + os.environ['RENPY_BUILD_VERSION']
+        build.directory_name = "DDMMaker7.4-" + os.environ['RENPY_BUILD_VERSION']
     else:
-        build.directory_name = "DDMMaker7-" + config.version
+        build.directory_name = "DDMMaker7.4-" + config.version
 
     # The name that's uses for executables - the program that users will run
     # to start the game. For example, if this is 'mygame', then on Windows,
@@ -285,11 +283,22 @@ init python:
     except:
         pass
 
+    build.classify_renpy("rapt/**/libLive2DCubismCore.so", None)
+    build.classify_renpy("rapt/**", "rapt")
+    build.executable("rapt/prototype/gradlew")
+
     build.classify_renpy("renios/prototype/base/", None)
     build.classify_renpy("renios/prototype/prototype.xcodeproj/*.xcworkspace/", None)
     build.classify_renpy("renios/prototype/prototype.xcodeproj/xcuserdata/", None)
+    build.classify_renpy("renios/prototype/**", "renios")
+    build.classify_renpy("renios/buildlib/**", "renios")
+    build.classify_renpy("renios/ios.py", "renios")
+    build.classify_renpy("renios/version.txt", "renios")
+    build.classify_renpy("renios/", "renios")
 
     build.classify_renpy("web/game.zip", None)
+    build.classify_renpy("web/**", "web")
+
     build.classify_renpy("**.old", None)
     build.classify_renpy("**.new", None)
     build.classify_renpy("**.bak", None)
@@ -298,6 +307,7 @@ init python:
     build.classify_renpy("**/log.txt", None)
     build.classify_renpy("**/traceback.txt", None)
     build.classify_renpy("**/errors.txt", None)
+    build.classify_renpy("**/steam_appid.txt", None)
     build.classify_renpy("**/saves/", None)
     build.classify_renpy("**/tmp/", None)
     build.classify_renpy("**/.Editra", None)
@@ -327,8 +337,8 @@ init python:
     build.classify_renpy("gui/game/gui/", None)
 
     source_and_binary("launcher")
+    source_and_binary("gui", binary=None)
     source_and_binary("templates")
-    source_and_binary("templates/DDLCModTemplate-2.2.4-Standard.zip")
 
     # docs.
     build.classify_renpy("doc/", "source")
@@ -361,6 +371,9 @@ init python:
     build.classify_renpy("module/fribidi-src/**", "source")
 
     # all-platforms binary.
+    build.classify_renpy("lib/**/_renpysteam*", "steam")
+    build.classify_renpy("lib/**/*steam_api*", "steam")
+    build.classify_renpy("lib/**/*Live2D*", None)
     build.classify_renpy("lib/**/_renpysteam*", None)
     build.classify_renpy("lib/**/*steam_api*", None)
     build.classify_renpy("lib/*/renpy", None)
@@ -378,12 +391,16 @@ init python:
     build.packages = [ ]
 
     build.package("sdk", "zip tar.bz2", "source binary")
+    build.package("source", "tar.bz2", "source source_only", update=False)
+    build.package("raspi", "tar.bz2", "raspi", dlc=True, update=False)
 
     build.package("jedit", "zip", "jedit", dlc=True)
 
     build.package("atom-linux", "tar.bz2", "atom-all atom-linux", dlc=True)
     build.package("atom-mac", "zip", "atom-all atom-mac", dlc=True)
     build.package("atom-windows", "zip", "atom-all atom-windows", dlc=True)
+
+    build.package("rapt", "zip", "rapt", dlc=True)
 
 # Enable the special launcher translation mode.
 define config.translate_launcher = True
