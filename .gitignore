@@ -4,9 +4,10 @@ traceback.txt
 errors.txt
 *.rpyc
 *.rpyb
+.DS_Store
 tmp
-DDMMaker-6.99.12.4-dists
-DDMMaker-7.3.5-dists
+DDMMaker-6.*-dists
+DDMMaker-7.*-dists
 rapt
 clean_renpy_files.py
 screenshot*.png
