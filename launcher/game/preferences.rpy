@@ -221,7 +221,8 @@ screen preferences:
                         add HALF_SPACER
 
                         textbutton _("Open launcher project") style "l_nonbox" action [ project.Select("launcher"), Jump("front_page") ]
-
+                        textbutton _("Reset window size") style "l_nonbox" action Preference("display", 1.0)
+                        
                         if renpy.macintosh:
                             textbutton _("Change Extract Settings") style "l_nonbox" action Jump("auto_extract")
 
