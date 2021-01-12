@@ -1,6 +1,5 @@
 
 # Welcome to the Doki Doki Mod Maker (DDMMaker) Repository!
-[![Build Status](https://travis-ci.org/GanstaKingofSA/DDLC-ModMaker.svg?branch=master)](https://travis-ci.org/GanstaKingofSA/DDLC-ModMaker)
 
 [![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/K3K22K8SU)
 
