@@ -20,7 +20,6 @@ install:
     - rm -R doc
     - rm -R gui
     - rm -R the_question
-    - rm -R templates
     - rm -R tutorial
     - rm -R launcher
     - rm renpy/common/00build.rpy
@@ -34,7 +33,7 @@ env:
 # This is the script part. This is where the actual building is happening.
 # This produces an artifact which we'll use later on to publish a release.
 
-script: ./renpy.sh launcher distribute "../launcher/" && cd ..
+script: ./renpy.sh launcher distribute "launcher/" && cd ..
 
 
 # This is where the actual releases happen. Travis has the ability to publish releases from GitHub, Amazon S3, OpenShift, etc.
