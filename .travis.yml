@@ -17,11 +17,13 @@ install:
     - rm renpy-7.4.1-sdk.tar.bz2
     - mv renpy-7.4.1-sdk renpy
     - cd renpy
-    - rm doc
-    - rm gui
-    - rm the_question
-    - rm tutorial
-    - rm launcher
+    - rm -R doc
+    - rm -R gui
+    - rm -R the_question
+    - rm -R templates
+    - rm -R tutorial
+    - rm -R launcher
+    - rm renpy/common/00build.rpy
     - cd ..
     - cp -vRf DDLC-ModMaker/* renpy
     - cd renpy
