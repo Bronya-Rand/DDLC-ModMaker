@@ -16,10 +16,10 @@ install:
     - tar xf renpy-7.4.1-sdk.tar.bz2
     - rm renpy-7.4.1-sdk.tar.bz2
     - mv renpy-7.4.1-sdk renpy
-    - rm doc
-    - rm the_question
-    - rm tutorial
-    - rm launcher
+    - rm renpy/doc
+    - rm renpy/the_question
+    - rm renpy/tutorial
+    - rm renpy/launcher
 
     - cp -vRf DDLC-ModMaker/* renpy
     - cd renpy
