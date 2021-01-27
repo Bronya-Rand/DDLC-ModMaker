@@ -81,7 +81,7 @@ init python:
         #os.remove(persistent.pd + '/game/scripts.rpa')
     def template_extract():
         try:
-            with zipfile.ZipFile(config.basedir + "/templates/DDLCModTemplate-2.4.2.zip", "r") as z:
+            with zipfile.ZipFile(config.basedir + "/templates/DDLCModTemplate-2.4.3.zip", "r") as z:
                 z.extractall(persistent.pd)
         except:
             shutil.rmtree(persistent.pd)
