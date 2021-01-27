@@ -16,21 +16,13 @@ install:
     - tar xf renpy-7.3.5-sdk.tar.bz2
     - rm renpy-7.3.5-sdk.tar.bz2
     - mv renpy-7.3.5-sdk renpy
-    - mkdir ddmm
+    - rm renpy/doc
+    - rm renpy/the_question
+    - rm renpy/tutorial
+    - rm renpy/launcher
 
-    # now this is where it gets interesting
-    # we're copying over the template files into the renpy SDK
-    # and CD into the renpy
-
-    #- bash ./ddcc/travis/setup.sh
-    - cp -vRf DDLC-ModMaker/* ddmm
-    - rm ddmm/renpy.sh
-    - rm -r ddmm/lib
-    - mv renpy/renpy.sh ddmm/renpy.sh
-    - mv renpy/lib ddmm/lib
-    #- bash DDLC-ModMaker/travis/inject_version.sh
-    #- bash DDLC-ModMaker/travis/patch_renpy.sh
-    - cd ddmm
+    - cp -vRf DDLC-ModMaker/* renpy
+    - cd renpy
 env:
     # this is required as there was build issues without this, don't remove this.
     - SDL_AUDIODRIVER=dummy SDL_VIDEODRIVER=dummy
