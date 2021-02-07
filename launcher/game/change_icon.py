@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2021 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -320,7 +320,10 @@ def change_icons(oldexe, icofn):
 
     if newsize < physize:
 
-        rsrc += b"\0" * (physize - newsize)
+        while len(rsrc) < physize:
+            rsrc = rsrc + rsrc
+
+        rsrc = rsrc[:physize]
 
         return basedata + rsrc
 
