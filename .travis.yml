@@ -12,10 +12,10 @@ sudo: required
 
 install:
     - cd ..
-    - wget https://www.renpy.org/dl/7.4.1/renpy-7.4.1-sdk.tar.bz2
-    - tar xf renpy-7.4.1-sdk.tar.bz2
-    - rm renpy-7.4.1-sdk.tar.bz2
-    - mv renpy-7.4.1-sdk renpy
+    - wget https://www.renpy.org/dl/7.4.2/renpy-7.4.2-sdk.tar.bz2
+    - tar xf renpy-7.4.2-sdk.tar.bz2
+    - rm renpy-7.4.2-sdk.tar.bz2
+    - mv renpy-7.4.2-sdk renpy
     - cd renpy
     - rm -R doc
     - rm -R gui
