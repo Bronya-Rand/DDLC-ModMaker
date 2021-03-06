@@ -765,7 +765,7 @@ label choose_projects_directory:
         path, is_default = choose_directory(persistent.projects_directory)
 
         if is_default:
-            interface.info(_("Ren'Py has set the projects directory to:"), "[path!q]", path=path)
+            interface.info(_("DDMMaker has set the projects directory to:"), "[path!q]", path=path)
 
         persistent.projects_directory = path
 
@@ -775,19 +775,25 @@ label choose_projects_directory:
 
 label ddlc_zip:
 
+    if renpy.macintosh:
+        if persistent.safari is None:
+            call browser
+        if persistent.safari is None:
+            $ interface.error(_("The browser could not be set. Giving up."))
+
     python hide:
-        if renpy.macintosh == True:
-            if persistent.safari == True:
-                interface.interaction(_("DDLC ZIP Directory"), _("Please choose where the `ddlc-mac` folder is located using the directory chooser.\n{b}The directory chooser may have opened behind this window.{/b}"), _("This launcher will scan for projects in this directory, will create new projects in this directory, and will place built projects into this directory."),)
-            else:
-                interface.interaction(_("DDLC ZIP Directory"), _("Please choose where `ddlc-mac.zip` is located using the directory chooser.\n{b}The directory chooser may have opened behind this window.{/b}"), _("This launcher will scan for projects in this directory, will create new projects in this directory, and will place built projects into this directory."),)
+
+        if renpy.macintosh == True and persistent.safari == True:
+            interface.interaction(_("DDLC ZIP Directory"), _("Please choose where the `ddlc-mac` folder is located using the directory chooser."),)
+
+            path, is_default = choose_directory(persistent.zip_directory)
         else:
-            interface.interaction(_("DDLC ZIP Directory"), _("Please choose where `ddlc-win.zip` is located using the directory chooser.\n{b}The directory chooser may have opened behind this window.{/b}"), _("This launcher will scan for projects in this directory, will create new projects in this directory, and will place built projects into this directory."),)
+            interface.interaction(_("DDLC ZIP File"), _("Please choose the DDLC ZIP. It must be the original zip from DDLC.moe."),)
         
-        path, is_default = choose_directory(persistent.zip_directory)
+            path, is_default = choose_file(persistent.zip_directory)
 
         if is_default:
-            interface.info(_("Ren'Py has set the DDLC ZIP directory to:"), "[path!q]", path=path)
+            interface.info(_("DDMMaker has set the DDLC ZIP directory to:"), "[path!q]", path=path)
 
         persistent.zip_directory = path
 
@@ -810,6 +816,7 @@ label auto_extract:
 label safari_download:
     $ persistent.safari = True
     return
+
 # Set Auto-Extract Off
 label regular_download:
     $ persistent.safari = False

@@ -146,6 +146,7 @@ screen front_page:
         else:
             python:
                 launch = readVersion()
+                
         if launch == False:
             textbutton _("DDMMaker 7.3.5 Needed"):
                 xalign 0.95
@@ -274,7 +275,7 @@ screen front_page_project:
                 textbutton _("Delete Persistent") action Jump("rmpersistent")
                 textbutton _("Force Recompile") action Jump("force_recompile")
                 if project.current.name != "launcher":
-                    textbutton _("Set Version") action Jump("set_version")
+                    textbutton _("Change Version") action Jump("set_version")
 
                 # textbutton "Relaunch" action Relaunch
 
@@ -284,6 +285,8 @@ screen front_page_project:
                 if ability.can_distribute:
                     textbutton _("Build Mod") action Jump("build_distributions")
                 if project.current.name != "launcher":
+                    python:
+                        launch = readVersion()
                     if launch == True:
                         textbutton _("Build Mod for Android") action Jump("android")
                     else:
