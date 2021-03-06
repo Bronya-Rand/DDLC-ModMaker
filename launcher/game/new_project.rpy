@@ -57,12 +57,8 @@ init python:
             interface.error(_("DDLC ZIP file cannot be found in the ZIP Directory."), _("Check if the ZIP file exists or is pointed to the right directory."))
         
         path = open(persistent.zip_directory + zipName, 'rb')
-        if renpy.macintosh:
-            if hashlib.sha256(path.read()).hexdigest() != sha:
-                interface.error(_("The DDLC ZIP file downloaded is not official. Download a official DDLC ZIP file from {a=https://ddlc.moe}DDLC's website{/a} and try again."))
-        else:
-            if hashlib.sha256(path.read()).hexdigest() != sha:
-                interface.error(_("The DDLC ZIP file downloaded is not official. Download a official DDLC ZIP file from {a=https://ddlc.moe}DDLC's website{/a} and try again."))
+        if hashlib.sha256(path.read()).hexdigest() != sha:
+            interface.error(_("The DDLC ZIP file downloaded is not official. Download a official DDLC ZIP file from {a=https://ddlc.moe}DDLC's website{/a} and try again."))
         path.close() # JIC
         
         with zipfile.ZipFile(persistent.zip_directory + zipName, "r") as z:
