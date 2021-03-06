@@ -261,7 +261,7 @@ screen front_page_project:
                 textbutton _("Delete Persistent") action Jump("rmpersistent")
                 textbutton _("Force Recompile") action Jump("force_recompile")
                 if project.current.name != "launcher":
-                    textbutton _("Set Version") action Jump("set_version")
+                    textbutton _("Change Version") action Jump("set_version")
 
                 # textbutton "Relaunch" action Relaunch
 

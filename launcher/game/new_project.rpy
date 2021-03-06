@@ -20,7 +20,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 init python:
-    import zipfile, shutil, os, glob, time, re
+    import zipfile, shutil, os, glob, time, re, hashlib
 
     def check_language_support():
         language = _preferences.language
@@ -47,38 +47,36 @@ init python:
             store.language_support = _("Neither interface has been translated to your language.")
 
     def zip_extract():
-        try:
+        if renpy.macintosh:
+            zip = "/ddlc-mac.zip"
+        else:
+            zip = "/ddlc-win.zip"
+        if not glob.glob(persistent.zip_directory + zip):
+            interface.error(_("DDLC ZIP file cannot be found in the ZIP Directory."), _("Check if the ZIP file exists or is pointed to the right directory."))
+        
+        if renpy.macintosh:
+            if hashlib.sha256(persistent.zip_directory + zip).hexdigest() != 'de8a0ec7bb918615ccda284f9cfb31962bce62f49ff8425e5761d4252e8ae01e':
+                interface.error(_("The DDLC ZIP file downloaded is not official. Download a official DDLC ZIP file from 'https://ddlc.moe' and try again."))
+        else:
+            if hashlib.sha256(persistent.zip_directory + zip).hexdigest() != 'cfbaa77ad2db0d94b2e6c3646369aea8750a020eaeb3568a26a551f85f534f8b':
+                interface.error(_("The DDLC ZIP file downloaded is not official. Download a official DDLC ZIP file from 'https://ddlc.moe' and try again."))
+        
+        with zipfile.ZipFile(persistent.zip_directory + zip, "r") as z:
+            z.extractall(persistent.projects_directory + "/temp")
             if renpy.macintosh:
-                zip = "/ddlc-mac.zip"
+                ddlc = persistent.projects_directory + '/temp/DDLC.app/Contents/Resources/autorun/game'
             else:
-                zip = "/ddlc-win.zip"
-            with zipfile.ZipFile(persistent.zip_directory + zip, "r") as z:
-                z.extractall(persistent.projects_directory + "/temp")
-                if renpy.macintosh:
-                    ddlc = persistent.projects_directory + '/temp/DDLC.app/Contents/Resources/autorun/game'
-                else:
-                    ddlc = persistent.projects_directory + '/temp/DDLC-1.1.1-pc/game'
-        except:
-            if renpy.macintosh:
-                interface.error(_("Cannot locate 'ddlc-mac.zip' in [persistent.zip_directory!q]."), _("Make sure you have DDLC downloaded from 'https://ddlc.moe' and check if it exists.")) 
-            else:
-                interface.error(_("Cannot locate 'ddlc-win.zip' in [persistent.zip_directory!q]."), _("Make sure you have DDLC downloaded from 'https://ddlc.moe' and check if it exists."))
-        try:
-            shutil.move(ddlc, project_dir + '/game')
-        except:
-            shutil.rmtree(persistent.projects_directory + '/temp')
-            if renpy.macintosh:
-                interface.error(_("The `ddlc-mac.zip` file extracted is zipped improperly or corrupted."), _("Please re-download the ZIP from 'https://ddlc.moe'"))
-            else:
-                interface.error(_("The `ddlc-win.zip` file extracted is zipped improperly or corrupted."), _("Please re-download the ZIP from 'https://ddlc.moe'"))
-        #os.remove(project_dir + '/game/scripts.rpa')
+                ddlc = persistent.projects_directory + '/temp/DDLC-1.1.1-pc/game'
+        shutil.move(ddlc, project_dir + '/game')
         shutil.rmtree(persistent.projects_directory + '/temp')
     def ddlc_copy():
-        try:
-            shutil.copytree(persistent.zip_directory + "/ddlc-mac/DDLC.app/Contents/Resources/autorun/game", persistent.pd + '/game')
-        except:
+        if not glob.glob(persistent.zip_directory + "/ddlc-mac/DDLC.app"):
             interface.error(_("Cannot find DDLC.app."), _("Please make sure your OS and ZIP Directory are set correctly."))
-        #os.remove(persistent.pd + '/game/scripts.rpa')
+            
+        if hashlib.sha256(persistent.zip_directory + "/ddlc-mac/DDLC.app").hexdigest() != '40dc11e88c590a2aab1560e470d8fc4c9d24eefd45cc64f7e610f8b30d9a25a3':
+            interface.error(_("The DDLC.app file downloaded is not official. Download a official DDLC ZIP file from 'https://ddlc.moe' and try again."))
+
+        shutil.copytree(persistent.zip_directory + "/ddlc-mac/DDLC.app/Contents/Resources/autorun/game", persistent.pd + '/game')
     def template_extract():
         try:
             with zipfile.ZipFile(config.basedir + "/templates/DDLCModTemplate-2.4.4.zip", "r") as z:
