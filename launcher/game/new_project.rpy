@@ -247,6 +247,7 @@ label new_project:
             
             project.manager.scan()
             break
+    return
 
 label mpt:
     if persistent.projects_directory is None:
@@ -345,3 +346,5 @@ label mpt:
             
             project.manager.scan()
             break
+
+    return
