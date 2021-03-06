@@ -78,9 +78,11 @@ init python:
             interface.error(_("Cannot find DDLC.app."), _("Please make sure that your OS and ZIP Directory settings are set correctly."))
         
         sha = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
-        if hashlib.sha256(persistent.zip_directory + "/ddlc-mac/DDLC.app").hexdigest() != sha:
+        path = open(persistent.zip_directory + "/ddlc-mac/DDLC.app", 'rb')
+        if hashlib.sha256(path.read()).hexdigest() != sha:
             interface.error(_("The DDLC.app file downloaded is not official. Download a official DDLC ZIP file from {a=https://ddlc.moe}DDLC's website{/a} and try again."))
-
+        path.close()
+        
         shutil.copytree(persistent.zip_directory + "/ddlc-mac/DDLC.app/Contents/Resources/autorun/game", persistent.pd + '/game')
     def template_extract():
         # No SHA Check so anyone can dump a updated template here.
