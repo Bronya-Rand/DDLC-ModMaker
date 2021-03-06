@@ -58,10 +58,10 @@ init python:
         
         if renpy.macintosh:
             if hashlib.sha256(persistent.zip_directory + zip).hexdigest() != sha:
-                interface.error(_("The DDLC ZIP file downloaded is not official. Download a official DDLC ZIP file from 'https://ddlc.moe' and try again."))
+                interface.error(_("The DDLC ZIP file downloaded is not official. Download a official DDLC ZIP file from {a=https://ddlc.moe}DDLC's website{/a} and try again."))
         else:
             if hashlib.sha256(persistent.zip_directory + zip).hexdigest() != sha:
-                interface.error(_("The DDLC ZIP file downloaded is not official. Download a official DDLC ZIP file from 'https://ddlc.moe' and try again."))
+                interface.error(_("The DDLC ZIP file downloaded is not official. Download a official DDLC ZIP file from {a=https://ddlc.moe}DDLC's website{/a} and try again."))
         
         with zipfile.ZipFile(persistent.zip_directory + zip, "r") as z:
             z.extractall(persistent.projects_directory + "/temp")
@@ -73,11 +73,11 @@ init python:
         shutil.rmtree(persistent.projects_directory + '/temp')
     def ddlc_copy():
         if not glob.glob(persistent.zip_directory + "/ddlc-mac/DDLC.app"):
-            interface.error(_("Cannot find DDLC.app."), _("Please make sure your OS and ZIP Directory are set correctly."))
+            interface.error(_("Cannot find DDLC.app."), _("Please make sure that your OS and ZIP Directory settings are set correctly."))
         
         sha = '40dc11e88c590a2aab1560e470d8fc4c9d24eefd45cc64f7e610f8b30d9a25a3'
         if hashlib.sha256(persistent.zip_directory + "/ddlc-mac/DDLC.app").hexdigest() != sha:
-            interface.error(_("The DDLC.app file downloaded is not official. Download a official DDLC ZIP file from 'https://ddlc.moe' and try again."))
+            interface.error(_("The DDLC.app file downloaded is not official. Download a official DDLC ZIP file from {a=https://ddlc.moe}DDLC's website{/a} and try again."))
 
         shutil.copytree(persistent.zip_directory + "/ddlc-mac/DDLC.app/Contents/Resources/autorun/game", persistent.pd + '/game')
     def template_extract():

@@ -62,7 +62,7 @@ init python:
     def Relaunch():
         renpy.quit(relaunch=True)
 
-    def readVersion:
+    def readVersion():
         ver = persistent.projects_directory + '/' + project.current.name + '/renpy-version.txt'
         try:
             with open(ver) as f:
@@ -72,6 +72,7 @@ init python:
                     launch = True
         except IOError:
             launch = "error"
+        return launch
 
 screen front_page:
     frame:
@@ -144,7 +145,8 @@ screen front_page:
             pass
         else:
             python:
-                readVersion()
+                launch = readVersion()
+                
         if launch == False:
             textbutton _("DDMMaker 6.99.12.4 Needed"):
                 xalign 0.95
@@ -276,11 +278,11 @@ screen front_page_project:
                 if project.current.name != "launcher":
 
                     python:
-                        readVersion()
-                    if launch:
+                        launch = readVersion()
+                    if launch == True:
                         textbutton _("Build Mod for Android") action Jump("android")
                     else:
-                        textbutton _("Cannot Build Mod for Android") action Jump("no_android")
+                        textbutton _("Android Unavailable") action Jump("no_android")
                     textbutton _("Generate Translations") action Jump("translate")
                     textbutton _("Extract Dialogue") action Jump("extract_dialogue")
                     textbutton _("Delete Project") action Jump("delete_folder")
