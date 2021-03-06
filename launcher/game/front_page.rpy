@@ -62,6 +62,18 @@ init python:
     def Relaunch():
         renpy.quit(relaunch=True)
 
+    def readVersion():
+        ver = persistent.projects_directory + '/' + project.current.name + '/renpy-version.txt'
+        try:
+            with open(ver) as f:
+                if f.readline() > "6":
+                    launch = False
+                else:
+                    launch = True
+        except IOError:
+            launch = "error"
+        return launch
+
 screen front_page:
     frame:
         alt ""
@@ -133,15 +145,7 @@ screen front_page:
             pass
         else:
             python:
-                ver = persistent.projects_directory + '/' + project.current.name + '/renpy-version.txt'
-                try:
-                    with open(ver) as f:
-                        if f.readline() > "6":
-                            launch = False
-                        else:
-                            launch = True
-                except IOError:
-                    launch = "error"
+                launch = readVersion()
         if launch == False:
             textbutton _("DDMMaker 7.3.5 Needed"):
                 xalign 0.95
@@ -163,6 +167,11 @@ screen front_page:
 label version_error:
     python:
         interface.info(_("This project is unavailable to launch as this is either a non-DDLC mod/game or is missing 'renpy-version.txt'"), _("Please check if 'renpy-version.txt' exists or run normal Ren'Py for non-DDLC games/mods."),)
+        renpy.jump('front_page')
+
+label no_android:
+    python:
+        interface.info(_("This project cannot be built for Android as either the version of it is set to Ren'Py 7 or the project is missing 'renpy-version.txt'"), _("Please check if 'renpy-version.txt' exists or change the version of your project to Ren'Py 6."),)
         renpy.jump('front_page')
 
 # This is used by front_page to display the list of known projects on the screen.
@@ -275,7 +284,10 @@ screen front_page_project:
                 if ability.can_distribute:
                     textbutton _("Build Mod") action Jump("build_distributions")
                 if project.current.name != "launcher":
-                    textbutton _("Build Mod for Android") action Jump("android")
+                    if launch == True:
+                        textbutton _("Build Mod for Android") action Jump("android")
+                    else:
+                        textbutton _("Android Unavailable") action Jump("no_android")
                     textbutton _("Generate Translations") action Jump("translate")
                     textbutton _("Extract Dialogue") action Jump("extract_dialogue")
                     textbutton _("Delete Project") action Jump("delete_folder")

@@ -302,7 +302,7 @@ screen android:
             has vbox
 
             label _("Android: [project.current.name!q]")
-            text _("Before continuing, refer to {b}Building Your Mod{/b} in {i}guide.pdf{/i} for building mods for Android.")
+            text _("Before continuing, refer to {b}Building Your Mod{/b} in {i}guide.pdf{/i} for building mods for Android.") xalign 0.11 size 15
 
             add HALF_SPACER
 
