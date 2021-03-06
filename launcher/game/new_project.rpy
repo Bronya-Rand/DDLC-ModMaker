@@ -141,6 +141,7 @@ label new_project:
             
             project.manager.scan()
             break
+    return
 
 label ddcc:
 
@@ -191,3 +192,4 @@ label ddcc:
             
             project.manager.scan()
             break
+    return
