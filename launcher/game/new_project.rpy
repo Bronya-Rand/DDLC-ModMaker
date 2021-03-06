@@ -48,22 +48,24 @@ init python:
 
     def zip_extract():
         if renpy.macintosh:
-            zip = "/ddlc-mac.zip"
-            sha = 'de8a0ec7bb918615ccda284f9cfb31962bce62f49ff8425e5761d4252e8ae01e'
+            zipName = "/ddlc-mac.zip"
+            sha = 'abc3d2fee9433ad454decd15d6cfd75634283c17aa3a6ac321952c601f7700ec'
         else:
-            zip = "/ddlc-win.zip"
-            sha = 'cfbaa77ad2db0d94b2e6c3646369aea8750a020eaeb3568a26a551f85f534f8b'
-        if not glob.glob(persistent.zip_directory + zip):
+            zipName = "/ddlc-win.zip"
+            sha = '2a3dd7969a06729a32ace0a6ece5f2327e29bdf460b8b39e6a8b0875e545632e'
+        if not glob.glob(persistent.zip_directory + zizipNamep):
             interface.error(_("DDLC ZIP file cannot be found in the ZIP Directory."), _("Check if the ZIP file exists or is pointed to the right directory."))
         
+        path = open(persistent.zip_directory + zipName, 'rb')
         if renpy.macintosh:
-            if hashlib.sha256(persistent.zip_directory + zip).hexdigest() != sha:
+            if hashlib.sha256(path.read()).hexdigest() != sha:
                 interface.error(_("The DDLC ZIP file downloaded is not official. Download a official DDLC ZIP file from {a=https://ddlc.moe}DDLC's website{/a} and try again."))
         else:
-            if hashlib.sha256(persistent.zip_directory + zip).hexdigest() != sha:
+            if hashlib.sha256(path.read()).hexdigest() != sha:
                 interface.error(_("The DDLC ZIP file downloaded is not official. Download a official DDLC ZIP file from {a=https://ddlc.moe}DDLC's website{/a} and try again."))
+        path.close() # JIC
         
-        with zipfile.ZipFile(persistent.zip_directory + zip, "r") as z:
+        with zipfile.ZipFile(persistent.zip_directory + zipName, "r") as z:
             z.extractall(persistent.projects_directory + "/temp")
             if renpy.macintosh:
                 ddlc = persistent.projects_directory + '/temp/DDLC.app/Contents/Resources/autorun/game'
@@ -75,7 +77,7 @@ init python:
         if not glob.glob(persistent.zip_directory + "/ddlc-mac/DDLC.app"):
             interface.error(_("Cannot find DDLC.app."), _("Please make sure that your OS and ZIP Directory settings are set correctly."))
         
-        sha = '40dc11e88c590a2aab1560e470d8fc4c9d24eefd45cc64f7e610f8b30d9a25a3'
+        sha = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
         if hashlib.sha256(persistent.zip_directory + "/ddlc-mac/DDLC.app").hexdigest() != sha:
             interface.error(_("The DDLC.app file downloaded is not official. Download a official DDLC ZIP file from {a=https://ddlc.moe}DDLC's website{/a} and try again."))
 
