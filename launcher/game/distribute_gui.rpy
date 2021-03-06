@@ -155,6 +155,7 @@ screen build_distributions:
             has vbox
 
             label _("Build Distributions: [project.current.display_name!q]")
+            text _("Don't worry if the (DDMMaker) package is checked along with Ren'Py 7. This is normal.") xalign 0.11 size 15
 
             add HALF_SPACER
 
