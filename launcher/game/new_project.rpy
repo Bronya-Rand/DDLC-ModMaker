@@ -20,7 +20,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 init python:
-    import zipfile, shutil, os, glob, time, re
+    import zipfile, shutil, os, glob, time, re, hashlib
 
     def check_language_support():
         language = _preferences.language
@@ -47,62 +47,65 @@ init python:
             store.language_support = _("Neither interface has been translated to your language.")
 
     def zip_extract():
-        try:
+        if renpy.macintosh:
+            zipName = "/ddlc-mac.zip"
+            sha = 'abc3d2fee9433ad454decd15d6cfd75634283c17aa3a6ac321952c601f7700ec'
+        else:
+            zipName = "/ddlc-win.zip"
+            sha = '2a3dd7969a06729a32ace0a6ece5f2327e29bdf460b8b39e6a8b0875e545632e'
+        if not glob.glob(persistent.zip_directory + zizipNamep):
+            interface.error(_("DDLC ZIP file cannot be found in the ZIP Directory."), _("Check if the ZIP file exists or is pointed to the right directory."))
+        
+        path = open(persistent.zip_directory + zipName, 'rb')
+        if hashlib.sha256(path.read()).hexdigest() != sha:
+            interface.error(_("The DDLC ZIP file downloaded is not official. Download a official DDLC ZIP file from {a=https://ddlc.moe}DDLC's website{/a} and try again."))
+        path.close() # JIC
+        
+        with zipfile.ZipFile(persistent.zip_directory + zipName, "r") as z:
+            z.extractall(persistent.projects_directory + "/temp")
             if renpy.macintosh:
-                zip = "/ddlc-mac.zip"
+                ddlc = persistent.projects_directory + '/temp/DDLC.app/Contents/Resources/autorun/game'
             else:
-                zip = "/ddlc-win.zip"
-            with zipfile.ZipFile(persistent.zip_directory + zip, "r") as z:
-                z.extractall(persistent.projects_directory + "/temp")
-                if renpy.macintosh:
-                    ddlc = persistent.projects_directory + '/temp/DDLC.app/Contents/Resources/autorun/game'
-                else:
-                    ddlc = persistent.projects_directory + '/temp/DDLC-1.1.1-pc/game'
-        except:
-            if renpy.macintosh:
-                interface.error(_("Cannot locate 'ddlc-mac.zip' in [persistent.zip_directory!q]."), _("Make sure you have DDLC downloaded from 'https://ddlc.moe' and check if it exists.")) 
-            else:
-                interface.error(_("Cannot locate 'ddlc-win.zip' in [persistent.zip_directory!q]."), _("Make sure you have DDLC downloaded from 'https://ddlc.moe' and check if it exists."))
-        try:
-            shutil.move(ddlc, project_dir + '/game')
-        except:
-            shutil.rmtree(persistent.projects_directory + '/temp')
-            if renpy.macintosh:
-                interface.error(_("The `ddlc-mac.zip` file extracted is zipped improperly or corrupted."), _("Please re-download the ZIP from 'https://ddlc.moe'"))
-            else:
-                interface.error(_("The `ddlc-win.zip` file extracted is zipped improperly or corrupted."), _("Please re-download the ZIP from 'https://ddlc.moe'"))
-        #os.remove(project_dir + '/game/scripts.rpa')
+                ddlc = persistent.projects_directory + '/temp/DDLC-1.1.1-pc/game'
+        shutil.move(ddlc, project_dir + '/game')
         shutil.rmtree(persistent.projects_directory + '/temp')
     def ddlc_copy():
-        try:
-            shutil.copytree(persistent.zip_directory + "/ddlc-mac/DDLC.app/Contents/Resources/autorun/game", persistent.pd + '/game')
-        except:
-            interface.error(_("Cannot find DDLC.app."), _("Please make sure your OS and ZIP Directory are set correctly."))
-        #os.remove(persistent.pd + '/game/scripts.rpa')
+        if not glob.glob(persistent.zip_directory + "/ddlc-mac/DDLC.app"):
+            interface.error(_("Cannot find DDLC.app."), _("Please make sure that your OS and ZIP Directory settings are set correctly."))
+        
+        sha = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+        path = open(persistent.zip_directory + "/ddlc-mac/DDLC.app", 'rb')
+        if hashlib.sha256(path.read()).hexdigest() != sha:
+            interface.error(_("The DDLC.app file downloaded is not official. Download a official DDLC ZIP file from {a=https://ddlc.moe}DDLC's website{/a} and try again."))
+        path.close()
+        
+        shutil.copytree(persistent.zip_directory + "/ddlc-mac/DDLC.app/Contents/Resources/autorun/game", persistent.pd + '/game')
     def template_extract():
+        # No SHA Check so anyone can dump a updated template here.
         try:
             with zipfile.ZipFile(config.basedir + "/templates/DDLCModTemplate-2.4.4.zip", "r") as z:
                 z.extractall(persistent.pd)
         except:
             shutil.rmtree(persistent.pd)
             interface.error(_("Template ZIP file missing, or corrupt."), _("Check if the ZIP exists or re-download the tool."))
+    
     def mpt_extract():
-        if glob.glob(persistent.zip_directory + '/DDLC_MPT-[0-9].*-unpacked.*'):
-            mptzip = glob.glob(persistent.zip_directory + '/DDLC_MPT-[0-9].*-unpacked.*')
+        if glob.glob(persistent.zip_directory + '/DDLC_MPT-*-unpacked.*'):
+            mptzip = glob.glob(persistent.zip_directory + '/DDLC_MPT-*')
             mptver = 1
-        elif glob.glob(persistent.zip_directory + '/DDLC_MPT-[0-9].*_unpacked.*'):
+        elif glob.glob(persistent.zip_directory + '/DDLC_MPT-*_unpacked.*'):
             mptzip = glob.glob(persistent.zip_directory + '/DDLC_MPT-[0-9].*_unpacked.*')
             mptver = 2
         else:
-            mptzip = glob.glob(persistent.zip_directory + '/MPT v[0-9].*')
+            mptzip = glob.glob(persistent.zip_directory + '/MPT v*')
             mptver = 3
 
         with zipfile.ZipFile(mptzip[0], "r") as z:
             z.extractall(persistent.projects_directory + "/temp")
             if glob.glob(persistent.projects_directory + '/temp/DDLC_Mood_Posing_Tool/game/mod_assets/MPT'):
                 ddlc = persistent.projects_directory + '/temp/DDLC_Mood_Posing_Tool/game/mod_assets/MPT'
-            elif glob.glob(persistent.projects_directory + '/temp/DDLC_MPT_v[0-9].*/game/mod_assets/MPT'):
-                ddlc = glob.glob(persistent.projects_directory + '/temp/DDLC_MPT_v[0-9].*/game/mod_assets/MPT')
+            elif glob.glob(persistent.projects_directory + '/temp/DDLC_MPT_v*/game/mod_assets/MPT'):
+                ddlc = glob.glob(persistent.projects_directory + '/temp/DDLC_MPT_v*/game/mod_assets/MPT')
             else:
                 ddlc = glob.glob(persistent.projects_directory + '/temp/game/mod_assets/MPT')
 
@@ -117,7 +120,7 @@ init python:
             else:
                 shutil.move(ddlc+'/'+f, persistent.pd + '/game/mod_assets/MPT')
         if mptver == 2:
-            ddlc = glob.glob(persistent.projects_directory + '/temp/DDLC_MPT_v[0-9].*/game/mod_assets/NOT DEFINED WARNING.png')
+            ddlc = glob.glob(persistent.projects_directory + '/temp/DDLC_MPT_v*/game/mod_assets/NOT DEFINED WARNING.png')
             shutil.move(ddlc[0], persistent.pd + '/game/mod_assets')
         else:
             if mptver == 3:
@@ -129,22 +132,22 @@ init python:
         if glob.glob(persistent.zip_directory + '/DDLC_Mood_Posing_Tool/game/mod_assets/MPT'):
             ddlc = persistent.zip_directory + '/DDLC_Mood_Posing_Tool'
             mptver = 1
-        elif glob.glob(persistent.zip_directory + '/DDLC_MPT_v[0-9].*'):
-            ddlc = glob.glob(persistent.zip_directory + '/DDLC_MPT_v[0-9].*')
+        elif glob.glob(persistent.zip_directory + '/DDLC_MPT_v*'):
+            ddlc = glob.glob(persistent.zip_directory + '/DDLC_MPT_v*')
             mptver = 2
         else:
-            ddlc = glob.glob(persistent.zip_directory + '/MPT v[0-9].*')
+            ddlc = glob.glob(persistent.zip_directory + '/MPT v*')
             mptver = 3
         
         if mptver == 3:
             files = os.listdir(ddlc[0])
-            shutil.copytree(ddlc[0], persistent.projects_directory + '/temp/MPT v1.1')
-            ddlc = glob.glob(persistent.projects_directory + '/temp/MPT v1.1/game/mod_assets/MPT')
+            shutil.copytree(ddlc[0], persistent.projects_directory + '/temp/MPT v*')
+            ddlc = glob.glob(persistent.projects_directory + '/temp/MPT v*/game/mod_assets/MPT')
             files = os.listdir(ddlc[0])
         if mptver == 2:
             files = os.listdir(ddlc[0])
-            shutil.copytree(ddlc[0], persistent.projects_directory + '/temp/DDLC_MPT_v1.01')
-            ddlc = glob.glob(persistent.projects_directory + '/temp/DDLC_MPT_v[0-9].*/game/mod_assets/MPT')
+            shutil.copytree(ddlc[0], persistent.projects_directory + '/temp/DDLC_MPT_v*')
+            ddlc = glob.glob(persistent.projects_directory + '/temp/DDLC_MPT_v*/game/mod_assets/MPT')
             files = os.listdir(ddlc[0])
         else:
             files = os.listdir(ddlc)
@@ -158,14 +161,26 @@ init python:
             else:
                 shutil.move(ddlc+'/'+f, persistent.pd + '/game/mod_assets/MPT')
         if mptver == 2:
-            ddlc = glob.glob(persistent.projects_directory + '/temp/DDLC_MPT_v[0-9].*/game/mod_assets/NOT DEFINED WARNING.png')
+            ddlc = glob.glob(persistent.projects_directory + '/temp/DDLC_MPT_v*/game/mod_assets/NOT DEFINED WARNING.png')
             shutil.move(ddlc[0], persistent.pd + '/game/mod_assets')
         else:
             if mptver == 3:
                 pass
             else:
                 shutil.move(persistent.projects_directory + '/temp/DDLC_Mood_Posing_Tool/game/mod_assets/NOT DEFINED WARNING.png', persistent.pd + '/game/mod_assets')
-                
+
+label new_project_choice:
+
+    python:
+
+        project_choice = interface.choice(
+            _("What kind of mod project do you want to make?"),
+            [ ( 'new_project', _("Standard Mod Project") ), ( 'mpt', _("Standard Mod Project with MPT")) ],
+            "safari_download",
+            cancel=Jump("front_page"),
+            )
+
+        renpy.jump(project_choice)
 
 label new_project:
     if persistent.projects_directory is None:
