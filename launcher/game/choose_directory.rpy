@@ -184,7 +184,10 @@ init python:
 
         if EasyDialogs:
 
-            choice = EasyDialogs.AskFileForOpen(defaultLocation=default_path, wanted=unicode)
+            if renpy.macintosh:
+                choice = EasyDialogs.AskFileForOpen(typeList=[('DDLC ZIP File (ddlc-mac.zip)', 'ddlc-mac.zip')], defaultLocation=default_path, windowTitle="Select DDLC ZIP File", wanted=unicode)
+            else:
+                choice = EasyDialogs.AskFileForOpen(typeList=[('DDLC ZIP File (ddlc-win.zip)', 'ddlc-win.zip')], defaultLocation=default_path, windowTitle="Select DDLC ZIP File", wanted=unicode)
 
             if choice is not None:
                 path = choice
