@@ -184,7 +184,7 @@ init python:
 
         if EasyDialogs:
 
-            choice = EasyDialogs.AskFolder(defaultLocation=default_path, wanted=unicode)
+            choice = EasyDialogs.AskFileForOpen(defaultLocation=default_path, wanted=unicode)
 
             if choice is not None:
                 path = choice
