@@ -161,10 +161,10 @@ init python:
                 choice = ""
                 path = None
 
-                interface.error(_("Ren'Py was unable to run python with tkinter to choose the directory. Please install the python-tk or tkinter package."), label=None)
+                interface.error(_("Ren'Py was unable to run python with tkinter to choose the file. Please install python and either the python-tk or tkinter package."), label=None)
 
             if code:
-                interface.error(_("Ren'Py was unable to run python with tkinter to choose the directory. Please install the python-tk or tkinter package."), label=None)
+                interface.error(_("Ren'Py was unable to run python with tkinter to choose the file. Please install python and either the python-tk or tkinter package."), label=None)
 
             elif choice:
                 path = choice.decode("utf-8")
