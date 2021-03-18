@@ -18,7 +18,7 @@ and more to come!
 
 **DISCLAIMER**
 
-Doki Doki Mod Maker, is a Ren'Py 7.4.2/6.99.12.4 SDK Modification which is not affiliated or supported by RenpyTom. It is not supported by the official Ren'Py Build, or any Ren'Py channels. RenpyTom does not support game modding in general and will not provide support for this Ren'Py Modification.
+Doki Doki Mod Maker, is a Ren'Py 7.4.3/6.99.12.4 SDK Modification which is not affiliated or supported by RenpyTom. It is not supported by the official Ren'Py Build, or any Ren'Py channels. RenpyTom does not support game modding in general and will not provide support for this Ren'Py Modification.
     
 Doki Doki Mod Maker is a unofficial Doki Doki Literature Club Mod Maker which is unaffiliated by Team Salvato. Dan Salvato or anyone in Team Salvato does not endorse Doki Doki Mod Maker.
 
