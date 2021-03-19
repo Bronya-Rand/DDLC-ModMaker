@@ -24,7 +24,7 @@ Doki Doki Mod Maker is a unofficial Doki Doki Literature Club Mod Maker which is
 
 Although Doki Doki Mod Maker can be used to run any other Ren'Py games/mods other than DDLC, **do not attempt to modify Doki Doki Mod Maker in a way for modding other games without developer permission** as it can violate Intellectual Property Guidelines (IPG). Please note that the creator of this tool will not provide support for modifications outside of Doki Doki Literature Club.
 
-For the purposes of LGPL compliance, all source code that Doki Doki Mod Maker and the Ren'Py SDK depends
+For the purposes of LGPL compliance, all source code that Doki Doki Mod Maker and Ren'Py SDK depends
 on is located in one of the following repositories:
 
 * https://github.com/renpy/renpy (Ren'Py)
