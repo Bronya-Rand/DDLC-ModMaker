@@ -168,6 +168,7 @@ label ddcc:
                 continue
             if project_name == "launcher":
                 interface.error(_("'launcher' is a reserved project name. Please choose an different project name."), label=None)
+                continue
 
             persistent.project_dir = os.path.join(persistent.projects_directory, project_name)
             
