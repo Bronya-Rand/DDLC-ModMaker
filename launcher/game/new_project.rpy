@@ -114,15 +114,19 @@ label new_project:
 
             if not project_name:
                 interface.error(_("The project name may not be empty."), label=None)
+                continue
             if project_name == "launcher":
-                interface.error(_("'launcher' is a reserved project name. Please chose an different project name."))
+                interface.error(_("'launcher' is a reserved project name. Please chose an different project name."), label=None)
+                continue
 
             persistent.project_dir = os.path.join(persistent.projects_directory, project_name)
 
             if project.manager.get(project_name) is not None:
                 interface.error(_("[project_name!q] already exists. Please choose a different project name."), project_name=project_name, label=None)
+                continue
             if os.path.exists(persistent.project_dir):
                 interface.error(_("[persistent.project_dir!q] already exists. Please choose a different project name."), project_dir=project_dir, label=None)
+                continue
             
             if persistent.safari == True and renpy.macintosh:
                 interface.interaction(_("Making a DDLC Folder"), _("Copying DDLC. Please wait..."),)
@@ -161,15 +165,18 @@ label ddcc:
 
             if not project_name:
                 interface.error(_("The project name may not be empty."), label=None)
+                continue
             if project_name == "launcher":
-                interface.error(_("'launcher' is a reserved project name. Please choose an different project name."))
+                interface.error(_("'launcher' is a reserved project name. Please choose an different project name."), label=None)
 
             persistent.project_dir = os.path.join(persistent.projects_directory, project_name)
             
             if project.manager.get(project_name) is not None:
                 interface.error(_("[project_name!q] already exists. Please choose a different project name."), project_name=project_name, label=None)
+                continue
             if os.path.exists(persistent.project_dir):
                 interface.error(_("[persistent.project_dir!q] already exists. Please choose a different project name."), project_dir=project_dir, label=None)
+                continue
             
             if persistent.safari == True and renpy.macintosh:
                 interface.interaction(_("Making a DDLC Folder"), _("Copying DDLC. Please wait..."),)
