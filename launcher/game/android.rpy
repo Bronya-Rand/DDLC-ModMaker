@@ -111,7 +111,6 @@ init python:
             return ANDROID_NO_CONFIG
         return ANDROID_OK
 
-
     def AndroidStateText(state):
         """
         Returns text corresponding to the state.
@@ -140,7 +139,6 @@ init python:
             return action
         else:
             return None
-
 
     class AndroidBuild(Action):
         """
@@ -190,7 +188,6 @@ init python:
 
             with open(filename, "wb") as f:
                 json.dump(android_json, f)
-
 
     def android_build(command, p=None, gui=True, launch=False, destination=None, opendir=False):
         """
@@ -277,8 +274,6 @@ init python:
     def android_build_argument(cmd):
         return cmd + project.current.data["android_build"]
 
-
-
 # The android support can stick unicode into os.environ. Fix that.
 init 100 python:
     for k, v in list(os.environ.items()):
@@ -300,7 +295,6 @@ screen android_process(interface):
 
     timer .1 action interface.check_process repeat True
     timer .2 action ft.update repeat True
-
 
 screen android:
 
@@ -356,7 +350,6 @@ screen android:
                             textbutton _("Television"):
                                 action LaunchEmulator("tv", "small tv android mobile")
                                 hovered tt.Action(OUYA_TEXT)
-
 
                     add SPACER
                     add SEPARATOR2
@@ -444,19 +437,6 @@ screen android:
                         style "l_indent"
                         has vbox
 
-                        add SPACER
-
-                        if tt.value:
-                            text tt.value
-                        else:
-                            text AndroidStateText(state)
-                    
-                    add SEPARATOR2
-
-                    frame:
-                        style "l_indent"
-                        has vbox
-
                         text _("RAPT Settings")
 
                         add SPACER
@@ -464,11 +444,23 @@ screen android:
                         text _("Current Java Heap Size: [persistent.heapsize]G")
                         add SPACER
                         textbutton _("Change Java Heap Size"):
-                            action Jump("android_heapsize")
+                            action AndroidIfState(state, ANDROID_NO_CONFIG, Jump("android_heapsize"))
                             hovered tt.Action(HEAP_TEXT)
+                  
+                    add SEPARATOR2
+
+                    frame:
+                        style "l_indent"
+                        has vbox
+
+                        add SPACER
+
+                        if tt.value:
+                            text tt.value
+                        else:
+                            text AndroidStateText(state)
 
     textbutton _("Return") action Jump("front_page") style "l_left_button"
-
 
 label android:
 
@@ -478,7 +470,6 @@ label android:
 
     call screen android
 
-
 label android_installsdk:
 
     python:
@@ -486,7 +477,6 @@ label android_installsdk:
             rapt.install_sdk.install_sdk(MobileInterface("android"))
 
     jump android
-
 
 label android_configure:
 
@@ -520,7 +510,11 @@ label android_heapsize:
             num_heap_size = int(heap_size)
             
             if num_heap_size <= 2:
-                interface.error(_("Java Heap Size cannot be less than 3.\n Please try again."), label=None)
+                interface.error(_("The Java Heap Size cannot be less than 3GB. Please try again."), label=None)
+                continue
+            
+            if num_heap_size > 8:
+                interface.error(_("For safety, the Java Heap Size cannot be greater than 8GB. Please try again."), label=None)
                 continue
 
             with open(config.basedir + "/gradle.properties", "w+") as javaheap:
@@ -528,21 +522,18 @@ label android_heapsize:
             os.remove(config.basedir + "/rapt/project/gradle.properties")
             shutil.move(config.basedir + "/gradle.properties", config.basedir + "/rapt/project/gradle.properties")
 
-            interface.info(_("Set the Java Heap Size To " + heap_size + " GB."),)    
+            interface.info(_("Set the Java Heap Size To " + heap_size + "GB."),)    
             
             persistent.heapsize = heap_size
             break
     
     jump android
 
-
-
 label android_build:
 
     $ android_build([ android_build_argument("assemble") ], opendir=True)
 
     jump android
-
 
 label android_build_and_install:
 
@@ -585,4 +576,3 @@ init python:
         return False
 
     renpy.arguments.register_command("android_build", android_build_command)
-
