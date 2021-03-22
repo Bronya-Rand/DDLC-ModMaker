@@ -19,9 +19,6 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-init -1:
-    default persistent.heapsize = "3"
-
 init python:
     ANDROID_NO_RAPT = 0
     ANDROID_NO_JDK = 1
@@ -428,22 +425,6 @@ screen android:
                         style "l_indent"
                         has vbox
 
-                        text _("RAPT Settings")
-
-                        add SPACER
-
-                        text _("Current Java Heap Size: [persistent.heapsize]G")
-                        add SPACER
-                        textbutton _("Change Java Heap Size"):
-                            action AndroidIfState(state, ANDROID_NO_CONFIG, Jump("android_heapsize"))
-                            hovered tt.Action(HEAP_TEXT)
-                  
-                    add SEPARATOR2
-
-                    frame:
-                        style "l_indent"
-                        has vbox
-
                         add SPACER
 
                         if tt.value:
@@ -451,9 +432,7 @@ screen android:
                         else:
                             text AndroidStateText(state)
 
-
     textbutton _("Return") action Jump("front_page") style "l_left_button"
-
 
 label android:
 
@@ -484,44 +463,6 @@ label android_configure:
             default_name=project.current.dump.get("name", None),
             default_version=project.current.dump.get("version", None))
 
-    jump android
-
-label android_heapsize:
-    python:
-        heap_size = persistent.heapsize
-        while True:
-            heap_size = interface.input(
-                _("Java Heap Size"),
-                _("Enter the amount of RAM you wish to allocate to Java.\nThe number inputted will be read as \"gigabytes\"."),
-                allow=interface.DIGITS_LETTERS,
-                cancel=Jump("android"),
-                default=heap_size,
-                )
-
-            if not heap_size:
-                interface.error(_("The heap size value cannot be blank."), label=None)
-                continue
-
-            num_heap_size = int(heap_size)
-            
-            if num_heap_size <= 2:
-                interface.error(_("The Java Heap Size cannot be less than 3GB. Please try again."), label=None)
-                continue
-            
-            if num_heap_size > 8:
-                interface.error(_("For safety, the Java Heap Size cannot be greater than 8GB. Please try again."), label=None)
-                continue
-
-            with open(config.basedir + "/gradle.properties", "w+") as javaheap:
-                javaheap.writelines(["# The setting is particularly useful for tweaking memory settings.\n", "org.gradle.jvmargs=-Xmx" + heap_size + "g\n", "# Disable the gradle daemon, so it doesn't waste ram.\n", "org.gradle.daemon = false"])
-            os.remove(config.basedir + "/rapt/project/gradle.properties")
-            shutil.move(config.basedir + "/gradle.properties", config.basedir + "/rapt/project/gradle.properties")
-
-            interface.info(_("Set the Java Heap Size To " + heap_size + "GB."),)    
-            
-            persistent.heapsize = heap_size
-            break
-    
     jump android
 
 label android_build:
