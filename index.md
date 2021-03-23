@@ -16,10 +16,10 @@ Doki Doki Mod Maker is a mod maker for the visual novel "Doki Doki Literature Cl
 
 ## Screenshots
 
-![DDMMaker Screenshot 1](../assets/ddmmaker/screenshot0003E.png)
-![DDMMaker Screenshot 2](../assets/ddmmaker/screenshot0002E.png)
-![DDMMaker Screenshot 3](../assets/ddmmaker/screenshot0004E.png)
-![DDMMaker Screenshot 4](../assets/ddmmaker/screenshot0001E.png)
+![DDMMaker Screenshot 1](assets/ddmmaker/screenshot0003E.png)
+![DDMMaker Screenshot 2](assets/ddmmaker/screenshot0002E.png)
+![DDMMaker Screenshot 3](assets/ddmmaker/screenshot0004E.png)
+![DDMMaker Screenshot 4](assets/ddmmaker/screenshot0001E.png)
 
 ## Changes
 
