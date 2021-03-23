@@ -1,37 +1,37 @@
-## Welcome to GitHub Pages
+## Doki Doki Mod Maker (DDMMaker)
 
-You can use the [editor on GitHub](https://github.com/GanstaKingofSA/DDLC-ModMaker/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+Doki Doki Mod Maker is a mod maker for the visual novel "Doki Doki Literature Club" that allows modders to make their mods easier and simpler with a re-written Ren'Py Source Distribution Kit (SDK).
+> This project is unafilliated with either Team Salvato or RenpyTom. See the [disclaimer](../information/disclaimer/disclaimer.md) page for more information.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## Features
+- Support for Ren'Py 7.4.4 Mod Making
+- Automatic DDLC Mod Template Installation
+- Automatic Mood Pose Tool (MPT) Installation
+  > MPT is a tool made by `chronoshag` and is unaffiliated with DDMMaker or it's development. DDMMaker itself does not provide any MPT files and requires that you download it from it's source before using the Auto-MPT Installation feature.
+- Atom Support for Ren'Py 6.99.12.4.
+- Dark Mode based off One UI from "True Reality".
+- SHA256 Checking for DDLC ZIP files and folders to verify authenticity.
+- Android Build Support Compliant with Team Salvato's Guidelines
+- Java Heap Size Adjustment
 
-### Markdown
+## Screenshots
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+![DDMMaker Screenshot 1](../assets/ddmmaker/screenshot0003E.png)
+![DDMMaker Screenshot 2](../assets/ddmmaker/screenshot0002E.png)
+![DDMMaker Screenshot 3](../assets/ddmmaker/screenshot0004E.png)
+![DDMMaker Screenshot 4](../assets/ddmmaker/screenshot0001E.png)
 
-```markdown
-Syntax highlighted code block
+## Changes
 
-# Header 1
-## Header 2
-### Header 3
+Version 1.2.6 - The Better "Pot of Gold" **(Current)**
+- Updated SDK to 7.4.4
+- Add Head Size Adjustment to fix `java.lang.OutOfMemory` errors when building mods greater than 500 MB (DDMMaker 7)
+  > Heap Size Adjustment is only needed on DDMMaker 7 due to Gradle. Apache Ant on DDMMaker 6 seems to be running bigger APK sized mods just fine. If you get any error with Apache Ant, please forward it to the [issue](https://github.com/GanstaKingofSA/DDLC-ModMaker/issues) tracker to address it.
+- Updated Atom Link (DDMMaker 6)
+- Minor bug fixes
 
-- Bulleted
-- List
+Version 1.2.5 **(Last Version)**
+- Updated SDK to 7.4.3
+- Fixed a bug that prevent users to select ddlc-win/ddlc-mac.zip files when making a project. (All DDMMaker Versions except depreciated ones).
 
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/GanstaKingofSA/DDLC-ModMaker/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+For other version changes, refer to the [release](https://github.com/GanstaKingofSA/DDLC-ModMaker/releases) section of the DDMMaker Github repository.
