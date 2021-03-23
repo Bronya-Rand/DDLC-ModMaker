@@ -1,8 +1,5 @@
 theme: jekyll-theme-slate
 show_downloads: true
 
-variables:
-  version: "1.2.6"
-
 github:
-  zip-url: https://github.com/GanstaKingofSA/DDLC-ModMaker/releases/download/$[variables.version]/DDMMaker6-$[variables.version]-sdk.zip
+  zip-url: https://github.com/GanstaKingofSA/DDLC-ModMaker/releases/download/1.2.6/DDMMaker6-1.2.6-sdk.zip
