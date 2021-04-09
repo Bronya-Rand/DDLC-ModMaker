@@ -432,9 +432,7 @@ screen android:
                         else:
                             text AndroidStateText(state)
 
-
     textbutton _("Return") action Jump("front_page") style "l_left_button"
-
 
 label android:
 
@@ -466,7 +464,6 @@ label android_configure:
             default_version=project.current.dump.get("version", None))
 
     jump android
-
 
 label android_build:
 
