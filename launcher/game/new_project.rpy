@@ -71,18 +71,12 @@ init python:
         if not glob.glob(persistent.zip_directory + "/ddlc-mac/DDLC.app"):
             interface.error(_("Cannot find DDLC.app."), _("Please make sure that your OS and ZIP Directory settings are set correctly."))
         
-        sha = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
-        path = open(persistent.zip_directory + "/ddlc-mac/DDLC.app", 'rb')
-        if hashlib.sha256(path.read()).hexdigest() != sha:
-            interface.error(_("The DDLC.app file downloaded is not official. Download a official DDLC ZIP file from {a=https://ddlc.moe}DDLC's website{/a} and try again."))
-        path.close()
-        
         shutil.copytree(persistent.zip_directory + "/ddlc-mac/DDLC.app/Contents/Resources/autorun/game", project_dir + '/game')
 
     def template_extract():
         # No SHA Check so anyone can dump a updated template here.
         try:
-            with zipfile.ZipFile(config.basedir + "/templates/DDLCModTemplate-2.4.4.zip", "r") as z:
+            with zipfile.ZipFile(config.basedir + "/templates/DDLCModTemplate-2.4.5.zip", "r") as z:
                 z.extractall(project_dir)
         except:
             shutil.rmtree(project_dir)
@@ -168,17 +162,55 @@ init python:
             else:
                 shutil.move(persistent.projects_directory + '/temp/DDLC_Mood_Posing_Tool/game/mod_assets/NOT DEFINED WARNING.png', project_dir + '/game/mod_assets')
 
+    def mpt_extract_beta(mpt_path):
+        with zipfile.ZipFile(mpt_path, "r") as z:
+            z.extractall(persistent.projects_directory + "/temp")
+            if glob.glob(persistent.projects_directory + '/temp/DDLC_Mood_Posing_Tool/game/mod_assets/MPT'):
+                ddlc = persistent.projects_directory + '/temp/DDLC_Mood_Posing_Tool/game/mod_assets/MPT'
+                mptver = 1
+            elif glob.glob(persistent.projects_directory + '/temp/DDLC_MPT_v*/game/mod_assets/MPT'):
+                ddlc = glob.glob(persistent.projects_directory + '/temp/DDLC_MPT_v*/game/mod_assets/MPT')[0]
+                mptver = 2
+            else:
+                ddlc = persistent.projects_directory + '/temp/game/mod_assets/MPT'
+                mptver = 3
+
+        files = os.listdir(ddlc)
+        os.mkdir(project_dir + '/game/mod_assets/MPT')
+        for f in files:
+            shutil.move(ddlc+'/'+f, project_dir + '/game/mod_assets/MPT')
+        if glob.glob(persistent.projects_directory + '/temp/DDLC_MPT_v*/game/mod_assets/NOT DEFINED WARNING.png'):
+            ddlc = glob.glob(persistent.projects_directory + '/temp/DDLC_MPT_v*/game/mod_assets/NOT DEFINED WARNING.png')[0]
+            shutil.move(ddlc, project_dir + '/game/mod_assets')
+        else:
+            if mptver == 1:
+                shutil.move(persistent.projects_directory + '/temp/DDLC_Mood_Posing_Tool/game/mod_assets/NOT DEFINED WARNING.png', project_dir + '/game/mod_assets')
+            else:
+                pass
+
+    def mpt_copy_beta(mpt_path):
+        files = os.listdir(mpt_path)
+        for f in files:
+            shutil.copytree(mpt_path+'/'+f, project_dir + '/game/mod_assets/MPT')
+        ddlc = persistent.projects_directory + '/temp/MPT/game/mod_assets/MPT'
+        files = os.listdir(ddlc)
+        os.mkdir(project_dir + '/game/mod_assets/MPT')
+        for f in files:
+            shutil.move(ddlc+'/'+f, project_dir + '/game/mod_assets/MPT')
+        if glob.glob(persistent.projects_directory + '/temp/MPT/game/mod_assets/NOT DEFINED WARNING.png'):
+            ddlc = persistent.projects_directory + '/temp/MPT/game/mod_assets/NOT DEFINED WARNING.png'
+            shutil.move(ddlc, project_dir + '/game/mod_assets')
+
 label new_project_choice:
 
     python:
 
         project_choice = interface.choice(
             _("What kind of mod project do you want to make?"),
-            [ ( 'new_project', _("Standard Mod Project") ), ( 'mpt', _("Standard Mod Project with MPT")) ],
-            "safari_download",
+            [ ( 'new_project', _("Standard Mod Project") ), ( 'mpt', _("Mod Project with MPT")), ( 'mpt_beta', _("(BETA) Mod Project with MPT via File Selection") )],
+            "new_project",
             cancel=Jump("front_page"),
             )
-
         renpy.jump(project_choice)
 
 label new_project:
@@ -331,6 +363,107 @@ label mpt:
                 mpt_copy()
             else:
                 mpt_extract()
+            
+            f = open(project_dir + '/renpy-version.txt','w+')
+            f.write("7")
+            interface.info(_('A file named `renpy-version.txt` has been created in the base directory.'), _("Do not delete this file as it is needed to determine which version of Ren'Py it uses for building your mod."))
+            
+            try:
+                shutil.rmtree(persistent.projects_directory + '/temp')
+            except:
+                pass
+            
+            project.manager.scan()
+            break
+
+    return
+
+default mpt_directory = None
+
+label mpt_beta:
+    if persistent.projects_directory is None:
+        call choose_projects_directory
+    if persistent.projects_directory is None:
+        $ interface.error(_("The projects directory could not be set. Giving up."))
+    if renpy.macintosh:
+        if persistent.safari is None:
+            call auto_extract
+        if persistent.safari is None:
+            $ interface.error(_("Couldn't check if OS auto-extracts ZIPs. Please reconfigure your settings."))
+    if persistent.zip_directory is None:
+        call ddlc_zip
+    if persistent.zip_directory is None:
+        $ interface.error(_("The DDLC ZIP directory could not be set. Giving up."))
+
+    python:
+        interface.info(_("This feature is currently in beta and may have errors."), _("Report any errors to the Github Issues page if you encounter any here."),)
+        if renpy.macintosh and persistent.safari:
+            interface.info(_("Installing MPT requires you to download the {i}unpacked{/i} ZIP from it's original source."), _("Download MPT's ZIP file and prepare to select it."),)
+        else:
+            interface.info(_("Installing MPT requires you to download the {i}unpacked{/i} ZIP from it's original source."), _("Download MPT's ZIP file and prepare to select it."),)
+        
+        project_name = ""
+        while True:
+            project_name = interface.input(
+                _("Project Name"),
+                _("Please enter the name of your project:"),
+                allow=interface.PROJECT_LETTERS,
+                cancel=Jump("front_page"),
+                default=project_name,
+            )
+
+            project_name = project_name.strip()
+
+            if not project_name:
+                interface.error(_("The project name may not be empty."), label=None)
+                continue
+            if project_name == "launcher":
+                interface.error(_("'launcher' is a reserved project name. Please choose a different project name."), label=None)
+                continue
+
+            project_dir = os.path.join(persistent.projects_directory, project_name)
+
+            if project.manager.get(project_name) is not None:
+                interface.error(_("[project_name!q] already exists. Please choose a different project name."), project_name=project_name, label=None)
+                continue
+            if os.path.exists(project_dir):
+                interface.error(_("[project_dir!q] already exists. Please choose a different project name."), project_dir=project_dir, label=None)
+                continue
+
+            if renpy.macintosh and persistent.safari:
+                interface.interaction(_("MPT Folder"), _("Please choose the MPT Folder using the directory chooser.\n{b}The directory chooser may have opened behind this window.{/b}"),)
+
+                mpt_path, is_default = choose_directory(mpt_directory)
+
+                if is_default:
+                    interface.error(_("Cancelled the Mod Making Process."),)
+
+                mpt_directory = mpt_path
+            else:
+                interface.interaction(_("MPT ZIP"), _("Please choose the MPT ZIP File using the directory chooser.\n{b}The directory chooser may have opened behind this window.{/b}"),)
+
+                mpt_path, is_default = choose_file(mpt_directory)
+
+                if is_default:
+                    interface.error(_("Cancelled the Mod Making Process."),)
+
+                mpt_directory = mpt_path
+
+            if persistent.safari == True and renpy.macintosh:
+                interface.interaction(_("Making a DDLC Folder"), _("Copying DDLC. Please wait..."))
+                ddlc_copy()
+            else:
+                interface.interaction(_("Making a DDLC Folder"), _("Extracting DDLC. Please wait..."))
+                zip_extract()
+
+            interface.interaction(_("Installing Mod Template"), _("Please wait..."))
+            template_extract()
+            
+            interface.interaction(_("Installing MPT"), _("Please wait..."))
+            if renpy.macintosh and persistent.safari == True:
+                mpt_copy_beta(mpt_path)
+            else:
+                mpt_extract_beta(mpt_path)
             
             f = open(project_dir + '/renpy-version.txt','w+')
             f.write("7")
