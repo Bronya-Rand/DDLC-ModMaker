@@ -445,6 +445,11 @@ label mpt_beta:
                     interface.error(_("Cancelled the Mod Making Process."),)
 
                 mpt_directory = mpt_path
+
+                if not "DDLC_Mood_Posing_Tool" in mpt_path and not "DDLC_MPT_v" in mpt_path and not "MPT v" in mpt_path:
+                    interface.error(_("The ZIP file you chosen is not a MPT ZIP File. Please choose a valid MPT ZIP File."),)
+                    continue
+
             else:
                 interface.interaction(_("MPT ZIP"), _("Please choose the MPT ZIP File using the directory chooser.\n{b}The directory chooser may have opened behind this window.{/b}"),)
 
@@ -454,6 +459,10 @@ label mpt_beta:
                     interface.error(_("Cancelled the Mod Making Process."),)
 
                 mpt_directory = mpt_path
+
+                if not "DDLC_MPT-" in mpt_path and not "MPT v" in mpt_path:
+                    interface.error(_("The ZIP file you chosen is not a MPT ZIP File. Please choose a valid MPT ZIP File."),)
+                    continue
 
             if persistent.safari == True and renpy.macintosh:
                 interface.interaction(_("Making a DDLC Folder"), _("Copying DDLC. Please wait..."))
