@@ -846,6 +846,7 @@ label regular_download:
 
 label delete_folder:
     python:
+        import shutil
         delete_response = interface.input(
             _("Deleting a Project"),
             _("Are you sure you want to delete '[project.current.name!q]'? Type either Yes or No."),
@@ -862,14 +863,16 @@ label delete_folder:
         if response == "No" or response == "no":
             interface.error(_("The operation has been cancelled."))
         elif response == "Yes" or response == "yes":
-            deleted_name = project.current.name
-            import shutil
-            shutil.rmtree(persistent.projects_directory + '/' + project.current.name)
+            try:
+                shutil.rmtree(persistent.projects_directory + '/' + project.current.name)
+            except:
+                interface.info("[project.current.name] was deleted improperly as some files have been in use.\nClose any apps using the mod files and delete the folder manually.")
+                renpy.jump("front_page")
         else:
             interface.error(_("Invalid Input."))
 
+        interface.info("[project.current.name] has been deleted from the mod folder.")
         project.manager.scan()
-        interface.info(deleted_name + " has been deleted.")
 
     jump front_page
 
@@ -882,7 +885,7 @@ init python:
         args = ap.parse_args()
 
         persistent.projects_directory = renpy.fsdecode(args.projects)
-        project.multipersistent.projects_directory = path
+        project.multipersistent.projects_directory = persistent.projects_directory
         project.multipersistent.save()
         renpy.save_persistent()
 
@@ -893,6 +896,9 @@ init python:
     def get_projects_directory_command():
         ap = renpy.arguments.ArgumentParser()
         args = ap.parse_args()
+
+        if persistent.projects_directory is not None:
+            print(persistent.projects_directory)
 
         return False
 

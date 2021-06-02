@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2021 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -19,9 +19,6 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-init -1:
-    default persistent.heapsize = "3"
-
 init python:
     ANDROID_NO_RAPT = 0
     ANDROID_NO_JDK = 1
@@ -30,37 +27,35 @@ init python:
     ANDROID_NO_CONFIG = 4
     ANDROID_OK = 5
 
-    NO_RAPT_TEXT = _("To build your mod for Android, download RAPT, unzip it, place it into the DDMMaker directory and restart DDMMaker.")
-    NO_JDK_TEXT = _("A 64-bit Java 8 Development Kit is required to build your mod for Android on Windows.\n\nPlease {a=https://adoptopenjdk.net/?variant=openjdk8&jvmVariant=hotspot}download and install the JDK{/a}, then restart DDMMaker.")
-    NO_SDK_TEXT = _("RAPT has been installed, but you'll need to install the Android SDK before you can build your mod for Android. Choose Install SDK to do this.")
+    NO_RAPT_TEXT = _("To build Android packages, please download RAPT, unzip it, and place it into the Ren'Py directory. Then restart the Ren'Py launcher.")
+    NO_JDK_TEXT = _("A 64-bit/x64 Java 8 Development Kit is required to build Android packages on Windows. The JDK is different from the JRE, so it's possible you have Java without having the JDK.\n\nPlease {a=https://adoptopenjdk.net/?variant=openjdk8&jvmVariant=hotspot}download and install the JDK{/a}, then restart the Ren'Py launcher.")
+    NO_SDK_TEXT = _("RAPT has been installed, but you'll need to install the Android SDK before you can build Android packages. Choose Install SDK to do this.")
     NO_KEY_TEXT = _("RAPT has been installed, but a key hasn't been configured. Please create a new key, or restore android.keystore.")
     NO_CONFIG_TEXT = _("The current project has not been configured. Use \"Configure\" to configure it before building.")
-    OK_TEXT = _("Choose \"Build Mod\" to build your mod for Android, or attach an Android device and choose \"Build Mod & Install\" to build and install it on the device.")
+    OK_TEXT = _("Choose \"Build\" to build the current project, or attach an Android device and choose \"Build & Install\" to build and install it on the device.")
 
     PHONE_TEXT = _("Attempts to emulate an Android phone.\n\nTouch input is emulated through the mouse, but only when the button is held down. Escape is mapped to the menu button, and PageUp is mapped to the back button.")
     TABLET_TEXT = _("Attempts to emulate an Android tablet.\n\nTouch input is emulated through the mouse, but only when the button is held down. Escape is mapped to the menu button, and PageUp is mapped to the back button.")
-    OUYA_TEXT = _("Attempts to emulate a televison-based Android console, like the Fire TV.\n\nController input is mapped to the arrow keys, Enter is mapped to the select button, Escape is mapped to the menu button, and PageUp is mapped to the back button.")
+    OUYA_TEXT = _("Attempts to emulate a televison-based Android console, like the OUYA or Fire TV.\n\nController input is mapped to the arrow keys, Enter is mapped to the select button, Escape is mapped to the menu button, and PageUp is mapped to the back button.")
 
     INSTALL_SDK_TEXT = _("Downloads and installs the Android SDK and supporting packages. Optionally, generates the keys required to sign the package.")
     CONFIGURE_TEXT = _("Configures the package name, version, and other information about this project.")
     PLAY_KEYS_TEXT = _("Opens the file containing the Google Play keys in the editor.\n\nThis is only needed if the application is using an expansion APK. Read the documentation for more details.")
-    BUILD_TEXT = _("Builds your mod for Android.")
-    BUILD_AND_INSTALL_TEXT = _("Builds your mod for Android, and installs it on an Android device connected to your computer.")
-    BUILD_INSTALL_AND_LAUNCH_TEXT = _("Builds your mod for Android, installs it on an Android device connected to your computer, then launches the app on your device.")
+    BUILD_TEXT = _("Builds the Android package.")
+    BUILD_AND_INSTALL_TEXT = _("Builds the Android package, and installs it on an Android device connected to your computer.")
+    BUILD_INSTALL_AND_LAUNCH_TEXT = _("Builds the Android package, installs it on an Android device connected to your computer, then launches the app on your device.")
 
     LOGCAT_TEXT = _("Retrieves the log from the Android device and writes it to a file.")
 
     DEBUG_TEXT = _("Selects the Debug build, which can be accessed through Android Studio. Changing between debug and release builds requires an uninstall from your device.")
     RELEASE_TEXT = _("Selects the Release build, which can be uploaded to stores. Changing between debug and release builds requires an uninstall from your device.")
-    GUIDE_TEXT = _("Opens guide.pdf which goes through the process of releasing mods to Android that are Team Salvato IPG compliant.")
-    HEAP_TEXT = _("Changes the Java heap size used by Gradle. Use this only if you get a {i}OutOfMemory{/i} error by Ren'Py.")
+
 
     import subprocess
     import re
     import os
     import json
     import glob
-    import shutil
 
     def find_rapt():
 
@@ -111,6 +106,7 @@ init python:
             return ANDROID_NO_CONFIG
         return ANDROID_OK
 
+
     def AndroidStateText(state):
         """
         Returns text corresponding to the state.
@@ -139,6 +135,7 @@ init python:
             return action
         else:
             return None
+
 
     class AndroidBuild(Action):
         """
@@ -188,6 +185,7 @@ init python:
 
             with open(filename, "wb") as f:
                 json.dump(android_json, f)
+
 
     def android_build(command, p=None, gui=True, launch=False, destination=None, opendir=False):
         """
@@ -274,6 +272,8 @@ init python:
     def android_build_argument(cmd):
         return cmd + project.current.data["android_build"]
 
+
+
 # The android support can stick unicode into os.environ. Fix that.
 init 100 python:
     for k, v in list(os.environ.items()):
@@ -296,6 +296,7 @@ screen android_process(interface):
     timer .1 action interface.check_process repeat True
     timer .2 action ft.update repeat True
 
+
 screen android:
 
     default tt = Tooltip(None)
@@ -310,7 +311,6 @@ screen android:
             has vbox
 
             label _("Android: [project.current.display_name!q]")
-            text _("Before continuing, refer to {b}Building Your Mod{/b} in {i}guide.pdf{/i} for building mods for Android.") xalign 0.11 size 15
 
             add HALF_SPACER
 
@@ -351,6 +351,7 @@ screen android:
                                 action LaunchEmulator("tv", "small tv android mobile")
                                 hovered tt.Action(OUYA_TEXT)
 
+
                     add SPACER
                     add SEPARATOR2
 
@@ -388,15 +389,15 @@ screen android:
                                 action AndroidIfState(state, ANDROID_NO_CONFIG, Jump("android_configure"))
                                 hovered tt.Action(CONFIGURE_TEXT)
 
-                            textbutton _("Build Mod"):
+                            textbutton _("Build Package"):
                                 action AndroidIfState(state, ANDROID_OK, AndroidBuild("android_build"))
                                 hovered tt.Action(BUILD_TEXT)
 
-                            textbutton _("Build Mod & Install"):
+                            textbutton _("Build & Install"):
                                 action AndroidIfState(state, ANDROID_OK, AndroidBuild("android_build_and_install"))
                                 hovered tt.Action(BUILD_AND_INSTALL_TEXT)
 
-                            textbutton _("Build Mod, Install & Launch"):
+                            textbutton _("Build, Install & Launch"):
                                 action AndroidIfState(state, ANDROID_OK, AndroidBuild("android_build_install_and_launch"))
                                 hovered tt.Action(BUILD_INSTALL_AND_LAUNCH_TEXT)
 
@@ -418,10 +419,11 @@ screen android:
                             textbutton _("Logcat"):
                                 action AndroidIfState(state, ANDROID_NO_KEY, Jump("logcat"))
                                 hovered tt.Action(LOGCAT_TEXT)
-                            
+
                             textbutton _("Open {i}guide.pdf{/i}"): 
                                 action OpenDirectory(config.basedir + "/templates/guide.pdf")
                                 hovered tt.Action(GUIDE_TEXT)
+
 
                 # Right side.
                 frame:
@@ -437,22 +439,6 @@ screen android:
                         style "l_indent"
                         has vbox
 
-                        text _("RAPT Settings")
-
-                        add SPACER
-
-                        text _("Current Java Heap Size: [persistent.heapsize]G")
-                        add SPACER
-                        textbutton _("Change Java Heap Size"):
-                            action AndroidIfState(state, ANDROID_NO_CONFIG, Jump("android_heapsize"))
-                            hovered tt.Action(HEAP_TEXT)
-                  
-                    add SEPARATOR2
-
-                    frame:
-                        style "l_indent"
-                        has vbox
-
                         add SPACER
 
                         if tt.value:
@@ -460,7 +446,9 @@ screen android:
                         else:
                             text AndroidStateText(state)
 
+
     textbutton _("Return") action Jump("front_page") style "l_left_button"
+
 
 label android:
 
@@ -470,6 +458,7 @@ label android:
 
     call screen android
 
+
 label android_installsdk:
 
     python:
@@ -477,6 +466,7 @@ label android_installsdk:
             rapt.install_sdk.install_sdk(MobileInterface("android"))
 
     jump android
+
 
 label android_configure:
 
@@ -491,49 +481,13 @@ label android_configure:
 
     jump android
 
-label android_heapsize:
-    python:
-        heap_size = persistent.heapsize
-        while True:
-            heap_size = interface.input(
-                _("Java Heap Size"),
-                _("Enter the amount of RAM you wish to allocate to Java.\nThe number inputted will be read as \"gigabytes\"."),
-                allow=interface.DIGITS_LETTERS,
-                cancel=Jump("android"),
-                default=heap_size,
-                )
-
-            if not heap_size:
-                interface.error(_("The heap size value cannot be blank."), label=None)
-                continue
-
-            num_heap_size = int(heap_size)
-            
-            if num_heap_size <= 2:
-                interface.error(_("The Java Heap Size cannot be less than 3GB. Please try again."), label=None)
-                continue
-            
-            if num_heap_size > 8:
-                interface.error(_("For safety, the Java Heap Size cannot be greater than 8GB. Please try again."), label=None)
-                continue
-
-            with open(config.basedir + "/gradle.properties", "w+") as javaheap:
-                javaheap.writelines(["# The setting is particularly useful for tweaking memory settings.\n", "org.gradle.jvmargs=-Xmx" + heap_size + "g\n", "# Disable the gradle daemon, so it doesn't waste ram.\n", "org.gradle.daemon = false"])
-            os.remove(config.basedir + "/rapt/project/gradle.properties")
-            shutil.move(config.basedir + "/gradle.properties", config.basedir + "/rapt/project/gradle.properties")
-
-            interface.info(_("Set the Java Heap Size To " + heap_size + "GB."),)    
-            
-            persistent.heapsize = heap_size
-            break
-    
-    jump android
 
 label android_build:
 
     $ android_build([ android_build_argument("assemble") ], opendir=True)
 
     jump android
+
 
 label android_build_and_install:
 
@@ -576,3 +530,4 @@ init python:
         return False
 
     renpy.arguments.register_command("android_build", android_build_command)
+
