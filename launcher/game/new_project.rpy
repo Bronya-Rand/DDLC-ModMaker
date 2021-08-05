@@ -71,18 +71,11 @@ init python:
         if not glob.glob(persistent.zip_directory + "/ddlc-mac/DDLC.app"):
             interface.error(_("Cannot find DDLC.app."), _("Please make sure that your OS and ZIP Directory settings are set correctly."))
         
-        #sha = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
-        #path = persistent.zip_directory + "/ddlc-mac/DDLC.app"
-        #if hashlib.sha256(path.read()).hexdigest() != sha:
-            #interface.error(_("The DDLC.app file downloaded is not official. Download a official DDLC ZIP file from {a=https://ddlc.moe}DDLC's website{/a} and try again."))
-        #path.close()
-        
         shutil.copytree(persistent.zip_directory + "/ddlc-mac/DDLC.app/Contents/Resources/autorun/game", project_dir + '/game')
 
     def template_extract():
-        # No SHA Check so anyone can dump a updated template here.
         try:
-            with zipfile.ZipFile(config.basedir + "/templates/DDLCModTemplate-2.4.5.zip", "r") as z:
+            with zipfile.ZipFile(config.basedir + "/templates/DDLCModTemplate-2.4.7.zip", "r") as z:
                 z.extractall(project_dir)
         except:
             shutil.rmtree(project_dir)
