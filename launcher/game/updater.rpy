@@ -59,6 +59,7 @@ init python:
 
     # Strings so they can be translated.
 
+
     _("Release")
     _("{b}Recommended.{/b} The version of Ren'Py that should be used in all newly-released games.")
 
@@ -70,7 +71,6 @@ init python:
 
     _("Nightly")
     _("The bleeding edge of Ren'Py development. This may have the latest features, or might not run at all.")
-
 
 
 screen update_channel(channels):
@@ -102,16 +102,28 @@ screen update_channel(channels):
 
                     for c in channels:
 
-                        if  c["split_version"] != list(renpy.version_tuple):
-                            $ action = updater.Update(c["url"], simulate=UPDATE_SIMULATE, public_key=PUBLIC_KEY, confirm=False)
-                            $ current = ""
+                        if c["split_version"] != list(renpy.version_tuple):
+                            $ action = [updater.Update(c["url"], simulate=UPDATE_SIMULATE, public_key=PUBLIC_KEY, confirm=False), SetField(persistent, "has_update", False)]
+
+                            if c["channel"] == "Release":
+                                $ current = _("• {a=https://www.renpy.org/doc/html/changelog.html}View change log{/a}")
+                            elif c["channel"] == "Prerelease":
+                                $ current = _("• {a=https://www.renpy.org/dev-doc/html/changelog.html}View change log{/a}")
+                            else:
+                                $ current = ""
+
                         else:
                             $ action = None
                             $ current = _("• This version is installed and up-to-date.")
 
                         add SPACER
 
-                        textbutton c["channel"] action action
+                        hbox:
+                            spacing 7
+                            textbutton c["channel"]  action action
+
+                            # Opens the web browser to show the change log if the channel is "Release" or "Prerelease"
+
 
                         add HALF_SPACER
 
@@ -171,7 +183,7 @@ screen updater:
 
                     bar:
                         range 1.0
-                        value u.progress
+                        value (u.progress or 0.0)
                         style "l_progress_bar"
 
         label _("Ren'Py Update") style "l_info_label"
@@ -184,19 +196,32 @@ screen updater:
 
 label update:
 
-    python hide:
-        interface.processing(_("Fetching the list of update channels"))
-
-        import urllib2
-        import json
-
-        with interface.error_handling(_("downloading the list of update channels")):
-            channel_data = urllib2.urlopen(CHANNELS_URL, context=ssl_context())
-
-        with interface.error_handling(_("parsing the list of update channels")):
-            channels = json.load(channel_data)["releases"]
-
-        renpy.call_screen("update_channel", channels)
+    $ update_channels = fetch_update_channels(quiet=False)
+    call screen update_channel(update_channels) nopredict
 
     jump front_page
 
+init python:
+
+    def fetch_update_channels(quiet=True):
+
+        if not quiet:
+            interface.processing(_("Fetching the list of update channels"))
+
+        import requests
+
+        if not quiet:
+            with interface.error_handling(_("downloading the list of update channels")):
+                channels = requests.get(CHANNELS_URL).json()["releases"]
+        else:
+            channels = requests.get(CHANNELS_URL).json()["releases"]
+
+        persistent.has_update = False
+
+        for chan in channels:
+            if chan["channel"] == "Release":
+                if chan["split_version"] > list(renpy.version_tuple):
+                    persistent.has_update = True
+                break
+
+        return channels

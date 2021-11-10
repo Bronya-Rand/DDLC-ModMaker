@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2021 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -21,16 +21,7 @@
 
 # Code that manages projects.
 
-default persistent.projects_directory = None
-default persistent.zip_directory = None
-default persistent.safari = None
-
 init python:
-    if renpy.windows:
-        import EasyDialogsWin as EasyDialogs
-    else:
-        EasyDialogs = None
-
     import os
 
 init python in project:
@@ -262,6 +253,8 @@ init python in project:
 
             if persistent.navigate_library:
                 cmd.append("--json-dump-common")
+
+            cmd.append("--errors-in-editor")
 
             environ = dict(os.environ)
             environ["RENPY_LAUNCHER_LANGUAGE"] = _preferences.language or "english"
@@ -770,6 +763,14 @@ init 10 python:
         if not directory_is_writable(persistent.projects_directory):
             persistent.projects_directory = None
 
+label after_load:
+    python:
+        if project.current is not None:
+            project.current.update_dump()
+
+    return
+
+
 ###############################################################################
 # Code to choose the projects directory.
 
@@ -777,12 +778,12 @@ label choose_projects_directory:
 
     python hide:
 
-        interface.interaction(_("Project Directory"), _("Please choose the projects directory using the directory chooser.\n{b}The directory chooser may have opened behind this window.{/b}"), _("DDMMaker will scan for projects in this directory, will create new projects in this directory, and will place built projects into this directory."),)
+        interface.interaction(_("PROJECTS DIRECTORY"), _("Please choose the projects directory using the directory chooser.\n{b}The directory chooser may have opened behind this window.{/b}"), _("This launcher will scan for projects in this directory, will create new projects in this directory, and will place built projects into this directory."),)
 
         path, is_default = choose_directory(persistent.projects_directory)
 
         if is_default:
-            interface.info(_("DDMMaker has set the projects directory to:"), "[path!q]", path=path)
+            interface.info(_("Ren'Py has set the projects directory to:"), "[path!q]", path=path)
 
         persistent.projects_directory = path
         project.multipersistent.projects_directory = path
@@ -792,35 +793,64 @@ label choose_projects_directory:
 
     return
 
-label ddlc_zip:
-    
+label ddlc_location:
+
+    python:
+        if renpy.windows:
+            release_kind = interface.choice(
+                _("Where did you download DDLC? If you downloaded DDLC from Steam, select Steam. If you downloaded DDLC from ddlc.moe or itch.io, select DDLC.moe."),
+                [ ( 'ddlc_steam_release', _("Steam") ), ( 'ddlc_moe_release', _("DDLC.moe")) ],
+                "ddlc_moe_release",
+                cancel=Jump("front_page"),
+                )
+            renpy.jump(release_kind)
+        else:
+            renpy.jump('ddlc_moe_release')
+
+    return
+
+# Asks User where ddlc-win.zip is
+label ddlc_path:
     if renpy.macintosh:
         if persistent.safari is None:
-            call browser
+            call auto_extract
         if persistent.safari is None:
             $ interface.error(_("The browser could not be set. Giving up."))
 
-    python hide:
+    python:
 
-        if renpy.macintosh == True and persistent.safari == True:
-            interface.interaction(_("DDLC ZIP Directory"), _("Please choose where the `ddlc-mac` folder is located using the directory chooser."),)
+        if renpy.macintosh and persistent.safari:
+            interface.interaction(_("DDLC Folder"), _("Please select the DDLC folder you downloaded from DDLC.moe."),)
 
-            path, is_default = choose_directory(persistent.zip_directory)
+            path, is_default = choose_directory(None)
+        elif persistent.steam_release:
+            interface.interaction(_("DDLC Folder"), _("Please select the \"common\" folder in Steam\steamapps."),)
+
+            path, is_default = choose_directory(None)
         else:
-            interface.interaction(_("DDLC ZIP File"), _("Please choose the DDLC ZIP. It must be the original zip from DDLC.moe."),)
-        
-            path, is_default = choose_file(persistent.zip_directory)
+            interface.interaction(_("DDLC ZIP File"), _("Please select the DDLC ZIP file you downloaded from DDLC.moe."),)
+
+            path, is_default = choose_file(None)
 
         if is_default:
-            interface.info(_("DDMMaker has set the DDLC ZIP directory to:"), "[path!q]", path=path)
-
-        persistent.zip_directory = path
-        project.multipersistent.zip_directory = path
-        project.multipersistent.save()
-
-        project.manager.scan()
+            interface.error(_("The operation has been cancelled."))
+            renpy.jump("front_page")
+        else:
+            persistent.zip_directory = path
+            persistent.steam_release = False
+            project.multipersistent.zip_directory = path
+            project.multipersistent.save()
+            project.manager.scan()
 
     return
+
+label ddlc_moe_release:
+    $ persistent.steam_release = False
+    jump ddlc_path
+
+label ddlc_steam_release:
+    $ persistent.steam_release = True
+    jump ddlc_path
 
 label auto_extract:
 
@@ -835,44 +865,47 @@ label auto_extract:
 
         renpy.jump(browser_kind)
 
-# Set Auto-Extract On
 label safari_download:
     $ persistent.safari = True
+    $ persistent.zip_directory = None
+    $ interface.info(_("Enabled Auto-Extraction Detection for DDML."),)
     return
-# Set Auto-Extract Off
+
 label regular_download:
     $ persistent.safari = False
+    $ persistent.zip_directory = None
+    $ interface.info(_("Disabled Auto-Extraction Detection for DDML."),)
     return
 
 label delete_folder:
     python:
-        import shutil
-        delete_response = interface.input(
-            _("Deleting a Project"),
-            _("Are you sure you want to delete '[project.current.name!q]'? Type either Yes or No."),
-            filename=False,
-            cancel=Jump("front_page"))
+        while True:
+            delete_response = interface.input(
+                _("Deleting a Project"),
+                _("Are you sure you want to delete '[project.current.name!q]'? Type either Yes or No."),
+                filename=False,
+                cancel=Jump("front_page"))
 
-        delete_response = delete_response.strip()
+            delete_response = delete_response.strip()
 
-        if not delete_response:
-            interface.error(_("The operation has been cancelled."))
-
-        response = delete_response
-
-        if response == "No" or response == "no":
-            interface.error(_("The operation has been cancelled."))
-        elif response == "Yes" or response == "yes":
-            try:
-                shutil.rmtree(persistent.projects_directory + '/' + project.current.name)
-            except:
-                interface.info("[project.current.name] was deleted improperly as some files have been in use.\nClose any apps using the mod files and delete the folder manually.")
+            if not delete_response or delete_response.lower() == "no":
+                interface.error(_("The operation has been cancelled."))
                 renpy.jump("front_page")
-        else:
-            interface.error(_("Invalid Input."))
 
-        interface.info("[project.current.name] has been deleted from the mod folder.")
-        project.manager.scan()
+            elif delete_response.lower() == "yes":
+                
+                interface.processing(_("Deleting [project.current.name]..."))
+                
+                with interface.error_handling(_("deleting mod.")):
+                    modman.delete_mod(persistent.projects_directory, project.current.name)
+
+                interface.info("[project.current.name] has been deleted from the projects folder.")
+            else:
+                interface.error(_("Invalid Input. Expected either a Yes or No response."))
+                continue
+
+            project.manager.scan()
+            break
 
     jump front_page
 

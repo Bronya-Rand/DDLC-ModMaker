@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2021 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -31,54 +31,97 @@ init -1:
     # Should places where the regular font used be bolded?
     define gui.REGULAR_BOLD = False
 
-    default persistent.oneui = False
-
 init -1 python:
-    
+
     config.defer_styles = True
 
-    if persistent.oneui == True:
+    # The color of non-interactive text.
+    TEXT = "#545454"
+
+    # Colors for buttons in various states.
+    IDLE = "#42637b"
+    HOVER = "#d86b45"
+    DISABLED = "#808080"
+
+    # Colors for reversed text buttons (selected list entries).
+    REVERSE_IDLE = "#78a5c5"
+    REVERSE_HOVER = "#d86b45"
+    REVERSE_TEXT = "#ffffff"
+
+    # Colors for the scrollbar thumb.
+    SCROLLBAR_IDLE = "#dfdfdf"
+    SCROLLBAR_HOVER = "#d86b45"
+
+    # An image used as a separator pattern.
+    PATTERN = "images/pattern.png"
+
+    # A displayable used for the background of everything.
+    BACKGROUND = "background"
+
+    # A displayable used for the background of windows
+    # containing commands, preferences, and navigation info.
+    WINDOW = Frame("window", 0, 0, tile=True)
+
+    # A displayable used for the background of the projects list.
+    PROJECTS_WINDOW = Null()
+
+    # A displayable used the background of information boxes.
+    INFO_WINDOW = "#f9f9f9"
+
+    # Colors for the titles of information boxes.
+    ERROR_COLOR = "#d15353"
+    INFO_COLOR = "#545454"
+    INTERACTION_COLOR = "#d19753"
+    QUESTION_COLOR = "#d19753"
+
+    # The color of input text.
+    INPUT_COLOR = "#d86b45"
+
+    if persistent.theme == 'dark':
         # The color of non-interactive text.
-        TEXT = "#F5F5F5" #545454
+        TEXT = "#ababab"
 
         # Colors for buttons in various states.
-        IDLE = "#d1d1d1" #42637b
-        HOVER = "#78a5c5" #d86b45
-        DISABLED = "#6b6b6b" #808080
+        IDLE = "#709cbe"
+        HOVER = "#d86b45"
+        DISABLED = "#7f7f7f"
 
         # Colors for reversed text buttons (selected list entries).
-        REVERSE_IDLE = "#d1d1d1" #78a5c5
-        REVERSE_HOVER = "#909090" #d86b45
-        REVERSE_TEXT = "#111" #ffffff
+        REVERSE_IDLE = "#78a5c5"
+        REVERSE_HOVER = "#d86b45"
+        REVERSE_TEXT = "#0a0a0a"
 
         # Colors for the scrollbar thumb.
-        SCROLLBAR_IDLE = "#5c6e91" #dfdfdf
-        SCROLLBAR_HOVER = "#31326f" #d86b45
+        SCROLLBAR_IDLE = "#282828"
+        SCROLLBAR_HOVER = "#d86b45"
+
         # An image used as a separator pattern.
         PATTERN = "images/pattern.png"
 
         # A displayable used for the background of everything.
-        BACKGROUND = "images/background_dark.png"
-
-        # A displayable used for the background of windows
-        # containing commands, preferences, and navigation info.
-        WINDOW = Frame("images/window_dark.png", 0, 0, tile=True) #ffffff80
+        BACKGROUND = Fixed(Solid(REVERSE_TEXT), xsize=800, ysize=600)
 
         # A displayable used for the background of the projects list.
         PROJECTS_WINDOW = Null()
 
         # A displayable used the background of information boxes.
-        INFO_WINDOW = "#181818" #f9f9f9c0
+        INFO_WINDOW = "#101010"
 
         # Colors for the titles of information boxes.
-        ERROR_COLOR = "#f05454" #d15353
-        INFO_COLOR = "#34626c" #545454
-        INTERACTION_COLOR = "#9E9E9E" #d19753
-        QUESTION_COLOR = "#f5b461" #d19753
+        ERROR_COLOR = "#d15353"
+        INFO_COLOR = "#ababab"
+        INTERACTION_COLOR = "#d19753"
+        QUESTION_COLOR = "#d19753"
 
         # The color of input text.
-        INPUT_COLOR = "#FAFAFA" #d86b45
-    else:
+        INPUT_COLOR = "#d86b45"
+
+        # A displayable used for the background of windows
+        # containing commands, preferences, and navigation info.
+        WINDOW = Frame(Fixed(Solid(REVERSE_IDLE, xsize=4, xalign=0), Solid(INFO_WINDOW, xsize=794, xalign=1.0), xsize=800, ysize=600), 0, 0, tile=True)
+
+    elif persistent.theme == 'clear':
+
         # The color of non-interactive text.
         TEXT = "#545454"
 
@@ -100,11 +143,7 @@ init -1 python:
         PATTERN = "images/pattern.png"
 
         # A displayable used for the background of everything.
-        BACKGROUND = "images/background.png"
-
-        # A displayable used for the background of windows
-        # containing commands, preferences, and navigation info.
-        WINDOW = Frame("images/window.png", 0, 0, tile=True)
+        BACKGROUND = Fixed(Solid(REVERSE_TEXT), xsize=800, ysize=600)
 
         # A displayable used for the background of the projects list.
         PROJECTS_WINDOW = Null()
@@ -121,8 +160,62 @@ init -1 python:
         # The color of input text.
         INPUT_COLOR = "#d86b45"
 
+        # A displayable used for the background of windows
+        # containing commands, preferences, and navigation info.
+        WINDOW = Frame(Fixed(Solid(REVERSE_IDLE, xsize=4, xalign=0), Solid(INFO_WINDOW, xsize=794, xalign=1.0), xsize=800, ysize=600), 0, 0, tile=True)
+
+    elif renpy.exists("skin.rpy") and persistent.theme == 'custom':
+
+        # The color of non-interactive text.
+        TEXT = custom_text
+
+        # Colors for buttons in various states.
+        IDLE = custom_idle
+        HOVER = custom_hover
+        DISABLED = custom_disable
+
+        # Colors for reversed text buttons (selected list entries).
+        REVERSE_IDLE = custom_reverse_idle
+        REVERSE_HOVER = reverse_hover
+        REVERSE_TEXT = custom_reverse_text
+
+        # Colors for the scrollbar thumb.
+        SCROLLBAR_IDLE = custom_scrollbar_idle
+        SCROLLBAR_HOVER = custom_scrollbar_hover
+
+        # An image used as a separator pattern.
+        PATTERN = custom_pattern
+
+        # A displayable used for the background of everything.
+        BACKGROUND = custom_background
+
+        # A displayable used for the background of the projects list.
+        PROJECTS_WINDOW = custom_projects_window
+
+        # A displayable used the background of information boxes.
+        INFO_WINDOW = custom_info_window
+
+        # Colors for the titles of information boxes.
+        ERROR_COLOR = custom_error_color
+        INFO_COLOR = custom_info_color
+        INTERACTION_COLOR = custom_interaction_color
+        QUESTION_COLOR = custom_question_color
+
+        # The color of input text.
+        INPUT_COLOR = custom_imput_color
+
+        # A displayable used for the background of windows
+        # containing commands, preferences, and navigation info.
+        WINDOW = custom_window
+
+
 
 init 1 python:
+
+    if not renpy.has_image('scrollbar_center'):
+        renpy.image('scrollbar_center', Fixed(Solid(REVERSE_TEXT, area=(2, 2, 2, 4)), Solid(REVERSE_TEXT, area=(8, 2, 2, 4)), Solid(REVERSE_TEXT, area=(14, 2, 2, 4)), xysize=(18, 8)))
+    if not renpy.has_image('vscrollbar_center'):
+        renpy.image('vscrollbar_center', Fixed(Solid(REVERSE_TEXT, area=(2, 2, 4, 2)), Solid(REVERSE_TEXT, area=(2, 8, 4, 2)), Solid(REVERSE_TEXT, area=(2, 14, 4, 2)), xysize=(8, 18)))
 
     def size(n):
         """
@@ -165,10 +258,13 @@ init 1 python:
     ONEHALF = 377
 
     def checkbox(full, color):
-        if full:
-            return im.Twocolor("images/checkbox_full.png", color, color, style="l_checkbox_box")
+        if renpy.has_image('checkbox_full'):
+            check = im.Twocolor(''.join(["images/checkbox_", "full" if full else "empty", ".png"]), color, color)
         else:
-            return im.Twocolor("images/checkbox_empty.png", color, color, style="l_checkbox_box")
+            check = Fixed(Solid(color, xsize=1, xalign=.0), Solid(color, xsize=1, xalign=1.0), Solid(color, ysize=1, yalign=.0), Solid(color, ysize=1, yalign=1.0), xsize=10, ysize=10)
+            if full:
+                check = Fixed(check, Solid(color, xsize=6, ysize=6, align=(.5, .5)), xsize=10, ysize=10)
+        return At(check, l_checkbox_box)
 
 
 
@@ -303,11 +399,11 @@ style l_list2_text is l_list_text
 style l_vscrollbar is l_default:
     thumb Fixed(
         Solid(SCROLLBAR_IDLE, xmaximum=8, xalign=0.5),
-        Image("images/vscrollbar_center.png", xalign=0.5, yalign=0.5),
+        Transform('vscrollbar_center', xalign=0.5, yalign=0.5),
         xmaximum = SCROLLBAR_SIZE)
     hover_thumb Fixed(
         Solid(SCROLLBAR_HOVER, xmaximum=8, xalign=0.5),
-        Image("images/vscrollbar_center.png", xalign=0.5, yalign=0.5),
+        Transform('vscrollbar_center', xalign=0.5, yalign=0.5),
         xmaximum = SCROLLBAR_SIZE)
     xmaximum SCROLLBAR_SIZE
     bar_vertical True
@@ -385,9 +481,8 @@ style l_checkbox is l_button:
     selected_hover_background checkbox(True, HOVER)
     insensitive_background checkbox(False, DISABLED)
 
-style l_checkbox_box:
-    yanchor 0.5
-    ypos 11
+transform l_checkbox_box:
+    ycenter 11
 
 style l_checkbox_text is l_button_text:
     selected_font light_font()

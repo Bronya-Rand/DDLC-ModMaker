@@ -53,9 +53,15 @@ init python:
 
     show_legacy = os.path.exists(os.path.join(config.renpy_base, "templates", "english", "game", "script.rpy"))
 
+    class RestartAtPreferences(Action):
+        def __call__(self):
+            renpy.session["launcher_start_label"] = "preferences"
+            renpy.utter_restart()
+
 default persistent.legacy = False
 default persistent.force_new_tutorial = False
 default persistent.sponsor_message = True
+default persistent.daily_update_check = False
 
 screen preferences:
 
@@ -114,7 +120,7 @@ screen preferences:
                         yminimum 75
                         has vbox
 
-                        text _("DDLC ZIP Directory:")
+                        text _("DDLC Directory:")
 
                         add HALF_SPACER
 
@@ -123,7 +129,7 @@ screen preferences:
                             if persistent.zip_directory:
                                 textbutton _("[persistent.zip_directory!q]"):
                                     action Jump("zip_directory_preference")
-                                    alt _("DDLC ZIP directory: [text]")
+                                    alt _("DDLC directory: [text]")
                             else:
                                 textbutton _("Not Set"):
                                     action Jump("zip_directory_preference")
@@ -189,6 +195,16 @@ screen preferences:
 
                         if renpy.windows:
                             textbutton _("Console output") style "l_checkbox" action ToggleField(persistent, "windows_console")
+                        
+                        #if ability.can_update:
+                            #textbutton _("Daily check for update") style "l_checkbox" action [ToggleField(persistent, "daily_update_check"), SetField(persistent, "last_update_check", None)] selected persistent.daily_update_check
+
+                        add HALF_SPACER
+
+                        textbutton _("White Theme") style "l_checkbox" action [SetField(persistent, "theme", None), RestartAtPreferences() ]
+                        # textbutton _("Clear theme") style "l_checkbox" action [SetField(persistent, "theme", "clear", None), RestartAtPreferences() ]
+                        textbutton _("Dark Theme") style "l_checkbox" action [SetField(persistent, "theme", "dark", None), RestartAtPreferences()]
+                        textbutton _("Custom Theme") style "l_checkbox" action [SetField(persistent, "theme", "custom", None), RestartAtPreferences()]
 
                     if renpy.macintosh:
 
@@ -237,22 +253,14 @@ screen preferences:
                         if renpy.macintosh:
                             textbutton _("Change Extract Settings") style "l_nonbox" action Jump("auto_extract")
 
-                    add SEPARATOR2
+                if translations:
 
                     frame:
                         style "l_indent"
-                        yminimum 75
+                        xmaximum ONETHIRD
+                        xfill True
+
                         has vbox
-
-                        text _("Theme:")
-
-                        add HALF_SPACER
-
-                        textbutton _("One UI") style "l_checkbox" action [ToggleField(persistent, "oneui"), Jump("restart_ddmm")]
-
-                    if translations:
-
-                        add SPACER
 
                         # Text editor selection.
                         add SEPARATOR2
@@ -284,7 +292,7 @@ label projects_directory_preference:
     call choose_projects_directory
     jump preferences
 label zip_directory_preference:
-    call ddlc_zip
+    call ddlc_location
     jump preferences
 label preferences:
     call screen preferences

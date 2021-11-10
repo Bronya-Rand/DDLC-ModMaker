@@ -34,7 +34,7 @@ init python:
             if renpy.macintosh:
                 fn = "console.command"
                 nl = "\n"
-                prefix = "#!/bin/bash"
+                prefix = "#!/bin/sh"
             elif renpy.windows:
                 fn = "console.bat"
                 nl = "\r\n"
@@ -49,7 +49,6 @@ init python:
             self.f = open(self.fn, "wb")
             self.nl = nl
 
-
             self.f.write(renpy.fsencode(prefix) + nl)
 
         def add(self, *args):
@@ -60,27 +59,33 @@ init python:
             args = [ '"{}"'.format(renpy.fsencode(i)) for i in args]
             self.f.write(" ".join(args) + self.nl)
 
+        def write(self, *args):
+            """
+            Adds a command to be run.
+            """
+
+            args = [ '{}'.format(renpy.fsencode(i)) for i in args]
+            self.f.write(" ".join(args) + self.nl)
+
         def run(self):
             """
             Runs the queued up commands.
             """
 
             if renpy.windows:
-                self.add("pause")
+                self.write("pause")
             elif renpy.linux:
                 self.add("echo", "Press enter to close this window...")
-                self.add("read")
+                self.write("read")
 
             self.f.close()
             os.chmod(self.fn, 0o755)
 
-            command = renpy.fsencode('"{}"'.format(self.fn.replace("\"", "\\\"")))
-
-            if renpy.windows:
-                subprocess.Popen([ command ], shell=True)
-            elif renpy.macintosh:
-                subprocess.Popen([ "open", "-a", "Terminal", command ])
-            else:
+            if renpy.linux:
+                command = renpy.fsencode('"{}"'.format(self.fn.replace("\"", "\\\"")))
                 subprocess.Popen([ "x-terminal-emulator", "-e", command ])
+            else:
+                command = renpy.fsencode(self.fn)
+                os.startfile(command)
 
             interface.interaction(_("INFORMATION"), _("The command is being run in a new operating system console window."), pause=2.5)

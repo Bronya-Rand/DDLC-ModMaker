@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2020 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2021 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -60,7 +60,10 @@ init python:
             dstfn = os.path.join(config.renpy_base, dstfn)
 
             if not os.path.exists(os.path.dirname(dstfn)):
-                continue
+                try:
+                    os.makedirs(os.path.dirname(dstfn))
+                except:
+                    pass
 
             renpy.write_log(fn + " -> " + dstfn)
 
@@ -122,7 +125,7 @@ screen install():
 
                         has vbox
 
-                        text _("This screen allows you to install libraries that can't be distributed with Ren'Py/DDMMaker. Some of these libraries may require you to agree to a third-party license before being used or distributed.")
+                        text _("This screen allows you to install libraries that can't be distributed with Ren'Py. Some of these libraries may require you to agree to a third-party license before being used or distributed.")
 
                         add HALF_SPACER
 
@@ -137,15 +140,15 @@ screen install():
                             style "l_indent"
                             has vbox
 
-                            text _("The {a=https://www.live2d.com/en/download/cubism-sdk/download-native/}Cubism SDK for Native{/a} adds support for displaying Live2D models. Place CubismSdkForNative-4-{i}version{/i}.zip in the DDMMaker directory, and then click Install. Distributing a game with Live2D requires you to accept a license from Live2D, Inc.")
+                            text _("The {a=https://www.live2d.com/en/download/cubism-sdk/download-native/}Cubism SDK for Native{/a} adds support for displaying Live2D models. Place CubismSdkForNative-4-{i}version{/i}.zip in the Ren'Py SDK directory, and then click Install. Distributing a game with Live2D requires you to accept a license from Live2D, Inc.")
 
                             add SPACER
 
-                            text _("Live2D in Ren'Py doesn't support Android (including emulators and Chrome OS) and must be reinstalled after upgrading DDMMaker or installing Android support.")
+                            text _("Live2D in Ren'Py doesn't support the Web, Android x86_64 (including emulators and Chrome OS), and must be added to iOS projects manually. Live2D must be reinstalled after upgrading DDMM or installing Android support.")
 
 
     textbutton _("Cancel") action Return(False) style "l_left_button"
-    textbutton _("Open DDMMaker Directory") action OpenDirectory(config.renpy_base, absolute=True) style "l_right_button"
+    textbutton _("Open DDMM Directory") action OpenDirectory(config.renpy_base, absolute=True) style "l_right_button"
 
     timer 2.0 action renpy.restart_interaction repeat True
 

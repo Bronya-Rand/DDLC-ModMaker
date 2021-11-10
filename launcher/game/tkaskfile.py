@@ -14,7 +14,7 @@ def tk_select_file(initialdir, title):
     root = Tk()
     root.withdraw()
 
-    return askopenfilename(initialdir=initialdir, parent=root, title=title, filetypes=(("DDLC ZIP File", "ddlc-win.zip")))
+    return askopenfilename(initialdir=initialdir, parent=root, title=title)
 
 try:
     import gi

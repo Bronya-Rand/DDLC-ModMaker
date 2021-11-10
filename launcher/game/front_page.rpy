@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2021 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -22,6 +22,8 @@
 define PROJECT_ADJUSTMENT = ui.adjustment()
 
 init python:
+
+    import datetime
 
     import os
     import subprocess
@@ -63,16 +65,14 @@ init python:
         renpy.quit(relaunch=True)
 
     def readVersion():
-        ver = persistent.projects_directory + '/' + project.current.name + '/renpy-version.txt'
         try:
-            with open(ver) as f:
+            with open(persistent.projects_directory + '/' + project.current.name + '/renpy-version.txt') as f:
                 if f.readline() < "7":
-                    launch = False
+                    return False
                 else:
-                    launch = True
+                    return True
         except IOError:
-            launch = "error"
-        return launch
+            return -1
 
 screen front_page:
     frame:
@@ -139,33 +139,16 @@ screen front_page:
             use front_page_project
 
     if project.current is not None:
-        if persistent.projects_directory is None:
-            python:
-                launch = "error"
-            pass
-        else:
-            python:
-                launch = readVersion()
+        python:
+            launch = readVersion()
                 
         if launch == False:
-            textbutton _("DDMMaker 6.99.12.4 Needed"):
-                xalign 0.95
-                yalign 0.83
-                style "l_button"
-                action NullAction()
-                right_margin HALF_INDENT
+            textbutton _("DDMMaker 6.99.12.4 Needed") action NullAction() style "l_right_button"
         elif launch == True or project.current.name == "launcher":
             textbutton _("Launch Mod") action project.Launch() style "l_right_button"
             key "K_F5" action project.Launch()
-        else:
-            textbutton _("Cannot determine version."):
-                xalign 0.95
-                yalign 0.83
-                style "l_button"
-                action Jump('version_error')
-                right_margin HALF_INDENT
-        #textbutton _("Launch Project") action project.Launch() style "l_right_button"
-        
+
+
 # This is used by front_page to display the list of known projects on the screen.
 screen front_page_project_list:
 
@@ -196,21 +179,23 @@ screen front_page_project_list:
 
             null height 12
 
+
 # This is used for the right side of the screen, which is where the project-specific
 # buttons are.
 screen front_page_project:
 
     $ p = project.current
-    $ version = renpy.version()
 
     window:
 
         has vbox
+
         label _("Current Ren'Py Version: [version!q]") style "l_alternate"
+
         frame style "l_label":
             has hbox xfill True
             text "[p.display_name!q]" style "l_label_text"
-            label _("Active Mod") style "l_alternate"
+            label _("Selected Mod") style "l_alternate"
 
         grid 2 1:
             xfill True
@@ -227,9 +212,7 @@ screen front_page_project:
                     textbutton _("base") action OpenDirectory(".")
                     textbutton _("images") action OpenDirectory("game/images")
                     textbutton _("audio") action OpenDirectory("game/audio")
-                    textbutton _("mod_assets") action OpenDirectory("game/mod_assets")
                     textbutton _("gui") action OpenDirectory("game/gui")
-                    # textbutton _("save") action None style "l_list"
 
             vbox:
                 if persistent.show_edit_funcs:
@@ -242,7 +225,6 @@ screen front_page_project:
                         textbutton "script.rpy" action editor.Edit("game/script.rpy", check=True)
                         textbutton "options.rpy" action editor.Edit("game/options.rpy", check=True)
                         textbutton "gui.rpy" action editor.Edit("game/gui.rpy", check=True)
-                        textbutton "definitions.rpy" action editor.Edit("game/definitions.rpy", check=True)
                         textbutton "screens.rpy" action editor.Edit("game/screens.rpy", check=True)
 
                         if editor.CanEditProject():
@@ -263,6 +245,13 @@ screen front_page_project:
 
                 textbutton _("Navigate Script") action Jump("navigation")
                 textbutton _("Check Script for Errors") action Jump("lint")
+
+                if project.current.exists("game/gui.rpy"):
+                    textbutton _("Change/Update GUI") action Jump("change_gui")
+                else:
+                    textbutton _("Change Theme") action Jump("choose_theme")
+
+
                 textbutton _("Delete Persistent") action Jump("rmpersistent")
                 textbutton _("Force Recompile") action Jump("force_recompile")
                 if project.current.name != "launcher":
@@ -273,20 +262,21 @@ screen front_page_project:
             frame style "l_indent":
                 has vbox
 
+                textbutton _("Install a Tool") style "l_link" action Jump("new_project(False, True)")
                 if ability.can_distribute:
                     textbutton _("Build Mod") action Jump("build_distributions")
                 if project.current.name != "launcher":
 
-                    python:
-                        launch = readVersion()
+                    #python:
+                        #launch = readVersion()
+                    
                     if launch == True:
                         textbutton _("Build Mod for Android") action Jump("android")
                     else:
                         textbutton _("Android Unavailable") action Jump("no_android")
                     textbutton _("Generate Translations") action Jump("translate")
                     textbutton _("Extract Dialogue") action Jump("extract_dialogue")
-                    textbutton _("Delete Project") action Jump("delete_folder")
-                
+
 label main_menu:
     return
 
@@ -294,7 +284,16 @@ label start:
     show screen bottom_info
     $ dmgcheck()
 
+    jump expression renpy.session.pop("launcher_start_label", "front_page")
+
+default persistent.has_update = False
+
 label front_page:
+    if persistent.daily_update_check and ((not persistent.last_update_check) or (datetime.date.today() > persistent.last_update_check)):
+        python hide:
+            persistent.last_update_check = datetime.date.today()
+            renpy.invoke_in_thread(fetch_update_channels)
+
     call screen front_page
     jump front_page
 
@@ -329,52 +328,3 @@ label force_recompile:
         project.current.launch([ 'compile' ], wait=True)
 
     jump front_page
-
-label version_error:
-    python:
-        interface.info(_("This project is unavailable to launch as this is either a non-DDLC mod/game or is missing 'renpy-version.txt'"), _("Please check if 'renpy-version.txt' exists or run normal Ren'Py for non-DDLC games/mods."),)
-        renpy.jump('front_page')
-
-label no_android:
-    python:
-        interface.info(_("This project cannot be built for Android as either the version of it is set to Ren'Py 6 or the project is missing 'renpy-version.txt'"), _("Please check if 'renpy-version.txt' exists or change the version of your project to Ren'Py 7."),)
-        renpy.jump('front_page')
-
-label set_version:
-    python hide:
-        ver = persistent.projects_directory + '/' + project.current.name + '/renpy-version.txt'
-        try:
-            with open(ver) as f:
-                if f.readline() < "7":
-                    delete_response = interface.input(
-                        _("Warning"),
-                        _("This mod is set to Ren'Py 6 Mode. If you change this, it may result in a improperly packaged mod. Are you sure you want to proceed? Type either Yes or No."),
-                        filename=False,
-                        cancel=Jump("front_page"))
-
-                    delete_response = delete_response.strip()
-
-                    if not delete_response:
-                        interface.error(_("The operation has been cancelled."))
-
-                    response = delete_response
-
-                    if response == "No" or response == "no":
-                        interface.error(_("The operation has been cancelled."))
-                    elif response == "Yes" or response == "yes":
-                        f = open(ver,'w+')
-                        f.write("7")
-                        interface.info(_("Set the Ren'Py mode version to Ren'Py 7."))
-                    else:
-                        interface.error(_("Invalid Input. Please try again."))
-                elif f.readline() == "7":
-                    interface.error(_("The Ren'Py mode version is already set to Ren'Py 7."))
-                else:
-                    f = open(ver,'w+')
-                    f.write("7")
-                    interface.info(_("Set the Ren'Py mode version to Ren'Py 7."))
-        except IOError:
-            f = open(ver,'w+')
-            f.write("7") 
-            interface.info(_('A file named `renpy-version.txt` has been created in the base directory.'), _("Do not delete this file as it is needed to determine which version of Ren'Py it uses for building your mod."))
-    return

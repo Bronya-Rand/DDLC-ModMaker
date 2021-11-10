@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2021 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -194,42 +194,43 @@ screen build_distributions:
                             textbutton _("Edit options.rpy") action editor.Edit("game/options.rpy", check=True)
                             textbutton _("Add from clauses to calls, once") action Jump("add_from")
                             textbutton _("Refresh") action Jump("build_distributions")
-                # Right side.
-                frame:
-                    style "l_indent"
-                    xmaximum ONEHALF
-                    xfill True
-
-                    has vbox
-
-                    add SEPARATOR2
-
+                            
+                    # Right side.
                     frame:
                         style "l_indent"
+                        xmaximum ONEHALF
+                        xfill True
+
                         has vbox
 
-                        text _("Build Packages:")
+                        add SEPARATOR2
 
+                        frame:
+                            style "l_indent"
+                            has vbox
+
+                            text _("Build Packages:")
+
+                            add HALF_SPACER
+
+                            $ packages = project.current.dump["build"]["packages"]
+
+                            for pkg in packages:
+                                if not pkg["hidden"]:
+                                    $ description = pkg["description"]
+                                    textbutton "[description!q]" action PackageToggle(pkg["name"]) style "l_checkbox"
+
+                        add SPACER
                         add HALF_SPACER
+                        add SEPARATOR2
 
-                        $ packages = project.current.dump["build"]["packages"]
+                        frame:
+                            style "l_indent"
+                            has vbox
 
-                        for pkg in packages:
-                            if not pkg["hidden"]:
-                                $ description = pkg["description"]
-                                textbutton "[description!q]" action PackageToggle(pkg["name"]) style "l_checkbox"
+                            text _("Options:")
 
-                    add SPACER
-                    add HALF_SPACER
-                    add SEPARATOR2
-
-                    frame:
-                        style "l_indent"
-                        has vbox
-
-                        text _("Options:")
-
-                        add HALF_SPACER
+                            add HALF_SPACER
 
                         if project.current.dump["build"]["include_update"]:
                             textbutton _("Build Updates") action DataToggle("build_update") style "l_checkbox"
@@ -269,26 +270,10 @@ label build_update_dump:
     return
 
 label build_distributions:
-    if project.current.name == "launcher":
-        call build_update_dump
-        if not project.current.dump["build"]["directory_name"]:
-            jump build_missing
-        call screen build_distributions
-    else:
-        pass
-        
-    python:
-        ver = persistent.projects_directory + '/' + project.current.name + '/renpy-version.txt'
-        try:
-            with open(ver) as f:
-                if f.readline() < "7":
-                    interface.error(_("You are trying to compile a Ren'Py 6.99 DDLC mod in Ren'Py 7"), _("Please use DDMMaker 6.99 in order to comile your Ren'Py 6.99 mod."),)
-                else:
-                    pass
-        except IOError:
-            interface.error(_("`renpy-version.txt` missing or corrupt."), _("Check if this file exists or attempt to compile guess."),)
 
     call build_update_dump
+
+label post_build:
 
     if not project.current.dump["build"]["directory_name"]:
         jump build_missing

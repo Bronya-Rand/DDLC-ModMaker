@@ -30,6 +30,8 @@ init python in interface:
 
     GIT_URL = "https://github.com/GanstaKingofSA/DDLC-ModMaker/releases"
     DDLC_URL = "http://ddlc.moe"
+    KOFI_URL = "https://ko-fi.com/GanstaKingofSA"
+    PAYPAL_URL = "https://paypal.me/AzarielDelCarmen"
     DOC_PATH = os.path.join(config.renpy_base, "doc/index.html")
     DOC_URL = "http://www.renpy.org/doc/html/"
 
@@ -119,7 +121,7 @@ screen bottom_info:
                     textbutton _("Ren'Py Docs") style "l_link" action interface.OpenDocumentation()
                     textbutton _("About") style "l_link" action Jump("about")
                     textbutton _("Download DDLC") style "l_link" action OpenURL(interface.DDLC_URL)
-                    textbutton _("Install MPT") style "l_link" action Jump("mpt")
+                    textbutton _("Donate") style "l_link" action OpenURL(interface.KOFI_URL)
                     textbutton _("Updates") style "l_link" action OpenURL(interface.GIT_URL)
                     textbutton _("Restart") style "l_link" action Jump("restart_ddmm")
 
@@ -129,7 +131,7 @@ screen bottom_info:
 
                     #if ability.can_update:
                         #textbutton _("update") action Jump("update") style "l_link"
-                    #textbutton _("Advanced") style "l_link" action Jump("advanced")
+                    
                     textbutton _("Settings") style "l_link" action Jump("preferences")
                     textbutton _("Exit") style "l_link" action Quit(confirm=False)
 
@@ -522,7 +524,27 @@ init python in interface:
 
         return common(_("CHOICE"), store.QUESTION_COLOR, message, choices=choices, selected=selected, **kwargs)
 
+
 label restart_ddmm:
     python:
         renpy.quit(relaunch=True)
     return 
+
+label donate:
+    python:
+        browser_kind = interface.choice(
+            _("Donations are not necessary but appreciated. Choose which platform you want to donate."),
+            [ ( 'paypal', _("PayPal"), ( 'kofi', _("Ko-Fi") )) ],
+            "paypal",
+            cancel=Jump("front_page"),
+            )
+
+label paypal:
+    python:
+        interface.OpenURL(PAYPAL_URL)
+    jump front_page
+
+label kofi:
+    python:
+        interface.OpenURL(KOFI_URL)
+    jump front_page
