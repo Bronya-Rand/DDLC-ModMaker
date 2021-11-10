@@ -14,8 +14,8 @@ class Extractor:
     def __init__(self):
         self.renpy_script_contents = ('.rpa', '.rpyc', '.rpy')
         self.renpy_folder_contents = ('audio', 'images', 'gui', 'bgm', 'sfx', 
-                                    'mod_assets', 'videos', 'fonts')
-        self.renpy_base_contents = ('game', 'lib', 'renpy')
+                                    'mod_assets', 'videos', 'fonts', 'python-packages')
+        self.renpy_base_contents = ('characters', 'game', 'lib', 'renpy')
         self.renpy_executables = ('.exe', '.sh', '.py', '.app')
 
     def valid_zip(self, filePath):
@@ -36,7 +36,7 @@ class Extractor:
                 
         return False
 
-    def game_installation(self, filePath, modFolder, tool=False, copy=False):
+    def game_installation(self, filePath, modFolder, copy=False, tool=False):
         '''
         This define extracts the game/tool archive to the temp folder.
 
@@ -77,7 +77,7 @@ class Extractor:
         if not copy:
             shutil.rmtree(td)
             
-    def installation(self, filePath, modFolder, copy = False):
+    def installation(self, filePath, modFolder, copy=False):
         '''
         This define extracts the mod archive to the temp folder and installs it
         to the mod folder.

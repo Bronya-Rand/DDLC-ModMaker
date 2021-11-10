@@ -28,7 +28,7 @@ init python:
     from extractor import Extractor
 
     extract = Extractor()
-    template = glob.glob(config.basedir + "/templates/DDLCModTemplate-*.*.*.zip")
+    template = glob.glob(config.basedir + "/templates/DDLCModTemplate-*.*.*.zip")[0]
 
     def check_language_support():
 
@@ -64,11 +64,16 @@ label new_project_choice:
 
         project_choice = interface.choice(
             _("What kind of mod project do you want to make?"),
-            [ ( 'new_project(True)', _("Standard Mod Project") ), ( 'new_project(True, True)', _("Mod Project and a Mod Tool") ) ],
-            "new_project(True)",
+            [ ( 1, _("Standard Mod Project") ), ( 2, _("[[BETA] Mod Project and a Mod Tool") ) ],
+            1,
             cancel=Jump("front_page"),
             )
-        renpy.jump(project_choice)
+    if project_choice == 1:
+        call new_project(True)
+    else:
+        call new_project(True, True)
+    
+    return
 
 label new_project(install=False, tool=False):
     if install:
@@ -82,7 +87,7 @@ label new_project(install=False, tool=False):
             if persistent.safari is None:
                 $ interface.error(_("Couldn't check if OS auto-extracts ZIPs. Please reconfigure your settings."))
         if persistent.zip_directory is None:
-            call ddlc_zip
+            call ddlc_location
         if persistent.zip_directory is None:
             $ interface.error(_("The DDLC ZIP directory could not be set. Giving up."))
         if template is None:
@@ -121,23 +126,28 @@ label new_project(install=False, tool=False):
                 interface.processing(_("Installing DDLC..."))
                 if persistent.safari == True and renpy.macintosh:
                     with interface.error_handling(_("Copying DDLC...")):
-                        extract.game_installation(persistent.zip_directory, project_dir, copy=True)
+                        extract.game_installation(persistent.zip_directory, project_dir, True)
                 else:
                     with interface.error_handling(_("Extracting DDLC...")):
                         if persistent.steam_release:
-                            extract.game_installation(persistent.zip_directory, project_dir, copy=True)
+                            extract.game_installation(persistent.zip_directory, project_dir, True)
                         else:
                             extract.game_installation(persistent.zip_directory, project_dir)
 
                 interface.processing(_("Installing Template Files..."))
                 with interface.error_handling(_("Extracting the DDLC Mod Template...")):
-                    extract.game_installation(template, project_dir, True)
+                    extract.game_installation(template, project_dir, tool=True)
 
-                with open(project_dir + '/renpy-version.txt', 'w'):
+                with open(project_dir + '/renpy-version.txt', 'w') as f:
                     f.write("7")
                 interface.info(_('A file named `renpy-version.txt` in your projects directory.'), _("Do not delete this file as it is needed to determine which version of Ren'Py to use for building your mod."))
 
             if tool:
+                if install:
+                    tool_dir = project_dir
+                else:
+                    interface.info(_('This feature is currently in beta. Not all tools may install properly to your mod project.'), _("Make sure to backup your project before you proceed."))
+                    tool_dir = os.path.join(persistent.projects_directory, project.current.name)
                 if renpy.macintosh and persistent.safari == True:
                     interface.interaction(_("Tool File"), _("Please select the the tool folder you wish to install."),)
                     
@@ -147,7 +157,7 @@ label new_project(install=False, tool=False):
 
                     path, is_default = choose_file(None)
 
-                if path is None:
+                if is_default:
                     interface.error(_("The tool installation has been cancelled."))
                     if install:
                         interface.info(_("DDMM successfuly installed everything with no errors."))
@@ -159,21 +169,22 @@ label new_project(install=False, tool=False):
                     if path.endswith('.zip'):
                         valid = extract.valid_zip(path)
                         if not valid:
-                            shutil.rmtree(project_dir)
                             interface.error(_("The mod ZIP you selected is not a valid DDLC engine tool archive.\nSelect a different mod tool ZIP and try again."),)
                             renpy.jump("front_page")
                     elif path.endswith('.rar'):
-                        shutil.rmtree(project_dir)
                         interface.error(_("RAR files cannot be unzipped or unrarred by DDMM.\nConvert the file to a ZIP file and try again."),)
                         renpy.jump("front_page")
                     else:
-                        shutil.rmtree(project_dir)
                         interface.error(_("Unknown file type.\nSelect a proper DDLC engine tool archive and try again."),)
                         renpy.jump("front_page")
                 
                 interface.processing(_("Installing Tool..."))
-                with interface.error_handling(_("Extracting Tool Archive...")):
-                    extract.game_installation(path, project_dir, True)
+                if renpy.macintosh and persistent.safari == True:
+                    with interface.error_handling(_("Copying Tool Archive...")):
+                        extract.installation(path, tool_dir, True)
+                else:
+                    with interface.error_handling(_("Extracting Tool Archive...")):
+                        extract.installation(path, tool_dir)
 
             interface.info(_("DDMM successfuly installed everything with no errors."))
             

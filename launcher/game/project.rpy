@@ -23,6 +23,9 @@
 
 init python:
     import os
+    from modmanagement import ModManagement
+    
+    modman = ModManagement()
 
 init python in project:
     from store import persistent, config, Action, renpy, _preferences, MultiPersistent

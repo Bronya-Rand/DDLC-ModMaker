@@ -305,6 +305,10 @@ style l_left_button is l_right_button:
 
 style l_left_button_text is l_right_button_text
 
+style l_unavail_button is l_right_button
+
+style l_unavail_button_text is l_right_button_text:
+    size size(24)
 
 # The root frame. This contains everything but the bottom navigation,
 # and buttons.
