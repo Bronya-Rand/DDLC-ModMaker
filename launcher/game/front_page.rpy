@@ -131,7 +131,7 @@ screen front_page:
 
                         textbutton _("+ Create New Project"):
                             left_margin (HALF_INDENT)
-                            action Jump("new_project_choice")
+                            action Jump("new_project")
 
         # Project section - on right.
 
