@@ -16,6 +16,7 @@ class Extractor:
         self.renpy_folder_contents = ('audio', 'images', 'gui', 'bgm', 'sfx', 
                                     'mod_assets', 'videos', 'fonts', 'python-packages')
         self.renpy_base_contents = ('characters', 'game', 'lib', 'renpy')
+        self.template_contents = ('DDLCModTemplate.xcodeproj', 'original_scripts', 'Config.xcconfig')
         self.renpy_executables = ('.exe', '.sh', '.py', '.app')
 
     def valid_zip(self, filePath):
@@ -36,7 +37,7 @@ class Extractor:
                 
         return False
 
-    def game_installation(self, filePath, modFolder, copy=False, tool=False):
+    def game_installation(self, filePath, modFolder, copy=False):
         '''
         This define extracts the game/tool archive to the temp folder.
 
@@ -46,8 +47,7 @@ class Extractor:
         copy - Makes sure this is a copy or a ZIP we are working with.
         '''
 
-        if not tool:
-            os.makedirs(modFolder)
+        os.makedirs(modFolder)
 
         if not copy:
             td = tempfile.mkdtemp(prefix="NewDDML_",suffix="_TempGame")
@@ -103,7 +103,7 @@ class Extractor:
                 if x != "ImproperMod":
 
                     if (not x.endswith(self.renpy_executables) and not x in self.renpy_base_contents 
-                        or x in self.renpy_folder_contents):
+                        and not x in self.template_contents or x in self.renpy_folder_contents):
 
                         if not os.path.exists(os.path.join(td, "ImproperMod", "game")):
                             os.makedirs(os.path.join(td, "ImproperMod", "game"))

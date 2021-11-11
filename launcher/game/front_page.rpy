@@ -195,7 +195,7 @@ screen front_page_project:
         python:
             version = renpy.version()
             
-        label _("Current Ren'Py Version: [version!q]") style "l_alternate"
+        label _("Current Ren'Py Version: [version!q]") style "l_alternate" yoffset 14
 
         frame style "l_label":
             has hbox xfill True
@@ -269,7 +269,7 @@ screen front_page_project:
             frame style "l_indent":
                 has vbox
 
-                textbutton _("Install a Tool") action Jump("tool_install")
+                textbutton _("Install a Tool") action Jump("install")
                 if ability.can_distribute:
                     textbutton _("Build Mod") action Jump("build_distributions")
                 if project.current.name != "launcher":

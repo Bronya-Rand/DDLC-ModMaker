@@ -23,11 +23,12 @@ init python:
     import fnmatch
     import re
     import zipfile
+    import glob
 
-    def install_from_zip(name, zipglob, patterns):
+    def install_from_zip(name, zipglob, patterns, tool=False):
 
         # Determine the filename matching the zipglob, and put it into filename.
-        filenames = [ i for i in os.listdir(config.renpy_base) if fnmatch.fnmatch(i.lower(), zipglob.lower()) ]
+        filenames = [ i for i in os.listdir(config.renpy_base + "/templates") if fnmatch.fnmatch(i.lower(), zipglob.lower()) ]
 
         if not filenames:
             interface.error(
@@ -41,7 +42,7 @@ init python:
         filename = filenames[-1]
 
         # The zipfile.
-        zf = zipfile.ZipFile(os.path.join(config.renpy_base, filename))
+        zf = zipfile.ZipFile(os.path.join(config.renpy_base, "templates", filename))
 
         for fn in zf.namelist():
             matchfn = fn.replace("\\", "/")
@@ -51,13 +52,18 @@ init python:
 
             for src, dst in patterns:
                 if re.match(src, matchfn):
+                    #print("SRC: " + str(src) + " | DST: " + str(dst) + " : " + str(re.sub(src, dst, matchfn)))
                     dstfn = re.sub(src, dst, matchfn)
                     break
 
             if not dstfn:
                 continue
-
-            dstfn = os.path.join(config.renpy_base, dstfn)
+            
+            if not tool:
+                dstfn = os.path.join(config.renpy_base, dstfn)
+            else:
+                dstfn = os.path.join(persistent.projects_directory, project.current.name, dstfn)
+                #print(dstfn)
 
             if not os.path.exists(os.path.dirname(dstfn)):
                 try:
@@ -76,6 +82,7 @@ init python:
             except:
                 pass
 
+        
         interface.info(_("Successfully installed [name!t]."), name=name)
 
 
@@ -100,6 +107,41 @@ label install_live2d:
 
     jump front_page
 
+
+label install_ostplayer:
+    python hide:
+        
+        patterns = [
+            (r"(.*)", r"game/\1"),
+        ]
+
+        install_from_zip("DDLC OST-Player", "DDLC-OSTPlayer-*.zip", patterns, True)
+
+    jump front_page 
+    
+label install_mpt:
+    python hide:
+        
+        if glob.glob('templates/DDLC_MPT-*-unpacked.*'):
+            mptzip = glob.glob('templates/DDLC_MPT-*')[0]
+        elif glob.glob('templates/DDLC_MPT-*_unpacked.*'):
+            mptzip = glob.glob('templates/DDLC_MPT-[0-9].*_unpacked.*')[0]
+        elif glob.glob('templates/MPT v*'):
+            mptzip = glob.glob('templates/MPT v*')[0]
+        else:
+            interface.error(_("Cannot find the MPT ZIP file.", "Rename the ZIP to DDLC_MPT-ZIP or make sure the ZIP is in the 'templates' folder."))
+            renpy.jump("install")
+            
+        patterns = [
+            (r"(.*.rpy)", r"\1"),     
+            (r"(.*.png)", r"\1"),
+            (r"(.*.txt)", r"\1")
+        ]
+
+        install_from_zip("Mood Pose Tool (MPT)", mptzip.replace("templates/", ""), patterns, True)
+
+    jump front_page 
+
 screen install():
 
     frame:
@@ -110,7 +152,7 @@ screen install():
 
             has vbox
 
-            label _("Install Libraries")
+            label _("Install Tools")
 
             add HALF_SPACER
 
@@ -125,7 +167,7 @@ screen install():
 
                         has vbox
 
-                        text _("This screen allows you to install libraries that can't be distributed with Ren'Py. Some of these libraries may require you to agree to a third-party license before being used or distributed.")
+                        text _("This menu allows you to install libraries that can't be distributed with DDMM. Some of these libraries may require you to agree to a third-party license before being used or distributed.")
 
                         add HALF_SPACER
 
@@ -140,15 +182,41 @@ screen install():
                             style "l_indent"
                             has vbox
 
-                            text _("The {a=https://www.live2d.com/en/download/cubism-sdk/download-native/}Cubism SDK for Native{/a} adds support for displaying Live2D models. Place CubismSdkForNative-4-{i}version{/i}.zip in the Ren'Py SDK directory, and then click Install. Distributing a game with Live2D requires you to accept a license from Live2D, Inc.")
+                            text _("The {a=https://www.live2d.com/en/download/cubism-sdk/download-native/}Cubism SDK for Native{/a} adds support for displaying Live2D models. Place CubismSdkForNative-4-{i}version{/i}.zip in the templates folder, and then click Install. Distributing a game with Live2D requires you to accept a license from Live2D, Inc.")
 
                             add SPACER
 
                             text _("Live2D in Ren'Py doesn't support the Web, Android x86_64 (including emulators and Chrome OS), and must be added to iOS projects manually. Live2D must be reinstalled after upgrading DDMM or installing Android support.")
+                        
+                        add HALF_SPACER
+                        
+                        textbutton _("Install DDLC OST-Player"):
+                            action Jump("install_ostplayer")
+                        
+                        add HALF_SPACER
+
+                        frame:
+                            style "l_indent"
+                            has vbox
+
+                            text _("{a=https://github.com/GanstaKingofSA/DDLC-OSTPlayer/releases/latest}DDLC OST-Player{/a} is addon tool for DDLC that adds a music player to your mod for players to enjoy your mod's soundtrack along with their own music. Distributing a mod with DDLC OST-Player requires you to credit the author in your credits file/scene.")
+                            
+                        add HALF_SPACER
+                        
+                        textbutton _("Install Mood Pose Tool (MPT)"):
+                            action Jump("install_mpt")
+                        
+                        add HALF_SPACER
+
+                        frame:
+                            style "l_indent"
+                            has vbox
+
+                            text _("Mood Pose Tool (MPT) is addon tool for DDLC that allows you to easily generate and use an expanded set of expressions for each base-game character. Distributing a mod with MPT requires you to credit the authors in accordance to their requirements under 'Usage.txt'.")
 
 
     textbutton _("Cancel") action Return(False) style "l_left_button"
-    textbutton _("Open DDMM Directory") action OpenDirectory(config.renpy_base, absolute=True) style "l_right_button"
+    textbutton _("Open Templates Directory") action OpenDirectory(config.renpy_base + "/templates", absolute=True) style "l_right_button"
 
     timer 2.0 action renpy.restart_interaction repeat True
 
