@@ -112,24 +112,35 @@ label install_ostplayer:
     python hide:
         
         patterns = [
-            (r"(.*)", r"game/\1"),
+            (r"(.*.rpy)", r"game/\1"),     
+            (r"(.*.png)", r"game/\1"),
+            (r"(.*.txt)", r"game/\1"),
+            (r"(.*.py)", r"game/\1"),
+            (r"(.*.ttf)", r"game/\1"),     
+            (r"(.*.otf)", r"game/\1"),
+            (r"(.*.ogg)", r"game/\1"),
         ]
 
         install_from_zip("DDLC OST-Player", "DDLC-OSTPlayer-*.zip", patterns, True)
-
-    jump front_page 
+        try: os.makedirs(os.path.join(persistent.projects_directory, project.current.name, "game/track"))
+        except: pass
+        p = open(os.path.join(persistent.projects_directory, project.current.name, "game/track/Place Music Files Here"), "w")
+        p.close()
+        interface.info(_("DDLC OST-Player requires you to manually modify `screens.rpy` in order for it to work.\nRefer to `install.txt` file in your projects' game folder order to setup DDLC OST-Player."))
+    
+    jump front_page
     
 label install_mpt:
     python hide:
         
-        if glob.glob('templates/DDLC_MPT-*-unpacked.*'):
-            mptzip = glob.glob('templates/DDLC_MPT-*')[0]
-        elif glob.glob('templates/DDLC_MPT-*_unpacked.*'):
-            mptzip = glob.glob('templates/DDLC_MPT-[0-9].*_unpacked.*')[0]
-        elif glob.glob('templates/MPT v*'):
-            mptzip = glob.glob('templates/MPT v*')[0]
+        if glob.glob(config.renpy_base + '/templates/DDLC_MPT-*-unpacked.*'):
+            mptzip = glob.glob(config.renpy_base + '/templates/DDLC_MPT-*')[0]
+        elif glob.glob(config.renpy_base + '/templates/DDLC_MPT-*_unpacked.*'):
+            mptzip = glob.glob(config.renpy_base + '/templates/DDLC_MPT-[0-9].*_unpacked.*')[0]
+        elif glob.glob(config.renpy_base + '/templates/MPT v*'):
+            mptzip = glob.glob(config.renpy_base + '/templates/MPT v*')[0]
         else:
-            interface.error(_("Cannot find the MPT ZIP file.", "Rename the ZIP to DDLC_MPT-ZIP or make sure the ZIP is in the 'templates' folder."))
+            interface.error(_("Cannot find the MPT ZIP file.\nRename the ZIP to DDLC_MPT-ZIP or make sure the ZIP is in the 'templates' folder."))
             renpy.jump("install")
             
         patterns = [
@@ -138,7 +149,7 @@ label install_mpt:
             (r"(.*.txt)", r"\1")
         ]
 
-        install_from_zip("Mood Pose Tool (MPT)", mptzip.replace("templates/", ""), patterns, True)
+        install_from_zip("Mood Pose Tool (MPT)", mptzip.replace(config.renpy_base + '/', "").replace("\\", "/").replace("templates/", ""), patterns, True)
 
     jump front_page 
 
@@ -182,7 +193,7 @@ screen install():
                             style "l_indent"
                             has vbox
 
-                            text _("The {a=https://www.live2d.com/en/download/cubism-sdk/download-native/}Cubism SDK for Native{/a} adds support for displaying Live2D models. Place CubismSdkForNative-4-{i}version{/i}.zip in the templates folder, and then click Install. Distributing a game with Live2D requires you to accept a license from Live2D, Inc.")
+                            text _("The {a=https://www.live2d.com/en/download/cubism-sdk/download-native/}Cubism SDK for Native{/a} adds support for displaying Live2D models. Place CubismSdkForNative-4-{i}version{/i}.zip in the templates folder, and then click Install Live2D Cubism for Native. Distributing a game with Live2D requires you to accept a license from Live2D, Inc.")
 
                             add SPACER
 
@@ -199,7 +210,7 @@ screen install():
                             style "l_indent"
                             has vbox
 
-                            text _("{a=https://github.com/GanstaKingofSA/DDLC-OSTPlayer/releases/latest}DDLC OST-Player{/a} is addon tool for DDLC that adds a music player to your mod for players to enjoy your mod's soundtrack along with their own music. Distributing a mod with DDLC OST-Player requires you to credit the author in your credits file/scene.")
+                            text _("{a=https://github.com/GanstaKingofSA/DDLC-OSTPlayer/releases/latest}DDLC OST-Player{/a} is addon tool for DDLC that adds a music player to your mod for players to enjoy your mod's soundtrack along with their own music. Place DDLC-OSTPlayer-X.X.zip in the templates folder and then click Install DDLC OST-Player. Distributing a mod with DDLC OST-Player requires you to credit the author in your credits file/scene.")
                             
                         add HALF_SPACER
                         
@@ -212,7 +223,7 @@ screen install():
                             style "l_indent"
                             has vbox
 
-                            text _("Mood Pose Tool (MPT) is addon tool for DDLC that allows you to easily generate and use an expanded set of expressions for each base-game character. Distributing a mod with MPT requires you to credit the authors in accordance to their requirements under 'Usage.txt'.")
+                            text _("Mood Pose Tool (MPT) is addon tool for DDLC that allows you to easily generate and use an expanded set of expressions for each base-game character. Place MPT's ZIP file in the templates folder and click Install Mood Pose Tool (MPT). Distributing a mod with MPT requires you to credit the authors in accordance to their requirements under 'Usage.txt'.")
 
 
     textbutton _("Cancel") action Return(False) style "l_left_button"
