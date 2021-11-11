@@ -226,9 +226,9 @@ init python:
     # directory 'mygame-1.0-win', in the 'mygame-1.0-win.zip' file.
 
     if 'RENPY_BUILD_VERSION' in os.environ:
-        build.directory_name = "DokiDokiModMaker" + os.environ['RENPY_BUILD_VERSION']
+        build.directory_name = "DokiDokiModMaker-" + os.environ['RENPY_BUILD_VERSION']
     else:
-        build.directory_name = "DokiDokiModMaker" + config.version
+        build.directory_name = "DokiDokiModMaker-" + config.version
 
     # The name that's uses for executables - the program that users will run
     # to start the game. For example, if this is 'mygame', then on Windows,
