@@ -12,7 +12,7 @@ DDMMaker/DDMM is a Ren'Py SDK Modification that makes DDLC Modding easier and ef
 1. Auto mod template installation.
 2. Auto tool installation.
   > This feature is in beta as different tools or tool versions are built different. Not all mod tools will install properly. See the Wiki or previous Reddit post comments if the tool you want will auto-install on DDMM.
-3. Atom (for DDMMaker running Ren'Py 6).
+3. Atom (for DDMMaker/DDMM running Ren'Py 6).
 4. Support for MacOS, Linux and Android.
 5. Dark Mode and Custom Themes.
 
@@ -31,7 +31,7 @@ on is located in one of the following repositories:
 * https://github.com/renpy/pygame_sdl2 (Pygame_SDL2)
 * https://github.com/renpy/renpy-build (Dependencies)
 
-And for releases before Ren'Py 7.4 and DDMMaker 1.2.0 (including 1.1.1PR)
+And for releases before Ren'Py 7.4 and DDMMaker/DDMM 1.2.0 (including 1.1.1PR)
 * https://github.com/renpy/python-for-android (Android)
 * https://github.com/renpy/rapt (Android Build Tools)
 * https://github.com/renpy/renpy-deps (Desktop dependencies)

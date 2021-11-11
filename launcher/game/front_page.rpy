@@ -143,7 +143,7 @@ screen front_page:
             launch = readVersion()
                 
         if launch == False:
-            textbutton _("DDMMaker 6.99.12.4 Needed") action NullAction() style "l_unavail_button"
+            textbutton _("DDMM/DDMMaker 6.99.12.4 Needed") action NullAction() style "l_unavail_button"
         elif launch == True or project.current.name == "launcher":
             textbutton _("Launch Mod") action project.Launch() style "l_right_button"
             key "K_F5" action project.Launch()

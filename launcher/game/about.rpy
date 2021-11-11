@@ -36,7 +36,7 @@ screen about:
 
             null height 15
 
-            text _("DDMMaker [config.version!q]") xalign 0.5 bold True
+            text _("DDMM/DDMMaker [config.version!q]") xalign 0.5 bold True
 
             null height 5
 
