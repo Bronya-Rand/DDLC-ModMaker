@@ -28,7 +28,6 @@ init python:
     from extractor import Extractor
 
     extract = Extractor()
-    template = glob.glob(config.basedir + "/templates/DDLCModTemplate-*.*.*.zip")[0]
 
     def check_language_support():
 
@@ -73,9 +72,11 @@ label new_project:
         call ddlc_location
     if persistent.zip_directory is None:
         $ interface.error(_("The DDLC ZIP directory could not be set. Giving up."))
-    if template is None:
+    if not glob.glob(config.basedir + "/templates/DDLCModTemplate-*.*.*.zip"):
         $ interface.error(_("The DDLC Mod Template ZIP file is missing in the template folder. Reinstall DDMM or install a new copy of the template."))
-
+    
+    $ template = glob.glob(config.basedir + "/templates/DDLCModTemplate-*.*.*.zip")[-1]
+    
     python:
         while True:
             project_name = ""
@@ -124,7 +125,7 @@ label new_project:
                 f.write("7")
             interface.info(_('A file named `renpy-version.txt` in your projects directory.'), _("Do not delete this file as it is needed to determine which version of Ren'Py to use for building your mod."))
 
-            interface.info(_("DDMM successfuly installed everything with no errors."))
+            interface.info(_("DDMM has successfuly created your project with no errors."), _("To install tools like Mood Pose Tool or DDLC OST-Player, see `Install a Tool` under your projects' mod options."))
                 
             project.manager.scan()
             break
