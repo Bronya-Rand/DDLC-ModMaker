@@ -35,9 +35,7 @@ init -1500 python in build:
         it on whitespace. Otherwise, errors out.
         """
 
-        if s is None:
-            return s
-        elif isinstance(s, list):
+        if s is None or isinstance(s,list):
             return s
         elif isinstance(s, basestring):
             return s.split()
@@ -51,12 +49,7 @@ init -1500 python in build:
         Apply file_lists to the second argument of each tuple in a list.
         """
 
-        rv = [ ]
-
-        for pattern, groups in l:
-            rv.append((pattern, make_file_lists(groups)))
-
-        return rv
+        return [(pattern,make_file_lists(groups) for pattern,groups in l]
 
     # Patterns that are used to classify Ren'Py.
     renpy_patterns = pattern_list([
