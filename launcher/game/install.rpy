@@ -222,4 +222,4 @@ screen install():
 
 label install:
     call screen install
-    jump preferences
+    jump front_page
