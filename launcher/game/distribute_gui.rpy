@@ -196,47 +196,47 @@ screen build_distributions:
                             textbutton _("Refresh") action Jump("build_distributions")
                             
                     # Right side.
+                frame:
+                    style "l_indent"
+                    xmaximum ONEHALF
+                    xfill True
+
+                    has vbox
+
+                    add SEPARATOR2
+
                     frame:
                         style "l_indent"
-                        xmaximum ONEHALF
-                        xfill True
-
                         has vbox
 
-                        add SEPARATOR2
+                        text _("Build Packages:")
 
-                        frame:
-                            style "l_indent"
-                            has vbox
-
-                            text _("Build Packages:")
-
-                            add HALF_SPACER
-
-                            $ packages = project.current.dump["build"]["packages"]
-
-                            for pkg in packages:
-                                if not pkg["hidden"]:
-                                    $ description = pkg["description"]
-                                    textbutton "[description!q]" action PackageToggle(pkg["name"]) style "l_checkbox"
-
-                        add SPACER
                         add HALF_SPACER
-                        add SEPARATOR2
 
-                        frame:
-                            style "l_indent"
-                            has vbox
+                        $ packages = project.current.dump["build"]["packages"]
 
-                            text _("Options:")
+                        for pkg in packages:
+                            if not pkg["hidden"]:
+                                $ description = pkg["description"]
+                                textbutton "[description!q]" action PackageToggle(pkg["name"]) style "l_checkbox"
 
-                            add HALF_SPACER
+                    add SPACER
+                    add HALF_SPACER
+                    add SEPARATOR2
 
-                        if project.current.dump["build"]["include_update"]:
-                            textbutton _("Build Updates") action DataToggle("build_update") style "l_checkbox"
+                    frame:
+                        style "l_indent"
+                        has vbox
 
-                        textbutton _("Add from clauses to calls") action DataToggle("add_from") style "l_checkbox"
-                        textbutton _("Force Recompile") action DataToggle("force_recompile") style "l_checkbox"
+                        text _("Options:")
+
+                        add HALF_SPACER
+
+                    if project.current.dump["build"]["include_update"]:
+                        textbutton _("Build Updates") action DataToggle("build_update") style "l_checkbox"
+
+                    textbutton _("Add from clauses to calls") action DataToggle("add_from") style "l_checkbox"
+                    textbutton _("Force Recompile") action DataToggle("force_recompile") style "l_checkbox"
 
 
     textbutton _("Return") action Jump("front_page") style "l_left_button"
