@@ -31,9 +31,6 @@ init -1:
     # Should places where the regular font used be bolded?
     define gui.REGULAR_BOLD = False
 
-    # Default to dark mode
-    default persistent.theme = "dark"
-
 init -1 python:
 
     config.defer_styles = True
