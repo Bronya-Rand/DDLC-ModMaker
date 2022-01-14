@@ -61,7 +61,7 @@ init python:
 default persistent.legacy = False
 default persistent.force_new_tutorial = False
 default persistent.sponsor_message = False
-default persistent.daily_update_check = False
+default persistent.daily_update_check = True
 default persistent.disable_mt_update = False
 default persistent.disable_mm_update = False
 
