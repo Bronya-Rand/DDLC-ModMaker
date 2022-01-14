@@ -1,4 +1,3 @@
-
 from zipfile import ZipFile
 import tempfile
 import os
@@ -77,6 +76,13 @@ class Extractor:
         
         if not copy:
             shutil.rmtree(game_dir)
+
+        if sys.platform == "darwin":
+            try: os.remove(os.path.join(modFolder, "DDLC.app/Contents/Resources/autorun/game/scripts.rpa"))
+            except: pass
+        else:
+            try: os.remove(os.path.join(modFolder, "game/scripts.rpa"))
+            except: pass
             
     def installation(self, filePath, modFolder, copy=False):
         '''
@@ -91,7 +97,10 @@ class Extractor:
         if not copy:
 
             with ZipFile(filePath, "r") as z:
-                z.extractall(modFolder)
+                if sys.platform == "darwin":
+                    z.extractall(os.path.join(modFolder, "DDLC.app/Contents/Resources/autorun"))
+                else:
+                    z.extractall(modFolder)
 
         else:
             mod_dir = filePath
