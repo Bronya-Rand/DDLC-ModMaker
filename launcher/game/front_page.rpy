@@ -72,7 +72,7 @@ init python:
                 else:
                     return True
         except IOError:
-            return -1
+            return None
 
 screen front_page:
     frame:
