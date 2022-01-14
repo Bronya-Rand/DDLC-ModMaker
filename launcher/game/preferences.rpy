@@ -62,6 +62,7 @@ default persistent.legacy = False
 default persistent.force_new_tutorial = False
 default persistent.sponsor_message = False
 default persistent.daily_update_check = False
+default persistent.update_available = False
 
 screen preferences:
 
@@ -197,7 +198,7 @@ screen preferences:
                             textbutton _("Console output") style "l_checkbox" action ToggleField(persistent, "windows_console")
                         
                         #if ability.can_update:
-                            #textbutton _("Daily check for update") style "l_checkbox" action [ToggleField(persistent, "daily_update_check"), SetField(persistent, "last_update_check", None)] selected persistent.daily_update_check
+                        textbutton _("Daily check for updates") style "l_checkbox" action [ToggleField(persistent, "daily_update_check"), SetField(persistent, "last_update_check", None)] selected persistent.daily_update_check
 
                         add HALF_SPACER
 
