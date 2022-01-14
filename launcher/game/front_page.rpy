@@ -140,7 +140,10 @@ screen front_page:
 
     if project.current is not None:
         python:
-            launch = readVersion()
+            if persistent.projects_directory:
+                launch = readVersion()
+            else:
+                launch = None
                 
         if launch == False:
             textbutton _("DDMM/DDMMaker 6.99.12.4 Needed") action NullAction() style "l_unavail_button"
@@ -275,8 +278,11 @@ screen front_page_project:
                 if project.current.name != "launcher":
 
                     python:
-                        launch = readVersion()
-                    
+                        if persistent.projects_directory:
+                            launch = readVersion()
+                        else:
+                            launch = None
+                            
                     if launch == True:
                         textbutton _("Build Mod for Android") action Jump("android")
                     else:
