@@ -119,7 +119,12 @@ screen bottom_info:
                     textbutton _("Ren'Py Docs") style "l_link" action interface.OpenDocumentation()
                     textbutton _("About") style "l_link" action Jump("about")
                     textbutton _("Download DDLC") style "l_link" action OpenURL(interface.DDLC_URL)
-                    textbutton _("Check for Updates") style "l_link" action Jump("mmupdater")
+                    python:
+                        if not persistent.update_available:
+                            update_interface_text = "Check for Updates"
+                        else:
+                            update_interface_text = "Updates Available"
+                    textbutton _(update_interface_text) style "l_link" action Jump("mmupdater")
 
                 hbox:
                     spacing INDENT

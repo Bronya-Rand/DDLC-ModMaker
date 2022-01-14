@@ -295,12 +295,17 @@ label start:
     jump expression renpy.session.pop("launcher_start_label", "front_page")
 
 default persistent.has_update = False
+define update_notified = False
 
 label front_page:
     if persistent.daily_update_check and ((not persistent.last_update_check) or (datetime.date.today() > persistent.last_update_check)):
         python hide:
             persistent.last_update_check = datetime.date.today()
             renpy.call("mmupdater", True)
+    
+    if not update_notified and persistent.update_available:
+        $ update_notified = True
+        $ renpy.notify("Updates are available.")
 
     call screen front_page
     
