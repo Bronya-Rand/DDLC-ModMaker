@@ -23,6 +23,7 @@ label mmupdater(silent=False):
             interface.processing("Checking for updates...")
 
         try:
+            requests.get("https://github.com")
             if datetime.date.today() > persistent.last_update_check or (not os.path.exists(TEMPLATE_JSON_PATH) or not DDMM_JSON_PATH):
                 template_json = requests.get(TEMPLATE_URL).json()
                 mmaker_json = requests.get(DDMM_URL).json()
