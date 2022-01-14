@@ -5,6 +5,7 @@ init python:
     import os
     import zipfile
     import json
+    import datetime
 
     TEMPLATE_URL = "https://api.github.com/repos/GanstaKingofSA/DDLCModTemplate2.0/releases/latest"
     DDMM_URL = "https://api.github.com/repos/GanstaKingofSA/DDLC-ModMaker/releases/latest"
@@ -21,6 +22,9 @@ label mmupdater(silent=False):
 
         if not silent:
             interface.processing("Checking for updates...")
+
+        if not persistent.last_update_check:
+            persistent.last_update_check = datetime.date.today()
 
         try:
             requests.get("https://github.com")
@@ -63,7 +67,7 @@ label mmupdater(silent=False):
                 return
 
         try:
-            template_ver = tuple(int(num) for num in glob.glob("templates/DDLCModTemplate-*.zip")[-1].replace(".zip", "").split("-")[-1].split("."))
+            template_ver = tuple(int(num) for num in glob.glob(config.basedir + "/templates/DDLCModTemplate-*.zip")[-1].replace(".zip", "").split("-")[-1].split("."))
         except:
             template_ver = "null"
 
