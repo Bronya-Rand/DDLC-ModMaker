@@ -62,6 +62,8 @@ default persistent.legacy = False
 default persistent.force_new_tutorial = False
 default persistent.sponsor_message = False
 default persistent.daily_update_check = False
+default persistent.disable_mt_update = False
+default persistent.disable_mm_update = False
 
 screen preferences:
 
@@ -197,7 +199,8 @@ screen preferences:
                             textbutton _("Console output") style "l_checkbox" action ToggleField(persistent, "windows_console")
                         
                         #if ability.can_update:
-                        textbutton _("Daily check for updates") style "l_checkbox" action [ToggleField(persistent, "daily_update_check"), SetField(persistent, "last_update_check", None)] selected persistent.daily_update_check
+                        #textbutton _("Daily check for updates") style "l_checkbox" action [ToggleField(persistent, "daily_update_check"), SetField(persistent, "last_update_check", None)] selected persistent.daily_update_check
+
 
                         add HALF_SPACER
 
@@ -249,6 +252,9 @@ screen preferences:
                         textbutton _("Install libraries") style "l_nonbox" action Jump("install")
                         textbutton _("Open launcher project") style "l_nonbox" action [ project.Select("launcher"), Jump("front_page") ]
                         textbutton _("Reset window size") style "l_nonbox" action Preference("display", 1.0)
+                        
+                        textbutton _("Disable Mod Template Updates") style "l_checkbox" action ToggleField(persistent, "disable_mt_update")
+                        textbutton _("Disable Mod Maker Updates") style "l_checkbox" action ToggleField(persistent, "disable_mm_update")
 
                         if renpy.macintosh:
                             textbutton _("Change Extract Settings") style "l_nonbox" action Jump("auto_extract")

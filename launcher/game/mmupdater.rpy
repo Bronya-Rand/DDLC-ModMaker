@@ -68,11 +68,13 @@ label mmupdater(silent=False):
             template_ver = "null"
 
         if template_ver == "null" or template_ver < tuple(int(num) for num in template_json["tag_name"].split(".")):
-            template_update = True
+            if not persistent.disable_mt_update:
+                template_update = True
 
         for x in range(len(mmaker_json["assets"])):
             if tuple(int(num) for num in config.version.split(".")) < tuple(int(num) for num in mmaker_json["tag_name"].split(".")) and build.directory_name.split("-")[0] == mmaker_json["assets"][x]["name"].split("-")[0]:
-                mmaker_update = True
+                if not disable_mm_update:
+                    mmaker_update = True
 
         if template_update or mmaker_update:
             if silent:
@@ -98,7 +100,14 @@ label mmupdater(silent=False):
             if persistent.update_available:
                 persistent.update_available = False
             if not silent:
-                interface.info("Everything is up to date.", "Current Versions:\n" + template_json["name"] + "\n" + mmaker_json["name"])
+                if persistent.disable_mm_update and persistent.disable_mt_update:
+                    interface.info("Everything is up to date.")
+                elif persistent.disable_mm_update:
+                    interface.info("Everything is up to date.", "Current Version:\n" + template_json["name"])
+                elif persistent.disable_mt_update:
+                    interface.info("Everything is up to date.", "Current Versions:\n" + mmaker_json["name"])
+                else:
+                    interface.info("Everything is up to date.", "Current Versions:\n" + template_json["name"] + "\n" + mmaker_json["name"])
                 
     if silent:
         return
