@@ -13,12 +13,7 @@ class Extractor:
 
     def __init__(self):
         self.renpy_script_contents = ('.rpa', '.rpyc', '.rpy')
-        self.renpy_folder_contents = ('audio', 'images', 'gui', 'bgm', 'sfx', 
-                                    'mod_assets', 'videos', 'fonts', 'python-packages')
-        self.renpy_base_contents = ('characters', 'game', 'lib', 'renpy')
-        self.template_contents = ('DDLCModTemplate.xcodeproj', 'original_scripts', 'Config.xcconfig')
-        self.renpy_executables = ('.exe', '.sh', '.py', '.app')
-
+        
     def valid_zip(self, filePath):
         '''
         This define checks if the ZIP is a valid DDLC mod.
@@ -62,20 +57,26 @@ class Extractor:
         else:
             game_dir = filePath
 
-        for contents in os.listdir(game_dir):
+        for temp_src, dirs, files in os.walk(game_dir):
+            dst_dir = temp_src.replace(game_dir, modFolder)
+            
+            for d in dirs:
+                os.makedirs(os.path.join(dst_dir, d))
+            
+            for f in files:
+                temp_file = os.path.join(temp_src, f)
+                dst_file = os.path.join(dst_dir, f)
+                
+                if os.path.exists(dst_file):
+                    if os.path.samefile(temp_file, dst_file):
+                        continue
 
-            if os.path.isdir(os.path.join(game_dir, contents)):
+                    os.remove(dst_file)
 
-                shutil.copytree(os.path.join(game_dir, contents), 
-                                os.path.join(modFolder, contents))
-
-            else:
-
-                shutil.copy2(os.path.join(game_dir, contents), 
-                            os.path.join(modFolder, contents))
-
+                shutil.move(temp_file, dst_file)
+        
         if not copy:
-            shutil.rmtree(td)
+            shutil.rmtree(game_dir)
             
     def installation(self, filePath, modFolder, copy=False):
         '''
@@ -88,87 +89,29 @@ class Extractor:
         '''
 
         if not copy:
-            td = tempfile.mkdtemp(prefix="NewDDML_",suffix="_TempArchive")
 
             with ZipFile(filePath, "r") as z:
-                z.extractall(td)
+                z.extractall(modFolder)
+
         else:
-            td = filePath
-        
-        if len(os.listdir(td)) > 1 or "game" in os.listdir(td):
-            os.makedirs(os.path.join(td, "ImproperMod"))
+            mod_dir = filePath
 
-            for x in os.listdir(td):
+            modFolder = os.path.join(modFolder, x, "Contents/Resources/autorun")
 
-                if x != "ImproperMod":
+            for mod_src, dirs, files in os.walk(mod_dir):
+                dst_dir = mod_src.replace(mod_dir, modFolder)
+                
+                for d in dirs:
+                    os.makedirs(os.path.join(dst_dir, d))
+                
+                for f in files:
+                    mod_file = os.path.join(mod_src, f)
+                    dst_file = os.path.join(dst_dir, f)
 
-                    if (not x.endswith(self.renpy_executables) and not x in self.renpy_base_contents 
-                        and not x in self.template_contents or x in self.renpy_folder_contents):
+                    if os.path.exists(dst_file):
+                        if os.path.samefile(mod_file, dst_file):
+                            continue
 
-                        if not os.path.exists(os.path.join(td, "ImproperMod", "game")):
-                            os.makedirs(os.path.join(td, "ImproperMod", "game"))
+                        os.remove(dst_file)
 
-                        shutil.move(os.path.join(td, x), os.path.join(td, "ImproperMod", "game", x))
-
-                    else:
-
-                        if x == "game" and os.path.exists(os.path.join(td, "ImproperMod", "game")):
-
-                            for y in os.listdir(os.path.join(td, "game")):
-                                if os.path.isdir(os.path.join(td, "game", y)):
-                                    shutil.move(os.path.join(td, "game", y), 
-                                                os.path.join(td, "ImproperMod", "game", y))
-                                else:
-                                    shutil.copy2(os.path.join(td, "game", y), 
-                                                os.path.join(td, "ImproperMod", "game", y))
-
-                            shutil.rmtree(os.path.join(td, "game"))
-                        else:
-                            shutil.move(os.path.join(td, x), os.path.join(td, "ImproperMod", x))
-
-        mod_dir = os.path.join(td, os.listdir(td)[-1])
-
-        if sys.platform == "darwin":
-            for x in os.listdir(modFolder):
-                if x.endswith(".app"):
-                    modFolder = os.path.join(modFolder, x, 
-                                "Contents/Resources/autorun")
-
-        for contents in os.listdir(mod_dir):
-
-            if contents == "game":
-
-                for x in os.listdir(os.path.join(mod_dir, contents)):
-
-                    if os.path.isdir(os.path.join(mod_dir, contents, x)):
-
-                        if os.path.exists(os.path.join(modFolder, contents, x)):
-                            shutil.rmtree(os.path.join(modFolder, contents, x))
-
-                        shutil.copytree(os.path.join(mod_dir, contents, x), 
-                                        os.path.join(modFolder, contents, x))
-                    else:
-
-                        if os.path.exists(os.path.join(modFolder, contents, x)):
-                            os.remove(os.path.join(modFolder, contents, x))
-
-                        shutil.copy2(os.path.join(mod_dir, contents, x), 
-                                    os.path.join(modFolder, contents, x))
-
-            elif os.path.isdir(os.path.join(mod_dir, contents)):
-
-                if os.path.exists(os.path.join(modFolder, contents)):
-                    shutil.rmtree(os.path.join(modFolder, contents))
-
-                shutil.copytree(os.path.join(mod_dir, contents), 
-                                os.path.join(modFolder, contents))
-
-            else:
-
-                if os.path.exists(os.path.join(modFolder, contents)):
-                    os.remove(os.path.join(modFolder, contents))
-
-                shutil.copy2(os.path.join(mod_dir, contents), os.path.join(modFolder, contents))
-
-        if not copy:
-            shutil.rmtree(td)
+                    shutil.move(mod_file, dst_file)
