@@ -76,8 +76,11 @@ label mmupdater(silent=False):
             if tuple(int(num) for num in config.version.split(".")) < tuple(int(num) for num in mmaker_json["tag_name"].split(".")) and build.directory_name.split("-")[0] == mmaker_json["assets"][x]["name"].split("-")[0]:
                 mmaker_update = True
 
-        if (template_update or mmaker_update) and not silent:
-            if template_update and mmaker_update:
+        if template_update or mmaker_update:
+            if silent:
+                persistent.update_available = True
+                return
+            elif template_update and mmaker_update:
                 update_text = "Updates are available. Do you wish to install these updates?\n{a=" + template_json["html_url"] + "}What's new for the DDLC Mod Template{/a}\n{a=" + mmaker_json["html_url"] + "}What's new for DDMM/DDMMaker{/a}"
             elif template_update:
                 update_text = "A DDLC Mod Template update is available. Do you wish to install this update?\n{a=" + template_json["html_url"] + "}What's new for the DDLC Mod Template{/a}"
@@ -89,16 +92,16 @@ label mmupdater(silent=False):
                 "yes",
                 cancel=Jump("front_page"),
             )
+            
+            if update_response == "yes":
+                renpy.call("mmupdate", template_update, mmaker_update)
 
-            renpy.call("mmupdate", template_update, mmaker_update)
-
-        elif (template_update or mmaker_update) and silent:
-            persistent.update_available = True
-        elif not template_update and not mmaker_update and not silent:
-            interface.info("Everything is up to date.", "Current Versions:\n" + template_json["name"] + "\n" + mmaker_json["name"])
         else:
-            pass
-
+            if persistent.update_available:
+                persistent.update_available = False
+            if not silent:
+                interface.info("Everything is up to date.", "Current Versions:\n" + template_json["name"] + "\n" + mmaker_json["name"])
+                
     if silent:
         return
     else:            
