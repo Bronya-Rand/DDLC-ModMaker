@@ -23,7 +23,7 @@ label mmupdater(silent=False):
             interface.processing("Checking for updates...")
 
         try:
-            if datetime.date.today() > persistent.last_update_check or ((not os.path.exists(TEMPLATE_JSON_PATH)) or (not DDMM_JSON_PATH)):
+            if datetime.date.today() > persistent.last_update_check or (not os.path.exists(TEMPLATE_JSON_PATH) or not DDMM_JSON_PATH):
                 template_json = requests.get(TEMPLATE_URL).json()
                 mmaker_json = requests.get(DDMM_URL).json()
 
@@ -40,15 +40,12 @@ label mmupdater(silent=False):
                 if not os.path.exists(config.basedir + "/update"):
                     os.makedirs(config.basedir + "/update")
 
-                template_json_file = open(TEMPLATE_JSON_PATH, "w")
-                mmaker_json_file = open(DDMM_JSON_PATH, "w")
+                with open(TEMPLATE_JSON_PATH, "w") as template_json_file:
+                    json.dump(template_json, template_json_file)
 
-                json.dump(template_json, template_json_file)
-                json.dump(mmaker_json, mmaker_json_file)
-
-                template_json_file.close()
-                mmaker_json_file.close()
-        except:
+                with open(DDMM_JSON_PATH, "w") as mmaker_json_file:
+                    json.dump(mmaker_json, mmaker_json_file)
+        except requests.exceptions.ConnectionError:
             if not silent:
                 interface.error("You are either not connected to the internet or Github is currently down.", "Check your internet connection or try again later.")
 

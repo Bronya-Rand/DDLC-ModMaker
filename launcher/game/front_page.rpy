@@ -300,8 +300,8 @@ define update_notified = False
 label front_page:
     if persistent.daily_update_check and ((not persistent.last_update_check) or (datetime.date.today() > persistent.last_update_check)):
         python hide:
+            renpy.call_in_new_context("mmupdater", True)
             persistent.last_update_check = datetime.date.today()
-            renpy.call("mmupdater", True)
     
     if not update_notified and persistent.update_available:
         $ update_notified = True
