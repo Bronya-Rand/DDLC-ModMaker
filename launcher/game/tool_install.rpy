@@ -15,7 +15,7 @@ label tool_install:
         else:
             project_dir = os.path.join(persistent.projects_directory, project.current.name)
 
-        interface.info("This installer is in beta. Not all mod tools will install properly.", "Make sure to backup your project if anything fails.")
+        interface.info("This installer is in beta. Not all mod tools will install properly or require additional setup.", "Make sure to backup your project if anything fails.")
 
         if renpy.macintosh and persistent.safari:
             interface.interaction(_("Tool Folder"), _("Please select the tool folder you wish to install."),)
