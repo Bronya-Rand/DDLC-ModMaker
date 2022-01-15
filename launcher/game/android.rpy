@@ -19,7 +19,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-default persistent.android_bundle = False
+define persistent.android_bundle = False
 
 init python:
     ANDROID_NO_RAPT = 0
@@ -392,20 +392,6 @@ screen android:
                             textbutton _("Configure"):
                                 action AndroidIfState(state, ANDROID_NO_CONFIG, Jump("android_configure"))
                                 hovered tt.Action(CONFIGURE_TEXT)
-
-                            add SPACER
-
-                            textbutton _("Play Bundle"):
-                                action SetField(persistent, "android_bundle", True)
-                                hovered tt.Action(PLAY_BUNDLE_TEXT)
-                                style "l_checkbox"
-
-                            textbutton _("Universal APK"):
-                                action SetField(persistent, "android_bundle", False)
-                                hovered tt.Action(UNIVERSAL_APK_TEXT)
-                                style "l_checkbox"
-
-                            add SPACER
 
                             textbutton _("Build Package"):
                                 action AndroidIfState(state, ANDROID_OK, AndroidBuild("android_build"))
