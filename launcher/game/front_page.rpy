@@ -389,7 +389,3 @@ label set_version:
                 f.write("7") 
             interface.info(_('A file named `renpy-version.txt` has been created in the base directory.'), _("Do not delete this file as it is needed to determine which version of Ren'Py it uses for building your mod."))
     return
-
-label tool_install:
-    call new_project(False, True)
-    jump front_page
