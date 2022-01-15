@@ -46,7 +46,7 @@ label tool_install:
         else:
             interface.processing("Installing Tool. Please wait...")
             
-            with interface.error_handling("installing user tool"):
+            with interface.error_handling("extracting user tool"):
                 if renpy.macintosh and persistent.safari:
                     td = path
                 else:
@@ -61,31 +61,32 @@ label tool_install:
                 else:
                     tool_dir = td
                     gamedir = True
+                    
+        with interface.error_handling("extracting user tool"):      
+            for tool_src, dirs, files in os.walk(tool_dir):
+                if gamedir:
+                    dst_dir = tool_src.replace(tool_dir, project_dir + "/game")
+                else:
+                    dst_dir = tool_src.replace(tool_dir, project_dir)
                 
-        for tool_src, dirs, files in os.walk(tool_dir):
-            if gamedir:
-                dst_dir = tool_src.replace(tool_dir, project_dir + "/game")
-            else:
-                dst_dir = tool_src.replace(tool_dir, project_dir)
+                for d in dirs:
+                    if not os.path.exists(os.path.join(dst_dir, d)):
+                        os.makedirs(os.path.join(dst_dir, d))
             
-            for d in dirs:
-                if not os.path.exists(os.path.join(dst_dir, d)):
-                    os.makedirs(os.path.join(dst_dir, d))
-        
-            for f in files:
-                temp_file = os.path.join(tool_src, f)
-                dst_file = os.path.join(dst_dir, f)
-                
-                if os.path.exists(dst_file):
-                    if os.path.samefile(temp_file, dst_file):
-                        continue
+                for f in files:
+                    temp_file = os.path.join(tool_src, f)
+                    dst_file = os.path.join(dst_dir, f)
+                    
+                    if os.path.exists(dst_file):
+                        if os.path.samefile(temp_file, dst_file):
+                            continue
 
-                    os.remove(dst_file)
+                        os.remove(dst_file)
 
-                shutil.move(temp_file, dst_file)
+                    shutil.move(temp_file, dst_file)
 
-        if not renpy.macintosh and not persistent.safari:
-            shutil.rmtree(td)
+            if not renpy.macintosh and not persistent.safari:
+                shutil.rmtree(td)
                 
         interface.info("DDMM/DDMMaker successfully installed the selected tool to [project.current.name].")
     
