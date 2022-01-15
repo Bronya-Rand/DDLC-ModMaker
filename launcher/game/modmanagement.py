@@ -1,4 +1,5 @@
 
+import shutil
 import os
 
 class ModManagement:
@@ -17,6 +18,6 @@ class ModManagement:
                 os.remove(os.path.join(mod_src, f))
             
             for d in dirs:
-                os.remove(os.path.join(mod_src, d))
+                shutil.rmtree(os.path.join(mod_src, d))
 
-        os.remove(os.path.join(modFolder, modName))
+        shutil.rmtree(os.path.join(modFolder, modName))
