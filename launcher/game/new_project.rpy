@@ -20,10 +20,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 init python:
-    import shutil
     import os
-    import time
-    import re
     import glob
     from extractor import Extractor
 
