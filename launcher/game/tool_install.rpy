@@ -48,7 +48,7 @@ label tool_install:
             
             with interface.error_handling("installing user tool"):
                 if renpy.macintosh and persistent.safari:
-                    tool_dir = path
+                    td = path
                 else:
                     td = tempfile.mkdtemp(prefix="DDMM_",suffix="_TempTool")
                     with ZipFile(path, "r") as z:
