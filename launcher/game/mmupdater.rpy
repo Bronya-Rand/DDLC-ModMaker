@@ -161,8 +161,12 @@ label mmupdate(template_update, mmaker_update):
                         dst_file = os.path.join(dst_dir, f)
 
                         if os.path.exists(dst_file):
-                            if os.path.samefile(update_file, dst_file):
-                                continue
+                            if renpy.windows:
+                                if os.stat(update_file) == os.stat(dst_file):
+                                    continue
+                            else:
+                                if os.path.samefile(update_file, dst_file):
+                                    continue
 
                             os.remove(dst_file)
 

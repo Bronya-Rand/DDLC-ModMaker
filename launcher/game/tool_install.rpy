@@ -78,8 +78,12 @@ label tool_install:
                     dst_file = os.path.join(dst_dir, f)
                     
                     if os.path.exists(dst_file):
-                        if os.path.samefile(temp_file, dst_file):
-                            continue
+                        if renpy.windows:
+                            if os.stat(temp_file) == os.stat(dst_file):
+                                continue
+                        else:
+                            if os.path.samefile(temp_file, dst_file):
+                                continue
 
                         os.remove(dst_file)
 
