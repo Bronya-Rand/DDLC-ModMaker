@@ -781,12 +781,12 @@ label choose_projects_directory:
 
     python hide:
 
-        interface.interaction(_("PROJECTS DIRECTORY"), _("Please choose the projects directory using the directory chooser.\n{b}The directory chooser may have opened behind this window.{/b}"), _("This launcher will scan for projects in this directory, will create new projects in this directory, and will place built projects into this directory."),)
+        interface.interaction(_("Projects Directory"), _("Please choose the projects directory using the directory chooser.\n{b}The directory chooser may have opened behind this window.{/b}"), _("This launcher will scan for projects in this directory, will create new projects in this directory, and will place built projects into this directory."),)
 
         path, is_default = choose_directory(persistent.projects_directory)
 
         if is_default:
-            interface.info(_("Ren'Py has set the projects directory to:"), "[path!q]", path=path)
+            interface.info(_("DDMM/DDMMaker has set the projects directory to:"), "[path!q]", path=path)
 
         persistent.projects_directory = path
         project.multipersistent.projects_directory = path

@@ -110,9 +110,6 @@ label new_project:
             else:
                 with interface.error_handling(_("Extracting DDLC...")):
                     extract.game_installation(persistent.zip_directory, project_dir)
-            
-            ## Save for future 2.5
-            #os.remove(project_dir + "/game/scripts.rpa")
 
             interface.processing(_("Installing Template Files..."))
             with interface.error_handling(_("Extracting the DDLC Mod Template...")):
