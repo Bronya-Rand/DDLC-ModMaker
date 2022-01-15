@@ -27,8 +27,8 @@ init python:
     ANDROID_NO_CONFIG = 4
     ANDROID_OK = 5
 
-    NO_RAPT_TEXT = _("To build your mod for Android, download RAPT, unzip it, place it into the DDMMaker directory and restart DDMMaker.")
-    NO_JDK_TEXT = _("A Java Development Kit is required to build your mod for Android on Windows. \n\nPlease {a=https://adoptopenjdk.net/?variant=openjdk8&jvmVariant=hotspot}download and install the JDK{/a}, then restart DDMMaker.")
+    NO_RAPT_TEXT = _("To build your mod for Android, download RAPT, unzip it, place it into the DDMM/DDMMaker directory and restart DDMM/DDMMaker.")
+    NO_JDK_TEXT = _("A Java Development Kit is required to build your mod for Android on Windows. \n\nPlease {a=https://adoptium.net/?variant=openjdk8&jvmVariant=hotspot}download and install the JDK{/a}, then restart DDMM/DDMMaker.")
     NO_SDK_TEXT = _("RAPT is installed, but you'll need to install the Android SDK before you can build your mod for Android. Choose Install SDK to do this.")
     NO_KEY_TEXT = _("RAPT is installed, but a key hasn't been configured. Please create a new key, or restore android.keystore.")
     NO_CONFIG_TEXT = _("The current mod project has not been configured. Use \"Configure\" to configure it before building.")

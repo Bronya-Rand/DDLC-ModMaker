@@ -322,7 +322,7 @@ init -1500 python in build:
 
         packages.append(d)
 
-    package("Mod", "zip", "mod", "(DDMMaker) Ren'Py 6 DDLC Mod Build")
+    package("Mod", "zip", "mod", "(DDMM/DDMMaker) Ren'Py 6 DDLC Mod Build")
     #package("pc", "zip", "windows linux renpy all", "PC: Windows and Linux")
     #package("linux", "tar.bz2", "linux renpy all", "Linux x86/x86_64")
     #package("mac", "app-zip app-dmg", "mac renpy all", "Macintosh x86_64")

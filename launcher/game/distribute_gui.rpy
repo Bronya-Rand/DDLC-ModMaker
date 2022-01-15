@@ -155,7 +155,7 @@ screen build_distributions:
             has vbox
 
             label _("Build Distributions: [project.current.name!q]")
-            text _("Don't worry if the (DDMMaker) package is checked along with Ren'Py 6. This is normal.") xalign 0.11 size 15
+            text _("Don't worry if the (DDMM/DDMMaker) package is checked along with Ren'Py 6. This is normal.") xalign 0.11 size 15
 
             add HALF_SPACER
 
@@ -283,7 +283,7 @@ label build_distributions:
         try:
             with open(ver) as f:
                 if f.readline() > "6":
-                    interface.error(_("You are trying to compile a Ren'Py 7 DDLC mod in Ren'Py 6.99.12.4."), _("Please use DDMMaker 7 in order to comile your Ren'Py 7 mod."),)
+                    interface.error(_("You are trying to compile a Ren'Py 7 DDLC mod in Ren'Py 6.99.12.4."), _("Please use DDMM/DDMMaker 7 in order to comile your Ren'Py 7 mod."),)
                 else:
                     pass
         except IOError:

@@ -770,7 +770,7 @@ label choose_projects_directory:
         path, is_default = choose_directory(persistent.projects_directory)
 
         if is_default:
-            interface.info(_("DDMMaker has set the projects directory to:"), "[path!q]", path=path)
+            interface.info(_("DDMM/DDMMaker has set the projects directory to:"), "[path!q]", path=path)
 
         persistent.projects_directory = path
 
