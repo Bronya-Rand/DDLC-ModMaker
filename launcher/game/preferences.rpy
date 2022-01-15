@@ -104,7 +104,7 @@ screen preferences:
                         yminimum 75
                         has vbox
 
-                        text _("DDLC ZIP Directory:")
+                        text _("DDLC Directory:")
 
                         add HALF_SPACER
 
@@ -221,7 +221,6 @@ screen preferences:
                         add HALF_SPACER
 
                         textbutton _("Open launcher project") style "l_nonbox" action [ project.Select("launcher"), Jump("front_page") ]
-                        textbutton _("Reset window size") style "l_nonbox" action Preference("display", 1.0)
                         
                         if renpy.macintosh:
                             textbutton _("Change Extract Settings") style "l_nonbox" action Jump("auto_extract")
@@ -271,11 +270,9 @@ screen preferences:
 label projects_directory_preference:
     call choose_projects_directory
     jump preferences
-
 label zip_directory_preference:
-    call ddlc_zip
+    call ddlc_location
     jump preferences
-
 label preferences:
     call screen preferences
     jump preferences

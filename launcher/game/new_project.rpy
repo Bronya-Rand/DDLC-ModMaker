@@ -20,64 +20,11 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 init python:
-    import zipfile, shutil, os, hashlib
+    import os
+    import glob
+    from extractor import Extractor
 
-    def zip_extract():
-        if renpy.macintosh:
-            sha = 'abc3d2fee9433ad454decd15d6cfd75634283c17aa3a6ac321952c601f7700ec'
-        else:
-            sha = '2a3dd7969a06729a32ace0a6ece5f2327e29bdf460b8b39e6a8b0875e545632e'
-        
-        if not glob.glob(persistent.zip_directory):
-            interface.error(_("DDLC's ZIP file cannot be found in the ZIP Directory."), _("Check if the ZIP file exists or if it is pointed to the right directory."))
-        
-        path = open(persistent.zip_directory, 'rb')
-        if hashlib.sha256(path.read()).hexdigest() != sha:
-            interface.error(_("The DDLC ZIP file chosen is not official. Download a official DDLC ZIP file from {a=https://ddlc.moe}DDLC's website{/a}, select it in Settings, and try again."))
-        path.close() # JIC
-
-        with zipfile.ZipFile(persistent.zip_directory, "r") as z:
-            z.extractall(persistent.projects_directory + "/temp")
-            if renpy.macintosh:
-                ddlc = persistent.projects_directory + '/temp'
-            else:
-                ddlc = persistent.projects_directory + '/temp/DDLC-1.1.1-pc'
-        
-        shutil.move(ddlc, persistent.project_dir)
-
-    def ddlc_copy():
-        if not glob.glob(persistent.zip_directory + "/ddlc-mac/DDLC.app"):
-            interface.error(_("Cannot find DDLC.app."), _("Please make sure that your OS and ZIP Directory settings are set up correctly."))
-
-        shutil.copytree(persistent.zip_directory + "/ddlc-mac", persistent.project_dir)
-
-    def template_extract():
-        try:
-            with zipfile.ZipFile(config.basedir + "/templates/DDLCModTemplate-2.4.7.zip", "r") as z:
-                if renpy.macintosh:
-                    z.extractall(persistent.project_dir + '/DDLC.app/Contents/Resources/autorun')
-                else:
-                    z.extractall(persistent.project_dir)
-        except:
-            shutil.rmtree(persistent.project_dir)
-            interface.error(_("The mod emplate ZIP file is either missing or corrupt."), _("Check if the ZIP exists in the 'templates' folder or re-download the tool."))
-
-    def cc_extract():
-        with zipfile.ZipFile(persistent.zip_directory + '/ddcc-master.zip', "r") as z:
-            z.extractall(persistent.projects_directory + "/temp")
-            ddcc = persistent.projects_directory + '/temp/ddcc-master'
-        shutil.rmtree(persistent.project_dir + '/game/python-packages')
-        files = os.listdir(ddcc)
-        for f in files:
-            shutil.move(ddcc+'/'+f, persistent.project_dir + '/game')
-
-    def cc_copy():
-        ddcc = persistent.zip_directory + '/ddcc-master'
-        shutil.copytree(ddcc, persistent.project_dir + '/temp/ddcc-master')
-        shutil.rmtree(persistent.project_dir + '/DDLC.app/Contents/Resources/autorun/game/python-packages')
-        files = os.listdir(ddcc)
-        for f in files:
-            shutil.move(ddcc+'/'+f, persistent.project_dir + '/DDLC.app/Contents/Resources/autorun/game')
+    extract = Extractor()
 
 label new_project:
     if persistent.projects_directory is None:
@@ -90,9 +37,13 @@ label new_project:
         if persistent.safari is None:
             $ interface.error(_("Couldn't check if OS auto-extracts ZIPs. Please reconfigure your settings."))
     if persistent.zip_directory is None:
-        call ddlc_zip
+        call ddlc_location
     if persistent.zip_directory is None:
         $ interface.error(_("The DDLC ZIP directory could not be set. Giving up."))
+    if not glob.glob(config.basedir + "/templates/DDLCModTemplate-*.*.*.zip"):
+        $ interface.error(_("The DDLC Mod Template ZIP file is missing in the template folder. Reinstall DDMM or install a new copy of the template."))
+    
+    $ template = glob.glob(config.basedir + "/templates/DDLCModTemplate-*.*.*.zip")[-1]
 
     python:
         project_name = ""
@@ -113,7 +64,7 @@ label new_project:
                 interface.error(_("'launcher' is a reserved project name. Please chose an different project name."), label=None)
                 continue
 
-            persistent.project_dir = os.path.join(persistent.projects_directory, project_name)
+            project_dir = os.path.join(persistent.projects_directory, project_name)
 
             if project.manager.get(project_name) is not None:
                 interface.error(_("[project_name!q] already exists. Please choose a different project name."), project_name=project_name, label=None)
@@ -122,75 +73,24 @@ label new_project:
                 interface.error(_("[persistent.project_dir!q] already exists. Please choose a different project name."), project_dir=project_dir, label=None)
                 continue
             
+            interface.processing(_("Installing DDLC..."))
             if persistent.safari == True and renpy.macintosh:
-                interface.interaction(_("Making a DDLC Folder"), _("Copying DDLC. Please wait..."),)
-                ddlc_copy()
+                with interface.error_handling(_("Copying DDLC...")):
+                    extract.game_installation(persistent.zip_directory, project_dir, True)
             else:
-                interface.interaction(_("Making a DDLC Folder"), _("Extracting DDLC. Please wait..."),)
-                zip_extract()
+                with interface.error_handling(_("Extracting DDLC...")):
+                    extract.game_installation(persistent.zip_directory, project_dir)
             
-            interface.interaction(_("Copying Template Files"), _("Extracting DDLC Mod Template. Please wait..."),)
-            template_extract()
+            interface.processing(_("Installing Template Files..."))
+            with interface.error_handling(_("Extracting the DDLC Mod Template...")):
+                extract.installation(template, project_dir)
             
-            f = open(persistent.project_dir + '/renpy-version.txt','w+')
-            f.write("6")
+            with open(project_dir + '/renpy-version.txt', 'w') as f:
+                f.write("6")
 
-            interface.info(_('A file named `renpy-version.txt` has been created in the base directory.'), _("Do not delete this file as it is needed to determine which version of Ren'Py it uses for building your mod."))
-            
-            project.manager.scan()
-            break
-    return
+            interface.info(_('A file named `renpy-version.txt` in your projects directory.'), _("Do not delete this file as it is needed to determine which version of Ren'Py to use for building your mod."))
 
-label ddcc:
-
-    python:
-        interface.info(_("Making a Comedy Club Skit requires you to download the Comedy Club ZIP from https://github.com/logokas/ddcc."), _("Select Clone and Download and Download ZIP to your DDLC ZIP Directory."),)
-
-        project_name = ""
-        while True:
-            project_name = interface.input(
-                _("Project Name"),
-                _("Please enter the name of your project:"),
-                filename=True,
-                cancel=Jump("front_page"),
-            )
-            
-            project_name = project_name.strip()
-
-            if not project_name:
-                interface.error(_("The project name may not be empty."), label=None)
-                continue
-            if project_name == "launcher":
-                interface.error(_("'launcher' is a reserved project name. Please choose an different project name."), label=None)
-                continue
-
-            persistent.project_dir = os.path.join(persistent.projects_directory, project_name)
-            
-            if project.manager.get(project_name) is not None:
-                interface.error(_("[project_name!q] already exists. Please choose a different project name."), project_name=project_name, label=None)
-                continue
-            if os.path.exists(persistent.project_dir):
-                interface.error(_("[persistent.project_dir!q] already exists. Please choose a different project name."), project_dir=project_dir, label=None)
-                continue
-            
-            if persistent.safari == True and renpy.macintosh:
-                interface.interaction(_("Making a DDLC Folder"), _("Copying DDLC. Please wait..."),)
-                ddlc_copy()
-            else:
-                interface.interaction(_("Making a DDLC Folder"), _("Extracting DDLC. Please wait..."),)
-                zip_extract()
-            
-            interface.interaction(_("Copying Template Files"), _("Copying DDCC Skit Template. Please wait..."),)
-            if renpy.macintosh and persistent.safari == True:
-                cc_copy()
-            else:
-                cc_extract()
-            
-            f = open(persistent.project_dir + '/renpy-version.txt','w+')
-            f.write("6")
-            
-            interface.info(_("Please read ddcc_submission_guidelines.txt in the game folder on the DDCC Submission Guidelines you should follow."),)
-            interface.info(_('A file named `renpy-version.txt` has been created in the base directory.'), _("Do not delete this file as it is needed to determine which version of Ren'Py it uses for building your mod."))
+            interface.info(_("DDMM has successfuly created your project with no errors."), _("To install tools like DDLC OST-Player, see `Install a Tool` under your projects' mod options."))
             
             project.manager.scan()
             break

@@ -22,6 +22,11 @@
 # Code that manages projects.
 
 init python:
+    import os
+    from modmanagement import ModManagement
+    
+    modman = ModManagement()
+
     if renpy.windows:
         import EasyDialogsWin as EasyDialogs
     else:
@@ -773,27 +778,28 @@ label choose_projects_directory:
 
     return
 
-label ddlc_zip:
-
+# Asks User where ddlc-win.zip is
+label ddlc_location:
     if renpy.macintosh:
         if persistent.safari is None:
-            call browser
+            call auto_extract
         if persistent.safari is None:
             $ interface.error(_("The browser could not be set. Giving up."))
 
-    python hide:
+    python:
 
-        if renpy.macintosh == True and persistent.safari == True:
-            interface.interaction(_("DDLC ZIP Directory"), _("Please choose where the `ddlc-mac` folder is located using the directory chooser."),)
+        if renpy.macintosh and persistent.safari:
+            interface.interaction(_("DDLC Folder"), _("Please select the DDLC folder you downloaded from DDLC.moe."),)
 
-            path, is_default = choose_directory(persistent.zip_directory)
+            path, is_default = choose_directory(None)
         else:
-            interface.interaction(_("DDLC ZIP File"), _("Please choose the DDLC ZIP. It must be the original zip from DDLC.moe."),)
-        
-            path, is_default = choose_file(persistent.zip_directory)
+            interface.interaction(_("DDLC ZIP File"), _("Please select the DDLC ZIP file you downloaded from DDLC.moe."),)
+
+            path, is_default = choose_file(None)
 
         if is_default:
-            interface.info(_("DDMMaker has set the DDLC ZIP directory to:"), "[path!q]", path=path)
+            interface.error(_("The operation has been cancelled."))
+            renpy.jump("front_page")
 
         persistent.zip_directory = path
 
@@ -815,39 +821,44 @@ label auto_extract:
 # Set Auto-Extract On
 label safari_download:
     $ persistent.safari = True
+    $ interface.info(_("Enabled Auto-Extraction Detection for DDML."),)
     return
 
-# Set Auto-Extract Off
 label regular_download:
     $ persistent.safari = False
+    $ persistent.zip_directory = None
+    $ interface.info(_("Disabled Auto-Extraction Detection for DDML."),)
     return
 
 label delete_folder:
     python:
-        delete_response = interface.input(
-            _("Deleting a Project"),
-            _("Are you sure you want to delete '[project.current.name!q]'? Type either Yes or No."),
-            filename=False,
-            cancel=Jump("front_page"))
+        while True:
+            delete_response = interface.input(
+                _("Deleting a Project"),
+                _("Are you sure you want to delete '[project.current.name!q]'? Type either Yes or No."),
+                filename=False,
+                cancel=Jump("front_page"))
 
-        delete_response = delete_response.strip()
+            delete_response = delete_response.strip()
 
-        if not delete_response:
-            interface.error(_("The operation has been cancelled."))
+            if not delete_response or delete_response.lower() == "no":
+                interface.error(_("The operation has been cancelled."))
+                renpy.jump("front_page")
 
-        response = delete_response
+            elif delete_response.lower() == "yes":
+                
+                interface.processing(_("Deleting [project.current.name]..."))
+                
+                with interface.error_handling(_("deleting mod.")):
+                    modman.delete_mod(persistent.projects_directory, project.current.name)
 
-        if response == "No" or response == "no":
-            interface.error(_("The operation has been cancelled."))
-        elif response == "Yes" or response == "yes":
-            deleted_name = project.current.name
-            import shutil
-            shutil.rmtree(persistent.projects_directory + '/' + project.current.name)
-        else:
-            interface.error(_("Invalid Input."))
+                interface.info("[project.current.name] has been deleted from the projects folder.")
+            else:
+                interface.error(_("Invalid Input. Expected either a Yes or No response."))
+                continue
 
-        project.manager.scan()
-        interface.info(deleted_name + " has been deleted.")
+            project.manager.scan()
+            break
 
     jump front_page
 
