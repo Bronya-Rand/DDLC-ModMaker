@@ -70,7 +70,19 @@ init python:
 
             try:
 
-                cmd = [ "/usr/bin/python", os.path.join(config.gamedir, "tkaskdir.py"), renpy.fsencode(default_path) ]
+                if renpy.macintosh:
+                    # tkinter is broken on Python 3, so use it as a last resort - maybe apple fixed it?
+                    system_pythons = [ "/usr/bin/python2", "/usr/bin/python"]
+                else:
+                    system_pythons = [ "/usr/bin/python2", "/usr/bin/python" ]
+
+                for system_python in system_pythons:
+                    if os.path.exists(system_python):
+                        break
+                else:
+                    system_python = system_pythons[0]
+
+                cmd = [ system_python, os.path.join(config.gamedir, "tkaskdir.py"), renpy.fsencode(default_path) ]
 
                 p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
                 choice = p.stdout.read()
@@ -147,7 +159,19 @@ init python:
 
             try:
 
-                cmd = [ "/usr/bin/python", os.path.join(config.gamedir, "tkaskfile.py"), renpy.fsencode(default_path) ]
+                if renpy.macintosh:
+                    # tkinter is broken on Python 3, so use it as a last resort - maybe apple fixed it?
+                    system_pythons = [ "/usr/bin/python2", "/usr/bin/python"]
+                else:
+                    system_pythons = [ "/usr/bin/python2", "/usr/bin/python" ]
+
+                for system_python in system_pythons:
+                    if os.path.exists(system_python):
+                        break
+                else:
+                    system_python = system_pythons[0]
+                    
+                cmd = [ system_python, os.path.join(config.gamedir, "tkaskfile.py"), renpy.fsencode(default_path) ]
 
                 p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
                 choice = p.stdout.read()
