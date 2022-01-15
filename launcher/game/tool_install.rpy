@@ -20,7 +20,7 @@ label tool_install:
         if renpy.macintosh and persistent.safari:
             interface.interaction(_("Tool Folder"), _("Please select the tool folder you wish to install."),)
 
-            path, is_default = choose_directory(None, True)
+            path, is_default = choose_directory(None)
         else:
             interface.interaction(_("Tool ZIP File"), _("Please select the tool ZIP file you wish to install."),)
 
@@ -30,7 +30,7 @@ label tool_install:
             interface.error(_("The operation has been cancelled."))
             renpy.jump("front_page")
 
-        if not path.endswith(".zip"):
+        if not persistent.safari and not path.endswith(".zip"):
             interface.error(_("The tool you are trying to install is not in a ZIP file."), "Make sure it is a valid ZIP or convert it to a ZIP file.")
             renpy.jump("front_page")
             
