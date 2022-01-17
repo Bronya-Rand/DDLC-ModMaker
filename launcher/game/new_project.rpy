@@ -69,8 +69,8 @@ label new_project:
             if project.manager.get(project_name) is not None:
                 interface.error(_("[project_name!q] already exists. Please choose a different project name."), project_name=project_name, label=None)
                 continue
-            if os.path.exists(persistent.project_dir):
-                interface.error(_("[persistent.project_dir!q] already exists. Please choose a different project name."), project_dir=project_dir, label=None)
+            if os.path.exists(project_dir):
+                interface.error(_("[project_dir!q] already exists. Please choose a different project name."), project_dir=project_dir, label=None)
                 continue
             
             interface.processing(_("Installing DDLC..."))
