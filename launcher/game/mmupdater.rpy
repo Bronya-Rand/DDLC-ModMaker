@@ -98,7 +98,7 @@ label mmupdater(silent=False):
             )
             
             if update_response == "yes":
-                renpy.call("mmupdate", template_update, mmaker_update)
+                renpy.call("mmupdate", template_update, mmaker_update, template_json["tag_name"], mmaker_json["tag_name"])
 
         else:
             if persistent.update_available:
@@ -118,7 +118,7 @@ label mmupdater(silent=False):
     else:            
         jump front_page
 
-label mmupdate(template_update, mmaker_update):
+label mmupdate(template_update, mmaker_update, temp_ver, mm_ver):
 
     python hide:
 
@@ -127,8 +127,8 @@ label mmupdate(template_update, mmaker_update):
             with interface.error_handling("Updating the DDLC Mod Template"):
                 interface.processing("Updating the DDLC Mod Template. Please wait...")
 
-                zipContent = requests.get("https://github.com/GanstaKingofSA/DDLCModTemplate2.0/releases/download/" + ver + "/DDLCModTemplate-" + ver + ".zip")
-                filename = "DDLCModTemplate-" + ver + ".zip"
+                zipContent = requests.get("https://github.com/GanstaKingofSA/DDLCModTemplate2.0/releases/download/" + temp_ver + "/DDLCModTemplate-" + temp_ver + ".zip")
+                filename = "DDLCModTemplate-" + temp_ver + ".zip"
 
                 try: os.remove(glob.glob("templates/DDLCModTemplate-*.zip")[-1])
                 except: pass
@@ -141,8 +141,8 @@ label mmupdate(template_update, mmaker_update):
             with interface.error_handling("Updating DDMM/DDMMaker"):
                 interface.processing("Updating DDMM/DDMMaker. Please wait...")
 
-                zipContent = requests.get("https://github.com/GanstaKingofSA/DDLC-ModMaker/releases/download/" + ver + "/" + build.directory_name.split("-")[0] + "-" + ver + "-sdk.zip")
-                filename = build.directory_name.split("-")[0] + "-" + ver + "-sdk.zip"
+                zipContent = requests.get("https://github.com/GanstaKingofSA/DDLC-ModMaker/releases/download/" + mm_ver + "/" + build.directory_name.split("-")[0] + "-" + mm_ver + "-sdk.zip")
+                filename = build.directory_name.split("-")[0] + "-" + mm_ver + "-sdk.zip"
 
                 with open(config.basedir + "/" + filename, "wb") as newMMaker:
                     newMMaker.write(zipContent.content) 
