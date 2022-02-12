@@ -37,7 +37,6 @@ class Extractor:
 
         filePath - The given game zip package.\n
         modFolder - The mod folder inside the mod install folder.\n
-        tool - Makes sure this is a tool ZIP or folder we are working with.
         copy - Makes sure this is a copy or a ZIP we are working with.
         '''
 
@@ -60,19 +59,11 @@ class Extractor:
             dst_dir = temp_src.replace(game_dir, modFolder)
             
             for d in dirs:
-                os.makedirs(os.path.join(dst_dir, d))
+                try: os.makedirs(os.path.join(dst_dir, d))
+                except OSError: continue
             
             for f in files:
-                temp_file = os.path.join(temp_src, f)
-                dst_file = os.path.join(dst_dir, f)
-                
-                if os.path.exists(dst_file):
-                    if os.path.samefile(temp_file, dst_file):
-                        continue
-
-                    os.remove(dst_file)
-
-                shutil.move(temp_file, dst_file)
+                shutil.move(os.path.join(temp_src, d), os.path.join(dst_dir, f))
         
         if not copy:
             shutil.rmtree(game_dir)
@@ -111,7 +102,8 @@ class Extractor:
                 dst_dir = mod_src.replace(mod_dir, modFolder)
                 
                 for d in dirs:
-                    os.makedirs(os.path.join(dst_dir, d))
+                    try: os.makedirs(os.path.join(dst_dir, d))
+                    except OSError: continue
                 
                 for f in files:
                     mod_file = os.path.join(mod_src, f)

@@ -842,13 +842,11 @@ label auto_extract:
 label safari_download:
     $ persistent.safari = True
     $ persistent.zip_directory = None
-    $ interface.info(_("Enabled Auto-Extraction Detection for DDML."),)
     return
 
 label regular_download:
     $ persistent.safari = False
     $ persistent.zip_directory = None
-    $ interface.info(_("Disabled Auto-Extraction Detection for DDML."),)
     return
 
 label delete_folder:
