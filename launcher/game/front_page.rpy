@@ -74,7 +74,6 @@ init python:
                 'renpy-version.txt'), os.path.join(persistent.projects_directory, 
                     project.current.name, 'game/renpy-version.txt'))
         except IOError: pass
-
         try:
             with open(os.path.join(persistent.projects_directory, project.current.name, 
                 'game/renpy-version.txt')) as f:
