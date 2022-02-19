@@ -35,7 +35,9 @@ init -1500 python in build:
         it on whitespace. Otherwise, errors out.
         """
 
-        if s is None or isinstance(s,list):
+        if s is None:
+            return s
+        elif isinstance(s, list):
             return s
         elif isinstance(s, basestring):
             return s.split()
@@ -49,7 +51,12 @@ init -1500 python in build:
         Apply file_lists to the second argument of each tuple in a list.
         """
 
-        return [(pattern,make_file_lists(groups) for pattern,groups in l]
+        rv = [ ]
+
+        for pattern, groups in l:
+            rv.append((pattern, make_file_lists(groups)))
+
+        return rv
 
     # Patterns that are used to classify Ren'Py.
     renpy_patterns = pattern_list([
@@ -411,6 +418,9 @@ init -1500 python in build:
     # Do we want to change the icon on the i686 binaries?
     change_icon_i686 = True
 
+    # A list of additional android permission names.
+    android_permissions = [ ]
+
     # This function is called by the json_dump command to dump the build data
     # into the json file.
     def dump():
@@ -487,6 +497,8 @@ init -1500 python in build:
 
         rv["include_i686"] = include_i686
         rv["change_icon_i686"] = change_icon_i686
+
+        rv["android_permissions"] = android_permissions
 
         return rv
 
