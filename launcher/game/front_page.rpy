@@ -393,5 +393,5 @@ label set_version:
         except IOError:
             with open(os.path.join(persistent.projects_directory, project.current.name, "game/renpy-version.txt"), "w") as f:
                 f.write("7") 
-            interface.info(_('A file named `renpy-version.txt` has been created in the game directory.'), _("Do not delete this file as it is needed to determine which version of Ren'Py it uses for building your mod."))
+            interface.info(_("A file named `renpy-version.txt` has been created in your projects' game directory."), _("Do not delete this file as it is needed to determine which version of Ren'Py it uses for building your mod."))
     return

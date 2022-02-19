@@ -117,7 +117,7 @@ label new_project:
 
             with open(project_dir + '/renpy-version.txt', 'w') as f:
                 f.write("7")
-            interface.info(_('A file named `renpy-version.txt` in your projects directory.'), _("Do not delete this file as it is needed to determine which version of Ren'Py to use for building your mod."))
+            interface.info(_("A file named `renpy-version.txt` has been created in your projects' game directory."), _("Do not delete this file as it is needed to determine which version of Ren'Py it uses for building your mod."))
 
             interface.info(_("DDMM has successfuly created your project with no errors."), _("To install tools like Mood Pose Tool or DDLC OST-Player, see `Install a Tool` under your projects' mod options."))
                 
