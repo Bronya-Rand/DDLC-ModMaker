@@ -309,6 +309,10 @@ default persistent.has_update = False
 define update_notified = False
 
 label front_page:
+    python:
+        if not os.path.exists(os.path.join(config.basedir, "templates")):
+            os.makedirs(os.path.join(config.basedir, "templates"))
+            
     if persistent.daily_update_check and ((not persistent.last_update_check) or (datetime.date.today() > persistent.last_update_check)):
         python hide:
             renpy.call_in_new_context("mmupdater", True)

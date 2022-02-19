@@ -70,7 +70,7 @@ label new_project:
     if persistent.zip_directory is None:
         $ interface.error(_("The DDLC ZIP directory could not be set. Giving up."))
     if not glob.glob(config.basedir + "/templates/DDLCModTemplate-*.*.*.zip"):
-        $ interface.error(_("The DDLC Mod Template ZIP file is missing in the templates folder. Reinstall DDMM or install a new copy of the template."))
+        $ interface.error(_("The DDLC Mod Template ZIP file is missing in the templates folder. Check for updates, add the template to the templates folder, or reinstall DDMM."))
     
     $ template = glob.glob(config.basedir + "/templates/DDLCModTemplate-*.*.*.zip")[-1]
     
