@@ -41,7 +41,7 @@ label new_project:
     if persistent.zip_directory is None:
         $ interface.error(_("The DDLC ZIP directory could not be set. Giving up."))
     if not glob.glob(config.basedir + "/templates/DDLCModTemplate-*.*.*.zip"):
-        $ interface.error(_("The DDLC Mod Template ZIP file is missing in the template folder. Reinstall DDMM or install a new copy of the template."))
+        $ interface.error(_("The DDLC Mod Template ZIP file is missing in the templates folder. Add the template to the templates folder or reinstall DDMM."))
     
     $ template = glob.glob(config.basedir + "/templates/DDLCModTemplate-*.*.*.zip")[-1]
 
@@ -88,7 +88,7 @@ label new_project:
             with open(project_dir + '/renpy-version.txt', 'w') as f:
                 f.write("6")
 
-            interface.info(_('A file named `renpy-version.txt` in your projects directory.'), _("Do not delete this file as it is needed to determine which version of Ren'Py to use for building your mod."))
+            interface.info(_("A file named `renpy-version.txt` has been created in your projects' game directory."), _("Do not delete this file as it is needed to determine which version of Ren'Py it uses for building your mod."))
 
             interface.info(_("DDMM has successfuly created your project with no errors."), _("To install tools like DDLC OST-Player, see `Install a Tool` under your projects' mod options."))
             

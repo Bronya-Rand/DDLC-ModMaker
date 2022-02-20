@@ -63,19 +63,7 @@ class Extractor:
                 os.makedirs(os.path.join(dst_dir, d))
             
             for f in files:
-                temp_file = os.path.join(temp_src, f)
-                dst_file = os.path.join(dst_dir, f)
-                
-                if os.path.exists(dst_file):
-                    if os.path.samefile(temp_file, dst_file):
-                        continue
-
-                    os.remove(dst_file)
-
-                shutil.move(temp_file, dst_file)
-        
-        if not copy:
-            shutil.rmtree(game_dir)
+                shutil.move(os.path.join(temp_src, d), os.path.join(dst_dir, f))
 
         if sys.platform == "darwin":
             try: os.remove(os.path.join(modFolder, "DDLC.app/Contents/Resources/autorun/game/scripts.rpa"))
@@ -111,7 +99,8 @@ class Extractor:
                 dst_dir = mod_src.replace(mod_dir, modFolder)
                 
                 for d in dirs:
-                    os.makedirs(os.path.join(dst_dir, d))
+                    try: os.makedirs(os.path.join(dst_dir, d))
+                    except OSError: continue
                 
                 for f in files:
                     mod_file = os.path.join(mod_src, f)
