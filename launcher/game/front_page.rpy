@@ -364,7 +364,7 @@ label set_version:
                 else:
                     interface.error(_("Invalid Input. Please try again."))
             elif x == "6":
-                interface.error(_("The Ren'Py mode version is already set to Ren'Py 6."))
+                interface.info(_("The Ren'Py mode version is already set to Ren'Py 6."))
         except IOError:
             with open(os.path.join(persistent.projects_directory, project.current.name, "game/renpy-version.txt"), "w") as f:
                 f.write("6") 
