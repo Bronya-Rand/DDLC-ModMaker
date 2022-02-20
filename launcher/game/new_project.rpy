@@ -115,7 +115,7 @@ label new_project:
             with interface.error_handling(_("Extracting the DDLC Mod Template...")):
                 extract.installation(template, project_dir)
 
-            with open(project_dir + '/renpy-version.txt', 'w') as f:
+            with open(project_dir + '/game/renpy-version.txt', 'w') as f:
                 f.write("7")
             interface.info(_("A file named `renpy-version.txt` has been created in your projects' game directory."), _("Do not delete this file as it is needed to determine which version of Ren'Py it uses for building your mod."))
 

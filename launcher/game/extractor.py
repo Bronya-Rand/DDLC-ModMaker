@@ -63,7 +63,7 @@ class Extractor:
                 except OSError: continue
             
             for f in files:
-                shutil.move(os.path.join(temp_src, d), os.path.join(dst_dir, f))
+                shutil.move(os.path.join(temp_src, f), os.path.join(dst_dir, f))
         
         if not copy:
             shutil.rmtree(game_dir)
@@ -96,7 +96,7 @@ class Extractor:
         else:
             mod_dir = filePath
 
-            modFolder = os.path.join(modFolder, x, "Contents/Resources/autorun")
+            modFolder = os.path.join(modFolder, "DDLC.app/Contents/Resources/autorun")
 
             for mod_src, dirs, files in os.walk(mod_dir):
                 dst_dir = mod_src.replace(mod_dir, modFolder)
