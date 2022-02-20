@@ -37,7 +37,6 @@ class Extractor:
 
         filePath - The given game zip package.\n
         modFolder - The mod folder inside the mod install folder.\n
-        tool - Makes sure this is a tool ZIP or folder we are working with.
         copy - Makes sure this is a copy or a ZIP we are working with.
         '''
 
@@ -60,10 +59,11 @@ class Extractor:
             dst_dir = temp_src.replace(game_dir, modFolder)
             
             for d in dirs:
-                os.makedirs(os.path.join(dst_dir, d))
+                try: os.makedirs(os.path.join(dst_dir, d))
+                except OSError: continue
             
             for f in files:
-                shutil.move(os.path.join(temp_src, d), os.path.join(dst_dir, f))
+                shutil.move(os.path.join(temp_src, f), os.path.join(dst_dir, f))
 
         if sys.platform == "darwin":
             try: os.remove(os.path.join(modFolder, "DDLC.app/Contents/Resources/autorun/game/scripts.rpa"))
@@ -93,7 +93,7 @@ class Extractor:
         else:
             mod_dir = filePath
 
-            modFolder = os.path.join(modFolder, x, "Contents/Resources/autorun")
+            modFolder = os.path.join(modFolder, "DDLC.app/Contents/Resources/autorun")
 
             for mod_src, dirs, files in os.walk(mod_dir):
                 dst_dir = mod_src.replace(mod_dir, modFolder)
