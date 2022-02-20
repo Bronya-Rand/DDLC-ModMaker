@@ -66,7 +66,7 @@ init python:
         # move renpy-version.txt to project game folder for easy transfer
         try: 
             renpy.file(os.path.join(persistent.projects_directory, project.current.name, 
-                'renpy-version.txt'))
+                'renpy-version.txt').replace("\\", "/"))
             shutil.move(os.path.join(persistent.projects_directory, project.current.name, 
                 'renpy-version.txt'), os.path.join(persistent.projects_directory, 
                     project.current.name, 'game/renpy-version.txt'))
