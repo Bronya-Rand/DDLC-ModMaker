@@ -148,10 +148,7 @@ screen front_page:
 
     if project.current is not None:
         python:
-            if persistent.projects_directory:
-                launch = readVersion()
-            else:
-                launch = None
+            launch = readVersion()
                 
         if launch == False:
             textbutton _("DDMM/DDMMaker 6.99.12.4 Needed") action NullAction() style "l_unavail_button"
