@@ -68,12 +68,13 @@ init python:
     def readVersion():
         # move renpy-version.txt to project game folder for easy transfer
         try: 
-            open(os.path.join(persistent.projects_directory, project.current.name, 
+            renpy.file(os.path.join(persistent.projects_directory, project.current.name, 
                 'renpy-version.txt'))
             shutil.move(os.path.join(persistent.projects_directory, project.current.name, 
                 'renpy-version.txt'), os.path.join(persistent.projects_directory, 
                     project.current.name, 'game/renpy-version.txt'))
         except IOError: pass
+
         try:
             with open(os.path.join(persistent.projects_directory, project.current.name, 
                 'game/renpy-version.txt')) as f:
@@ -367,10 +368,11 @@ label no_android:
         renpy.jump('front_page')
 
 label set_version:
-    python hide:
+    python:
         try:
-            with open(persistent.projects_directory + '/' + project.current.name + '/renpy-version.txt', "w+") as f:
-                if f.readline() < "7":
+            with open(os.path.join(persistent.projects_directory, project.current.name, "game/renpy-version.txt"), "w+") as f:
+                x = f.readline()
+                if x < "7":
                     delete_response = interface.input(
                         _("Warning"),
                         _("This mod is set to Ren'Py 6 Mode. If you change this, it may result in a improperly packaged mod.\nAre you sure you want to proceed? Type either Yes or No."),
@@ -386,13 +388,13 @@ label set_version:
                         interface.info(_("Set the Ren'Py mode version to Ren'Py 7."))
                     else:
                         interface.error(_("Invalid Input. Please try again."))
-                elif f.readline() == "7":
+                elif x == "7":
                     interface.error(_("The Ren'Py mode version is already set to Ren'Py 7."))
                 else:
                     f.write("7")
                     interface.info(_("Set the Ren'Py mode version to Ren'Py 7."))
         except IOError:
-            with open(persistent.projects_directory + '/' + project.current.name + '/renpy-version.txt', "w") as f:
+            with open(os.path.join(persistent.projects_directory, project.current.name, "game/renpy-version.txt"), "w") as f:
                 f.write("7") 
-            interface.info(_('A file named `renpy-version.txt` has been created in the base directory.'), _("Do not delete this file as it is needed to determine which version of Ren'Py it uses for building your mod."))
+            interface.info(_('A file named `renpy-version.txt` has been created in the game directory.'), _("Do not delete this file as it is needed to determine which version of Ren'Py it uses for building your mod."))
     return
