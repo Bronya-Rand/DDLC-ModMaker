@@ -77,7 +77,7 @@ label mmupdater(silent=False):
 
         for x in range(len(mmaker_json["assets"])):
             if tuple(int(num) for num in config.version.split(".")) < tuple(int(num) for num in mmaker_json["tag_name"].split(".")) and build.directory_name.split("-")[0] == mmaker_json["assets"][x]["name"].split("-")[0]:
-                if not disable_mm_update:
+                if not persistent.disable_mm_update:
                     mmaker_update = True
 
         if template_update or mmaker_update:
