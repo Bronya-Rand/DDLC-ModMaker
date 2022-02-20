@@ -371,29 +371,28 @@ label no_android:
 label set_version:
     python:
         try:
-            with open(os.path.join(persistent.projects_directory, project.current.name, "game/renpy-version.txt"), "w+") as f:
+            with open(os.path.join(persistent.projects_directory, project.current.name, "game/renpy-version.txt"), "r") as f:
                 x = f.readline()
-                if x < "7":
-                    delete_response = interface.input(
-                        _("Warning"),
-                        _("This mod is set to Ren'Py 6 Mode. If you change this, it may result in a improperly packaged mod.\nAre you sure you want to proceed? Type either Yes or No."),
-                        filename=False,
-                        cancel=Jump("front_page"))
+                
+            if x < "7":
+                delete_response = interface.input(
+                    _("Warning"),
+                    _("This mod is set to Ren'Py 6 Mode. If you change this, it may result in a improperly packaged mod.\nAre you sure you want to proceed? Type either Yes or No."),
+                    filename=False,
+                    cancel=Jump("front_page"))
 
-                    delete_response = delete_response.strip()
+                delete_response = delete_response.strip()
 
-                    if not delete_response or delete_response.lower() == "no":
-                        interface.error(_("The operation has been cancelled."))
-                    elif delete_response.lower() == "yes":
-                        f.write("7")
-                        interface.info(_("Set the Ren'Py mode version to Ren'Py 7."))
-                    else:
-                        interface.error(_("Invalid Input. Please try again."))
-                elif x == "7":
-                    interface.error(_("The Ren'Py mode version is already set to Ren'Py 7."))
-                else:
-                    f.write("7")
+                if not delete_response or delete_response.lower() == "no":
+                    interface.error(_("The operation has been cancelled."))
+                elif delete_response.lower() == "yes":
+                    with open(os.path.join(persistent.projects_directory, project.current.name, "game/renpy-version.txt"), "w") as f:
+                        f.write("7") 
                     interface.info(_("Set the Ren'Py mode version to Ren'Py 7."))
+                else:
+                    interface.error(_("Invalid Input. Please try again."))
+            elif x == "7":
+                interface.error(_("The Ren'Py mode version is already set to Ren'Py 7."))
         except IOError:
             with open(os.path.join(persistent.projects_directory, project.current.name, "game/renpy-version.txt"), "w") as f:
                 f.write("7") 
