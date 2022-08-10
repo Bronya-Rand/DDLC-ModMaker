@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2021 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2022 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -24,42 +24,7 @@ define PROJECT_ADJUSTMENT = ui.adjustment()
 init python:
 
     import datetime
-
-    import os
     import shutil
-    import subprocess
-
-    class OpenDirectory(Action):
-        """
-        Opens `directory` in a file browser. `directory` is relative to
-        the project root.
-        """
-
-        alt = _("Open [text] directory.")
-
-        def __init__(self, directory, absolute=False):
-            if absolute:
-                self.directory = directory
-            else:
-                self.directory = os.path.join(project.current.path, directory)
-
-        def get_sensitive(self):
-            return os.path.exists(self.directory)
-
-        def __call__(self):
-
-            try:
-                directory = renpy.fsencode(self.directory)
-
-                if renpy.windows:
-                    os.startfile(directory)
-                elif renpy.macintosh:
-                    subprocess.Popen([ "open", directory ])
-                else:
-                    subprocess.Popen([ "xdg-open", directory ])
-
-            except:
-                pass
 
     # Used for testing.
     def Relaunch():
@@ -76,10 +41,12 @@ init python:
         except IOError: pass
 
         try:
-            with open(os.path.join(persistent.projects_directory, project.current.name, 
-                'game/renpy-version.txt')) as f:
-                if f.readline() < "7": return False
-                return True
+            with open(os.path.join(persistent.projects_directory, project.current.name, 'game/renpy-version.txt')) as f:
+                file_ver = f.readline().strip()
+
+            if int(file_ver) < 7: return 6
+            elif int(file_ver) > 7: return 8
+            return 7
         except IOError: return None
 
 screen front_page:
@@ -150,13 +117,16 @@ screen front_page:
         python:
             launch = readVersion()
                 
-        if launch == False:
-            textbutton _("DDMM/DDMMaker 6.99.12.4 Needed") action NullAction() style "l_unavail_button"
-        elif launch == True or project.current.name == "launcher":
+        if launch == 6:
+            textbutton _("DDMM 6.99.12.4 Needed") action NullAction() style "l_unavail_button"
+        elif launch == 8:
+            textbutton _("DDMM 8+ Needed") action NullAction() style "l_unavail_button"
+        elif launch == 7 or project.current.name == "launcher":
             textbutton _("Launch Mod") action project.Launch() style "l_right_button"
             key "K_F5" action project.Launch()
         else:
             textbutton _("Cannot Determine Version") action Jump('version_error') style "l_unavail_button"
+
 
 
 # This is used by front_page to display the list of known projects on the screen.
@@ -199,16 +169,11 @@ screen front_page_project:
     window:
 
         has vbox
-        
-        python:
-            version = renpy.version()
-            
-        label _("Current Ren'Py Version: [version!q]") style "l_alternate" yoffset 14
 
         frame style "l_label":
             has hbox xfill True
             text "[p.display_name!q]" style "l_label_text"
-            label _("Selected Mod") style "l_alternate"
+            label _("Active Project") style "l_alternate"
 
         grid 2 1:
             xfill True
@@ -216,17 +181,16 @@ screen front_page_project:
 
             vbox:
 
-                label _("Open Folder") style "l_label_small"
+                label _("Open Directory") style "l_label_small"
 
                 frame style "l_indent":
                     has vbox
 
-                    textbutton _("game") action OpenDirectory("game")
-                    textbutton _("base") action OpenDirectory(".")
-                    textbutton _("images") action OpenDirectory("game/images")
-                    textbutton _("bgm") action OpenDirectory("game/bgm")
-                    textbutton _("gui") action OpenDirectory("game/gui")
-                    textbutton _("mod_assets") action OpenDirectory("game/mod_assets")
+                    textbutton _("game") action OpenDirectory(os.path.join(p.path, "game"), absolute=True)
+                    textbutton _("base") action OpenDirectory(os.path.join(p.path, "."), absolute=True)
+                    #textbutton _("images") action OpenDirectory(os.path.join(p.path, "game/images"), absolute=True)
+                    textbutton _("mod_assets") action OpenDirectory(os.path.join(p.path, "game/mod_assets"), absolute=True)
+                    textbutton _("gui") action OpenDirectory(os.path.join(p.path, "game/gui"), absolute=True)
 
             vbox:
                 if persistent.show_edit_funcs:
@@ -249,7 +213,7 @@ screen front_page_project:
 
         add SPACER
 
-        label _("Options") style "l_label_small"
+        label _("Actions") style "l_label_small"
 
         grid 2 1:
             xfill True
@@ -260,12 +224,6 @@ screen front_page_project:
 
                 textbutton _("Navigate Script") action Jump("navigation")
                 textbutton _("Check Script for Errors") action Jump("lint")
-
-#                 if project.current.exists("game/gui.rpy"):
-#                     textbutton _("Change/Update GUI") action Jump("change_gui")
-#                 else:
-#                     textbutton _("Change Theme") action Jump("choose_theme")
-
 
                 textbutton _("Delete Persistent") action Jump("rmpersistent")
                 textbutton _("Force Recompile") action Jump("force_recompile")
@@ -279,7 +237,8 @@ screen front_page_project:
 
                 textbutton _("Install a Tool") action Jump("tool_install")
                 if ability.can_distribute:
-                    textbutton _("Build Mod") action Jump("build_distributions")
+                    textbutton _("Build Distributions") action Jump("build_distributions")
+
                 if project.current.name != "launcher":
 
                     python:
@@ -288,13 +247,14 @@ screen front_page_project:
                         else:
                             launch = None
                             
-                    if launch == True:
+                    if launch == 7:
                         textbutton _("Build Mod for Android") action Jump("android")
                     else:
                         textbutton _("Android Unavailable") action Jump("no_android")
-                    textbutton _("Generate Translations") action Jump("translate")
-                    #textbutton _("Extract Dialogue") action Jump("extract_dialogue")
-                    textbutton _("Delete Project") action Jump("delete_folder")
+
+                textbutton _("Generate Translations") action Jump("translate")
+                textbutton _("Extract Dialogue") action Jump("extract_dialogue")
+                textbutton _("Delete Project") action Jump("delete_folder")
 
 label main_menu:
     return
@@ -305,25 +265,33 @@ label start:
 
     jump expression renpy.session.pop("launcher_start_label", "front_page")
 
+default persistent.has_chosen_language = False
+
 default persistent.has_update = False
 define update_notified = False
 
 label front_page:
-    python:
-        if not os.path.exists(os.path.join(config.basedir, "templates")):
-            os.makedirs(os.path.join(config.basedir, "templates"))
-            
+
+    if (not persistent.has_chosen_language) or ("RENPY_CHOOSE_LANGUAGE" in os.environ):
+
+        if _preferences.language is None:
+            hide screen bottom_info
+            call choose_language
+            show screen bottom_info
+
+        $ persistent.has_chosen_language = True
+
     if persistent.daily_update_check and ((not persistent.last_update_check) or (datetime.date.today() > persistent.last_update_check)):
         python hide:
-            renpy.call_in_new_context("mmupdater", True)
             persistent.last_update_check = datetime.date.today()
-    
+            renpy.invoke_in_thread(fetch_ddmm_updates, update_json=True)
+            renpy.invoke_in_thread(fetch_ddmm_updates, mt=True, update_json=True)
+
     if not update_notified and persistent.update_available:
         $ update_notified = True
         $ renpy.notify("Updates are available.")
 
     call screen front_page
-    
     jump front_page
 
 
@@ -357,41 +325,46 @@ label force_recompile:
         project.current.launch([ 'compile' ], wait=True)
 
     jump front_page
-    
+
 label version_error:
     python:
         interface.info(_("This project cannot launch in DDMM as this is either a non-DDLC mod or is missing 'renpy-version.txt'"), _("Please check if 'renpy-version.txt' exists."),)
         renpy.jump('front_page')
-        
+
 label no_android:
     python:
-        interface.info(_("This project cannot be built for Android as either the version of it is set to Ren'Py 6 or the project is missing 'renpy-version.txt'"), _("Please check if 'renpy-version.txt' exists or change the version of your project to Ren'Py 7."),)
+        interface.info(_("This project cannot be built for Android as it's either in Ren'Py 6/8 mode or is missing 'renpy-version.txt'"), _("Please check if 'renpy-version.txt' exists or change the version of your project to Ren'Py 7."),)
         renpy.jump('front_page')
 
 label set_version:
     python:
         try:
-            with open(os.path.join(persistent.projects_directory, project.current.name, "game/renpy-version.txt"), "r") as f:
-                x = f.readline()
+            x = readVersion()
+
+            prompt = False    
+            if x < 7:
+                prompt = True
+                response_text = _("This mod is set to Ren'Py 6 Mode. ")
+            elif x > 7:
+                prompt = True
+                response_text = _("This mod is set to Ren'Py 8 Mode. ")
                 
-            if x < "7":
-                delete_response = interface.input(
-                    _("Warning"),
-                    _("This mod is set to Ren'Py 6 Mode. If you change this, it may result in a improperly packaged mod.\nAre you sure you want to proceed? Type either Yes or No."),
-                    filename=False,
+            if prompt:
+                confirm_delete = False
+                delete_response = interface.yesno(
+                    label=_("Warning"),
+                    message=response_text + _("If you change this, it may result in a improperly packaged mod.\nAre you sure you want to proceed? Type either Yes or No."),
+                    yes=SetScreenVariable(confirm_delete, True),
+                    no=Return(),
                     cancel=Jump("front_page"))
 
-                delete_response = delete_response.strip()
-
-                if not delete_response or delete_response.lower() == "no":
-                    interface.error(_("The operation has been cancelled."))
-                elif delete_response.lower() == "yes":
+                if not confirm_delete:
+                    renpy.jump("front_page")
+                else:
                     with open(os.path.join(persistent.projects_directory, project.current.name, "game/renpy-version.txt"), "w") as f:
                         f.write("7") 
                     interface.info(_("Set the Ren'Py mode version to Ren'Py 7."))
-                else:
-                    interface.error(_("Invalid Input. Please try again."))
-            elif x == "7":
+            else:
                 interface.info(_("The Ren'Py mode version is already set to Ren'Py 7."))
         except IOError:
             with open(os.path.join(persistent.projects_directory, project.current.name, "game/renpy-version.txt"), "w") as f:
