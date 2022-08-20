@@ -7,8 +7,9 @@ init python:
 
 label tool_install:
 
-    python hide:
+    python:
         gamedir = False
+        confirm_install = False
 
         if renpy.macintosh:
             project_dir = os.path.join(persistent.projects_directory, project.current.name, "DDLC.app/Contents/Resources/autorun")
@@ -24,24 +25,21 @@ label tool_install:
         else:
             interface.interaction(_("Tool ZIP File"), _("Please select the tool ZIP file you wish to install."),)
 
-            path, is_default = choose_file(None, True)
+            path, is_default = choose_file(None)
 
         if is_default:
             interface.error(_("The operation has been cancelled."))
             renpy.jump("front_page")
-
-        if not persistent.safari and not path.endswith(".zip"):
-            interface.error(_("The tool you are trying to install is not in a ZIP file."), "Make sure it is a valid ZIP or convert it to a ZIP file.")
-            renpy.jump("front_page")
-            
-        response = interface.choice("Are you sure you want to install " + path.replace("\\", "/").split("/")[-1].replace(".zip", "") + " to [project.current.name]?\nThis action cannot be reversed.",
-                        [ ('yes', "Yes"), ('no', "No") ],
-                        "no",
-                        cancel=Jump("front_page")
-                    )
         
-        if response != "yes":
-            interface.error(_("The operation has been cancelled."))
+        interface.yesno(
+            label=_("Deleting a Project"),
+            message=_("Are you sure you want to delete."),
+            filename=False,
+            yes=[SetVariable("confirm_install", True), Return()],
+            no=Return(),
+            cancel=Jump("front_page"))
+        
+        if not confirm_install:
             renpy.jump("front_page")
         else:
             interface.processing("Installing Tool. Please wait...")

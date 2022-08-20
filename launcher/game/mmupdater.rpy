@@ -11,179 +11,224 @@ init python:
     DDMM_URL = "https://api.github.com/repos/GanstaKingofSA/DDLC-ModMaker/releases/latest"
     TEMPLATE_JSON_PATH = config.basedir + "/update/template_current.json"
     DDMM_JSON_PATH = config.basedir + "/update/mmaker_current.json"
+
+    def get_git_template_version(template_json):
+        return tuple(int(num) for num in template_json["tag_name"].split("."))
+
+    def get_installed_template_version(string=False):
+        if string: 
+            num = glob.glob(config.basedir + "/templates/DDLCModTemplate-*-Py3.zip")
+            return num[-1].replace("-Py3.zip", "").split("-")[-1] or "null"
+        return tuple(int(num) for num in glob.glob(config.basedir + "/templates/DDLCModTemplate-*-Py3.zip")[-1].replace("-Py3.zip", "").split("-")[-1].split("."))
+
+    def get_git_ddmm_version(mmaker_json_file):
+        return tuple(int(num) for num in mmaker_json_file["tag_name"].split("."))
     
-default persistent.update_available = False
+    def get_installed_ddmm_version():
+        return tuple(int(num) for num in config.version.split("."))
 
-label mmupdater(silent=False):
+    def fetch_ddmm_updates(quiet=True, mt=False, update_json=True):
+        persistent.update_available = False
+        if not quiet:
+            process_text = ""
+            if mt:
+                process_text += "Mod Template"
+            else:
+                process_text += "DDMM"
+            interface.processing(_("Checking for {} updates").format(process_text))
 
-    python hide:
-        template_update = False
-        mmaker_update = False
+        if not quiet:
+            with interface.error_handling(_("Downloading the latest JSON information")):
+                if mt:
+                    channels = requests.get(TEMPLATE_URL).json()
+                    if update_json or not os.path.exists(TEMPLATE_JSON_PATH):
+                        with open(TEMPLATE_JSON_PATH, "w") as template_json_file:
+                            json.dump(channels, template_json_file)
+                else:
+                    channels = requests.get(DDMM_URL).json()
+                    if update_json or not os.path.exists(DDMM_JSON_PATH):
+                        with open(DDMM_JSON_PATH, "w") as mmaker_json_file:
+                            json.dump(channels, mmaker_json_file)
+        else:
+            if mt:
+                channels = requests.get(TEMPLATE_URL).json()
+                if update_json or not os.path.exists(TEMPLATE_JSON_PATH):
+                    with open(TEMPLATE_JSON_PATH, "w") as template_json_file:
+                        json.dump(channels, template_json_file)
+            else:
+                channels = requests.get(DDMM_URL).json()
+                if update_json or not os.path.exists(DDMM_JSON_PATH):
+                    with open(DDMM_JSON_PATH, "w") as mmaker_json_file:
+                        json.dump(channels, mmaker_json_file)
 
-        if not silent:
-            interface.processing("Checking for updates...")
-
-        if not persistent.last_update_check:
-            persistent.last_update_check = datetime.date.today()
-
-        try:
-            requests.get("https://github.com")
-            if datetime.date.today() > persistent.last_update_check or (not os.path.exists(TEMPLATE_JSON_PATH) or not DDMM_JSON_PATH):
-                template_json = requests.get(TEMPLATE_URL).json()
-                mmaker_json = requests.get(DDMM_URL).json()
-
-                try:
-                    template_json["documentation_url"] or mmaker_json["documentation_url"]
-                    
-                    if not silent:
-                        interface.error("A Github server issue has occured.", "Please try updating later.")
-                        renpy.jump("front_page")
-                    else:
-                        return
-                except: pass
-                
-                if not os.path.exists(config.basedir + "/update"):
-                    os.makedirs(config.basedir + "/update")
-
-                with open(TEMPLATE_JSON_PATH, "w") as template_json_file:
-                    json.dump(template_json, template_json_file)
-
-                with open(DDMM_JSON_PATH, "w") as mmaker_json_file:
-                    json.dump(mmaker_json, mmaker_json_file)
-        except requests.exceptions.ConnectionError:
-            if not silent:
-                interface.error("You are either not connected to the internet or Github is currently down.", "Check your internet connection or try again later.")
-
-        try:
+        if mt:
+            persistent.template_update = False
             with open(TEMPLATE_JSON_PATH, "r") as tf:
                 template_json = json.load(tf)
+
+            try:
+                template_ver = get_installed_template_version()
+            except:
+                template_ver = "null"
+
+            if template_ver == "null" or template_ver < get_git_template_version(template_json):
+                if not persistent.disable_mt_update:
+                    persistent.update_available = True
+                    persistent.template_update = True
+        
+        else:
+            persistent.mmaker_update = False
             with open(DDMM_JSON_PATH, "r") as mf:
                 mmaker_json = json.load(mf)
-        except:
-            if not silent:
-                interface.error("Unable to obtain update information from Github.", "Please try again later.")
-                renpy.jump("front_page")
-            else:
-                return
 
-        try:
-            template_ver = tuple(int(num) for num in glob.glob(config.basedir + "/templates/DDLCModTemplate-*.zip")[-1].replace(".zip", "").split("-")[-1].split("."))
-        except:
-            template_ver = "null"
-
-        if template_ver == "null" or template_ver < tuple(int(num) for num in template_json["tag_name"].split(".")):
-            if not persistent.disable_mt_update:
-                template_update = True
-
-        for x in range(len(mmaker_json["assets"])):
-            if tuple(int(num) for num in config.version.split(".")) < tuple(int(num) for num in mmaker_json["tag_name"].split(".")) and build.directory_name.split("-")[0] == mmaker_json["assets"][x]["name"].split("-")[0]:
+            if get_installed_ddmm_version() < get_git_ddmm_version(mmaker_json):
                 if not persistent.disable_mm_update:
-                    mmaker_update = True
+                    persistent.update_available = True
+                    persistent.mmaker_update = True
 
-        if template_update or mmaker_update:
-            if silent:
-                persistent.update_available = True
-                return
-            elif template_update and mmaker_update:
-                update_text = "Updates are available. Do you wish to install these updates?\n{a=" + template_json["html_url"] + "}What's new for the DDLC Mod Template{/a}\n{a=" + mmaker_json["html_url"] + "}What's new for DDMM/DDMMaker{/a}"
-            elif template_update:
-                update_text = "A DDLC Mod Template update is available. Do you wish to install this update?\n{a=" + template_json["html_url"] + "}What's new for the DDLC Mod Template{/a}"
-            elif mmaker_update:
-                update_text = "A DDMM/DDMMaker update is available. Do you wish to install this update?\n{a=" + mmaker_json["html_url"] + "}What's new for DDMM/DDMMaker{/a}"
+        return channels
 
-            update_response = interface.choice(update_text, 
-                [ ( 'yes', _("Yes") ), ( 'no', _("No")) ],
-                "yes",
-                cancel=Jump("front_page"),
-            )
-            
-            if update_response == "yes":
-                renpy.call("mmupdate", template_update, mmaker_update, template_json["tag_name"], mmaker_json["tag_name"])
+label mmupdater:
 
-        else:
-            if persistent.update_available:
-                persistent.update_available = False
-            if not silent:
-                if persistent.disable_mm_update and persistent.disable_mt_update:
-                    interface.info("Everything is up to date.")
-                elif persistent.disable_mm_update:
-                    interface.info("Everything is up to date.", "Current Version:\n" + template_json["name"])
-                elif persistent.disable_mt_update:
-                    interface.info("Everything is up to date.", "Current Versions:\n" + mmaker_json["name"])
-                else:
-                    interface.info("Everything is up to date.", "Current Versions:\n" + template_json["name"] + "\n" + mmaker_json["name"])
-                
-    if silent:
-        return
-    else:            
-        jump front_page
-
-label mmupdate(template_update, mmaker_update, temp_ver, mm_ver):
-
-    python hide:
-
-        if template_update:
-
-            with interface.error_handling("Updating the DDLC Mod Template"):
-                interface.processing("Updating the DDLC Mod Template. Please wait...")
-
-                zipContent = requests.get("https://github.com/GanstaKingofSA/DDLCModTemplate2.0/releases/download/" + temp_ver + "/DDLCModTemplate-" + temp_ver + ".zip")
-                filename = "DDLCModTemplate-" + temp_ver + ".zip"
-
-                try: os.remove(glob.glob("templates/DDLCModTemplate-*.zip")[-1])
-                except: pass
-
-                with open(config.basedir + "/templates/" + filename, "wb") as newTemplate:
-                    newTemplate.write(zipContent.content) 
-        
-        if mmaker_update:
-
-            with interface.error_handling("Updating DDMM/DDMMaker"):
-                interface.processing("Updating DDMM/DDMMaker. Please wait...")
-
-                zipContent = requests.get("https://github.com/GanstaKingofSA/DDLC-ModMaker/releases/download/" + mm_ver + "/" + build.directory_name.split("-")[0] + "-" + mm_ver + "-sdk.zip")
-                filename = build.directory_name.split("-")[0] + "-" + mm_ver + "-sdk.zip"
-
-                with open(config.basedir + "/" + filename, "wb") as newMMaker:
-                    newMMaker.write(zipContent.content) 
-                
-                with zipfile.ZipFile(filename, "r") as z:
-                    z.extractall(config.basedir)
-
-                for update_src, dirs, files in os.walk(config.basedir + "/" + filename.replace(".zip", "")):
-                    dst_dir = update_src.replace(config.basedir + "/" + filename.replace(".zip", ""), config.basedir)
-                    
-                    if not os.path.exists(dst_dir):
-                        os.makedirs(dst_dir)
-                    
-                    for f in files:
-                        update_file = os.path.join(update_src, f)
-                        dst_file = os.path.join(dst_dir, f)
-
-                        if os.path.exists(dst_file):
-                            if renpy.windows:
-                                if os.stat(update_file) == os.stat(dst_file):
-                                    continue
-                            else:
-                                if os.path.samefile(update_file, dst_file):
-                                    continue
-
-                            os.remove(dst_file)
-
-                        shutil.move(update_file, dst_file)
-
-                shutil.rmtree(filename.replace(".zip", ""))
-                os.remove(filename)
-
-        persistent.update_available = False
-
-        if template_update and mmaker_update:
-            interface.info("The updates has been complete. DDMM/DDMMaker will now restart.")
-            renpy.quit(True)
-        elif mmaker_update:
-            interface.info("The update has been complete. DDMM/DDMMaker will now restart.")
-            renpy.quit(True)
-        else:
-            interface.info("The update has been complete.")
+    $ ddmm_chan = fetch_ddmm_updates(False)
+    $ ddmt_chan = fetch_ddmm_updates(False, True)
+    call screen ddmmupdate(ddmm_chan, ddmt_chan)
 
     jump front_page
+
+screen ddmmupdate(ddmm_chan, ddmt_chan):
+
+    frame:
+        style_group "l"
+        style "l_root"
+
+        window:
+
+            has viewport:
+                scrollbars "vertical"
+                mousewheel True
+
+            has vbox
+
+            label _("DDMM Updater")
+
+            add HALF_SPACER
+
+            hbox:
+                frame:
+                    style "l_indent"
+                    xfill True
+
+                    has vbox
+
+                    if persistent.update_available:
+                        text _("A update for DDMM or the DDLC Mod Template is now available. Select the update you want to install to proceed.")
+                    else:
+                        text _("No Updates Are Available.")
+
+                    add SPACER
+
+                    if persistent.mmaker_update:
+                        textbutton "Doki Doki Mod Maker (DDMM/DDMMaker) for Ren'Py 8 - Update Available":
+                            action [Call("install_ddmm_update_script", ddmm_chan), Jump("mmupdater")]
+                    else:
+                        if persistent.disable_mm_update:
+                            textbutton "Doki Doki Mod Maker (DDMM/DDMMaker) for Ren'Py 8 - Updates Disabled":
+                                action NullAction()
+                        else:
+                            textbutton "Doki Doki Mod Maker (DDMM/DDMMaker) for Ren'Py 8":
+                                action NullAction()
+                    text "Version Installed: {} | Latest Version: {}".format(config.version, ddmm_chan["tag_name"])
+                    text "This is the program you are running to build DDLC mods on! Self-explanatory already."
+                    text "{a=" + ddmm_chan["html_url"] + "}What's new for DDMM/DDMMaker?{/a}"
+
+                    add SPACER
+
+                    if persistent.template_update:
+                        textbutton "The DDLC Mod Template - Version 2.0 (Python 3 Edition) - Update Available":
+                            action [Call("install_ddmt_update_script", ddmt_chan), Jump("mmupdater")]
+                    else:
+                        if persistent.disable_mt_update:
+                            textbutton "The DDLC Mod Template - Version 2.0 (Python 3 Edition) - Updates Disabled":
+                                action NullAction()
+                        else:
+                            textbutton "The DDLC Mod Template - Version 2.0 (Python 3 Edition)":
+                                action NullAction()
+                    text "Version Installed: {}-Py3 | Latest Version: {}-Py3".format(get_installed_template_version(True), ddmt_chan["tag_name"])
+                    text "The DDLC Mod Template - Version 2.0 is the latest template for DDLC that allows modders to easily mod DDLC to their hearts content. {u}This is the Python 3 Edition of the template and is not compatible with DDMM 6-7/Ren'Py 6-7{/u}."
+                    text "{a=" + ddmt_chan["html_url"] + "}What's new for the DDLC Mod Template - Version 2.0 (Python 3 Edition)?{/a}"
+
+    textbutton _("Return") action Jump("front_page") style "l_left_button"
+
+label install_ddmt_update_script(ddmt_chan):
+
+    python hide:
+        with interface.error_handling("Updating the DDLC Mod Template"):
+            interface.processing("Updating the DDLC Mod Template. Please wait...")
+
+            zipContent = requests.get("https://github.com/GanstaKingofSA/DDLCModTemplate2.0/releases/download/" + ddmt_chan["tag_name"] + "/DDLCModTemplate-" + ddmt_chan["tag_name"] + "-Py3.zip")
+            filename = "DDLCModTemplate-" + ddmt_chan["tag_name"] + "-Py3.zip"
+
+            try: 
+                for x in glob.glob("templates/DDLCModTemplate-*-Py3.zip"):
+                    os.remove(x)
+            except: pass
+
+            with open(config.basedir + "/templates/" + filename, "wb") as newTemplate:
+                newTemplate.write(zipContent.content) 
+
+            with zipfile.ZipFile(config.basedir + "/templates/" + filename) as newTemplate:
+                newTemplate.extract("guide.pdf", config.basedir + "/templates")
+
+            persistent.update_available = False
+            interface.info("The update has been complete.")
+
+    jump mmupdater
+
+label install_ddmm_update_script(ddmm_chan):
+
+    python hide:
+        
+        with interface.error_handling("Updating DDMM/DDMMaker"):
+            interface.processing("Updating DDMM/DDMMaker. Please wait...")
+
+            zipContent = requests.get("https://github.com/GanstaKingofSA/DDLC-ModMaker/releases/download/" + ddmm_chan["tag_name"] + "/" + build.directory_name.split("-")[0] + "-" + ddmm_chan["tag_name"] + "-sdk.zip")
+            filename = build.directory_name.split("-")[0] + "-" + ddmm_chan["tag_name"] + "-sdk.zip"
+
+            with open(config.basedir + "/" + filename, "wb") as newMMaker:
+                newMMaker.write(zipContent.content) 
+            
+            with zipfile.ZipFile(filename, "r") as z:
+                z.extractall(config.basedir)
+
+            for update_src, dirs, files in os.walk(config.basedir + "/" + filename.replace(".zip", "")):
+                dst_dir = update_src.replace(config.basedir + "/" + filename.replace(".zip", ""), config.basedir)
+                
+                if not os.path.exists(dst_dir):
+                    os.makedirs(dst_dir)
+                
+                for f in files:
+                    update_file = os.path.join(update_src, f)
+                    dst_file = os.path.join(dst_dir, f)
+
+                    if os.path.exists(dst_file):
+                        if renpy.windows:
+                            if os.stat(update_file) == os.stat(dst_file):
+                                continue
+                        else:
+                            if os.path.samefile(update_file, dst_file):
+                                continue
+
+                        os.remove(dst_file)
+
+                    shutil.move(update_file, dst_file)
+
+            shutil.rmtree(filename.replace(".zip", ""))
+            os.remove(filename)
+
+            persistent.update_available = False
+
+            interface.info("The update has been complete. DDMM/DDMMaker will now restart.")
+            renpy.quit(True)
+
+    jump mmupdater

@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2021 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2022 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -24,7 +24,6 @@
 init python:
     import os
     from modmanagement import ModManagement
-    
     modman = ModManagement()
 
 init python in project:
@@ -104,9 +103,9 @@ init python in project:
 
         def load_data(self):
             try:
-                with open(os.path.join(self.path, "project.json"), "rb") as f:
+                with open(os.path.join(self.path, "project.json"), "r") as f:
                     self.data = json.load(f)
-            except:
+            except Exception:
                 self.data = { }
 
             self.update_data()
@@ -117,9 +116,9 @@ init python in project:
             """
 
             try:
-                with open(os.path.join(self.path, "project.json"), "wb") as f:
+                with open(os.path.join(self.path, "project.json"), "w") as f:
                     json.dump(self.data, f)
-            except:
+            except Exception:
                 self.load_data()
 
         def update_data(self):
@@ -170,7 +169,7 @@ init python in project:
 
             try:
                 os.makedirs(tmp)
-            except:
+            except Exception:
                 pass
 
             if os.path.isdir(tmp):
@@ -189,7 +188,7 @@ init python in project:
                     self.tmp = tmp
                     return
 
-                except:
+                except Exception:
                     pass
 
             self.tmp = tempfile.mkdtemp()
@@ -242,7 +241,7 @@ init python in project:
                 raise Exception("Python interpreter not found: %r", executables)
 
             # Put together the basic command line.
-            cmd = [ executable, "-EO", sys.argv[0] ]
+            cmd = [ executable, sys.argv[0] ]
 
             cmd.append(self.path)
             cmd.extend(args)
@@ -278,7 +277,11 @@ init python in project:
 
             if wait:
                 if p.wait():
-                    interface.error(_("Launching the project failed."), _("Please ensure that your project launches normally before running this command."))
+
+                    if args and not self.is_writeable():
+                        interface.error(_("Launching the project failed."), _("This may be because the project is not writeable."))
+                    else:
+                        interface.error(_("Launching the project failed."), _("Please ensure that your project launches normally before running this command."))
 
             renpy.not_infinite_loop(30)
 
@@ -317,7 +320,7 @@ init python in project:
                 # add todo list to dump data
                 self.update_todos()
 
-            except:
+            except Exception:
                 self.dump["error"] = True
 
         def update_todos(self):
@@ -332,17 +335,18 @@ init python in project:
 
             for f in files:
 
-                data = file(self.unelide_filename(f))
+                data = open(self.unelide_filename(f), encoding="utf-8")
 
                 for l, line in enumerate(data):
                     l += 1
 
                     line = line[:1024]
 
-                    try:
-                        line = line.decode("utf-8")
-                    except:
-                        continue
+                    if PY2:
+                        try:
+                            line = line.decode("utf-8")
+                        except Exception:
+                            continue
 
                     m = re.search(r"#\s*TODO(\s*:\s*|\s+)(.*)", line, re.I)
 
@@ -398,6 +402,14 @@ init python in project:
 
             return os.path.exists(os.path.join(self.path, fn))
 
+        def is_writeable(self):
+            """
+            Returns true if it's possible to write a file in the projects
+            directory.
+            """
+
+            return os.access(self.path, os.W_OK)
+
 
     class ProjectManager(object):
         """
@@ -407,26 +419,26 @@ init python in project:
 
         def __init__(self):
 
-           # The projects directory.
-           self.projects_directory = ""
+            # The projects directory.
+            self.projects_directory = ""
 
-           # Normal projects, in alphabetical order by lowercase name.
-           self.projects = [ ]
+            # Normal projects, in alphabetical order by lowercase name.
+            self.projects = [ ]
 
-           # Template projects.
-           self.templates = [ ]
+            # Template projects.
+            self.templates = [ ]
 
-           # All projects - normal, template, and hidden.
-           self.all_projects = [ ]
+            # All projects - normal, template, and hidden.
+            self.all_projects = [ ]
 
-           # Directories that have been scanned.
-           self.scanned = set()
+            # Directories that have been scanned.
+            self.scanned = set()
 
-           # The tutorial game, and the language it's for.
-           self.tutoral = None
-           self.tutorial_language = "the meowing of a cat"
+            # The tutorial game, and the language it's for.
+            self.tutoral = None
+            self.tutorial_language = "the meowing of a cat"
 
-           self.scan()
+            self.scan()
 
         def scan(self):
             """
@@ -544,7 +556,7 @@ init python in project:
 
             try:
                 ppath = self.find_basedir(ppath)
-            except:
+            except Exception:
                 return
 
             if ppath is None:
@@ -830,54 +842,38 @@ label auto_extract:
 
     python:
 
-        browser_kind = interface.choice(
-            _("Does your operating system auto-extract '.zip' files? DDLC's ZIP may be affected if your OS auto-extracts ZIP files."),
-            [ ( 'safari_download', _("Yes") ), ( 'regular_download', _("No")) ],
-            "safari_download",
+        browser_kind = interface.yesno(
+            message=_("Does your operating system auto-extract '.zip' files? DDLC's ZIP may be affected if your OS auto-extracts ZIP files."),
+            yes=[SetField(persistent, "safari", True), SetField(persistent, "zip_directory", None), Return()],
+            no=[SetField(persistent, "safari", False), SetField(persistent, "zip_directory", None), Return()],
             cancel=Jump("front_page"),
             )
 
-        renpy.jump(browser_kind)
-
-label safari_download:
-    $ persistent.safari = True
-    $ persistent.zip_directory = None
-    return
-
-label regular_download:
-    $ persistent.safari = False
-    $ persistent.zip_directory = None
     return
 
 label delete_folder:
+
     python:
-        while True:
-            delete_response = interface.input(
-                _("Deleting a Project"),
-                _("Are you sure you want to delete '[project.current.name!q]'? Type either Yes or No."),
-                filename=False,
-                cancel=Jump("front_page"))
+        confirm_delete = False
+        interface.yesno(
+            label=_("Deleting a Project"),
+            message=_("Are you sure you want to delete '[project.current.name!q]'? Type either Yes or No."),
+            filename=False,
+            yes=[SetVariable("confirm_delete", True), Return()],
+            no=Return(),
+            cancel=Jump("front_page"))
 
-            delete_response = delete_response.strip()
+        if not confirm_delete:
+            renpy.jump("front_page")
+        else:
+            interface.processing(_("Deleting [project.current.name]..."))
+            
+            with interface.error_handling(_("deleting mod.")):
+                modman.delete_mod(persistent.projects_directory, project.current.name)
 
-            if not delete_response or delete_response.lower() == "no":
-                interface.error(_("The operation has been cancelled."))
-                renpy.jump("front_page")
+            interface.info("[project.current.name] has been deleted from the projects folder.")
 
-            elif delete_response.lower() == "yes":
-                
-                interface.processing(_("Deleting [project.current.name]..."))
-                
-                with interface.error_handling(_("deleting mod.")):
-                    modman.delete_mod(persistent.projects_directory, project.current.name)
-
-                interface.info("[project.current.name] has been deleted from the projects folder.")
-            else:
-                interface.error(_("Invalid Input. Expected either a Yes or No response."))
-                continue
-
-            project.manager.scan()
-            break
+        project.manager.scan()
 
     jump front_page
 
