@@ -352,8 +352,8 @@ screen preferences():
                             textbutton _("Reset window size") style "l_nonbox" action Preference("display", 1.0)
                             textbutton _("Clean temporary files") style "l_nonbox" action Jump("clean_tmp")
 
-                            textbutton _("Disable Mod Template Updates") style "l_checkbox" action ToggleField(persistent, "disable_mt_update")
-                            textbutton _("Disable Mod Maker Updates") style "l_checkbox" action ToggleField(persistent, "disable_mm_update")
+                            textbutton _("Disable Mod Template Updates") style "l_checkbox" action [ToggleField(persistent, "disable_mt_update"), Function(fetch_ddmm_updates), Function(fetch_ddmm_updates, mt=True)] 
+                            textbutton _("Disable Mod Maker Updates") style "l_checkbox" action [ToggleField(persistent, "disable_mm_update"), Function(fetch_ddmm_updates), Function(fetch_ddmm_updates, mt=True)] 
 
                             if renpy.macintosh:
                                 textbutton _("Change Extract Settings") style "l_nonbox" action Jump("auto_extract")

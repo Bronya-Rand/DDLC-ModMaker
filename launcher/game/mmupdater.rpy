@@ -28,6 +28,7 @@ init python:
         return tuple(int(num) for num in config.version.split("."))
 
     def fetch_ddmm_updates(quiet=True, mt=False, update_json=True):
+        persistent.update_available = False
         if not quiet:
             process_text = ""
             if mt:
