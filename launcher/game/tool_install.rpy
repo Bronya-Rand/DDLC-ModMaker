@@ -64,8 +64,8 @@ label tool_install:
                                 gamedir = True
                             break
                 if tool_dir is None:
-                    # Assume the best is the src itself
-                    tool_dir = td
+                    # Assume the best is the src + subfolder itself
+                    tool_dir = os.path.join(td, os.listdir(td)[-1])
                     
             with interface.error_handling("extracting user tool pt2"):      
                 for tool_src, dirs, files in os.walk(tool_dir):
