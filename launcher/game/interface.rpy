@@ -453,21 +453,18 @@ init python in interface:
         common(_("PROCESSING"), store.INTERACTION_COLOR, message, submessage, pause0=True, complete=complete, total=total, **kwargs)
 
 
-    def yesno(message, yes=Return(True), no=Return(False), **kwargs):
+    def yesno(message, label_text=_("CHOICE"), yes=Return(True), no=Return(False), **kwargs):
         """
         Asks the user a yes or no question.
-
         `message`
             The question to ask.
-
         `yes`
             The action to perform if the user answers yes.
-
         `no`
             The action to perform if the user answer no.
         """
 
-        return common(_("QUESTION"), store.QUESTION_COLOR, message, yes=yes, no=no, **kwargs)
+        return common(label_text, store.QUESTION_COLOR, message, yes=yes, no=no, **kwargs)
 
     def choice(message, choices, selected, **kwargs):
         """

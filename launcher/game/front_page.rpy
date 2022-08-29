@@ -73,10 +73,12 @@ init python:
         except IOError: pass
 
         try:
-            with open(os.path.join(persistent.projects_directory, project.current.name, 
-                'game/renpy-version.txt')) as f:
-                if f.readline() > "6": return False
-                return True
+            with open(os.path.join(persistent.projects_directory, project.current.name, 'game/renpy-version.txt')) as f:
+                file_ver = f.readline().strip()
+
+            if int(file_ver) < 7: return 6
+            elif int(file_ver) > 7: return 8
+            return 7
         except IOError: return None
 
 screen front_page:
@@ -147,9 +149,11 @@ screen front_page:
         python:
             launch = readVersion()
                 
-        if launch == False:
-            textbutton _("DDMM/DDMMaker 7.4.X+ Needed") action NullAction() style "l_unavail_button"
-        elif launch == True or project.current.name == "launcher":
+        if launch == 7:
+            textbutton _("DDMM 7+ Needed") action NullAction() style "l_unavail_button"
+        elif launch == 8:
+            textbutton _("DDMM 8+ Needed") action NullAction() style "l_unavail_button"
+        elif launch == 6 or project.current.name == "launcher":
             textbutton _("Launch Mod") action project.Launch() style "l_right_button"
             key "K_F5" action project.Launch()
         else:
@@ -219,8 +223,8 @@ screen front_page_project:
 
                     textbutton _("game") action OpenDirectory("game")
                     textbutton _("base") action OpenDirectory(".")
-                    textbutton _("images") action OpenDirectory("game/images")
-                    textbutton _("bgm") action OpenDirectory("game/bgm")
+                    #textbutton _("images") action OpenDirectory("game/images")
+                    #textbutton _("bgm") action OpenDirectory("game/bgm")
                     textbutton _("gui") action OpenDirectory("game/gui")
                     textbutton _("mod_assets") action OpenDirectory("game/mod_assets")
                     # textbutton _("save") action None style "l_list"
@@ -278,7 +282,7 @@ screen front_page_project:
                         else:
                             launch = None
                             
-                    if launch == True:
+                    if launch == 6:
                         textbutton _("Build Mod for Android") action Jump("android")
                     else:
                         textbutton _("Android Unavailable") action Jump("no_android")
