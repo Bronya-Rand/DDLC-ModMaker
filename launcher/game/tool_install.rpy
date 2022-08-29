@@ -33,7 +33,7 @@ label tool_install:
         
         interface.yesno(
             label=_("Deleting a Project"),
-            message=_("Are you sure you want to delete."),
+            message=_("Are you sure you install {file}".format(file=path.replace("\\", "/").split("/")[-1] + "?")),
             filename=False,
             yes=[SetVariable("confirm_install", True), Return()],
             no=Return(),
