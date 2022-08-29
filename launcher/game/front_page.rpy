@@ -119,9 +119,9 @@ screen front_page:
                 
         if launch == 6:
             textbutton _("DDMM 6.99.12.4 Needed") action NullAction() style "l_unavail_button"
-        elif launch == 8:
-            textbutton _("DDMM 8+ Needed") action NullAction() style "l_unavail_button"
-        elif launch == 7 or project.current.name == "launcher":
+        elif launch == 7:
+            textbutton _("DDMM 7+ Needed") action NullAction() style "l_unavail_button"
+        elif launch == 8 or project.current.name == "launcher":
             textbutton _("Launch Mod") action project.Launch() style "l_right_button"
             key "K_F5" action project.Launch()
         else:
