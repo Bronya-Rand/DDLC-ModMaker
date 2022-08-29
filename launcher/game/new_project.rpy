@@ -112,6 +112,10 @@ label new_project:
                 interface.error(_("[project_dir!q] already exists. Please choose a different project name."), project_dir=project_dir, label=None)
                 continue
 
+            interface.processing(_("Installing Template Files..."))
+            with interface.error_handling(_("Extracting the DDLC Mod Template...")):
+                extract.installation(template, project_dir)
+
             interface.processing(_("Installing DDLC..."))
             if persistent.safari == True and renpy.macintosh:
                 with interface.error_handling(_("Copying DDLC...")):
@@ -119,10 +123,6 @@ label new_project:
             else:
                 with interface.error_handling(_("Extracting DDLC...")):
                     extract.game_installation(persistent.zip_directory, project_dir)
-
-            interface.processing(_("Installing Template Files..."))
-            with interface.error_handling(_("Extracting the DDLC Mod Template...")):
-                extract.installation(template, project_dir)
 
             with open(project_dir + '/game/renpy-version.txt', 'w') as f:
                 f.write("7")
