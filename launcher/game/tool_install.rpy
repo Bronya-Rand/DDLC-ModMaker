@@ -16,7 +16,7 @@ label tool_install:
         else:
             project_dir = os.path.join(persistent.projects_directory, project.current.name)
 
-        interface.info("This installer is in beta. Not all mod tools will install properly or require additional setup.", "Make sure to backup your project if anything fails.")
+        interface.info("This installer is in beta. Not all mod tools will install properly and may require changes before launch.", "Make sure to backup your project if anything fails.")
 
         if renpy.macintosh and persistent.safari:
             interface.interaction(_("Tool Folder"), _("Please select the tool folder you wish to install."),)
@@ -55,15 +55,14 @@ label tool_install:
                 tool_dir = None 
                 for src, dirs, files in os.walk(td):
                     for d in dirs:
-                        for x in ["game", "mod_assets", "python-packages"]:
-                            if x in d:
-                                if "game" in d:
-                                    tool_dir = os.path.join(src, d)
-                                    gamedir = True
-                                else:
-                                    tool_dir = os.path.join(src,d).replace("\\" + d, "")
-                                    gamedir = True
-                                break
+                        if d in ["game", "mod_assets", "python-packages"]:
+                            if "game" in d:
+                                tool_dir = os.path.join(src, d)
+                                gamedir = True
+                            else:
+                                tool_dir = os.path.join(src, d).replace("\\" + d, "")
+                                gamedir = True
+                            break
                 if tool_dir is None:
                     # Assume the best is the src itself
                     tool_dir = td
