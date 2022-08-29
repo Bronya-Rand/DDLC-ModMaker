@@ -857,7 +857,7 @@ label delete_folder:
         confirm_delete = False
         interface.yesno(
             label=_("Deleting a Project"),
-            message=_("Are you sure you want to delete '[project.current.name!q]'? Type either Yes or No."),
+            message=_("Are you sure you want to delete '[project.current.name!q]'?"),
             filename=False,
             yes=[SetVariable("confirm_delete", True), Return()],
             no=Return(),
