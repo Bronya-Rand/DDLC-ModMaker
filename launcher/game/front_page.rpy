@@ -76,7 +76,7 @@ init python:
             with open(os.path.join(persistent.projects_directory, project.current.name, 'game/renpy-version.txt')) as f:
                 file_ver = f.readline().strip()
 
-            if int(file_ver) < 7: return 6
+            if int(file_ver) < 7: return 6zz
             elif int(file_ver) > 7: return 8
             return 7
         except: return None
@@ -355,7 +355,11 @@ label set_version:
         try:
             x = readVersion()
 
+            prompt = False
             if x > 6:
+                prompt = False
+            
+            if prompt:
                 delete_response = interface.input(
                     _("Warning"),
                     _("This mod is set to Ren'Py 7 or 8 Mode. If you change this, it may result in a unloadable mod. Are you sure you want to proceed? Type either Yes or No."),
@@ -372,7 +376,7 @@ label set_version:
                     interface.info(_("Set the Ren'Py mode version to Ren'Py 6."))
                 else:
                     interface.error(_("Invalid Input. Please try again."))
-            elif x == "6":
+            else:
                 interface.info(_("The Ren'Py mode version is already set to Ren'Py 6."))
         except IOError:
             with open(os.path.join(persistent.projects_directory, project.current.name, "game/renpy-version.txt"), "w") as f:
