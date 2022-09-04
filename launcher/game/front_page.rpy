@@ -25,6 +25,7 @@ init python:
 
     import os
     import subprocess
+    import shutil
 
     class OpenDirectory(Action):
         """
@@ -202,11 +203,6 @@ screen front_page_project:
 
         has vbox
 
-        python:
-            version = renpy.version()
-
-        label _("Current Ren'Py Version: [version!q]") style "l_alternate" yoffset 14
-
         frame style "l_label":
             has hbox xfill True
             text "[p.name!q]" style "l_label_text"
@@ -223,13 +219,11 @@ screen front_page_project:
                 frame style "l_indent":
                     has vbox
 
-                    textbutton _("game") action OpenDirectory("game")
-                    textbutton _("base") action OpenDirectory(".")
-                    #textbutton _("images") action OpenDirectory("game/images")
-                    #textbutton _("bgm") action OpenDirectory("game/bgm")
-                    textbutton _("gui") action OpenDirectory("game/gui")
-                    textbutton _("mod_assets") action OpenDirectory("game/mod_assets")
-                    # textbutton _("save") action None style "l_list"
+                    textbutton _("game") action OpenDirectory(os.path.join(p.path, "game"))
+                    textbutton _("base") action OpenDirectory(os.path.join(p.path, "."))
+                    textbutton _("mod_assets") action OpenDirectory(os.path.join(p.path, "game/mod_assets"))
+                    textbutton _("mod_extras") action OpenDirectory(os.path.join(p.path, "game/mod_extras"))
+                    textbutton _("gui") action OpenDirectory(os.path.join(p.path, "game/gui"))
 
             vbox:
                 if persistent.show_edit_funcs:
@@ -259,10 +253,6 @@ screen front_page_project:
                 has vbox
                 textbutton _("Navigate Script") action Jump("navigation")
                 textbutton _("Check Script for Errors") action Jump("lint")
-                # if project.current.exists("game/gui.rpy"):
-                #     textbutton _("Change/Update GUI") action Jump("change_gui")
-                # else:
-                #     textbutton _("Change Theme") action Jump("choose_theme")
                 textbutton _("Delete Persistent") action Jump("rmpersistent")
                 textbutton _("Force Recompile") action Jump("force_recompile")
                 if project.current.name != "launcher":
@@ -354,31 +344,32 @@ label no_android:
 
 label set_version:
     python:
-        try:
-            x = readVersion()
-
-            prompt = False
-            if x > 6:
-                prompt = False
-            
-            if prompt:
-                delete_response = interface.yesno(
-                    label=_("Warning"),
-                    message=_("This mod is set to Ren'Py 7/8 Mode. If you change this, it may result in a unloadable mod. Are you sure you want to proceed? Type either Yes or No."),
-                    yes=SetScreenVariable(confirm_delete, True),
-                    no=Return(),
-                    cancel=Jump("front_page"))
-
-                if not confirm_delete:
-                    renpy.jump("front_page")
-                else:
-                    with open(os.path.join(persistent.projects_directory, project.current.name, "game/renpy-version.txt"), "w") as f:
-                        f.write("6") 
-                    interface.info(_("Set the Ren'Py mode version to Ren'Py 6."))
-            else:
-                interface.info(_("The Ren'Py mode version is already set to Ren'Py 6."))
-        except IOError:
+        x = readVersion()
+        if x is None:
             with open(os.path.join(persistent.projects_directory, project.current.name, "game/renpy-version.txt"), "w") as f:
                 f.write("6") 
             interface.info(_("A file named `renpy-version.txt` has been created in your projects' game directory."), _("Do not delete this file as it is needed to determine which version of Ren'Py it uses for building your mod."))
+            renpy.jump("front_page")
+            
+        prompt = False
+        if x > 6:
+            prompt = True
+
+        if prompt:
+            delete_response = interface.yesno(
+                label=_("Warning"),
+                message=_("This mod is set to Ren'Py 7/8 Mode. If you change this, it may result in a unloadable mod. Are you sure you want to proceed? Type either Yes or No."),
+                yes=SetScreenVariable(confirm_delete, True),
+                no=Return(),
+                cancel=Jump("front_page"))
+
+            if not confirm_delete:
+                renpy.jump("front_page")
+            else:
+                with open(os.path.join(persistent.projects_directory, project.current.name, "game/renpy-version.txt"), "w") as f:
+                    f.write("6") 
+                interface.info(_("Set the Ren'Py mode version to Ren'Py 6."))
+        else:
+            interface.info(_("The Ren'Py mode version is already set to Ren'Py 6."))
+
     return
