@@ -831,9 +831,10 @@ label ddlc_location:
             interface.error(_("The operation has been cancelled."))
             renpy.jump("front_page")
 
-        if 'ddlc-mac' in path:
+        if path.endswith("ddlc-mac") or path.endswith("ddlc-mac.zip"):
             interface.error(_("The DDLC Mac ZIP/Folder is no longer compatible with DDMM.\nDownload the DDLC Windows ZIP file, select it and try again."))
-
+            renpy.jump("front_page")
+            
         persistent.zip_directory = path
         project.multipersistent.zip_directory = path
         project.multipersistent.save()
