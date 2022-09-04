@@ -53,7 +53,10 @@ class Extractor:
                 if base != "scripts":
                     src_dir = os.path.join(temp_src, f)
                     dst_dir = src_dir.replace(temp_src, os.path.join(modFolder, "game"))
-                    shutil.move(src_dir, dst_dir)
+                    if not copy:
+                        shutil.move(src_dir, dst_dir)
+                    else:
+                        shutil.copy2(src_dir, dst_dir)
 
         if not copy:
             shutil.rmtree(game_dir)
