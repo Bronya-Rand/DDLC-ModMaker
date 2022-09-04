@@ -337,7 +337,7 @@ label version_error:
 
 label no_android:
     python:
-        interface.info(_("This project cannot be built for Android as it's either in Ren'Py 6/8 mode or is missing 'renpy-version.txt'"), _("Please check if 'renpy-version.txt' exists or change the version of your project to Ren'Py 7."),)
+        interface.info(_("This project cannot be built for Android as it's either in Ren'Py 6/8 mode or is missing 'renpy-version.txt'"), _("Please check if 'renpy-version.txt' exists or change the version of your project."),)
         renpy.jump('front_page')
 
 label set_version:
@@ -346,12 +346,12 @@ label set_version:
             x = readVersion()
 
             prompt = False    
-            if x < 7:
+            if x == 6:
                 prompt = True
                 response_text = _("This mod is set to Ren'Py 6 Mode. ")
-            elif x > 7:
+            elif x == 7:
                 prompt = True
-                response_text = _("This mod is set to Ren'Py 8 Mode. ")
+                response_text = _("This mod is set to Ren'Py 7 Mode. ")
                 
             if prompt:
                 confirm_delete = False
@@ -366,10 +366,10 @@ label set_version:
                     renpy.jump("front_page")
                 else:
                     with open(os.path.join(persistent.projects_directory, project.current.name, "game/renpy-version.txt"), "w") as f:
-                        f.write("7") 
-                    interface.info(_("Set the Ren'Py mode version to Ren'Py 7."))
+                        f.write("8") 
+                    interface.info(_("Set the Ren'Py mode version to Ren'Py 8."))
             else:
-                interface.info(_("The Ren'Py mode version is already set to Ren'Py 7."))
+                interface.info(_("The Ren'Py mode version is already set to Ren'Py 8."))
         except IOError:
             with open(os.path.join(persistent.projects_directory, project.current.name, "game/renpy-version.txt"), "w") as f:
                 f.write("7") 

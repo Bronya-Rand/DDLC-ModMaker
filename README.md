@@ -11,7 +11,7 @@ DDMM/DDMMaker is a Ren'Py SDK Modification that makes DDLC Modding easier and ef
 1. Auto mod template installation
 2. Auto Mood Pose Tool (MPT) installation
 3. Support for MacOS, Linux and Android
-4. Updates (Ren'Py 7 Only)
+4. Updates
 
 **DISCLAIMER**
 
