@@ -297,9 +297,14 @@ label start:
     show screen bottom_info
 
 label front_page:
+    if persistent.zip_directory is not None:
+        if persistent.zip_directory.endswith("ddlc-mac") or persistent.zip_directory.endswith("ddlc-mac.zip"):
+            $ persistent.zip_directory = None
+
     python:
         if not os.path.exists(os.path.join(config.basedir, "templates")):
             os.makedirs(os.path.join(config.basedir, "templates"))
+    
     call screen front_page
     jump front_page
 

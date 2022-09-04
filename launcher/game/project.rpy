@@ -789,13 +789,17 @@ label ddlc_location:
     python:
 
         if renpy.macintosh and persistent.safari:
-            interface.interaction(_("DDLC Folder"), _("Please select the DDLC folder you downloaded from DDLC.moe."),)
+            interface.interaction(_("DDLC Folder"), _("Please select the 'ddlc-win' folder you downloaded from DDLC.moe."),)
 
             path, is_default = choose_directory(None)
         else:
-            interface.interaction(_("DDLC ZIP File"), _("Please select the DDLC ZIP file you downloaded from DDLC.moe."),)
+            interface.interaction(_("DDLC ZIP File"), _("Please select the 'ddlc-win' ZIP file you downloaded from DDLC.moe."),)
 
             path, is_default = choose_file(None)
+
+        if path.endswith("ddlc-mac") or path.endswith("ddlc-mac.zip"):
+            interface.error(_("The DDLC Mac ZIP/Folder is no longer compatible with DDMM.\nDownload the DDLC Windows ZIP file, select it and try again."))
+            renpy.jump("front_page")
 
         if is_default:
             interface.error(_("The operation has been cancelled."))
