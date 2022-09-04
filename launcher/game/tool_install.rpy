@@ -11,10 +11,7 @@ label tool_install:
         gamedir = False
         confirm_install = False
 
-        if renpy.macintosh:
-            project_dir = os.path.join(persistent.projects_directory, project.current.name, "DDLC.app/Contents/Resources/autorun")
-        else:
-            project_dir = os.path.join(persistent.projects_directory, project.current.name)
+        project_dir = os.path.join(persistent.projects_directory, project.current.name)
 
         interface.info("This installer is in beta. Not all mod tools will install properly and may require changes before launch.", "Make sure to backup your project if anything fails.")
 
