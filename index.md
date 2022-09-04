@@ -13,7 +13,7 @@ Download Doki Doki Mod Maker for Ren'Py 7.4.X by clicking the *TAR.GZ* button.
 3. Atom (for DDMM/DDMMaker running Ren'Py 6)
 4. Support for MacOS, Linux and Android
 5. Dark Mode
-6. Updates (Ren'Py 7 Only) [Beta]
+6. Updates (Ren'Py 7/8 Only) [Beta]
 
 ## Screenshots
 
@@ -24,14 +24,10 @@ Download Doki Doki Mod Maker for Ren'Py 7.4.X by clicking the *TAR.GZ* button.
 
 ## Changes
 
-Version 1.4.0 - Lonesome Anchor
-- New tool install method via *Install a Tool* that installs any DDLC mod tool archive to your projects. [Beta]
-    > This feature is in beta since not all mod tools are packaged properly. This has been tested for MPT and DDLC OST-Player.
-- Updater for the mod template and DDMM/DDMMaker! (Ren'Py 7 Version Only) [Beta]
-- Bump to 7.4.11 along with template and guide.
-- Better install/delete methods for projects.
-- New logo and rebrand.
-- Remove Steam support as it is buggy.
-- Auto-remove scripts.rpa
-- Fixed the python-tk error by using `/usr/bin/python2`
-- Fixed a few bugs relating to *renpy-version.txt*
+Version 1.5.0 - Astute Voyage Part II
+- Ren'Py 8 Mod Build Support
+- Fixed a bug relating to renpy-version.txt
+- Changed mod maker for MacOS
+   > MacOS versions require `ddlc-win.zip` or `DDLC-1.1.1-pc` folders than their mac counterparts.
+- Changed tool install method
+- New Updater for DDMM 7/8
