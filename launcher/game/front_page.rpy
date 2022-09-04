@@ -76,7 +76,7 @@ init python:
             with open(os.path.join(persistent.projects_directory, project.current.name, 'game/renpy-version.txt')) as f:
                 file_ver = f.readline().strip()
 
-            if int(file_ver) < 7: return 6zz
+            if int(file_ver) < 7: return 6
             elif int(file_ver) > 7: return 8
             return 7
         except: return None
