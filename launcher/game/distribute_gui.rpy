@@ -283,7 +283,7 @@ label build_distributions:
         try:
             with open(ver) as f:
                 if f.readline() > "6":
-                    interface.error(_("You are trying to compile a Ren'Py 7 DDLC mod in Ren'Py 6.99.12.4."), _("Please use DDMM/DDMMaker 7 in order to comile your Ren'Py 7 mod."),)
+                    interface.error(_("You are trying to compile a Ren'Py 7 or 8 DDLC mod in Ren'Py 6.99.12.4."), _("Please use DDMM 7 or 8 in order to comile your Ren'Py 7 or Ren'Py 8 mod respectively."),)
                 else:
                     pass
         except IOError:
