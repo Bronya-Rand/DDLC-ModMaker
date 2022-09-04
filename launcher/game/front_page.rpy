@@ -70,7 +70,7 @@ init python:
             shutil.move(os.path.join(persistent.projects_directory, project.current.name, 
                 'renpy-version.txt'), os.path.join(persistent.projects_directory, 
                     project.current.name, 'game/renpy-version.txt'))
-        except IOError: pass
+        except: pass
 
         try:
             with open(os.path.join(persistent.projects_directory, project.current.name, 'game/renpy-version.txt')) as f:
@@ -79,7 +79,7 @@ init python:
             if int(file_ver) < 7: return 6
             elif int(file_ver) > 7: return 8
             return 7
-        except IOError: return None
+        except: return None
 
 screen front_page:
     frame:
@@ -358,7 +358,7 @@ label set_version:
             if x > "6":
                 delete_response = interface.input(
                     _("Warning"),
-                    _("This mod is set to Ren'Py 7 Mode. If you change this, it may result in a unloadable mod. Are you sure you want to proceed? Type either Yes or No."),
+                    _("This mod is set to Ren'Py 7 or 8 Mode. If you change this, it may result in a unloadable mod. Are you sure you want to proceed? Type either Yes or No."),
                     filename=False,
                     cancel=Jump("front_page"))
 
