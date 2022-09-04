@@ -228,7 +228,7 @@ label install_ddmm_update_script(ddmm_chan):
 
             persistent.update_available = False
 
-            interface.info("The update has been complete. DDMM/DDMMaker will now restart.")
+            interface.info("The update has been complete. DDMM will now restart.")
             renpy.quit(True)
 
     jump mmupdater

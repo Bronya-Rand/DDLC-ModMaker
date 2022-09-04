@@ -13,7 +13,7 @@ label tool_install:
 
         project_dir = os.path.join(persistent.projects_directory, project.current.name)
 
-        interface.info("This installer is in beta. Not all mod tools will install properly and may require changes before launch.", "Make sure to backup your project if anything fails.")
+        interface.info("This installer is in beta.\nNot all mod tools will install properly and may require changes before launch.\nMake sure to backup your project if anything fails.")
 
         if renpy.macintosh and persistent.safari:
             interface.interaction(_("Tool Folder"), _("Please select the tool folder you wish to install."),)
@@ -29,7 +29,7 @@ label tool_install:
             renpy.jump("front_page")
         
         interface.yesno(
-            label=_("Deleting a Project"),
+            label=_("Install Tool"),
             message=_("Are you sure you install {file}".format(file=path.replace("\\", "/").split("/")[-1] + "?")),
             filename=False,
             yes=[SetVariable("confirm_install", True), Return()],
@@ -94,6 +94,6 @@ label tool_install:
             if not renpy.macintosh and not persistent.safari:
                 shutil.rmtree(td)
                 
-        interface.info("DDMM/DDMMaker successfully installed the selected tool to [project.current.name].")
+        interface.info("DDMM successfully installed the selected tool to [project.current.name].")
     
     jump front_page

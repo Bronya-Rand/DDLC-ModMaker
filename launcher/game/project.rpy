@@ -798,7 +798,7 @@ label choose_projects_directory:
         path, is_default = choose_directory(persistent.projects_directory)
 
         if is_default:
-            interface.info(_("DDMM/DDMMaker has set the projects directory to:"), "[path!q]", path=path)
+            interface.info(_("DDMM has set the projects directory to:"), "[path!q]", path=path)
 
         persistent.projects_directory = path
         project.multipersistent.projects_directory = path
@@ -819,11 +819,11 @@ label ddlc_location:
     python:
 
         if renpy.macintosh and persistent.safari:
-            interface.interaction(_("DDLC Folder"), _("Please select the 'ddlc-win' folder you downloaded from DDLC.moe."),)
+            interface.interaction(_("DDLC Windows Folder"), _("Please select the 'ddlc-win' folder you downloaded from DDLC.moe."),)
 
             path, is_default = choose_directory(None)
         else:
-            interface.interaction(_("DDLC ZIP File"), _("Please select the 'ddlc-win' ZIP file you downloaded from DDLC.moe."),)
+            interface.interaction(_("DDLC Windows ZIP File"), _("Please select the 'ddlc-win' ZIP file you downloaded from DDLC.moe."),)
 
             path, is_default = choose_file(None, bracket=["DDLC Windows ZIP File", "*.zip"])
 
@@ -847,7 +847,7 @@ label auto_extract:
     python:
 
         browser_kind = interface.yesno(
-            message=_("Does your operating system auto-extract '.zip' files? DDLC's ZIP may be affected if your OS auto-extracts ZIP files."),
+            message=_("Does your operating system auto-extract '.zip' files?\nDDLC's ZIP files may be affected if your OS auto-extracts them."),
             yes=[SetField(persistent, "safari", True), SetField(persistent, "zip_directory", None), Return()],
             no=[SetField(persistent, "safari", False), SetField(persistent, "zip_directory", None), Return()],
             cancel=Jump("front_page"),
