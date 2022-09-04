@@ -340,37 +340,37 @@ label no_android:
 
 label set_version:
     python:
-        try:
-            x = readVersion()
-
-            prompt = False    
-            if x < 7:
-                prompt = True
-                response_text = _("This mod is set to Ren'Py 6 Mode. ")
-            elif x > 7:
-                prompt = True
-                response_text = _("This mod is set to Ren'Py 8 Mode. ")
-                
-            if prompt:
-                confirm_delete = False
-                delete_response = interface.yesno(
-                    label=_("Warning"),
-                    message=response_text + _("If you change this, it may result in a improperly packaged mod.\nAre you sure you want to proceed? Type either Yes or No."),
-                    yes=SetScreenVariable(confirm_delete, True),
-                    no=Return(),
-                    cancel=Jump("front_page"))
-
-                if not confirm_delete:
-                    renpy.jump("front_page")
-                else:
-                    with open(os.path.join(persistent.projects_directory, project.current.name, "game/renpy-version.txt"), "w") as f:
-                        f.write("7") 
-                    interface.info(_("Set the Ren'Py mode version to Ren'Py 7."))
-            else:
-                interface.info(_("The Ren'Py mode version is already set to Ren'Py 7."))
-        except IOError:
+        x = readVersion()
+        if x is None:
             with open(os.path.join(persistent.projects_directory, project.current.name, "game/renpy-version.txt"), "w") as f:
                 f.write("7") 
             interface.info(_("A file named `renpy-version.txt` has been created in your projects' game directory."), _("Do not delete this file as it is needed to determine which version of Ren'Py it uses for building your mod."))
+            renpy.jump("front_page")
+
+        prompt = False    
+        if x == 6:
+            prompt = True
+            response_text = _("This mod is set to Ren'Py 6 Mode. ")
+        elif x == 8:
+            prompt = True
+            response_text = _("This mod is set to Ren'Py 8 Mode. ")
+            
+        if prompt:
+            confirm_delete = False
+            delete_response = interface.yesno(
+                label=_("Warning"),
+                message=response_text + _("If you change this, it may result in a improperly packaged mod.\nAre you sure you want to proceed? Type either Yes or No."),
+                yes=SetScreenVariable(confirm_delete, True),
+                no=Return(),
+                cancel=Jump("front_page"))
+
+            if not confirm_delete:
+                renpy.jump("front_page")
+            else:
+                with open(os.path.join(persistent.projects_directory, project.current.name, "game/renpy-version.txt"), "w") as f:
+                    f.write("7") 
+                interface.info(_("Set the Ren'Py mode version to Ren'Py 7."))
+        else:
+            interface.info(_("The Ren'Py mode version is already set to Ren'Py 7."))
     
     jump front_page
