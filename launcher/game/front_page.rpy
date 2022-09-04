@@ -272,6 +272,10 @@ define update_notified = False
 
 label front_page:
 
+    if persistent.zip_directory is not None:
+        if "ddlc-mac" in persistent.zip_directory:
+            $ persistent.zip_directory = None
+
     if (not persistent.has_chosen_language) or ("RENPY_CHOOSE_LANGUAGE" in os.environ):
 
         if _preferences.language is None:

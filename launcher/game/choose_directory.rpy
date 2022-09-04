@@ -85,7 +85,7 @@ init python:
 
         return path, is_default
 
-    def choose_file(path):
+    def choose_file(path, bracket):
         """
         Pops up a file chooser.
 
@@ -108,7 +108,7 @@ init python:
                 default_path = os.path.abspath(config.renpy_base)
 
         if _renpytfd:
-            path = _renpytfd.openFileDialog(__("Select Projects Directory"), default_path, ["DDLC Tool ZIP File", "*.zip"], None)
+            path = _renpytfd.openFileDialog(__("Select"), default_path, bracket, None)
 
         is_default = False
 

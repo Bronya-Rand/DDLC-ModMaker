@@ -25,7 +25,7 @@ label tool_install:
         else:
             interface.interaction(_("Tool ZIP File"), _("Please select the tool ZIP file you wish to install."),)
 
-            path, is_default = choose_file(None)
+            path, is_default = choose_file(None, bracket=["DDLC Tool ZIP File", "*.zip"])
 
         if is_default:
             interface.error(_("The operation has been cancelled."))
