@@ -337,7 +337,7 @@ label version_error:
 
 label no_android:
     python:
-        interface.info(_("This project cannot be built for Android as it's either in Ren'Py 6/8 mode or is missing 'renpy-version.txt'"), _("Please check if 'renpy-version.txt' exists or change the version of your project to Ren'Py 7."),)
+        interface.info(_("This project cannot be built for Android as it's either in Ren'Py 6/8 mode or is missing 'renpy-version.txt'"), _("Please check if 'renpy-version.txt' exists or change the version of your project."),)
         renpy.jump('front_page')
 
 label set_version:
