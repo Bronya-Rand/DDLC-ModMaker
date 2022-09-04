@@ -814,7 +814,7 @@ label auto_extract:
     python:
 
         browser_kind = interface.yesno(
-            message=_("Does your operating system auto-extract '.zip' files? DDLC's ZIP may be affected if your OS auto-extracts ZIP files."),
+            message=_("Does your operating system auto-extract '.zip' files?\nDDLC's ZIP may be affected if your OS auto-extracts ZIP files."),
             yes=[SetField(persistent, "safari", True), SetField(persistent, "zip_directory", None), Return()],
             no=[SetField(persistent, "safari", False), SetField(persistent, "zip_directory", None), Return()],
             cancel=Jump("front_page"),

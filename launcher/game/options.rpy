@@ -44,7 +44,7 @@ init -1 python hide:
     # This controls the title of the window, when Ren'Py is
     # running in a window.
 
-    config.window_title = u"Doki Doki Mod Maker (for Ren'Py 6.99.12)"
+    config.window_title = u"Doki Doki Mod Maker (for Ren'Py 6)"
 
     # These control the name and version of the game, that are reported
     # with tracebacks and other debugging logs.
@@ -321,7 +321,6 @@ init python:
     build.classify_renpy("gui/game/gui/", None)
 
     source_and_binary("launcher")
-    source_and_binary("templates/DDLCModTemplate-2.2.4-Standard.zip")
     source_and_binary("templates", binary=None)
     source_and_binary("gui", binary=None)
 

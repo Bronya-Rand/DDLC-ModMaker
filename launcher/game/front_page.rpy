@@ -360,22 +360,19 @@ label set_version:
                 prompt = False
             
             if prompt:
-                delete_response = interface.input(
-                    _("Warning"),
-                    _("This mod is set to Ren'Py 7 or 8 Mode. If you change this, it may result in a unloadable mod. Are you sure you want to proceed? Type either Yes or No."),
-                    filename=False,
+                delete_response = interface.yesno(
+                    label=_("Warning"),
+                    message=_("This mod is set to Ren'Py 7/8 Mode. If you change this, it may result in a unloadable mod. Are you sure you want to proceed? Type either Yes or No."),
+                    yes=SetScreenVariable(confirm_delete, True),
+                    no=Return(),
                     cancel=Jump("front_page"))
 
-                delete_response = delete_response.strip()
-
-                if not delete_response or delete_response.lower() == "no":
-                    interface.error(_("The operation has been cancelled."))
-                elif delete_response.lower() == "yes":
+                if not confirm_delete:
+                    renpy.jump("front_page")
+                else:
                     with open(os.path.join(persistent.projects_directory, project.current.name, "game/renpy-version.txt"), "w") as f:
                         f.write("6") 
                     interface.info(_("Set the Ren'Py mode version to Ren'Py 6."))
-                else:
-                    interface.error(_("Invalid Input. Please try again."))
             else:
                 interface.info(_("The Ren'Py mode version is already set to Ren'Py 6."))
         except IOError:
