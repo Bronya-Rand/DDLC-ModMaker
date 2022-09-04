@@ -353,9 +353,9 @@ label no_android:
 label set_version:
     python:
         try:
-            with open(os.path.join(persistent.projects_directory, project.current.name, "game/renpy-version.txt"), "r") as f:
-                x = f.readline()
-            if x > "6":
+            x = readVersion()
+
+            if x > 6:
                 delete_response = interface.input(
                     _("Warning"),
                     _("This mod is set to Ren'Py 7 or 8 Mode. If you change this, it may result in a unloadable mod. Are you sure you want to proceed? Type either Yes or No."),
