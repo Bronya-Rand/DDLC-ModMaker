@@ -118,9 +118,9 @@ screen front_page:
             launch = readVersion()
                 
         if launch == 6:
-            textbutton _("DDMM 6.99.12.4 Needed") action NullAction() style "l_unavail_button"
+            textbutton _("DDMM 6 Needed") action NullAction() style "l_unavail_button"
         elif launch == 8:
-            textbutton _("DDMM 8+ Needed") action NullAction() style "l_unavail_button"
+            textbutton _("DDMM 8 Needed") action NullAction() style "l_unavail_button"
         elif launch == 7 or project.current.name == "launcher":
             textbutton _("Launch Mod") action project.Launch() style "l_right_button"
             key "K_F5" action project.Launch()
@@ -188,8 +188,8 @@ screen front_page_project:
 
                     textbutton _("game") action OpenDirectory(os.path.join(p.path, "game"), absolute=True)
                     textbutton _("base") action OpenDirectory(os.path.join(p.path, "."), absolute=True)
-                    #textbutton _("images") action OpenDirectory(os.path.join(p.path, "game/images"), absolute=True)
                     textbutton _("mod_assets") action OpenDirectory(os.path.join(p.path, "game/mod_assets"), absolute=True)
+                    textbutton _("mod_extras") action OpenDirectory(os.path.join(p.path, "game/mod_extras"), absolute=True)
                     textbutton _("gui") action OpenDirectory(os.path.join(p.path, "game/gui"), absolute=True)
 
             vbox:
@@ -224,7 +224,6 @@ screen front_page_project:
 
                 textbutton _("Navigate Script") action Jump("navigation")
                 textbutton _("Check Script for Errors") action Jump("lint")
-
                 textbutton _("Delete Persistent") action Jump("rmpersistent")
                 textbutton _("Force Recompile") action Jump("force_recompile")
                 if project.current.name != "launcher":
@@ -242,10 +241,7 @@ screen front_page_project:
                 if project.current.name != "launcher":
 
                     python:
-                        if persistent.projects_directory:
-                            launch = readVersion()
-                        else:
-                            launch = None
+                        launch = readVersion()
                             
                     if launch == 7:
                         textbutton _("Build Mod for Android") action Jump("android")
