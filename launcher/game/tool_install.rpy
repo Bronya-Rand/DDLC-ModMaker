@@ -89,7 +89,10 @@ label tool_install:
 
                             os.remove(dst_file)
 
-                        shutil.move(temp_file, dst_file)
+                        if renpy.macintosh and persistent.safari:
+                            shutil.copy2(temp_file, dst_file)
+                        else:
+                            shutil.move(temp_file, dst_file)
 
             if not renpy.macintosh and not persistent.safari:
                 shutil.rmtree(td)
