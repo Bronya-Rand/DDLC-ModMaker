@@ -238,7 +238,7 @@ screen front_page_project:
 
                 textbutton _("Install a Tool") action Jump("tool_install")
                 if ability.can_distribute:
-                    textbutton _("Build Distributions") action Jump("build_distributions")
+                    textbutton _("Build Mod") action Jump("build_distributions")
 
                 if project.current.name != "launcher":
 
