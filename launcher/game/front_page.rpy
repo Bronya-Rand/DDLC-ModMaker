@@ -279,7 +279,7 @@ screen front_page_project:
                     else:
                         textbutton _("Android Unavailable") action Jump("no_android")
                     textbutton _("Generate Translations") action Jump("translate")
-                    #textbutton _("Extract Dialogue") action Jump("extract_dialogue")
+                    textbutton _("Extract Dialogue") action Jump("extract_dialogue")
                     textbutton _("Delete Project") action Jump("delete_folder")
 
 label main_menu:
