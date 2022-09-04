@@ -243,7 +243,7 @@ screen front_page_project:
                     python:
                         launch = readVersion()
                             
-                    if launch == 7:
+                    if launch == 8:
                         textbutton _("Build Mod for Android") action Jump("android")
                     else:
                         textbutton _("Android Unavailable") action Jump("no_android")
