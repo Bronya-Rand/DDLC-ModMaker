@@ -3,9 +3,11 @@
 Doki Doki Mod Maker is a mod maker for the visual novel "Doki Doki Literature Club" that allows modders to make their mods easier and simpler with a re-written Ren'Py Source Distribution Kit (SDK).
 > This project is unafilliated with either Team Salvato or RenpyTom. See the [disclaimer](https://ganstakingofsa.github.io/information/disclaimer/disclaimer.html) page for more information.
 
-Download Doki Doki Mod Maker for Ren'Py 6.99.12 by clicking the *ZIP* button.
+Download Doki Doki Mod Maker for Ren'Py 6 by clicking the 1st *ZIP* button.
 
-Download Doki Doki Mod Maker for Ren'Py 7.4.X by clicking the *TAR.GZ* button.
+Download Doki Doki Mod Maker for Ren'Py 7 by clicking the 2nd *ZIP* button.
+
+Download Doki Doki Mod Maker for Ren'Py 8 by clicking the 3rd *ZIP* button.
 
 ## Features
 1. Auto mod template installation
