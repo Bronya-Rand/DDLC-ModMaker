@@ -238,7 +238,7 @@ screen front_page_project:
 
                 textbutton _("Install a Tool") action Jump("tool_install")
                 if ability.can_distribute:
-                    textbutton _("Build Distributions") action Jump("build_distributions")
+                    textbutton _("Build Mod") action Jump("build_distributions")
 
                 if project.current.name != "launcher":
 
@@ -251,7 +251,7 @@ screen front_page_project:
                         textbutton _("Android Unavailable") action Jump("no_android")
 
                 textbutton _("Generate Translations") action Jump("translate")
-                textbutton _("Extract Dialogue") action Jump("extract_dialogue")
+                #textbutton _("Extract Dialogue") action Jump("extract_dialogue")
                 textbutton _("Delete Project") action Jump("delete_folder")
 
 label main_menu:
