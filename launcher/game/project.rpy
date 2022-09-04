@@ -809,56 +809,38 @@ label auto_extract:
 
     python:
 
-        browser_kind = interface.choice(
-            _("Does your operating system auto-extract '.zip' files? DDLC's ZIP may be affected if your OS auto-extracts ZIP files."),
-            [ ( 'safari_download', _("Yes") ), ( 'regular_download', _("No")) ],
-            "safari_download",
+        browser_kind = interface.yesno(
+            message=_("Does your operating system auto-extract '.zip' files? DDLC's ZIP may be affected if your OS auto-extracts ZIP files."),
+            yes=[SetField(persistent, "safari", True), SetField(persistent, "zip_directory", None), Return()],
+            no=[SetField(persistent, "safari", False), SetField(persistent, "zip_directory", None), Return()],
             cancel=Jump("front_page"),
             )
 
-        renpy.jump(browser_kind)
-
-# Set Auto-Extract On
-label safari_download:
-    $ persistent.safari = True
-    $ interface.info(_("Enabled Auto-Extraction Detection for DDML."),)
-    return
-
-label regular_download:
-    $ persistent.safari = False
-    $ persistent.zip_directory = None
-    $ interface.info(_("Disabled Auto-Extraction Detection for DDML."),)
     return
 
 label delete_folder:
+
     python:
-        while True:
-            delete_response = interface.input(
-                _("Deleting a Project"),
-                _("Are you sure you want to delete '[project.current.name!q]'? Type either Yes or No."),
-                filename=False,
-                cancel=Jump("front_page"))
+        confirm_delete = False
+        interface.yesno(
+            label=_("Deleting a Project"),
+            message=_("Are you sure you want to delete '[project.current.name!q]'?"),
+            filename=False,
+            yes=[SetVariable("confirm_delete", True), Return()],
+            no=Return(),
+            cancel=Jump("front_page"))
 
-            delete_response = delete_response.strip()
+        if not confirm_delete:
+            renpy.jump("front_page")
+        else:
+            interface.processing(_("Deleting [project.current.name]..."))
+            
+            with interface.error_handling(_("deleting mod.")):
+                modman.delete_mod(persistent.projects_directory, project.current.name)
 
-            if not delete_response or delete_response.lower() == "no":
-                interface.error(_("The operation has been cancelled."))
-                renpy.jump("front_page")
+            interface.info("[project.current.name] has been deleted from the projects folder.")
 
-            elif delete_response.lower() == "yes":
-                
-                interface.processing(_("Deleting [project.current.name]..."))
-                
-                with interface.error_handling(_("deleting mod.")):
-                    modman.delete_mod(persistent.projects_directory, project.current.name)
-
-                interface.info("[project.current.name] has been deleted from the projects folder.")
-            else:
-                interface.error(_("Invalid Input. Expected either a Yes or No response."))
-                continue
-
-            project.manager.scan()
-            break
+        project.manager.scan()
 
     jump front_page
 
