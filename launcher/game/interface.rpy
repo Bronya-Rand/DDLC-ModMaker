@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2022 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -66,16 +66,6 @@ init python in interface:
         else:
             return OpenURL(LICENSE_URL)
 
-    def get_sponsor_url():
-        """
-        Returns the URL to the sponsors page.
-        """
-
-        return "https://www.renpy.org/sponsors.html?version={}&language={}".format(
-            renpy.version_only,
-            _preferences.language or "english"
-        )
-
     # Should we display the bottom links?
     links = True
 
@@ -88,6 +78,10 @@ init python in interface:
             yield
         finally:
             links = True
+
+    # Version.
+    import re
+    version = re.sub(r'\.\d+(\w*)$', r'\1', renpy.version())
 
 # This displays the bottom of the screen. If the tooltip is not None, this displays the
 # tooltip. Otherwise, it displays a list of links (to various websites, and to the
@@ -130,11 +124,14 @@ screen bottom_info:
                     spacing INDENT
                     xalign 1.0
 
-                    #if ability.can_update:
-                        #textbutton _("update") action Jump("update") style "l_link"
-                    
+                    # if ability.can_update:
+                    #     textbutton _("update") action Jump("update") style "l_link":
+                    #         if persistent.has_update:
+                    #             text_color "#F96854"
+                    #             text_hover_color Color("#F96854").tint(.8)
+
                     textbutton _("Settings") style "l_link" action Jump("preferences")
-                    textbutton _("Exit") style "l_link" action Quit(confirm=False)
+                    textbutton _("Quit") style "l_link" action Quit(confirm=False)
 
 screen common:
 
@@ -424,7 +421,7 @@ init python in interface:
 
                 try:
                     rv.encode("ascii")
-                except:
+                except Exception:
                     error(_("File and directory names must consist of ASCII characters."), label=None)
                     continue
 
@@ -496,7 +493,7 @@ init python in interface:
         common(_("PROCESSING"), store.INTERACTION_COLOR, message, submessage, pause0=True, complete=complete, total=total, **kwargs)
 
 
-    def yesno(message, yes=Return(True), no=Return(False), **kwargs):
+    def yesno(message, label_text=_("CHOICE"), yes=Return(True), no=Return(False), **kwargs):
         """
         Asks the user a yes or no question.
 
@@ -510,7 +507,7 @@ init python in interface:
             The action to perform if the user answer no.
         """
 
-        return common(_("QUESTION"), store.QUESTION_COLOR, message, yes=yes, no=no, **kwargs)
+        return common(label_text, store.QUESTION_COLOR, message, yes=yes, no=no, **kwargs)
 
     def choice(message, choices, selected, **kwargs):
         """
@@ -524,4 +521,3 @@ init python in interface:
         """
 
         return common(_("CHOICE"), store.QUESTION_COLOR, message, choices=choices, selected=selected, **kwargs)
-

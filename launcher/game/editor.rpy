@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2021 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2022 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -67,8 +67,8 @@ init 1 python in editor:
         ei = EditorInfo(filename)
 
         if ei.name in editors:
-           if editors[ei.name].mtime >= ei.mtime:
-               return
+            if editors[ei.name].mtime >= ei.mtime:
+                return
 
         editors[ei.name] = ei
 
@@ -148,39 +148,79 @@ init 1 python in editor:
 
         fei = fancy_editors = [ ]
 
-        # Atom.
-        AD = _("(Recommended) A modern and approachable text editor.")
+        # Visual Studio Code
+        AD1 = _("A modern editor with many extensions including advanced Ren'Py integration.")
+        AD2 = _("A modern editor with many extensions including advanced Ren'Py integration.\n{a=jump:reinstall_vscode}Upgrade Visual Studio Code to the latest version.{/a}")
 
         if renpy.windows:
-            dlc = "atom-windows"
-            installed = os.path.exists(os.path.join(config.basedir, "atom/atom-windows"))
+            installed = os.path.exists(os.path.join(config.renpy_base, "vscode/VSCode-win32-x64"))
         elif renpy.macintosh:
-            dlc = "atom-mac"
-            installed = os.path.exists(os.path.join(config.basedir, "atom/Atom.app"))
+            installed = os.path.exists(os.path.join(config.renpy_base, "vscode/Visual Studio Code.app"))
         else:
-            dlc = "atom-linux"
-            installed = os.path.exists(os.path.join(config.basedir, "atom/atom-linux-" + platform.machine()))
+            if renpy.arch == "aarch64":
+                arch = "arm64"
+            elif renpy.arch == "armv7l":
+                arch = "arm"
+            else:
+                arch = "x86_64"
+
+            installed = os.path.exists(os.path.join(config.renpy_base, "vscode/VSCode-linux-" + arch))
 
         e = FancyEditorInfo(
             0,
-            "Atom",
-            AD,
-            dlc,
-            _("Up to 150 MB download required."),
+            _("Visual Studio Code"),
+            AD2 if installed else AD2,
+            "extension:vscode",
+            _("Up to 110 MB download required."),
             None)
 
         e.installed = e.installed and installed
 
         fei.append(e)
 
+        # Atom.
+        AD = _("A modern and approachable text editor.")
+
+        if renpy.windows:
+            dlc = "atom-windows"
+            installed = os.path.exists(os.path.join(config.renpy_base, "atom/atom-windows"))
+        elif renpy.macintosh:
+            dlc = "atom-mac"
+            installed = os.path.exists(os.path.join(config.renpy_base, "atom/Atom.app"))
+        else:
+            dlc = "atom-linux"
+            installed = os.path.exists(os.path.join(config.renpy_base, "atom/atom-linux-" + platform.machine()))
+
+        if not (renpy.arch in [ "aarch64", "armv7l" ]):
+
+            e = FancyEditorInfo(
+                1,
+                _("Atom"),
+                AD,
+                dlc,
+                _("Up to 150 MB download required."),
+                None)
+
+            e.installed = e.installed and (installed or 'RENPY_ATOM' in os.environ)
+
+            fei.append(e)
+
         # jEdit
+        if os.path.exists(os.path.join(config.renpy_base, "jedit")):
+
+            fei.append(FancyEditorInfo(
+                2,
+                _("jEdit"),
+                _("A mature editor that requires Java."),
+                "jedit",
+                _("1.8 MB download required."),
+                _("This may have occured because Java is not installed on this system."),
+                ))
+
         fei.append(FancyEditorInfo(
-            2,
-            "jEdit",
-            _("A mature editor that requires Java."),
-            "jedit",
-            _("1.8 MB download required."),
-            _("This may have occured because Java is not installed on this system."),
+            3,
+            _("Visual Studio Code (System)"),
+            _("Uses a copy of Visual Studio Code that you have installed outside of Ren'Py. It's recommended you install the language-renpy extension to add support for Ren'Py files."),
             ))
 
         fei.append(FancyEditorInfo(
@@ -189,8 +229,11 @@ init 1 python in editor:
             _("Invokes the editor your operating system has associated with .rpy files."),
             None))
 
+
+
+
         for k in editors:
-            if k in [ "Atom", "jEdit", "System Editor", "None" ]:
+            if k in [ "Visual Studio Code", "Visual Studio Code (System)", "Atom", "jEdit", "System Editor", "None" ]:
                 continue
 
             fei.append(FancyEditorInfo(
@@ -210,7 +253,8 @@ init 1 python in editor:
         # If we're in a linux distro or something, assume all editors work.
         if not updater.can_update():
             for i in fei:
-                i.installed = True
+                if i.dlc and not i.dlc.startswith("extension:"):
+                    i.installed = True
 
     def fancy_activate_editor(default=False):
         """
@@ -257,9 +301,12 @@ init 1 python in editor:
 
         if not fe.installed:
 
-            # We don't check the status of this because fancy_activate_editor
-            # will fail if the editor is not installed.
-            store.add_dlc(fe.dlc)
+            if fe.dlc.startswith("extension:"):
+                import installer
+                manifest = fe.dlc.partition(":")[2]
+                renpy.invoke_in_new_context(installer.manifest, "https://www.renpy.org/extensions/{}/{}.py".format(manifest, manifest), renpy=True)
+            else:
+                store.add_dlc(fe.dlc)
 
         persistent.editor = fe.name
         fancy_activate_editor()
@@ -469,7 +516,7 @@ init 1 python in editor:
         try:
             e = renpy.editor.editor
             return e.has_projects
-        except:
+        except Exception:
             return False
 
 
@@ -521,6 +568,14 @@ screen editor:
 
 
     textbutton _("Cancel") action Return(False) style "l_left_button"
+
+label reinstall_vscode:
+    python hide:
+        manifest = "vscode"
+        renpy.invoke_in_new_context(installer.manifest, "https://www.renpy.org/extensions/{}/{}.py".format(manifest, manifest), renpy=True)
+
+    jump editor_preference
+
 
 label editor_preference:
     call screen editor

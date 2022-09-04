@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2022 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -30,6 +30,9 @@
 
 init -1 python hide:
 
+    # Update the searchpath to find additional fonts.
+    config.searchpath.append(config.renpy_base + "/sdk-fonts")
+
     # Should we enable the use of developer tools? This should be
     # set to False before the game is released, so the user can't
     # cheat using developer tools.
@@ -44,12 +47,12 @@ init -1 python hide:
     # This controls the title of the window, when Ren'Py is
     # running in a window.
 
-    config.window_title = u"Doki Doki Mod Maker (for Ren'Py 7.4.X)"
+    config.window_title = u"Doki Doki Mod Maker (for Ren'Py 7)"
 
     # These control the name and version of the game, that are reported
     # with tracebacks and other debugging logs.
     config.name = "Doki Doki Mod Maker"
-    config.version = "1.4.1"
+    config.version = "1.5.0"
 
     #####################
     # Themes
@@ -219,7 +222,7 @@ init python:
     build.renpy = True
 
     # The version number that's supplied to the updater.
-    build.version = "Ren'Py {}".format(renpy.version().split()[1])
+    build.version = "Ren'Py {}".format(config.version)
 
     # The name that's used for directories and archive files. For example, if
     # this is 'mygame-1.0', the windows distribution will be in the
@@ -246,8 +249,8 @@ init python:
     # Mac signing options.
     import os
     build.mac_identity = os.environ.get("RENPY_MAC_IDENTITY", None)
-    build.mac_codesign_command = [ "/home/tom/ab/renpy-deps/mac/mac_sign_client.sh", "{identity}", "{app}" ]
-    build.mac_create_dmg_command = [ "/home/tom/ab/renpy-deps/mac/mac_dmg_client.sh", "{identity}", "{volname}", "{sourcedir}", "{dmg}" ]
+    build.mac_codesign_command = [ config.renpy_base + "/scripts/mac/mac_sign_client.sh", "{identity}", "{app}" ]
+    build.mac_create_dmg_command = [ config.renpy_base + "/scripts/mac/mac_dmg_client.sh", "{identity}", "{volname}", "{sourcedir}", "{dmg}" ]
     build.mac_codesign_dmg_command = [ "/bin/true" ]
 
 
@@ -269,8 +272,7 @@ init python:
 
     # Atom rules. These have to be very early, since Atom uses names like
     # tmp for packages.
-    build.classify_renpy("atom/", "atom-all source_only")
-    build.classify_renpy("atom/Atom.edit.py", "atom-all source_only")
+    build.classify_renpy("atom/", "atom-all")
     build.classify_renpy("atom/default-dot-atom/**", "atom-all")
     build.classify_renpy("atom/atom-windows/**", "atom-windows")
     build.classify_renpy("atom/Atom.app/**", "atom-mac")
@@ -280,7 +282,7 @@ init python:
         with open(os.path.join(config.renpy_base, "atom", "executable.txt")) as f:
             for l in f:
                 build.executable(l.strip())
-    except:
+    except Exception:
         pass
 
     build.classify_renpy("rapt/**/libLive2DCubismCore.so", None)
@@ -302,7 +304,6 @@ init python:
     build.classify_renpy("**.old", None)
     build.classify_renpy("**.new", None)
     build.classify_renpy("**.bak", None)
-    build.classify_renpy("**.pyc", None)
 
     build.classify_renpy("**/log.txt", None)
     build.classify_renpy("**/traceback.txt", None)
@@ -315,14 +316,39 @@ init python:
 
     # main source.
 
-    def source_and_binary(pattern, source="source", binary="binary"):
+    def source_and_binary(pattern, source="source", binary="binary", py=True):
         """
         Classifies source and binary files beginning with `pattern`.
         .pyo, .rpyc, .rpycm, and .rpyb go into binary, everything
-        else goes into source.
+        else but .pyi files go into source.
         """
 
-        build.classify_renpy(pattern + "/**.pyo", binary)
+        if py is True:
+            py = 'pyo' if PY2 else 'pycache'
+
+        if py == 'pycache':
+            build.classify_renpy(pattern + "/**__pycache__/", binary)
+            build.classify_renpy(pattern + "/**__pycache__/*.{}.pyc".format(sys.implementation.cache_tag), binary)
+            build.classify_renpy(pattern + "/**.pyc", None)
+            build.classify_renpy(pattern + "/**.pyo", None)
+
+        elif py == 'pyc':
+            build.classify_renpy(pattern + "/**__pycache__/", None)
+            build.classify_renpy(pattern + "/**.pyc", binary)
+            build.classify_renpy(pattern + "/**.pyo", None)
+
+        elif py == 'pyo':
+            build.classify_renpy(pattern + "/**__pycache__/", None)
+            build.classify_renpy(pattern + "/**.pyc", None)
+            build.classify_renpy(pattern + "/**.pyo", binary)
+
+        else:
+            build.classify_renpy(pattern + "/**__pycache__/", None)
+            build.classify_renpy(pattern + "/**.pyc", None)
+            build.classify_renpy(pattern + "/**.pyo", None)
+
+        build.classify_renpy(pattern + "/**.pyi", None)
+
         build.classify_renpy(pattern + "/**.rpyc", binary)
         build.classify_renpy(pattern + "/**.rpymc", binary)
         build.classify_renpy(pattern + "/**/cache/*", binary)
@@ -336,9 +362,15 @@ init python:
     build.classify_renpy("launcher/game/theme/", None)
     build.classify_renpy("gui/game/gui/", None)
 
-    source_and_binary("launcher")
-    source_and_binary("gui", binary=None)
+    source_and_binary("launcher", py=False)
+    source_and_binary("gui", binary=None, py=False)
     source_and_binary("templates")
+
+    source_and_binary("the_question")
+    source_and_binary("tutorial")
+
+    # extra fonts.
+    build.classify_renpy("sdk-fonts/**", "source")
 
     # docs.
     build.classify_renpy("doc/", "source")
@@ -358,8 +390,7 @@ init python:
     # module.
     build.classify_renpy("module/", "source")
     build.classify_renpy("module/*.c", "source")
-    build.classify_renpy("module/gen/", "source")
-    build.classify_renpy("module/gen/*.c", "source")
+    build.classify_renpy("module/gen/", None)
     build.classify_renpy("module/*.h", "source")
     build.classify_renpy("module/*.py*", "source")
     build.classify_renpy("module/include/", "source")
@@ -371,13 +402,24 @@ init python:
     build.classify_renpy("module/fribidi-src/**", "source")
 
     # all-platforms binary.
-    build.classify_renpy("lib/**/_renpysteam*", "steam")
     build.classify_renpy("lib/**/*steam_api*", "steam")
     build.classify_renpy("lib/**/*Live2D*", None)
-    build.classify_renpy("lib/linux-armv7l/", "raspi")
-    build.classify_renpy("lib/linux-armv7l/**", "raspi")
-    build.classify_renpy("lib/**", "binary")
-    build.classify_renpy("renpy.sh", "binary")
+
+    if PY2:
+        build.classify_renpy("lib/py2-linux-armv7l/**", "linux_arm")
+        build.classify_renpy("lib/py2-linux-aarch64/**", "linux_arm")
+        source_and_binary("lib/py2-**", "binary", "binary")
+        source_and_binary("lib/python2**", "binary", "binary")
+        build.classify_renpy("renpy2.sh", "binary")
+    else:
+        build.classify_renpy("lib/py3-linux-armv7l/**", "linux_arm")
+        build.classify_renpy("lib/py3-linux-aarch64/**", "linux_arm")
+        source_and_binary("lib/py3-**", "binary", "binary")
+        source_and_binary("lib/python3**", "binary", "binary", py='pyc')
+        build.classify_renpy("renpy3.sh", "binary")
+
+    build.classify_renpy("lib/", "binary")
+
     # renpy.app is now built from scratch from distribute.rpy.
 
     # jedit rules.
@@ -386,9 +428,10 @@ init python:
     # Packages.
     build.packages = [ ]
 
-    build.package("sdk", "zip tar.bz2", "source binary")
+    build.package("sdk", "zip tar.bz2 dmg", "source binary")
+    build.package("sdkarm", "tar.bz2", "source binary linux_arm")
     build.package("source", "tar.bz2", "source source_only", update=False)
-    build.package("raspi", "tar.bz2", "raspi", dlc=True, update=False)
+    build.package("steam", "zip", "steam", dlc=True)
 
     build.package("jedit", "zip", "jedit", dlc=True)
 
@@ -397,9 +440,26 @@ init python:
     build.package("atom-windows", "zip", "atom-all atom-windows", dlc=True)
 
     build.package("rapt", "zip", "rapt", dlc=True)
+    build.package("renios", "zip", "renios", dlc=True)
+    build.package("web", "zip", "web", dlc=True)
+
 
 # Enable the special launcher translation mode.
 define config.translate_launcher = True
 
+# Allow clicks that focus the window to be processed.
+define config.mouse_focus_clickthrough = True
+
 # Reduce the rate of screen updates.
 default preferences.gl_powersave = True
+
+# Enable rtl.
+define config.rtl = True
+
+# Disable steam.
+python early:
+    config.enable_steam = False
+
+# Since the launcher can be run directly or can be run from the SDK directory,
+# uneliding files needs to be handled slightly differently.
+define config.alternate_unelide_path = os.path.join(config.basedir, "launcher")

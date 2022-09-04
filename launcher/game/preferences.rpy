@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2019 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2022 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -20,36 +20,33 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 init python:
+    from math import ceil
+
     if persistent.show_edit_funcs is None:
         persistent.show_edit_funcs = True
 
     if persistent.windows_console is None:
         persistent.windows_console = False
 
-    def scan_translations():
+    def scan_translations(piglatin=True):
 
         languages = renpy.known_languages()
 
         if not languages:
             return None
 
-        rv = [ ( "English", None) ]
+        languages.remove("piglatin")
 
-        for i in languages:
-            rv.append((i.title(), i))
+        rv = [(i, renpy.translate_string("{#language name and font}", i)) for i in languages ]
+        rv.sort(key=lambda a : renpy.filter_text_tags(a[1], allow=[]).lower())
 
-        for i in (("Schinese", "schinese"), ("Tchinese", "tchinese")):
-            if i in rv:
-                rv.remove(i)
-                rv.append(({"schinese": "Simplified Chinese", "tchinese": "Traditional Chinese"}.get(i[1]), i[1]))
+        rv.insert(0, (None, "English"))
 
-        rv.sort()
+        if piglatin:
+            rv.append(("piglatin", "Igpay Atinlay"))
 
-        if ("Piglatin", "piglatin") in rv:
-            rv.remove(("Piglatin", "piglatin"))
-            rv.append(("Pig Latin", "piglatin"))
-
-        return rv
+        bound = ceil(len(rv)/3.)
+        return (rv[:bound], rv[bound:2*bound], rv[2*bound:])
 
     show_legacy = os.path.exists(os.path.join(config.renpy_base, "templates", "english", "game", "script.rpy"))
 
@@ -60,14 +57,24 @@ init python:
 
 default persistent.legacy = False
 default persistent.force_new_tutorial = False
-default persistent.sponsor_message = False
+default persistent.sponsor_message = True
 default persistent.daily_update_check = True
-default persistent.disable_mt_update = False
-default persistent.disable_mm_update = False
+default persistent.daily_update_check_once = False
 
-screen preferences:
+# Keep the default update check from triggering until tomorrow.
+default persistent.last_update_check = datetime.date.today()
 
-    $ translations = scan_translations()
+init python:
+    if not persistent.daily_update_check_once:
+        persistent.daily_update_check_once = True
+        persistent.daily_update_check = True
+
+
+default preference_tab = "general"
+
+screen preferences():
+
+    default translations = scan_translations()
 
     frame:
         style_group "l"
@@ -94,212 +101,351 @@ screen preferences:
                     # Projects directory selection.
                     add SEPARATOR2
 
-                    frame:
-                        style "l_indent"
-                        yminimum 75
-                        has vbox
+                    add HALF_SPACER
 
-                        text _("Projects Directory:")
+                    textbutton _("General") action SetVariable("preference_tab", "general") style "l_list"
+                    textbutton _("Options") action SetVariable("preference_tab", "options") style "l_list"
+                    textbutton _("Theme") action SetVariable("preference_tab", "theme") style "l_list"
+                    textbutton _("Install Libraries") action SetVariable("preference_tab", "install") style "l_list"
+                    textbutton _("Actions") action SetVariable("preference_tab", "actions") style "l_list"
+                    textbutton _("Languages") action SetVariable("preference_tab", "languages") style "l_list"
 
-                        add HALF_SPACER
 
-
-                        frame style "l_indent":
-                            if persistent.projects_directory:
-                                textbutton _("[persistent.projects_directory!q]"):
-                                    action Jump("projects_directory_preference")
-                                    alt _("Projects directory: [text]")
-                            else:
-                                textbutton _("Not Set"):
-                                    action Jump("projects_directory_preference")
-                                    alt _("Projects directory: [text]")
-
-                    add SPACER
-                    add SEPARATOR2
+                if preference_tab == "general":
 
                     frame:
                         style "l_indent"
-                        yminimum 75
-                        has vbox
-
-                        text _("DDLC Directory:")
-
-                        add HALF_SPACER
-
-
-                        frame style "l_indent":
-                            if persistent.zip_directory:
-                                textbutton _("[persistent.zip_directory!q]"):
-                                    action Jump("zip_directory_preference")
-                                    alt _("DDLC directory: [text]")
-                            else:
-                                textbutton _("Not Set"):
-                                    action Jump("zip_directory_preference")
-                                    alt _("DDLC ZIP directory: [text]")
-
-                    add SPACER
-
-                    # Text editor selection.
-                    add SEPARATOR2
-
-                    frame:
-                        style "l_indent"
-                        yminimum 75
-                        has vbox
-
-                        text _("Text Editor:")
-
-                        add HALF_SPACER
-
-                        frame style "l_indent":
-                            if persistent.editor:
-                                textbutton persistent.editor action Jump("editor_preference") alt _("Text editor: [text]")
-                            else:
-                                textbutton _("Not Set") action Jump("editor_preference") alt _("Text editor: [text]")
-
-                    add SPACER
-
-                frame:
-                    style "l_indent"
-                    xmaximum ONETHIRD
-                    xfill True
-
-                    has vbox
-                    add SEPARATOR2
-
-                    frame:
-                        style "l_indent"
-                        yminimum 75
-                        has vbox
-
-                        text _("Navigation Options:")
-
-                        add HALF_SPACER
-
-                        textbutton _("Include private names") style "l_checkbox" action ToggleField(persistent, "navigate_private")
-                        textbutton _("Include library names") style "l_checkbox" action ToggleField(persistent, "navigate_library")
-
-                    add SPACER
-                    add SEPARATOR2
-
-                    frame:
-                        style "l_indent"
-                        yminimum 75
-                        has vbox
-
-                        text _("Launcher Options:")
-
-                        add HALF_SPACER
-
-                        textbutton _("Hardware rendering") style "l_checkbox" action ToggleField(persistent, "gl_enable")
-                        textbutton _("Show edit file section") style "l_checkbox" action ToggleField(persistent, "show_edit_funcs")
-                        textbutton _("Large fonts") style "l_checkbox" action [ ToggleField(persistent, "large_print"), renpy.utter_restart ]
-
-                        if renpy.windows:
-                            textbutton _("Console output") style "l_checkbox" action ToggleField(persistent, "windows_console")
-                        
-                        #if ability.can_update:
-                        #textbutton _("Daily check for updates") style "l_checkbox" action [ToggleField(persistent, "daily_update_check"), SetField(persistent, "last_update_check", None)] selected persistent.daily_update_check
-
-
-                        add HALF_SPACER
-
-                        textbutton _("White Theme") style "l_checkbox" action [SetField(persistent, "theme", None), RestartAtPreferences() ]
-                        # textbutton _("Clear theme") style "l_checkbox" action [SetField(persistent, "theme", "clear", None), RestartAtPreferences() ]
-                        textbutton _("Dark Theme") style "l_checkbox" action [SetField(persistent, "theme", "dark", None), RestartAtPreferences()]
-                        textbutton _("Custom Theme") style "l_checkbox" action [SetField(persistent, "theme", "custom", None), RestartAtPreferences()]
-
-                    if renpy.macintosh:
-
-                        add SPACER
-                        #add SEPARATOR2
-
-                        frame:
-                            style "l_indent"
-                            yminimum 75
-                            has vbox
-
-                            text _("OS Extracts ZIPs?")
-                            add HALF_SPACER
-
-                            frame style "l_indent":
-                                if persistent.safari != None:
-                                    if persistent.safari == True:
-                                        text _("Yes") style "l_nonbox"
-                                    else:
-                                        text _("No") style "l_nonbox"
-                                else:
-                                    text _("Not Set") style "l_nonbox"
-
-                frame:
-                    style "l_indent"
-                    xmaximum ONETHIRD
-                    xfill True
-
-                    has vbox
-
-                    add SEPARATOR2
-
-                    frame:
-                        style "l_indent"
-                        yminimum 75
-                        has vbox
-
-                        text _("Actions:")
-
-                        add HALF_SPACER
-
-                        textbutton _("Install libraries") style "l_nonbox" action Jump("install")
-                        textbutton _("Open launcher project") style "l_nonbox" action [ project.Select("launcher"), Jump("front_page") ]
-                        textbutton _("Reset window size") style "l_nonbox" action Preference("display", 1.0)
-                        
-                        textbutton _("Disable Mod Template Updates") style "l_checkbox" action ToggleField(persistent, "disable_mt_update")
-                        textbutton _("Disable Mod Maker Updates") style "l_checkbox" action ToggleField(persistent, "disable_mm_update")
-
-                        if renpy.macintosh:
-                            textbutton _("Change Extract Settings") style "l_nonbox" action Jump("auto_extract")
-
-                if translations:
-
-                    frame:
-                        style "l_indent"
-                        xmaximum ONETHIRD
+                        xmaximum TWOTHIRDS
                         xfill True
 
                         has vbox
+
+                        # Projects directory selection.
+                        add SEPARATOR2
+
+
+                        frame:
+                            style "l_indent"
+
+                            has vbox
+
+                            text _("Projects Directory:")
+
+                            add HALF_SPACER
+
+
+                            frame style "l_indent":
+                                if persistent.projects_directory:
+                                    textbutton _("[persistent.projects_directory!q]"):
+                                        action Jump("projects_directory_preference")
+                                        alt _("Projects directory: [text]")
+                                else:
+                                    textbutton _("Not Set"):
+                                        action Jump("projects_directory_preference")
+                                        alt _("Projects directory: [text]")
+
+                        add SPACER
+                        add SEPARATOR2
+
+                        frame:
+                            style "l_indent"
+
+                            has vbox
+
+                            text _("DDLC Directory:")
+
+                            add HALF_SPACER
+
+                            frame style "l_indent":
+                                if persistent.zip_directory:
+                                    textbutton _("[persistent.zip_directory!q]"):
+                                        action Jump("zip_directory_preference")
+                                        alt _("DDLC directory: [text]")
+                                else:
+                                    textbutton _("Not Set"):
+                                        action Jump("zip_directory_preference")
+                                        alt _("DDLC ZIP directory: [text]")
+                        
+                        add SPACER
 
                         # Text editor selection.
                         add SEPARATOR2
 
                         frame:
                             style "l_indent"
-                            yminimum 75
+                            has vbox
+
+                            text _("Text Editor:")
+
+                            add HALF_SPACER
+
+                            frame style "l_indent":
+                                if persistent.editor:
+                                    textbutton persistent.editor action Jump("editor_preference") alt _("Text editor: [text]")
+                                else:
+                                    textbutton _("Not Set") action Jump("editor_preference") alt _("Text editor: [text]")
+
+                        if renpy.macintosh:
+
+                            add SPACER
+                            add SEPARATOR2
+
+                            frame:
+                                style "l_indent"
+                                yminimum 75
+                                has vbox
+
+                                text _("OS Extracts ZIPs?")
+                                add HALF_SPACER
+
+                                frame style "l_indent":
+                                    if persistent.safari != None:
+                                        if persistent.safari == True:
+                                            text _("Yes") style "l_nonbox"
+                                        else:
+                                            text _("No") style "l_nonbox"
+                                    else:
+                                        text _("Not Set") style "l_nonbox"
+
+                elif preference_tab == "languages":
+                    frame:
+                        style "l_indent"
+                        xmaximum TWOTHIRDS
+                        xfill True
+
+                        has vbox
+
+                        # Projects directory selection.
+                        add SEPARATOR2
+
+                        frame:
+                            style "l_indent"
                             has vbox
 
                             text _("Language:")
 
                             add HALF_SPACER
 
-                            viewport:
-                                scrollbars "vertical"
-                                mousewheel True
+                            hbox:
+                                for tran in translations:
+                                    vbox:
+                                        for tlid, tlname in tran:
+                                            textbutton tlname:
+                                                xmaximum (TWOTHIRDS//3)
+                                                action [Language(tlid), project.SelectTutorial(True)]
+                                                style "l_list"
 
-                                has vbox
+                elif preference_tab == "options":
 
-                                # frame style "l_indent":
+                    frame:
+                        style "l_indent"
+                        xmaximum TWOTHIRDS
+                        xfill True
 
-                                for tlname, tlvalue in translations:
-                                    textbutton tlname action [ Language(tlvalue), project.SelectTutorial(True) ] style "l_list"
+                        has vbox
+                        add SEPARATOR2
 
+                        frame:
+                            style "l_indent"
+                            has vbox
+
+                            text _("Navigation Options:")
+
+                            add HALF_SPACER
+
+                            textbutton _("Include private names") style "l_checkbox" action ToggleField(persistent, "navigate_private")
+                            textbutton _("Include library names") style "l_checkbox" action ToggleField(persistent, "navigate_library")
+
+                        add SPACER
+                        add SEPARATOR2
+
+                        frame:
+                            style "l_indent"
+                            has vbox
+
+                            text _("Launcher Options:")
+
+                            add HALF_SPACER
+
+                            textbutton _("Show edit file section") style "l_checkbox" action ToggleField(persistent, "show_edit_funcs")
+                            textbutton _("Large fonts") style "l_checkbox" action [ ToggleField(persistent, "large_print"), renpy.utter_restart ]
+
+                            if renpy.windows:
+                                textbutton _("Console output") style "l_checkbox" action ToggleField(persistent, "windows_console")
+
+                            #textbutton _("Sponsor message") style "l_checkbox" action ToggleField(persistent, "sponsor_message")
+
+                            #if ability.can_update:
+                                #textbutton _("Check for Updates Daily") style "l_checkbox" action [ToggleField(persistent, "daily_update_check"), SetField(persistent, "last_update_check", None)] selected persistent.daily_update_check
+
+
+                elif preference_tab == "theme":
+
+                    frame:
+                        style "l_indent"
+                        xmaximum TWOTHIRDS
+                        xfill True
+
+                        has vbox
+
+                        # Projects directory selection.
+                        add SEPARATOR2
+
+                        frame:
+                            style "l_indent"
+                            has vbox
+
+                            text _("Launcher Theme:")
+
+                            add HALF_SPACER
+
+                            textbutton _("Default theme") style "l_checkbox" action [SetField(persistent, "theme", None), RestartAtPreferences() ]
+                            textbutton _("Dark theme") style "l_checkbox" action [SetField(persistent, "theme", "dark", None), RestartAtPreferences()]
+                            textbutton _("Custom theme") style "l_checkbox" action [SetField(persistent, "theme", "custom", None), RestartAtPreferences()]
+
+                            add SPACER
+
+                            text _("Information about creating a custom theme can be found {a=https://www.renpy.org/doc/html/skins.html}in the Ren'Py Documentation{/a}.")
+
+                elif preference_tab == "install":
+
+                    frame:
+                        style "l_indent"
+                        xmaximum TWOTHIRDS
+                        xfill True
+
+                        has vbox
+
+                        add SEPARATOR2
+
+                        frame:
+                            style "l_indent"
+                            has vbox
+
+                            text _("Install Libraries:")
+
+                            add HALF_SPACER
+
+                            use install_preferences
+
+
+                elif preference_tab == "actions":
+
+                    frame:
+                        style "l_indent"
+                        xmaximum TWOTHIRDS
+                        xfill True
+
+                        has vbox
+
+                        add SEPARATOR2
+
+                        frame:
+                            style "l_indent"
+                            has vbox
+
+                            text _("Actions:")
+
+                            add HALF_SPACER
+
+                            textbutton _("Open launcher project") style "l_nonbox" action [ project.Select("launcher"), Jump("front_page") ]
+                            textbutton _("Reset window size") style "l_nonbox" action Preference("display", 1.0)
+                            textbutton _("Clean temporary files") style "l_nonbox" action Jump("clean_tmp")
+
+                            textbutton _("Disable Mod Template Updates") style "l_checkbox" action [ToggleField(persistent, "disable_mt_update"), Function(fetch_ddmm_updates), Function(fetch_ddmm_updates, mt=True)] 
+                            textbutton _("Disable Mod Maker Updates") style "l_checkbox" action [ToggleField(persistent, "disable_mm_update"), Function(fetch_ddmm_updates), Function(fetch_ddmm_updates, mt=True)] 
+
+                            if renpy.macintosh:
+                                textbutton _("Change Extract Settings") style "l_nonbox" action Jump("auto_extract")
 
     textbutton _("Return") action Jump("front_page") style "l_left_button"
+
+label clean_tmp:
+    python hide:
+        installer.processing(_("Cleaning temporary files..."))
+        installer._clean("renpy:tmp", 0)
+        time.sleep(0.5)
+
+    jump preferences
 
 label projects_directory_preference:
     call choose_projects_directory
     jump preferences
-label zip_directory_preference:
-    call ddlc_location
-    jump preferences
+
+
 label preferences:
     call screen preferences
     jump preferences
+
+
+screen choose_language():
+    default local_lang = _preferences.language
+    default chosen_lang = _preferences.language
+    default translations = scan_translations(piglatin=False)
+
+    add BACKGROUND
+
+    vbox:
+        xalign .5
+        yalign .5
+
+        fixed:
+            ysize 0
+
+            text renpy.translate_string(_("{#in language font}Welcome! Please choose a language"), local_lang):
+                xalign .5
+                yanchor 1.0
+                ypos 1.0
+
+                style "l_label_text"
+
+                size 36
+                text_align .5
+                layout "subtitle"
+
+        add SPACER
+        add SPACER
+
+        hbox:
+            xalign .5
+            for tran in translations:
+                vbox:
+                    for tlid, tlname in tran:
+                        textbutton tlname:
+                            xmaximum (TWOTHIRDS//3)
+                            action SetScreenVariable("chosen_lang", tlid)
+                            hovered SetScreenVariable("local_lang", tlid)
+                            unhovered SetScreenVariable("local_lang", chosen_lang)
+                            style "l_list"
+                            text_xalign .5
+
+        add SPACER
+        add SPACER
+
+        $ lang_name = renpy.translate_string("{#language name and font}", local_lang)
+
+        fixed:
+            ysize 0
+
+            textbutton renpy.translate_string(_("{#in language font}Start using Ren'Py in [lang_name]"), local_lang):
+                xalign .5
+                action [Language(chosen_lang), project.SelectTutorial(True), Return()]
+                style "l_default"
+                text_style "l_default"
+
+                text_size 30
+                text_text_align .5
+                text_layout "subtitle"
+
+
+label choose_language:
+    call screen choose_language
+    return
+label zip_directory_preference:
+    call ddlc_location
+    jump preferences
+
+translate None strings:
+    # game/new_project.rpy:77
+    old "{#language name and font}"
+    new "English"
