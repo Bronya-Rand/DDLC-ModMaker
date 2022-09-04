@@ -342,6 +342,11 @@ label set_version:
     python:
         try:
             x = readVersion()
+            if x is None:
+                with open(os.path.join(persistent.projects_directory, project.current.name, "game/renpy-version.txt"), "w") as f:
+                    f.write("8") 
+                interface.info(_("A file named `renpy-version.txt` has been created in your projects' game directory."), _("Do not delete this file as it is needed to determine which version of Ren'Py it uses for building your mod."))
+                renpy.jump("front_page")
 
             prompt = False    
             if x == 6:
@@ -368,9 +373,5 @@ label set_version:
                     interface.info(_("Set the Ren'Py mode version to Ren'Py 8."))
             else:
                 interface.info(_("The Ren'Py mode version is already set to Ren'Py 8."))
-        except IOError:
-            with open(os.path.join(persistent.projects_directory, project.current.name, "game/renpy-version.txt"), "w") as f:
-                f.write("8") 
-            interface.info(_("A file named `renpy-version.txt` has been created in your projects' game directory."), _("Do not delete this file as it is needed to determine which version of Ren'Py it uses for building your mod."))
     
     jump front_page
