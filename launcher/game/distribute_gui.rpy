@@ -279,15 +279,11 @@ label build_distributions:
         pass
 
     python:
-        ver = persistent.projects_directory + '/' + project.current.name + '/renpy-version.txt'
-        try:
-            with open(ver) as f:
-                if f.readline() > "6":
-                    interface.error(_("You are trying to compile a Ren'Py 7 or 8 DDLC mod in Ren'Py 6.99.12.4."), _("Please use DDMM 7 or 8 in order to comile your Ren'Py 7 or Ren'Py 8 mod respectively."),)
-                else:
-                    pass
-        except IOError:
+        f = readVersion()
+        if f is None:
             interface.error(_("`renpy-version.txt` missing or corrupt."), _("Check if this file exists or attempt to compile guess."),)
+        elif f > 6:
+            interface.error(_("You are trying to compile a Ren'Py 7 or 8 DDLC mod in Ren'Py 6.99.12.4."), _("Please use DDMM 7 or 8 in order to comile your Ren'Py 7 or Ren'Py 8 mod respectively."),)
 
     call build_update_dump
 
