@@ -48,7 +48,7 @@ init python:
     CONNECT_TEXT = _("Connects to an Android device running ADB in TCP/IP mode.")
     DISCONNECT_TEXT = _("Disconnects from an Android device running ADB in TCP/IP mode.")
     LOGCAT_TEXT = _("Retrieves the log from the Android device and writes it to a file.")
-    GUIDE_TEXT = _("Opens guide.pdf which goes through the process of releasing mods to Android that are Team Salvato IPG compliant.")
+    GUIDE_TEXT = _("Opens the Android Mod Guide for DDLC which goes through the process of releasing mods to Android that are Team Salvato IPG compliant.")
 
     import subprocess
     import re
@@ -302,7 +302,6 @@ screen android:
             has vbox
 
             label _("Android: [project.current.name!q]")
-            text _("Before continuing, refer to {b}Building Your Mod{/b} in {i}guide.pdf{/i} for building mods for Android.") xalign 0.11 size 15
 
             add HALF_SPACER
 
@@ -406,8 +405,8 @@ screen android:
                                 action AndroidIfState(state, ANDROID_NO_KEY, Jump("logcat"))
                                 hovered tt.Action(LOGCAT_TEXT)
                             
-                            textbutton _("Open {i}guide.pdf{/i}"): 
-                                action OpenDirectory(config.basedir + "/templates/guide.pdf")
+                            textbutton _("Open Android Mod Guide"): 
+                                action OpenDirectory(config.basedir + "/templates/Android Mod Guide.pdf")
                                 hovered tt.Action(GUIDE_TEXT)
 
 
