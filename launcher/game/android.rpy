@@ -61,7 +61,7 @@ init python:
 
     PLAY_BUNDLE_TEXT = _("Builds an Android App Bundle (ABB), intended to be uploaded to Google Play. This can include up to 2GB of data.")
     UNIVERSAL_APK_TEXT = _("Builds a Universal APK package, intended for sideloading and stores other than Google Play. This can include up to 2GB of data.")
-    GUIDE_TEXT = _("Opens guide.pdf which goes through the process of releasing mods to Android that are Team Salvato IPG compliant.")
+    GUIDE_TEXT = _("Opens the Android Mod Guide for DDLC which goes through the process of releasing mods to Android that are Team Salvato IPG compliant.")
 
     import subprocess
     import re
@@ -473,8 +473,8 @@ screen android:
                                 action AndroidIfState(state, ANDROID_NO_KEY, Jump("android_clean"))
                                 hovered tt.Action(CLEAN_TEXT)
 
-                            textbutton _("Open {i}guide.pdf{/i}"): 
-                                action OpenDirectory(config.basedir + "/templates/guide.pdf")
+                            textbutton _("Open Android Mod Guide"): 
+                                action OpenDirectory(config.basedir + "/templates/Android Mod Guide.pdf")
                                 hovered tt.Action(GUIDE_TEXT)
 
                     add SPACER
