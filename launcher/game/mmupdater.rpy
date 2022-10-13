@@ -89,6 +89,9 @@ init python:
         return channels
 
 label mmupdater:
+    python:
+        if not os.path.exists(config.basedir + "/update"):
+            os.makedirs(config.basedir + "/update")
 
     $ ddmm_chan = fetch_ddmm_updates(False)
     $ ddmt_chan = fetch_ddmm_updates(False, True)
@@ -178,7 +181,11 @@ label install_ddmt_update_script(ddmt_chan):
                 newTemplate.write(zipContent.content) 
 
             with zipfile.ZipFile(config.basedir + "/templates/" + filename) as newTemplate:
-                newTemplate.extract("guide.pdf", config.basedir + "/templates")
+                try: 
+                    newTemplate.extract("guide.pdf", config.basedir + "/templates")
+                    os.rename(config.basedir + "/templates/guide.pdf", config.basedir + "/templates/Android Mod Guide.pdf")
+                except: 
+                    newTemplate.extract("Documentation/Android Mod Guide.pdf", config.basedir + "/templates")
 
             persistent.update_available = False
             interface.info("The update has been complete.")
