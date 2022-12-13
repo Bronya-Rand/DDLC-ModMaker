@@ -45,10 +45,15 @@ init python:
                 with open(os.path.join(persistent.projects_directory, project.current.name, 'game/renpy-version.txt')) as f:
                     file_ver = f.readline().strip()
 
-                if int(file_ver) < 7: return 6
-                elif int(file_ver) > 7: return 8
-                return 7
-            except IOError: return None
+                int_ver = int(file_ver)
+                if int_ver >= 6 and int_ver <= 8:
+                    return int_ver
+                else:
+                    return -1
+            except IOError: 
+                return None
+            except ValueError:
+                return -1
         else: return None
 
 screen front_page:
