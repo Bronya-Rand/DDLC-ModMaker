@@ -18,7 +18,7 @@ init python:
     def get_installed_template_version(string=False):
         if string: 
             num = glob.glob(config.basedir + "/templates/DDLCModTemplate-*.zip")
-            return num[-1].replace(".zip", "").split("-")[-1] or "null"
+            return num[-1].replace(".zip", "").split("-")[-1] or None
         return tuple(int(num) for num in glob.glob(config.basedir + "/templates/DDLCModTemplate-*.zip")[-1].replace(".zip", "").split("-")[-1].split("."))
 
     def get_git_ddmm_version(mmaker_json_file):
@@ -69,9 +69,9 @@ init python:
             try:
                 template_ver = get_installed_template_version()
             except:
-                template_ver = "null"
+                template_ver = None
 
-            if template_ver == "null" or template_ver < get_git_template_version(template_json):
+            if template_ver == None or template_ver < get_git_template_version(template_json):
                 if not persistent.disable_mt_update:
                     persistent.update_available = True
                     persistent.template_update = True

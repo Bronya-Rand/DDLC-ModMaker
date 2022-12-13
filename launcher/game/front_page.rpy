@@ -1,4 +1,4 @@
-# Copyright 2004-2022 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2022 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -33,16 +33,15 @@ init python:
     def readVersion():
         if persistent.projects_directory is not None:
             # move renpy-version.txt to project game folder for easy transfer
+            new_txt_path = os.path.join(persistent.projects_directory, project.current.name, 'game/renpy-version.txt').replace("\\", "/")
             try: 
-                renpy.file(os.path.join(persistent.projects_directory, project.current.name, 
-                    'renpy-version.txt').replace("\\", "/"))
-                shutil.move(os.path.join(persistent.projects_directory, project.current.name, 
-                    'renpy-version.txt'), os.path.join(persistent.projects_directory, 
-                        project.current.name, 'game/renpy-version.txt'))
+                old_txt_path = os.path.join(persistent.projects_directory, project.current.name, 'renpy-version.txt').replace("\\", "/")
+                renpy.file(old_txt_path)
+                shutil.move(old_txt_path, new_txt_path)
             except IOError: pass
 
             try:
-                with open(os.path.join(persistent.projects_directory, project.current.name, 'game/renpy-version.txt')) as f:
+                with open(new_txt_path) as f:
                     file_ver = f.readline().strip()
 
                 int_ver = int(file_ver)
@@ -55,6 +54,17 @@ init python:
             except ValueError:
                 return -1
         else: return None
+
+    import pathlib
+
+    # Adds backwards compat between 4.1.0+ and older templates
+    def NewEditorOpen(path):
+        if os.path.exists(os.path.join(persistent.projects_directory, project.current.name, path)):
+            return editor.Edit(path, check=True)
+        else:
+            old_path = list(pathlib.Path(path).parts)
+            old_path.pop(1)
+            return editor.Edit(str(pathlib.Path(*old_path)).replace("\\", "/"), check=True)
 
 screen front_page:
     frame:
@@ -199,7 +209,7 @@ screen front_page_project:
                     textbutton _("base") action OpenDirectory(os.path.join(p.path, "."), absolute=True)
                     textbutton _("mod_assets") action OpenDirectory(os.path.join(p.path, "game/mod_assets"), absolute=True)
                     textbutton _("mod_extras") action OpenDirectory(os.path.join(p.path, "game/mod_extras"), absolute=True)
-                    textbutton _("gui") action OpenDirectory(os.path.join(p.path, "game/gui"), absolute=True)
+                    #textbutton _("gui") action OpenDirectory(os.path.join(p.path, "game/gui"), absolute=True)
 
             vbox:
                 if persistent.show_edit_funcs:
@@ -211,7 +221,7 @@ screen front_page_project:
 
                         textbutton "script.rpy" action editor.Edit("game/script.rpy", check=True)
                         textbutton "options.rpy" action editor.Edit("game/options.rpy", check=True)
-                        textbutton "definitions.rpy" action editor.Edit("game/definitions.rpy", check=True)
+                        textbutton "definitions.rpy" action NewEditorOpen("game/definitions/definitions.rpy")
                         textbutton "gui.rpy" action editor.Edit("game/gui.rpy", check=True)
                         textbutton "screens.rpy" action editor.Edit("game/screens.rpy", check=True)
 
