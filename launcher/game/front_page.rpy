@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2022 Tom Rothamel <pytom@bishoujo.us>
+# Copyright 2004-2022 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -45,10 +45,15 @@ init python:
                 with open(os.path.join(persistent.projects_directory, project.current.name, 'game/renpy-version.txt')) as f:
                     file_ver = f.readline().strip()
 
-                if int(file_ver) < 7: return 6
-                elif int(file_ver) > 7: return 8
-                return 7
-            except IOError: return None
+                int_ver = int(file_ver)
+                if int_ver >= 6 and int_ver <= 8:
+                    return int_ver
+                else:
+                    return -1
+            except IOError: 
+                return None
+            except ValueError:
+                return -1
         else: return None
 
 screen front_page:
@@ -126,8 +131,10 @@ screen front_page:
         elif launch == 7 or project.current.name == "launcher":
             textbutton _("Launch Mod") action project.Launch() style "l_right_button"
             key "K_F5" action project.Launch()
+        elif launch == -1:
+            textbutton _("Cannot Determine Version") action Jump('version_incorrect_content') style "l_unavail_button"
         else:
-            textbutton _("Cannot Determine Version") action Jump('version_error') style "l_unavail_button"
+            textbutton _("Cannot Determine Version") action Jump('missing_version') style "l_unavail_button"
 
 
 
@@ -328,14 +335,19 @@ label force_recompile:
 
     jump front_page
 
-label version_error:
+label missing_version:
     python:
         interface.info(_("This project cannot launch in DDMM as this is either a non-DDLC mod or is missing 'renpy-version.txt'"), _("Please check if 'renpy-version.txt' exists."),)
         renpy.jump('front_page')
 
+label version_incorrect_content:
+    python:
+        interface.info(_("This project cannot launch in DDMM as 'renpy-version.txt' has unexpected content."), _("Please check if 'renpy-version.txt' contains only a single number with the project's major RenPy version (6, 7, 8)."),)
+        renpy.jump('front_page')
+
 label no_android:
     python:
-        interface.info(_("This project cannot be built for Android as it's either in Ren'Py 6/8 mode or is missing 'renpy-version.txt'"), _("Please check if 'renpy-version.txt' exists or change the version of your project."),)
+        interface.info(_("This project cannot be built for Android as it's either in Ren'Py 6/8 mode or has a missing/corrupt 'renpy-version.txt'"), _("Please check if 'renpy-version.txt' exists or change the version of your project."),)
         renpy.jump('front_page')
 
 label set_version:
