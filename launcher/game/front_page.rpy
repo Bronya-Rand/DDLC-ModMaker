@@ -66,23 +66,38 @@ init python:
     def readVersion():
         if persistent.projects_directory is not None:
             # move renpy-version.txt to project game folder for easy transfer
+            new_txt_path = os.path.join(persistent.projects_directory, project.current.name, 'game/renpy-version.txt').replace("\\", "/")
             try: 
-                renpy.file(os.path.join(persistent.projects_directory, project.current.name, 
-                    'renpy-version.txt').replace("\\", "/"))
-                shutil.move(os.path.join(persistent.projects_directory, project.current.name, 
-                    'renpy-version.txt'), os.path.join(persistent.projects_directory, 
-                        project.current.name, 'game/renpy-version.txt'))
+                old_txt_path = os.path.join(persistent.projects_directory, project.current.name, 'renpy-version.txt').replace("\\", "/")
+                renpy.file(old_txt_path)
+                shutil.move(old_txt_path, new_txt_path)
             except IOError: pass
 
             try:
-                with open(os.path.join(persistent.projects_directory, project.current.name, 'game/renpy-version.txt')) as f:
+                with open(new_txt_path) as f:
                     file_ver = f.readline().strip()
 
-                if int(file_ver) < 7: return 6
-                elif int(file_ver) > 7: return 8
-                return 7
-            except IOError: return None
+                int_ver = int(file_ver)
+                if int_ver >= 6 and int_ver <= 8:
+                    return int_ver
+                else:
+                    return -1
+            except IOError: 
+                return None
+            except ValueError:
+                return -1
         else: return None
+
+    import pathlib
+
+    # Adds backwards compat between 4.1.0+ and older templates
+    def NewEditorOpen(path):
+        if os.path.exists(os.path.join(persistent.projects_directory, project.current.name, path)):
+            return editor.Edit(path, check=True)
+        else:
+            old_path = list(pathlib.Path(path).parts)
+            old_path.pop(1)
+            return editor.Edit(str(pathlib.Path(*old_path)).replace("\\", "/"), check=True)
 
 screen front_page:
     frame:
@@ -223,7 +238,7 @@ screen front_page_project:
                     textbutton _("base") action OpenDirectory(os.path.join(p.path, "."))
                     textbutton _("mod_assets") action OpenDirectory(os.path.join(p.path, "game/mod_assets"))
                     textbutton _("mod_extras") action OpenDirectory(os.path.join(p.path, "game/mod_extras"))
-                    textbutton _("gui") action OpenDirectory(os.path.join(p.path, "game/gui"))
+                    #textbutton _("gui") action OpenDirectory(os.path.join(p.path, "game/gui"))
 
             vbox:
                 if persistent.show_edit_funcs:
