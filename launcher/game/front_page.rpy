@@ -171,7 +171,7 @@ init python:
 
     # Adds backwards compat between 4.1.0+ and older templates
     def NewEditorOpen(path):
-        if os.path.exists(os.path.join(config.basedir, path)):
+        if os.path.exists(os.path.join(persistent.projects_directory, project.current.name, path)):
             return editor.Edit(path, check=True)
         else:
             old_path = list(pathlib.Path(path).parts)
