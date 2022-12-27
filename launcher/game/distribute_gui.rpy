@@ -280,8 +280,9 @@ label build_distributions:
 
     python:
         f = readVersion()
-        if f is None:
-            interface.error(_("`renpy-version.txt` missing or corrupt."), _("Check if this file exists or attempt to compile guess."),)
+        if f is None or f == -1:
+            if project.current.name != "launcher":
+                interface.error(_("`renpy-version.txt` missing or corrupt."), _("Check if this file exists or attempt to compile guess."),)
         elif f > 6:
             interface.error(_("You are trying to compile a Ren'Py 7 or 8 DDLC mod in Ren'Py 6.99.12.4."), _("Please use DDMM 7 or 8 in order to comile your Ren'Py 7 or Ren'Py 8 mod respectively."),)
 
