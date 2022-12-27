@@ -302,6 +302,8 @@ label main_menu:
 label start:
     show screen bottom_info
 
+define renpy_depreciation_reminder = False
+
 label front_page:
     if persistent.zip_directory is not None:
         if persistent.zip_directory.endswith("ddlc-mac") or persistent.zip_directory.endswith("ddlc-mac.zip"):
@@ -311,8 +313,12 @@ label front_page:
         if not os.path.exists(os.path.join(config.basedir, "templates")):
             os.makedirs(os.path.join(config.basedir, "templates"))
 
-    python:
-        interface.information(_("DDMM 6 may be depreciated in the near future."), _("It is recommended that you upgrade to DDMM 7 or DDMM 8 for future mod development."))
+    python hide:
+        if not renpy_depreciation_reminder:
+            global renpy_depreciation_reminder
+
+            renpy_depreciation_reminder = True
+            interface.info(_("DDMM 6 may be depreciated in the near future."), _("It is recommended that you upgrade to DDMM 7 or DDMM 8 for future mod development."))
     
     call screen front_page
     jump front_page
