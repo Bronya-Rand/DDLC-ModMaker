@@ -178,14 +178,14 @@ label install_ddmt_update_script(ddmt_chan):
             except: pass
 
             with open(config.basedir + "/templates/" + filename, "wb") as newTemplate:
+                newTemplate.write(zipContent.content)
+
+            with zipfile.ZipFile(config.basedir + "/templates/" + filename) as newTemplate:
                 try: 
                     newTemplate.extract("guide.pdf", config.basedir + "/templates")
                     os.rename(config.basedir + "/templates/guide.pdf", config.basedir + "/templates/Android Mod Guide.pdf")
                 except: 
                     newTemplate.extract("Documentation/Android Mod Guide.pdf", config.basedir + "/templates")
-
-            with zipfile.ZipFile(config.basedir + "/templates/" + filename) as newTemplate:
-                newTemplate.extract("guide.pdf", config.basedir + "/templates")
 
             persistent.update_available = False
             interface.info("The update has been complete.")
