@@ -318,7 +318,7 @@ label front_page:
             global renpy_depreciation_reminder
 
             renpy_depreciation_reminder = True
-            interface.info(_("DDMM 6 may be depreciated in the near future."), _("It is recommended that you upgrade to DDMM 7 or DDMM 8 for future mod development."))
+            interface.info(_("DDMM 6 may be depreciated in the near future."), _("It is recommended that you upgrade to DDMM 7 or DDMM 8 for future mod development.\nSee {a=https://www.reddit.com/r/DDLCMods/wiki/notices/#wiki_why_are_some_guides_not_applicable_to_the_4.1.0_release_of_the_mod_template.3F}here{/a} for more information."))
     
     call screen front_page
     jump front_page
