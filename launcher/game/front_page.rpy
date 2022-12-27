@@ -57,12 +57,13 @@ init python:
 
     # Adds backwards compat between 4.1.0+ and older templates
     def NewEditorOpen(path):
-        if os.path.exists(os.path.join(persistent.projects_directory, project.current.name, path)):
+        base = persistent.projects_directory if persistent.projects_directory is not None else config.basedir
+        if os.path.exists(os.path.join(base, project.current.name, path)):
             return editor.Edit(path, check=True)
         else:
             old_path = path.split("/")
             old_path.pop(1)
-            return editor.Edit(str(os.path.join(*b)).replace("\\", "/"), check=True)
+            return editor.Edit(str(os.path.join(*old_path)).replace("\\", "/"), check=True)
 
 screen front_page:
     frame:
