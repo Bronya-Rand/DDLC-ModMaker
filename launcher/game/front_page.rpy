@@ -301,6 +301,7 @@ label front_page:
     if persistent.daily_update_check and ((not persistent.last_update_check) or (datetime.date.today() > persistent.last_update_check)):
         python hide:
             persistent.last_update_check = datetime.date.today()
+            persistent.update_available = False
             renpy.invoke_in_thread(fetch_ddmm_updates, update_json=True)
             renpy.invoke_in_thread(fetch_ddmm_updates, mt=True, update_json=True)
 

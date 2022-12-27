@@ -28,7 +28,6 @@ init python:
         return tuple(int(num) for num in config.version.split("."))
 
     def fetch_ddmm_updates(quiet=True, mt=False, update_json=True):
-        persistent.update_available = False
         if not quiet:
             process_text = ""
             if mt:
@@ -93,6 +92,7 @@ label mmupdater:
         if not os.path.exists(config.basedir + "/update"):
             os.makedirs(config.basedir + "/update")
 
+    $ persistent.update_available = False
     $ ddmm_chan = fetch_ddmm_updates(False)
     $ ddmt_chan = fetch_ddmm_updates(False, True)
     call screen ddmmupdate(ddmm_chan, ddmt_chan)
@@ -173,7 +173,7 @@ label install_ddmt_update_script(ddmt_chan):
             filename = "DDLCModTemplate-" + ddmt_chan["tag_name"] + ".zip"
 
             try: 
-                for x in glob.glob("templates/DDLCModTemplate-*.zip"):
+                for x in glob.glob(config.basedir + "/templates/DDLCModTemplate-*.zip"):
                     os.remove(x)
             except: pass
 
@@ -186,6 +186,8 @@ label install_ddmt_update_script(ddmt_chan):
                     os.rename(config.basedir + "/templates/guide.pdf", config.basedir + "/templates/Android Mod Guide.pdf")
                 except: 
                     newTemplate.extract("Documentation/Android Mod Guide.pdf", config.basedir + "/templates")
+                    shutil.move(config.basedir + "/templates/Documentation/Android Mod Guide.pdf", config.basedir + "/templates/Android Mod Guide.pdf")
+                    shutil.rmtree(config.basedir + "/templates/Documentation")
 
             persistent.update_available = False
             interface.info("The update has been complete.")
