@@ -310,6 +310,9 @@ label front_page:
     python:
         if not os.path.exists(os.path.join(config.basedir, "templates")):
             os.makedirs(os.path.join(config.basedir, "templates"))
+
+    python:
+        interface.information(_("DDMM 6 may be depreciated in the near future."), _("It is recommended that you upgrade to DDMM 7 or DDMM 8 for future mod development."))
     
     call screen front_page
     jump front_page
