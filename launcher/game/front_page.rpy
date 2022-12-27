@@ -55,16 +55,14 @@ init python:
                 return -1
         else: return None
 
-    import pathlib
-
     # Adds backwards compat between 4.1.0+ and older templates
     def NewEditorOpen(path):
         if os.path.exists(os.path.join(persistent.projects_directory, project.current.name, path)):
             return editor.Edit(path, check=True)
         else:
-            old_path = list(pathlib.Path(path).parts)
+            old_path = path.split("/")
             old_path.pop(1)
-            return editor.Edit(str(pathlib.Path(*old_path)).replace("\\", "/"), check=True)
+            return editor.Edit(str(os.path.join(*b)).replace("\\", "/"), check=True)
 
 screen front_page:
     frame:
