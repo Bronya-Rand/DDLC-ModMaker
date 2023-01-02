@@ -9,13 +9,13 @@ DDMM/DDMMaker is a Ren'Py SDK Modification that makes DDLC Modding easier and ef
 ### **Features**
 
 1. Auto mod template installation
-2. Auto Mood Pose Tool (MPT) installation
+2. Auto tool installation (MPT, OST Player, ExPoser)
 3. Support for MacOS, Linux and Android
-4. Updates (Ren'Py 7 Only)
+4. Updates
 
 **DISCLAIMER**
 
-Doki Doki Mod Maker, is a Ren'Py 7.5.2 SDK Modification which is not affiliated or supported by RenpyTom. It is not supported by the official Ren'Py Build, or any Ren'Py channels. RenpyTom does not support game modding in general and will not provide support for this Ren'Py Modification.
+Doki Doki Mod Maker, is a Ren'Py 7.5.3 SDK Modification which is not affiliated or supported by RenpyTom. It is not supported by the official Ren'Py Build, or any Ren'Py channels. RenpyTom does not support game modding in general and will not provide support for this Ren'Py Modification.
 
 Doki Doki Mod Maker is a unofficial Doki Doki Literature Club Mod Maker which is unaffiliated by Team Salvato. Dan Salvato or anyone in Team Salvato does not endorse Doki Doki Mod Maker.
 
