@@ -6,13 +6,14 @@
 
 DDMM/DDMMaker is a Ren'Py SDK Modification that makes DDLC Modding easier and efficient with better wording, auto-mod template install, and more!. This tool adheres to the Team Salvato IP Guidelines and RenpyTom Guidelines for DDLC and Ren'Py SDK modding as listed in **README.md**.
 
+> DDMM 6 is being put into question for future updates due to a lack of demand for Ren'Py 6 mods, and projects along with keeping up with the current years' development lifecycle. It is **highly** recommended you upgrade to DDMM 7 for mod development. [Learn more.](https://www.reddit.com/r/DDLCMods/wiki/notices/#wiki_why_is_the_megathread_and_other_users_recommending_me_to_create_my_mod_in_ren.27py_7.3F)
+
 ### **Features**
 
 1. Auto mod template installation
-2. Auto Mood Pose Tool (MPT) installation
+2. Auto tool installation
 3. Support for MacOS, Linux and Android
 4. Dark Mode
-5. Updates (Ren'Py 7 Only)
 
 **DISCLAIMER**
 
