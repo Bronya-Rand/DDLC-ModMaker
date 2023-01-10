@@ -34,26 +34,26 @@ init python:
         if persistent.projects_directory is not None:
             # move renpy-version.txt to project game folder for easy transfer
             new_txt_path = os.path.join(persistent.projects_directory, project.current.name, 'game/renpy-version.txt').replace("\\", "/")
+            old_txt_path = os.path.join(persistent.projects_directory, project.current.name, 'renpy-version.txt').replace("\\", "/")
             try: 
-                old_txt_path = os.path.join(persistent.projects_directory, project.current.name, 'renpy-version.txt').replace("\\", "/")
                 renpy.file(old_txt_path)
                 shutil.move(old_txt_path, new_txt_path)
             except IOError: pass
+        else: 
+            new_txt_path = os.path.join(config.basedir, project.current.name, 'game/renpy-version.txt').replace("\\", "/")
+        try:
+            with open(new_txt_path) as f:
+                file_ver = f.readline().strip()
 
-            try:
-                with open(new_txt_path) as f:
-                    file_ver = f.readline().strip()
-
-                int_ver = int(file_ver)
-                if int_ver >= 6 and int_ver <= 8:
-                    return int_ver
-                else:
-                    return -1
-            except IOError: 
-                return None
-            except ValueError:
+            int_ver = int(file_ver)
+            if int_ver >= 6 and int_ver <= 8:
+                return int_ver
+            else:
                 return -1
-        else: return None
+        except IOError: 
+            return None
+        except ValueError:
+            return -1
 
     # Adds backwards compat between 4.1.0+ and older templates
     def NewEditorOpen(path):
@@ -364,8 +364,14 @@ label set_version:
     python:
         x = readVersion()
         if x is None:
-            with open(os.path.join(persistent.projects_directory, project.current.name, "game/renpy-version.txt"), "w") as f:
-                f.write("7") 
+            try:
+                ver_path = os.path.join(persistent.projects_directory, project.current.name, "game/renpy-version.txt")
+                if not os.path.exists(ver_path):
+                    ver_path = os.path.join(config.basedir, project.current.name, "game/renpy-version.txt")
+            except TypeError:
+                ver_path = os.path.join(config.basedir, project.current.name, "game/renpy-version.txt")
+            with open(ver_path, "w") as f:
+                f.write("8") 
             interface.info(_("A file named `renpy-version.txt` has been created in your projects' game directory."), _("Do not delete this file as it is needed to determine which version of Ren'Py it uses for building your mod."))
             renpy.jump("front_page")
 
