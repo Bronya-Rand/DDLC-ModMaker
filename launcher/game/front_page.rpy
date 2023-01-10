@@ -66,12 +66,16 @@ init python:
     def readVersion():
         if persistent.projects_directory is not None:
             # move renpy-version.txt to project game folder for easy transfer
-            new_txt_path = os.path.join(persistent.projects_directory, project.current.name, 'game/renpy-version.txt').replace("\\", "/")
             old_txt_path = os.path.join(persistent.projects_directory, project.current.name, 'renpy-version.txt').replace("\\", "/")
-            try: 
-                renpy.file(old_txt_path)
-                shutil.move(old_txt_path, new_txt_path)
-            except IOError: pass
+
+            if os.path.exists(old_txt_path):
+                new_txt_path = os.path.join(persistent.projects_directory, project.current.name, 'game/renpy-version.txt').replace("\\", "/")
+                try: 
+                    renpy.file(old_txt_path)
+                    shutil.move(old_txt_path, new_txt_path)
+                except IOError: pass
+            else:
+                new_txt_path = os.path.join(config.basedir, project.current.name, 'game/renpy-version.txt').replace("\\", "/")
         else: 
             new_txt_path = os.path.join(config.basedir, project.current.name, 'game/renpy-version.txt').replace("\\", "/")
         try:
