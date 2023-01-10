@@ -371,7 +371,7 @@ label set_version:
             except TypeError:
                 ver_path = os.path.join(config.basedir, project.current.name, "game/renpy-version.txt")
             with open(ver_path, "w") as f:
-                f.write("8") 
+                f.write("7") 
             interface.info(_("A file named `renpy-version.txt` has been created in your projects' game directory."), _("Do not delete this file as it is needed to determine which version of Ren'Py it uses for building your mod."))
             renpy.jump("front_page")
 
