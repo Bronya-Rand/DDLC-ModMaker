@@ -64,30 +64,21 @@ init python:
         renpy.quit(relaunch=True)
 
     def readVersion():
-        if persistent.projects_directory is not None:
-            # move renpy-version.txt to project game folder for easy transfer
-            old_txt_path = os.path.join(persistent.projects_directory, project.current.name, 'renpy-version.txt').replace("\\", "/")
+        old_txt_path = os.path.join(project.current.path, 'renpy-version.txt').replace("\\", "/")
+        new_txt_path = os.path.join(project.current.path, 'game/renpy-version.txt').replace("\\", "/")
 
-            if os.path.exists(old_txt_path):
-                new_txt_path = os.path.join(persistent.projects_directory, project.current.name, 'game/renpy-version.txt').replace("\\", "/")
-                try: 
-                    renpy.file(old_txt_path)
-                    shutil.move(old_txt_path, new_txt_path)
-                except IOError: pass
-            else:
-                new_txt_path = os.path.join(config.basedir, project.current.name, 'game/renpy-version.txt').replace("\\", "/")
-        else: 
-            new_txt_path = os.path.join(config.basedir, project.current.name, 'game/renpy-version.txt').replace("\\", "/")
+        if os.path.exists(old_txt_path):
+            shutil.move(old_txt_path, new_txt_path)
+
         try:
             with open(new_txt_path) as f:
-                file_ver = f.readline().strip()
+                file_ver = int(f.readline().strip())
 
-            int_ver = int(file_ver)
-            if int_ver >= 6 and int_ver <= 8:
-                return int_ver
+            if file_ver >= 6 and file_ver <= 8:
+                return file_ver
             else:
                 return -1
-        except IOError: 
+        except IOError:
             return None
         except ValueError:
             return -1
