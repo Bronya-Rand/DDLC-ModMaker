@@ -48,7 +48,6 @@ init python:
         except IOError:
             return None
         except ValueError:
-            return -1or:
             return -1
 
     # Adds backwards compat between 4.1.0+ and older templates
