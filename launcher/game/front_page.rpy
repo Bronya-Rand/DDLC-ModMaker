@@ -244,7 +244,7 @@ screen front_page_project:
 
                         textbutton "script.rpy" action editor.Edit("game/script.rpy", check=True)
                         textbutton "options.rpy" action editor.Edit("game/options.rpy", check=True)
-                        textbutton "definitions.rpy" action editor.Edit("game/definitions.rpy", check=True)
+                        textbutton "definitions.rpy" action NewEditorOpen("game/definitions/definitions.rpy")
                         textbutton "gui.rpy" action editor.Edit("game/gui.rpy", check=True)
                         textbutton "screens.rpy" action editor.Edit("game/screens.rpy", check=True)
 
