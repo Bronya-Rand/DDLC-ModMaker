@@ -199,7 +199,6 @@ screen front_page_project:
                     textbutton _("game") action OpenDirectory(os.path.join(p.path, "game"), absolute=True)
                     textbutton _("base") action OpenDirectory(os.path.join(p.path, "."), absolute=True)
                     textbutton _("mod_assets") action OpenDirectory(os.path.join(p.path, "game/mod_assets"), absolute=True)
-                    textbutton _("mod_extras") action OpenDirectory(os.path.join(p.path, "game/mod_extras"), absolute=True)
                     #textbutton _("gui") action OpenDirectory(os.path.join(p.path, "game/gui"), absolute=True)
 
             vbox:
