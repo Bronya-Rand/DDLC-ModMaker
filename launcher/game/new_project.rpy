@@ -118,6 +118,8 @@ label new_project:
                 interface.error(_("[project_dir!q] already exists. Please choose a different project name."), project_dir=project_dir, label=None)
                 continue
 
+            os.makedirs(project_dir)
+
             interface.processing(_("Installing Template Files..."))
             with interface.error_handling(_("Extracting the DDLC Mod Template")):
                 extract.installation(template, project_dir)
