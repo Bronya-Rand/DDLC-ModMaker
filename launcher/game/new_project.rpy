@@ -82,6 +82,12 @@ label new_project:
         $ interface.error(_("The DDLC Mod Template ZIP file is missing in the templates folder. Check for updates, add the template to the templates folder, or reinstall DDMM."))
 
     $ template = glob.glob(config.basedir + "/templates/DDLCModTemplate-*-Py3.zip")[-1]
+
+    if persistent.install_mod_extras:
+        if not glob.glob(config.basedir + "/templates/DDLCModTemplate-*-Py3Extras.zip"):
+            $ interface.error(_("The DDLC Mod Template ZIP file is missing in the templates folder. Check for updates, add the template to the templates folder, or reinstall DDMM."))
+
+    $ template_extras = glob.glob(config.basedir + "/templates/DDLCModTemplate-*-Py3Extras.zip")[-1]
     
     python:
         while True:
@@ -113,15 +119,20 @@ label new_project:
                 continue
 
             interface.processing(_("Installing Template Files..."))
-            with interface.error_handling(_("Extracting the DDLC Mod Template...")):
+            with interface.error_handling(_("Extracting the DDLC Mod Template")):
                 extract.installation(template, project_dir)
+
+            if persistent.install_mod_extras:
+                interface.processing(_("Installing Extra Template Files..."))
+                with interface.error_handling(_("Extracting Mod Extras for the Mod Template")):
+                    extract.installation(template_extras, project_dir)
 
             interface.processing(_("Installing DDLC..."))
             if persistent.safari == True and renpy.macintosh:
-                with interface.error_handling(_("Copying DDLC...")):
+                with interface.error_handling(_("Copying DDLC")):
                     extract.game_installation(persistent.zip_directory, project_dir, True)
             else:
-                with interface.error_handling(_("Extracting DDLC...")):
+                with interface.error_handling(_("Extracting DDLC")):
                     extract.game_installation(persistent.zip_directory, project_dir)
 
             with open(project_dir + '/game/renpy-version.txt', 'w') as f:

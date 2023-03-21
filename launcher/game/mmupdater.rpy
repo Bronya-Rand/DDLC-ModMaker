@@ -148,17 +148,17 @@ screen ddmmupdate(ddmm_chan, ddmt_chan):
                     add SPACER
 
                     if persistent.template_update:
-                        textbutton "The DDLC Mod Template - Version 2.0 (Python 3 Edition) - Update Available":
+                        textbutton "The DDLC Mod Template 2.0 (Python 3 Edition) - Update Available":
                             action [Call("install_ddmt_update_script", ddmt_chan), Jump("mmupdater")]
                     else:
                         if persistent.disable_mt_update:
-                            textbutton "The DDLC Mod Template - Version 2.0 (Python 3 Edition) - Updates Disabled":
+                            textbutton "The DDLC Mod Template 2.0 (Python 3 Edition) - Updates Disabled":
                                 action NullAction()
                         else:
-                            textbutton "The DDLC Mod Template - Version 2.0 (Python 3 Edition)":
+                            textbutton "The DDLC Mod Template 2.0 (Python 3 Edition)":
                                 action NullAction()
                     text "Version Installed: {}-Py3 | Latest Version: {}-Py3".format(get_installed_template_version(True), ddmt_chan["tag_name"])
-                    text "The DDLC Mod Template - Version 2.0 is the latest template for DDLC that allows modders to easily mod DDLC to their hearts content. {u}This is the Python 3 Edition of the template and is not compatible with DDMM 6-7/Ren'Py 6-7{/u}."
+                    text "The DDLC Mod Template 2.0 is the latest template for DDLC that allows modders to easily mod DDLC to their hearts content. {u}This is the Python 3 Edition of the template and is not compatible with DDMM 6-7/Ren'Py 6-7{/u}."
                     text "{a=" + ddmt_chan["html_url"] + "}What's new for the DDLC Mod Template - Version 2.0 (Python 3 Edition)?{/a}"
 
     textbutton _("Return") action Jump("front_page") style "l_left_button"
@@ -169,25 +169,27 @@ label install_ddmt_update_script(ddmt_chan):
         with interface.error_handling("Updating the DDLC Mod Template"):
             interface.processing("Updating the DDLC Mod Template. Please wait...")
 
-            zipContent = requests.get("https://github.com/GanstaKingofSA/DDLCModTemplate2.0/releases/download/" + ddmt_chan["tag_name"] + "/DDLCModTemplate-" + ddmt_chan["tag_name"] + "-Py3.zip")
-            filename = "DDLCModTemplate-" + ddmt_chan["tag_name"] + "-Py3.zip"
+            for endpart in ["-Py3", "-Py3Extras"]:
+                zipContent = requests.get("https://github.com/GanstaKingofSA/DDLCModTemplate2.0/releases/download/" + ddmt_chan["tag_name"] + "/DDLCModTemplate-" + ddmt_chan["tag_name"] + endpart + ".zip")
+                filename = "DDLCModTemplate-" + ddmt_chan["tag_name"] + endpart + ".zip"
 
-            try: 
-                for x in glob.glob(config.basedir + "/templates/DDLCModTemplate-*-Py3.zip"):
-                    os.remove(x)
-            except: pass
-
-            with open(config.basedir + "/templates/" + filename, "wb") as newTemplate:
-                newTemplate.write(zipContent.content)
-
-            with zipfile.ZipFile(config.basedir + "/templates/" + filename) as newTemplate:
                 try: 
-                    newTemplate.extract("guide.pdf", config.basedir + "/templates")
-                    os.rename(config.basedir + "/templates/guide.pdf", config.basedir + "/templates/Android Mod Guide.pdf")
-                except: 
-                    newTemplate.extract("Documentation/Android Mod Guide.pdf", config.basedir + "/templates")
-                    shutil.move(config.basedir + "/templates/Documentation/Android Mod Guide.pdf", config.basedir + "/templates/Android Mod Guide.pdf")
-                    shutil.rmtree(config.basedir + "/templates/Documentation")
+                    for x in glob.glob(config.basedir + "/templates/DDLCModTemplate-*" + endpart + ".zip"):
+                        os.remove(x)
+                except: pass
+
+                with open(config.basedir + "/templates/" + filename, "wb") as newTemplate:
+                    newTemplate.write(zipContent.content)
+
+                if endpart == "-Py3":
+                    with zipfile.ZipFile(config.basedir + "/templates/" + filename) as newTemplate:
+                        try: 
+                            newTemplate.extract("guide.pdf", config.basedir + "/templates")
+                            os.rename(config.basedir + "/templates/guide.pdf", config.basedir + "/templates/Android Mod Guide.pdf")
+                        except: 
+                            newTemplate.extract("Documentation/Android Mod Guide.pdf", config.basedir + "/templates")
+                            shutil.move(config.basedir + "/templates/Documentation/Android Mod Guide.pdf", config.basedir + "/templates/Android Mod Guide.pdf")
+                            shutil.rmtree(config.basedir + "/templates/Documentation")
 
             persistent.update_available = False
             interface.info("The update has been complete.")
