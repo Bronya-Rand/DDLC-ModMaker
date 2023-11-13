@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2022 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2023 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -36,13 +36,9 @@ screen about:
 
             null height 15
 
-            text _("DDMM [config.version!q]") xalign 0.5 bold True
+            text _("[version!q]") xalign 0.5 bold True
 
-            null height 5
-
-            text _("Ren'Py " + renpy.version().split()[1]) xalign 0.5 bold False
-
-            null height 15
+            null height 20
 
             textbutton _("View license") action interface.OpenLicense() xalign 0.5
 

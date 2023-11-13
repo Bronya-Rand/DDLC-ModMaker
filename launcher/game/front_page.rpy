@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2022 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2023 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -25,35 +25,57 @@ init python:
 
     import datetime
     import shutil
+    import re
 
     # Used for testing.
     def Relaunch():
         renpy.quit(relaunch=True)
 
-    def readVersion():
-        old_txt_path = os.path.join(project.current.path, 'renpy-version.txt').replace("\\", "/")
-        new_txt_path = os.path.join(project.current.path, 'game/renpy-version.txt').replace("\\", "/")
-
-        if os.path.exists(old_txt_path):
-            shutil.move(old_txt_path, new_txt_path)
+    def read_version(d):
+        mod_ver_file = os.path.join(d, "game/renpy-version.txt")
 
         try:
-            with open(new_txt_path) as f:
-                file_ver = int(f.readline().strip())
-
-            if file_ver >= 6 and file_ver <= 8:
-                return file_ver
-            else:
-                return -1
+            with open(mod_ver_file, "r") as f:
+                version_line = f.readline()
         except IOError:
             return None
-        except ValueError:
-            return -1
+
+        match = re.match(r"^\d$", version_line)
+        if match:
+            return int(match.group(0))
+        else:
+            return None
+
+    def renpy_version_compatible(d):
+        mod_version = read_version(d)
+
+        check_result = {
+            "compatible": None,
+            "version": None,
+            "missing": False,
+            "range": False,
+            "incorrect": False,
+        }
+
+        check_result["version"] = mod_version
+
+        if mod_version is None:
+            check_result["compatible"] = False
+            check_result["missing"] = True
+        elif mod_version < 6 or mod_version > 8:
+            check_result["compatible"] = False
+            check_result["range"] = True
+        elif mod_version != renpy.version_tuple[0]:
+            check_result["compatible"] = False
+            check_result["incorrect"] = True
+        else:
+            check_result["compatible"] = True
+
+        return check_result
 
     # Adds backwards compat between 4.1.0+ and older templates
     def NewEditorOpen(path):
-        base = persistent.projects_directory if persistent.projects_directory is not None else config.basedir
-        if os.path.exists(os.path.join(base, project.current.name, path)):
+        if os.path.exists(os.path.join(project.current.path, path)):
             return editor.Edit(path, check=True)
         else:
             old_path = path.split("/")
@@ -126,19 +148,18 @@ screen front_page:
 
     if project.current is not None:
         python:
-            launch = readVersion()
+            checks = renpy_version_compatible(project.current.path)
                 
-        if launch == 6:
-            textbutton _("DDMM 6 Needed") action NullAction() style "l_unavail_button"
-        elif launch == 7:
-            textbutton _("DDMM 7 Needed") action NullAction() style "l_unavail_button"
-        elif launch == 8 or project.current.name == "launcher":
+        if not checks["compatible"]:
+            if checks["missing"]:
+                textbutton _("Missing Version Data") action NullAction() style "l_unavail_button"
+            elif checks["range"]:
+                textbutton _("Invalid Ren'Py Version") action NullAction() style "l_unavail_button"
+            elif checks["incorrect"]:
+                textbutton _("Incorrect DDMM SDK Version") action NullAction() style "l_unavail_button"
+        else:
             textbutton _("Launch Mod") action project.Launch() style "l_right_button"
             key "K_F5" action project.Launch()
-        else:
-            textbutton _("Cannot Determine Version") action Jump('version_error') style "l_unavail_button"
-
-
 
 # This is used by front_page to display the list of known projects on the screen.
 screen front_page_project_list:
@@ -163,10 +184,18 @@ screen front_page_project_list:
 
             for p in projects:
 
-                textbutton "[p.name!q]":
+                python:
+                    mod_version = renpy_version_compatible(p.path)
+                    mod_text_ver = mod_version["version"]
+                    if mod_text_ver is None or mod_version["range"]:
+                        mod_text_ver = "Unknown"
+                button:
                     action project.Select(p)
-                    alt _("Select project [text].")
                     style "l_list"
+
+                    vbox:
+                        text "[p.name!q]" style "l_list_text"
+                        text "(Ren'Py [mod_text_ver] Mod)" style "l_list_text" size 12 xpos 5
 
             null height 12
 
@@ -243,16 +272,16 @@ screen front_page_project:
             frame style "l_indent":
                 has vbox
 
-                textbutton _("Install a Tool") action Jump("tool_install")
+                textbutton _("Tool Installer") action Jump("mmtoolinstaller")
                 if ability.can_distribute:
                     textbutton _("Build Mod") action Jump("build_distributions")
 
                 if project.current.name != "launcher":
 
                     python:
-                        launch = readVersion()
+                        checks = renpy_version_compatible(project.current.path)
                             
-                    if launch == 8:
+                    if checks["compatible"]:
                         textbutton _("Build Mod for Android") action Jump("android")
                     else:
                         textbutton _("Android Unavailable") action Jump("no_android")
@@ -273,33 +302,23 @@ label start:
 default persistent.has_chosen_language = False
 
 default persistent.has_update = False
-define update_notified = False
 
 label front_page:
 
-    if persistent.zip_directory is not None:
-        if persistent.zip_directory.endswith("ddlc-mac") or persistent.zip_directory.endswith("ddlc-mac.zip"):
-            $ persistent.zip_directory = None
-
     if (not persistent.has_chosen_language) or ("RENPY_CHOOSE_LANGUAGE" in os.environ):
 
-        if _preferences.language is None:
+        if (_preferences.language is None) or ("RENPY_CHOOSE_LANGUAGE" in os.environ):
             hide screen bottom_info
             call choose_language
             show screen bottom_info
 
         $ persistent.has_chosen_language = True
 
-    if persistent.daily_update_check and ((not persistent.last_update_check) or (datetime.date.today() > persistent.last_update_check)):
-        python hide:
-            persistent.last_update_check = datetime.date.today()
-            persistent.update_available = False
-            renpy.invoke_in_thread(fetch_ddmm_updates, update_json=True)
-            renpy.invoke_in_thread(fetch_ddmm_updates, mt=True, update_json=True)
-
-    if not update_notified and persistent.update_available:
-        $ update_notified = True
-        $ renpy.notify("Updates are available.")
+    if not os.path.exists(config.basedir + "/update/third_party.json"):
+        python:
+            f = open(config.basedir + "/update/third_party.json", "w")
+            f.write("{}")
+            f.close()
 
     call screen front_page
     jump front_page
@@ -336,52 +355,29 @@ label force_recompile:
 
     jump front_page
 
-label version_error:
-    python:
-        interface.info(_("This project cannot launch in DDMM as this is either a non-DDLC mod or is missing 'renpy-version.txt'"), _("Please check if 'renpy-version.txt' exists."),)
-        renpy.jump('front_page')
-
-label no_android:
-    python:
-        interface.info(_("This project cannot be built for Android as it's either in Ren'Py 6/7 mode or is missing 'renpy-version.txt'"), _("Please check if 'renpy-version.txt' exists or change the version of your project."),)
-        renpy.jump('front_page')
-
 label set_version:
     python:
-        x = readVersion()
-        if x is None:
-            try:
-                ver_path = os.path.join(persistent.projects_directory, project.current.name, "game/renpy-version.txt")
-                if not os.path.exists(ver_path):
-                    ver_path = os.path.join(config.basedir, project.current.name, "game/renpy-version.txt")
-            except TypeError:
-                ver_path = os.path.join(config.basedir, project.current.name, "game/renpy-version.txt")
+        mod_version = renpy_version_compatible()
+        if mod_version["missing"]:
+            ver_path = os.path.join(project.current.gamedir, "renpy-version.txt")
             with open(ver_path, "w") as f:
                 f.write("8") 
             interface.info(_("A file named `renpy-version.txt` has been created in your projects' game directory."), _("Do not delete this file as it is needed to determine which version of Ren'Py it uses for building your mod."))
             renpy.jump("front_page")
-
-        prompt = False    
-        if x == 6:
-            prompt = True
-            response_text = _("This mod is set to Ren'Py 6 Mode. ")
-        elif x == 7:
-            prompt = True
-            response_text = _("This mod is set to Ren'Py 7 Mode. ")
             
-        if prompt:
-            confirm_delete = False
-            delete_response = interface.yesno(
+        if mod_version["incorrect"]:
+            confirm_edit = False
+            edit_response = interface.yesno(
                 label=_("Warning"),
-                message=response_text + _("If you change this, it may result in a improperly packaged mod.\nAre you sure you want to proceed? Type either Yes or No."),
-                yes=SetScreenVariable(confirm_delete, True),
+                message=_("This mod is set to Ren'Py") + str(mod_version["version"]) + _("Mode. If you change this, it may result in a improperly packaged mod.\nAre you sure you want to proceed? Type either Yes or No."),
+                yes=SetScreenVariable(confirm_edit, True),
                 no=Return(),
                 cancel=Jump("front_page"))
 
-            if not confirm_delete:
+            if not confirm_edit:
                 renpy.jump("front_page")
             else:
-                with open(os.path.join(persistent.projects_directory, project.current.name, "game/renpy-version.txt"), "w") as f:
+                with open(os.path.join(project.current.gamedir, "renpy-version.txt"), "w") as f:
                     f.write("8") 
                 interface.info(_("Set the Ren'Py mode version to Ren'Py 8."))
         else:
