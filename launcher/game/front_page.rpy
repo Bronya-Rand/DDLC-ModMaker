@@ -147,6 +147,9 @@ screen front_page:
             use front_page_project
 
     if project.current is not None:
+        python:
+            checks = renpy_version_compatible(project.current.path)
+
         if project.current.name != "launcher":
             if not checks["compatible"]:
                 if checks["missing"]:
