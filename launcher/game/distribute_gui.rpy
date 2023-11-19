@@ -282,7 +282,7 @@ label build_update_dump:
 label build_distributions:
 
     python:
-        mod_version = renpy_version_compatible()
+        mod_version = renpy_version_compatible(project.current.path)
         if project.current.name != "launcher":
             if mod_version["missing"]:
                 interface.error(_("`renpy-version.txt` missing or corrupt."), _("Check if this file exists or attempt to compile guess."),)

@@ -128,7 +128,7 @@ label new_project:
                     extract.game_installation(persistent.zip_directory, project_dir)
 
             with open(project_dir + '/game/renpy-version.txt', 'w') as f:
-                f.write("8")
+                f.write(str(renpy.version_tuple[0])) # Easier for future ref 
 
             interface.info(_("A file named `renpy-version.txt` has been created in your projects' game directory."), _("Do not delete this file as it is needed to determine which version of Ren'Py it uses for building your mod."))
 

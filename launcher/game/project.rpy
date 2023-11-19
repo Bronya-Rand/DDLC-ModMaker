@@ -879,19 +879,16 @@ label delete_folder:
             label=_("Deleting a Project"),
             message=_("Are you sure you want to delete '[project.current.name!q]'?"),
             filename=False,
-            yes=[SetVariable("confirm_delete", True), Return()],
-            no=Return(),
+            no=Jump("front_page"),
             cancel=Jump("front_page"))
 
-        if not confirm_delete:
-            renpy.jump("front_page")
-        else:
-            interface.processing(_("Deleting [project.current.name]..."))
-            
-            with interface.error_handling(_("deleting mod.")):
-                modman.delete_mod(persistent.projects_directory, project.current.name)
+        
+        interface.processing(_("Deleting [project.current.name]..."))
+        
+        with interface.error_handling(_("deleting mod.")):
+            modman.delete_mod(persistent.projects_directory, project.current.name)
 
-            interface.info("[project.current.name] has been deleted from the projects folder.")
+        interface.info("[project.current.name] has been deleted from the projects folder.")
 
         project.manager.scan()
 
