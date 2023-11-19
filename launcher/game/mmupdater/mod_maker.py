@@ -9,7 +9,7 @@ import shutil
 class ModTool(MMakerGithubTool):
 
     def __init__(self):
-        super().__init__("GanstaKingofSA/DDLC-ModMaker",
+        super().__init__("Bronya-Rand/DDLC-ModMaker",
                         "mmaker-7.4",
                         "DDMMaker",
                         "Doki Doki Mod Maker",

@@ -6,7 +6,7 @@ from renpy import PY2
 class ModTool(MMakerGithubTool):
 
     def __init__(self):
-        super().__init__("GanstaKingofSA/DDLCModTemplate2.0", "python-2", "DDLCModTemplate", tool=False)
+        super().__init__("Bronya-Rand/DDLCModTemplate2.0", "python-2", "DDLCModTemplate", tool=False)
 
     def update(self):
         git_ver = self.get_remote_tool_version()
