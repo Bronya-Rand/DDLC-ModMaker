@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2022 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2023 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -78,10 +78,11 @@ label new_project:
     if persistent.zip_directory is None:
         $ interface.error(_("The DDLC ZIP directory could not be set. Giving up."))
 
-    if not glob.glob(config.basedir + "/templates/DDLCModTemplate-*.zip"):
-        $ interface.error(_("The DDLC Mod Template ZIP file is missing in the templates folder. Check for updates, add the template to the templates folder, or reinstall DDMM."))
-
-    $ template = glob.glob(config.basedir + "/templates/DDLCModTemplate-*.zip")[-1]
+    python:
+        try:
+            mmupdater.mod_template
+        except AttributeError:
+            interface.error(_("The DDLC Mod Template 2.0 package is missing on this copy of DDMM. Reinstall it using the Tool Installer and try again."))
     
     python:
         while True:
@@ -112,20 +113,22 @@ label new_project:
                 interface.error(_("[project_dir!q] already exists. Please choose a different project name."), project_dir=project_dir, label=None)
                 continue
 
+            os.makedirs(project_dir)
+
             interface.processing(_("Installing Template Files..."))
-            with interface.error_handling(_("Extracting the DDLC Mod Template...")):
-                extract.installation(template, project_dir)
+            with interface.error_handling(_("Extracting the DDLC Mod Template")):
+                mmupdater.mod_template.ModTool().install(project_dir)
 
             interface.processing(_("Installing DDLC..."))
             if persistent.safari == True and renpy.macintosh:
-                with interface.error_handling(_("Copying DDLC...")):
+                with interface.error_handling(_("Copying DDLC")):
                     extract.game_installation(persistent.zip_directory, project_dir, True)
             else:
-                with interface.error_handling(_("Extracting DDLC...")):
+                with interface.error_handling(_("Extracting DDLC")):
                     extract.game_installation(persistent.zip_directory, project_dir)
 
             with open(project_dir + '/game/renpy-version.txt', 'w') as f:
-                f.write("7")
+                f.write(str(renpy.version_tuple[0])) # Easier for future ref 
 
             interface.info(_("A file named `renpy-version.txt` has been created in your projects' game directory."), _("Do not delete this file as it is needed to determine which version of Ren'Py it uses for building your mod."))
 
@@ -135,86 +138,3 @@ label new_project:
             break
 
     return
-
-screen select_template:
-
-    default result = project.manager.get("english")
-
-    frame:
-        style_group "l"
-        style "l_root"
-
-        window:
-
-            has vbox
-
-            label _("Choose Project Template")
-
-            hbox:
-
-                frame:
-                    style "l_indent"
-                    xmaximum ONETHIRD
-
-                    viewport:
-                        scrollbars "vertical"
-                        vbox:
-                            for p in project.manager.templates:
-                                textbutton "[p.name!q]" action SetScreenVariable("result", p) style "l_list"
-
-                frame:
-                    style "l_indent"
-                    xmaximum TWOTHIRDS
-
-                    text _("Please select a template to use for your new project. The template sets the default font and the user interface language. If your language is not supported, choose 'english'.")
-
-
-    textbutton _("Return") action Jump("front_page") style "l_left_button"
-    textbutton _("Continue") action Return(result) style "l_right_button"
-
-
-label new_theme_project:
-
-    python hide:
-        if len(project.manager.templates) == 1:
-            template = project.manager.templates[0]
-        else:
-            template = renpy.call_screen("select_template")
-
-        template_path = template.path
-
-        with interface.error_handling(_("creating a new project")):
-            shutil.copytree(template_path, project_dir, symlinks=False)
-
-            # Delete the tmp directory, if it exists.
-            if os.path.isdir(os.path.join(project_dir, "tmp")):
-                shutil.rmtree(os.path.join(project_dir, "tmp"))
-
-            # Delete project.json, which must exist.
-            os.unlink(os.path.join(project_dir, "project.json"))
-
-            # Change the save directory in options.rpy
-            fn = os.path.join(project_dir, "game/options.rpy")
-            with open(fn, "rb") as f:
-                options = f.read().decode("utf-8")
-
-            options = options.replace("PROJECT_NAME", project_name)
-            options = options.replace("UNIQUE", str(int(time.time())))
-
-            with open(fn, "wb") as f:
-                f.write(options.encode("utf-8"))
-
-            font = template.data.get("font", None)
-            if font is not None:
-                src = os.path.join(config.gamedir, "fonts", font)
-                dst = os.path.join(project_dir, "game", "tl", "None", font)
-                shutil.copy(src, dst)
-
-        # Activate the project.
-        with interface.error_handling(_("activating the new project")):
-            project.manager.scan()
-            project.Select(project.manager.get(project_name))()
-
-    call choose_theme_callable
-
-    jump front_page

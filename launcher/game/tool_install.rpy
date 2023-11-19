@@ -5,98 +5,106 @@ init python:
     from zipfile import ZipFile
     import tempfile
 
-label tool_install:
+screen mmtoolinstaller():
 
-    python:
-        gamedir = False
-        confirm_install = False
+    default tools = {}
+    default have_third_party = False
 
-        project_dir = os.path.join(persistent.projects_directory, project.current.name)
+    frame:
+        style_group "l"
+        style "l_root"
 
-        interface.info("This installer is in beta.\nNot all mod tools will install properly and may require changes before launch.\nMake sure to backup your project if anything fails.")
+        window:
 
-        if renpy.macintosh and persistent.safari:
-            interface.interaction(_("Tool Folder"), _("Please select the tool folder you wish to install."),)
+            has viewport:
+                scrollbars "vertical"
+                mousewheel True
 
-            path, is_default = choose_directory(None)
-        else:
-            interface.interaction(_("Tool ZIP File"), _("Please select the tool ZIP file you wish to install."),)
+            has vbox
 
-            path, is_default = choose_file(None, bracket=["DDLC Tool ZIP File", "*.zip"])
+            label _("DDMM Tool Installer")
+                
+            add HALF_SPACER
 
-        if is_default:
-            interface.error(_("The operation has been cancelled."))
-            renpy.jump("front_page")
-        
-        interface.yesno(
-            label=_("Tool Install"),
-            message=_("Are you sure you install {file}".format(file=path.replace("\\", "/").split("/")[-1] + "?")),
-            filename=False,
-            yes=[SetVariable("confirm_install", True), Return()],
-            no=Return(),
-            cancel=Jump("front_page"))
-        
-        if not confirm_install:
-            renpy.jump("front_page")
-        else:
-            interface.processing("Installing Tool. Please wait...")
-            
-            with interface.error_handling("extracting user tool"):
-                if renpy.macintosh and persistent.safari:
-                    td = path
-                else:
-                    td = tempfile.mkdtemp(prefix="DDMM_",suffix="_TempTool")
-                    with ZipFile(path, "r") as z:
-                        z.extractall(td)
+            hbox:
+                frame:
+                    style "l_indent"
+                    xfill True
 
-                tool_dir = None 
-                for src, dirs, files in os.walk(td):
-                    for d in dirs:
-                        if d in ["game", "mod_assets", "python-packages"]:
-                            if "game" in d:
-                                tool_dir = os.path.join(src, d)
-                                gamedir = True
-                            else:
-                                tool_dir = os.path.join(src, d).replace("\\" + d, "")
-                                gamedir = True
-                            break
-                if tool_dir is None:
-                    # Assume the best is the src + subfolder itself
-                    tool_dir = os.path.join(td, os.listdir(td)[-1])
-                    
-            with interface.error_handling("extracting user tool pt2"):      
-                for tool_src, dirs, files in os.walk(tool_dir):
-                    if gamedir:
-                        dst_dir = tool_src.replace(tool_dir, project_dir + "/game")
+                    has vbox
+
+                    text _("Installing to: {}".format(project.current.name)) size 15
+
+                    add SPACER
+
+                    python:
+                        with open(config.basedir + '/update/first_party.json') as fp:
+                            first_party_json = json.load(fp)
+
+                        if os.path.exists(config.basedir + '/update/third_party.json'):
+                            with open(config.basedir + '/update/third_party.json') as tp:
+                                third_party_json = json.load(tp)
+
+                        for i, cls in mmupdate.all_modules.items():
+                            module_name = eval(cls)
+                            acronym = module_name.ModTool().acronym
+                            if module_name.ModTool().tool:
+                                tools[acronym] = {}
+                                tools[acronym]['cls'] = module_name.ModTool()
+
+                                try:
+                                    first_party_json[acronym]
+                                    tools[acronym]['third_party'] = False
+                                except KeyError:
+                                    have_third_party = True
+                                    tools[acronym]['third_party'] = True
+
+                    text "First Party" size 18
+
+                    add SPACER
+
+                    for acc, tool in tools.items():
+                        if not tool['third_party']:
+
+                            textbutton tool['cls'].name action Call("install_script", tool['cls'], project.current.path)
+                            text "Creator: {}".format(tool['cls'].creator) size 14
+                            text "Identifier: {} | Downloaded: {}".format(acc, "Yes" if tool['cls'].check_if_installed() else "No") size 14
+                            text "\n" + tool['cls'].desc size 14
+
+                            add SPACER
+
+                    add SEPARATOR
+                    add SPACER
+
+                    text "Third Party" size 18
+
+                    add SPACER
+
+                    if have_third_party:
+                        for acc, tool in tools.items():
+                            if tool['third_party']:
+
+                                textbutton tool['cls'].name action Call("install_script", tool['cls'], project.current.path)
+                                text "Creator: {}".format(tool['cls'].creator) size 14
+                                text "Identifier: {} | Downloaded: {}".format(acc, "Yes" if tool['cls'].check_if_installed else "No") size 14
+                                text "\n" + tool['cls'].desc size 14
+
+                                add SPACER
                     else:
-                        dst_dir = tool_src.replace(tool_dir, project_dir  + "/game/mod_assets")
-                    
-                    for d in dirs:
-                        if not os.path.exists(os.path.join(dst_dir, d)):
-                            os.makedirs(os.path.join(dst_dir, d))
-                
-                    for f in files:
-                        temp_file = os.path.join(tool_src, f)
-                        dst_file = os.path.join(dst_dir, f)
-                        
-                        if os.path.exists(dst_file):
-                            if renpy.windows:
-                                if os.stat(temp_file) == os.stat(dst_file):
-                                    continue
-                            else:
-                                if os.path.samefile(temp_file, dst_file):
-                                    continue
 
-                            os.remove(dst_file)
+                        text "No third-party tools available."
 
-                        if renpy.macintosh and persistent.safari:
-                            shutil.copy2(temp_file, dst_file)
-                        else:
-                            shutil.move(temp_file, dst_file)
+    textbutton _("Return") action Jump("front_page") style "l_left_button"
 
-            if not renpy.macintosh and not persistent.safari:
-                shutil.rmtree(td)
-                
-        interface.info("DDMM/DDMMaker successfully installed the selected tool to [project.current.name].")
-    
+label install_script(pkg, directory):
+    python:
+        with interface.error_handling(_("Installing " + pkg.name)):
+            interface.processing(_("Installing " + pkg.name + ". Please wait..."))
+            pkg.install(directory)
+
+        interface.info(_(pkg.name + " has been successfully installed onto your mod."))
+        renpy.jump("mmtoolinstaller")
+
+label mmtoolinstaller:
+    call screen mmtoolinstaller
     jump front_page

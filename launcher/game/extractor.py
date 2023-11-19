@@ -2,7 +2,6 @@ from zipfile import ZipFile
 import tempfile
 import os
 import shutil
-import sys
 
 
 class Extractor:
@@ -60,9 +59,3 @@ class Extractor:
 
         if not copy:
             shutil.rmtree(game_dir)
-
-    def installation(self, filePath, modFolder):
-        os.makedirs(modFolder)
-
-        with ZipFile(filePath, "r") as z:
-            z.extractall(modFolder)

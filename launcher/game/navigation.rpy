@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2022 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2023 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -176,15 +176,15 @@ screen navigation:
 
                     if persistent.navigation != "file":
                         text _("Order: ")
-                        textbutton _("A-Z") action navigation.ChangeSort("alphabetical")
+                        textbutton _("alphabetical") action navigation.ChangeSort("alphabetical")
                         text " | "
-                        textbutton _("By File") action navigation.ChangeSort("by-file")
+                        textbutton _("by-file") action navigation.ChangeSort("by-file")
                         text " | "
-                        textbutton _("Natural") action navigation.ChangeSort("natural")
+                        textbutton _("natural") action navigation.ChangeSort("natural")
 
                         null width HALF_INDENT
 
-                    textbutton _("Refresh") action Jump("navigation_refresh")
+                    textbutton _("refresh") action Jump("navigation_refresh")
 
 
             add HALF_SPACER
@@ -195,12 +195,12 @@ screen navigation:
                     text _("Category:")
                     alt ""
 
-                    textbutton _("Files") action navigation.ChangeKind("file")
-                    textbutton _("Labels") action navigation.ChangeKind("label")
-                    textbutton _("Defines") action navigation.ChangeKind("define")
-                    textbutton _("Transforms") action navigation.ChangeKind("transform")
-                    textbutton _("Screens") action navigation.ChangeKind("screen")
-                    textbutton _("Callables") action navigation.ChangeKind("callable")
+                    textbutton _("files") action navigation.ChangeKind("file")
+                    textbutton _("labels") action navigation.ChangeKind("label")
+                    textbutton _("defines") action navigation.ChangeKind("define")
+                    textbutton _("transforms") action navigation.ChangeKind("transform")
+                    textbutton _("screens") action navigation.ChangeKind("screen")
+                    textbutton _("callables") action navigation.ChangeKind("callable")
                     textbutton _("TODOs") action navigation.ChangeKind("todo")
 
             add SPACER
@@ -249,7 +249,7 @@ screen navigation:
                         if persistent.navigation == "todo":
 
                             text _("No TODO comments found.\n\nTo create one, include \"# TODO\" in your script."):
-                                text_align 0.5
+                                textalign 0.5
                                 xalign 0.5
                                 yalign 0.5
 
@@ -260,7 +260,7 @@ screen navigation:
                                 yalign 0.5
 
     textbutton _("Return") action Jump("front_page") style "l_left_button"
-    textbutton _("Launch Mod") action project.Launch() style "l_right_button"
+    textbutton _("Launch Project") action project.Launch() style "l_right_button"
 
 label navigation:
 label navigation_loop:
@@ -279,4 +279,3 @@ label navigation_loop:
 label navigation_refresh:
     $ project.current.update_dump(True)
     jump navigation_loop
-

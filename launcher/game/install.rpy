@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2022 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2023 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -81,7 +81,6 @@ init python:
 
 label install_live2d:
     python hide:
-
         if PY2:
             _prefix = r"lib/py2-"
         else:
@@ -90,16 +89,18 @@ label install_live2d:
         patterns = [
             (r".*/Core/dll/linux/x86_64/(libLive2DCubismCore.so)", _prefix + r"linux-x86_64/\1"),
             (r".*/Core/dll/windows/x86_64/(Live2DCubismCore.dll)", _prefix + r"windows-x86_64/\1"),
-            (r".*/Core/dll/windows/x86/(Live2DCubismCore.dll)", _prefix + r"windows-i686/\1"),
-            (r".*/Core/dll/macos/(libLive2DCubismCore.dylib)", _prefix + r"mac-x86_64/\1"),
+            (r".*/Core/dll/macos/(libLive2DCubismCore.dylib)", _prefix + r"mac-universal/\1"),
             (r".*/Core/dll/experimental/rpi/(libLive2DCubismCore.so)", _prefix + r"linux-armv7l/\1"),
 
             (r".*/Core/dll/android/(armeabi-v7a/libLive2DCubismCore.so)", r"rapt/prototype/renpyandroid/src/main/jniLibs/\1"),
             (r".*/Core/dll/android/(arm64-v8a/libLive2DCubismCore.so)", r"rapt/prototype/renpyandroid/src/main/jniLibs/\1"),
-
-            # This doesn't exist yet.
-            # (r".*/Core/dll/android/(x86_64/libLive2DCubismCore.so)", r"rapt/prototype/renpyandroid/src/main/jniLibs/\1"),
+            (r".*/Core/dll/android/(x86_64/libLive2DCubismCore.so)", r"rapt/prototype/renpyandroid/src/main/jniLibs/\1"),
         ]
+
+        if PY2:
+           patterns.extend([
+                (r".*/Core/dll/windows/x86/(Live2DCubismCore.dll)", _prefix + r"windows-i686/\1"),
+           ])
 
         install_from_zip("Live2D Cubism SDK for Native", "CubismSdkForNative-4-*.zip", patterns)
 
@@ -159,12 +160,12 @@ screen install_live2d():
 
                             add SPACER
 
-                            text _("Live2D in Ren'Py doesn't support the Web, Android x86_64 (including emulators and Chrome OS), and must be added to iOS projects manually. Live2D must be reinstalled after upgrading Ren'Py or installing Android support. You must enable {i}config.gl2{/i} in your mod in order for it to work in {u}renpy_patches.txt{/u}.")
+                            text _("Live2D in Ren'Py doesn't support the Web, Android x86_64 (including emulators and Chrome OS), and must be added to iOS projects manually. Live2D must be reinstalled after upgrading Ren'Py or installing Android support.")
 
 
 
     textbutton _("Cancel") action Return(False) style "l_left_button"
-    textbutton _("Open DDMM SDK Directory") action OpenDirectory(config.renpy_base, absolute=True) style "l_right_button"
+    textbutton _("Open Ren'Py SDK Directory") action OpenDirectory(config.renpy_base, absolute=True) style "l_right_button"
 
     timer 2.0 action renpy.restart_interaction repeat True
 

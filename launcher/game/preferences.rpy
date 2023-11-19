@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2022 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2023 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -276,7 +276,7 @@ screen preferences():
                             #textbutton _("Sponsor message") style "l_checkbox" action ToggleField(persistent, "sponsor_message")
 
                             #if ability.can_update:
-                                #textbutton _("Check for Updates Daily") style "l_checkbox" action [ToggleField(persistent, "daily_update_check"), SetField(persistent, "last_update_check", None)] selected persistent.daily_update_check
+                            textbutton _("Daily check for update") style "l_checkbox" action [ToggleField(persistent, "daily_update_check"), SetField(persistent, "last_update_check", None)] selected persistent.daily_update_check
 
 
                 elif preference_tab == "theme":
@@ -300,8 +300,8 @@ screen preferences():
                             add HALF_SPACER
 
                             textbutton _("Default theme") style "l_checkbox" action [SetField(persistent, "theme", None), RestartAtPreferences() ]
-                            textbutton _("Dark theme") style "l_checkbox" action [SetField(persistent, "theme", "dark", None), RestartAtPreferences()]
-                            textbutton _("Custom theme") style "l_checkbox" action [SetField(persistent, "theme", "custom", None), RestartAtPreferences()]
+                            textbutton _("Dark theme") style "l_checkbox" action [SetField(persistent, "theme", "dark"), RestartAtPreferences()]
+                            textbutton _("Custom theme") style "l_checkbox" action [SetField(persistent, "theme", "custom"), RestartAtPreferences()]
 
                             add SPACER
 
@@ -352,9 +352,6 @@ screen preferences():
                             textbutton _("Reset window size") style "l_nonbox" action Preference("display", 1.0)
                             textbutton _("Clean temporary files") style "l_nonbox" action Jump("clean_tmp")
 
-                            textbutton _("Disable Mod Template Updates") style "l_checkbox" action [ToggleField(persistent, "disable_mt_update"), Function(fetch_ddmm_updates), Function(fetch_ddmm_updates, mt=True)] 
-                            textbutton _("Disable Mod Maker Updates") style "l_checkbox" action [ToggleField(persistent, "disable_mm_update"), Function(fetch_ddmm_updates), Function(fetch_ddmm_updates, mt=True)] 
-
                             if renpy.macintosh:
                                 textbutton _("Change Extract Settings") style "l_nonbox" action Jump("auto_extract")
 
@@ -400,7 +397,7 @@ screen choose_language():
                 style "l_label_text"
 
                 size 36
-                text_align .5
+                textalign .5
                 layout "subtitle"
 
         add SPACER
@@ -413,7 +410,7 @@ screen choose_language():
                     for tlid, tlname in tran:
                         textbutton tlname:
                             xmaximum (TWOTHIRDS//3)
-                            action SetScreenVariable("chosen_lang", tlid)
+                            action [ SetScreenVariable("chosen_lang", tlid), Language(tlid), project.SelectTutorial(True), Return() ]
                             hovered SetScreenVariable("local_lang", tlid)
                             unhovered SetScreenVariable("local_lang", chosen_lang)
                             style "l_list"
@@ -434,7 +431,7 @@ screen choose_language():
                 text_style "l_default"
 
                 text_size 30
-                text_text_align .5
+                text_textalign .5
                 text_layout "subtitle"
 
 

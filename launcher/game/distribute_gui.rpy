@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2022 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2023 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -155,7 +155,7 @@ screen build_distributions:
             has vbox
 
             label _("Build Distributions: [project.current.display_name!q]")
-            text _("Don't worry if the (DDMM) package is checked along with Ren'Py 7. This is normal.") xalign 0.11 size 15
+            text _("Don't worry if the (DDMM) package is checked along with Ren'Py 8. This is normal.") xalign 0.11 size 15
 
             add HALF_SPACER
 
@@ -219,7 +219,13 @@ screen build_distributions:
                         for pkg in packages:
                             if not pkg["hidden"]:
                                 $ description = pkg["description"]
-                                textbutton "[description!q]" action PackageToggle(pkg["name"]) style "l_checkbox"
+                                button:
+                                    action PackageToggle(pkg["name"]) style "l_checkbox"
+                                    hbox:
+                                        spacing 3
+                                        text "[description!q]"
+                                        if pkg["dlc"]:
+                                            text _("(DLC)")
 
                     add SPACER
                     add HALF_SPACER
@@ -276,12 +282,12 @@ label build_update_dump:
 label build_distributions:
 
     python:
-        f = readVersion()
-        if f is None or f == -1:
-            if project.current.name != "launcher":
+        mod_version = renpy_version_compatible(project.current.path)
+        if project.current.name != "launcher":
+            if mod_version["missing"]:
                 interface.error(_("`renpy-version.txt` missing or corrupt."), _("Check if this file exists or attempt to compile guess."),)
-        elif f < 7:
-            interface.error(_("You are trying to compile a Ren'Py 6 DDLC mod in Ren'Py 7."), _("Please use DDMM 6 in order to comile your Ren'Py 6 mod."),)
+            elif mod_version["incorrect"]:
+                interface.error(_("You are trying to compile a Ren'Py") + mod_version["version"] + _("DDLC mod in Ren'Py") + renpy.version_tuple[0] + _("."), _("Please use DDMM 6 or 7 in order to comile your Ren'Py 6/7 mod respectively."),)
 
     call build_update_dump
 

@@ -1,0 +1,7 @@
+{
+    "name": "Doki Doki Mod Maker",
+    "acronym": "DDMM",
+    "creator": "Schnee Dust Company - A Bronya Rand Division (bronya_rand)",
+    "description": "DDMM is a Ren'Py SDK Modification that makes DDLC Modding easier and efficient with better wording, auto-tool install, and more! This tool adheres to the Team Salvato IP Guidelines and RenpyTom Guidelines for DDLC and Ren'Py SDK modding.",
+    "restart": true
+}

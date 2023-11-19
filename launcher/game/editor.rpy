@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2022 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2023 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -162,7 +162,7 @@ init 1 python in editor:
             elif renpy.arch == "armv7l":
                 arch = "arm"
             else:
-                arch = "x86_64"
+                arch = "x64"
 
             installed = os.path.exists(os.path.join(config.renpy_base, "vscode/VSCode-linux-" + arch))
 
@@ -197,7 +197,7 @@ init 1 python in editor:
                 1,
                 _("Atom"),
                 AD,
-                dlc,
+                "extension:atom",
                 _("Up to 150 MB download required."),
                 None)
 
@@ -205,7 +205,7 @@ init 1 python in editor:
 
             fei.append(e)
 
-        # jEdit
+        # jEdit - Only present if it exists on system.
         if os.path.exists(os.path.join(config.renpy_base, "jedit")):
 
             fei.append(FancyEditorInfo(
