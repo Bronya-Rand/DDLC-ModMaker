@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2022 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2023 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -50,6 +50,7 @@ init python in project:
         _("Press shift+O (the letter) to access the console."),
         _("Press shift+D to access the developer menu."),
         _("Have you backed up your projects recently?"),
+        _("Lint checks your game for potential mistakes, and gives you statistics."),
     ]
 
     class Project(object):
@@ -262,6 +263,10 @@ init python in project:
             environ["RENPY_LAUNCHER_LANGUAGE"] = _preferences.language or "english"
             environ.update(env)
 
+            # Filter out system PYTHON* environment variables.
+            if hasattr(sys, "renpy_executable"):
+                environ = { k : v for k, v in environ.items() if not k.startswith("PYTHON") }
+
             encoded_environ = { }
 
             for k, v in environ.items():
@@ -277,6 +282,8 @@ init python in project:
 
             if wait:
                 if p.wait():
+
+                    print("Launch failed. command={!r}, returncode={!r}".format(cmd, p.returncode))
 
                     if args and not self.is_writeable():
                         interface.error(_("Launching the project failed."), _("This may be because the project is not writeable."))
@@ -389,9 +396,18 @@ init python in project:
             can be included in the project.
             """
 
+            def is_script(fn):
+                fn = fn.lower()
+
+                for i in [ ".rpy", ".rpym", "_ren.py" ]:
+                    if fn.endswith(i):
+                        return True
+
+                return False
+
             rv = [ ]
             rv.extend(i for i, isdir in util.walk(self.path)
-                if (not isdir) and (i.endswith(".rpy") or i.endswith(".rpym")) and (not i.startswith("tmp/")) )
+                if (not isdir) and is_script(i) and (not i.startswith("tmp/")) )
 
             return rv
 
@@ -819,11 +835,11 @@ label ddlc_location:
     python:
 
         if renpy.macintosh and persistent.safari:
-            interface.interaction(_("DDLC Folder"), _("Please select the 'ddlc-win' folder you downloaded from DDLC.moe."),)
+            interface.interaction(_("DDLC Windows Folder"), _("Please select the 'ddlc-win' folder you downloaded from DDLC.moe."),)
 
             path, is_default = choose_directory(None)
         else:
-            interface.interaction(_("DDLC ZIP File"), _("Please select the 'ddlc-win' ZIP file you downloaded from DDLC.moe."),)
+            interface.interaction(_("DDLC Windows ZIP File"), _("Please select the 'ddlc-win' ZIP file you downloaded from DDLC.moe."),)
 
             path, is_default = choose_file(None, bracket=["DDLC Windows ZIP File", "*.zip"])
 
@@ -834,7 +850,7 @@ label ddlc_location:
         if path.endswith("ddlc-mac") or path.endswith("ddlc-mac.zip"):
             interface.error(_("The DDLC Mac ZIP/Folder is no longer compatible with DDMM.\nDownload the DDLC Windows ZIP file, select it and try again."))
             renpy.jump("front_page")
-            
+
         persistent.zip_directory = path
         project.multipersistent.zip_directory = path
         project.multipersistent.save()
@@ -847,7 +863,7 @@ label auto_extract:
     python:
 
         browser_kind = interface.yesno(
-            message=_("Does your operating system auto-extract '.zip' files?\nDDLC ZIP files may be affected if your OS auto-extracts them."),
+            message=_("Does your operating system auto-extract '.zip' files?\nDDLC's ZIP files may be affected if your OS auto-extracts them."),
             yes=[SetField(persistent, "safari", True), SetField(persistent, "zip_directory", None), Return()],
             no=[SetField(persistent, "safari", False), SetField(persistent, "zip_directory", None), Return()],
             cancel=Jump("front_page"),
@@ -908,3 +924,24 @@ init python:
         return False
 
     renpy.arguments.register_command("get_projects_directory", get_projects_directory_command)
+
+    def set_project_command():
+        ap = renpy.arguments.ArgumentParser()
+        ap.add_argument("project", help="The full path to the project to select.")
+
+        args = ap.parse_args()
+
+        projects = os.path.dirname(os.path.abspath(args.project))
+        name = os.path.basename(args.project)
+
+        persistent.projects_directory = renpy.fsdecode(projects)
+        project.multipersistent.projects_directory = persistent.projects_directory
+
+        persistent.active_project = name
+
+        project.multipersistent.save()
+        renpy.save_persistent()
+
+        return False
+
+    renpy.arguments.register_command("set_project", set_project_command)
