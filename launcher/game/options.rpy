@@ -347,6 +347,7 @@ init python:
 
 
     build.classify_renpy("renpy.py", "binary")
+    build.classify_renpy("renpy.sh", "binary")
     source_and_binary("renpy")
 
     # games.
