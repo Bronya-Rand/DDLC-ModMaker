@@ -1525,10 +1525,10 @@ change_renpy_executable()
             elif format == "update":
                 pkg = UpdatePackage(path, filename, self.destination)
             elif format == "zip" or format == "app-zip" or format == "bare-zip":
-                if self.build['renpy']:
-                    pkg = ExternalZipPackage(path)
-                else:
-                    pkg = ZipPackage(path)
+                #if self.build['renpy']:
+                #    pkg = ExternalZipPackage(path)
+                #else:
+                pkg = ZipPackage(path)
             elif dmg:
 
                 def make_dmg():

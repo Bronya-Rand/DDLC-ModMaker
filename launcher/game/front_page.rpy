@@ -147,19 +147,17 @@ screen front_page:
             use front_page_project
 
     if project.current is not None:
-        python:
-            checks = renpy_version_compatible(project.current.path)
-                
-        if not checks["compatible"]:
-            if checks["missing"]:
-                textbutton _("Missing Version Data") action NullAction() style "l_unavail_button"
-            elif checks["range"]:
-                textbutton _("Invalid Ren'Py Version") action NullAction() style "l_unavail_button"
-            elif checks["incorrect"]:
-                textbutton _("Incorrect DDMM SDK Version") action NullAction() style "l_unavail_button"
-        else:
-            textbutton _("Launch Mod") action project.Launch() style "l_right_button"
-            key "K_F5" action project.Launch()
+        if project.current.name != "launcher":
+            if not checks["compatible"]:
+                if checks["missing"]:
+                    textbutton _("Missing Version Data") action NullAction() style "l_unavail_button"
+                elif checks["range"]:
+                    textbutton _("Invalid Ren'Py Version") action NullAction() style "l_unavail_button"
+                elif checks["incorrect"]:
+                    textbutton _("Incorrect DDMM SDK Version") action NullAction() style "l_unavail_button"
+            else:
+                textbutton _("Launch Mod") action project.Launch() style "l_right_button"
+                key "K_F5" action project.Launch()
 
 # This is used by front_page to display the list of known projects on the screen.
 screen front_page_project_list:
