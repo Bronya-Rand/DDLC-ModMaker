@@ -357,30 +357,24 @@ label force_recompile:
 
 label set_version:
     python:
-        mod_version = renpy_version_compatible()
+        mod_version = renpy_version_compatible(project.current.path)
         if mod_version["missing"]:
             ver_path = os.path.join(project.current.gamedir, "renpy-version.txt")
             with open(ver_path, "w") as f:
-                f.write("8") 
+                f.write(str(renpy.version_tuple[0])) 
             interface.info(_("A file named `renpy-version.txt` has been created in your projects' game directory."), _("Do not delete this file as it is needed to determine which version of Ren'Py it uses for building your mod."))
             renpy.jump("front_page")
             
         if mod_version["incorrect"]:
-            confirm_edit = False
             edit_response = interface.yesno(
                 label=_("Warning"),
-                message=_("This mod is set to Ren'Py") + str(mod_version["version"]) + _("Mode. If you change this, it may result in a improperly packaged mod.\nAre you sure you want to proceed? Type either Yes or No."),
-                yes=SetScreenVariable(confirm_edit, True),
-                no=Return(),
-                cancel=Jump("front_page"))
+                message=_("This mod is set to Ren'Py ") + str(mod_version["version"]) + _(" Mode. If you change this, it may result in a improperly packaged mod.\nAre you sure you want to proceed? Type either Yes or No."),
+                no=Jump("front_page"))
 
-            if not confirm_edit:
-                renpy.jump("front_page")
-            else:
-                with open(os.path.join(project.current.gamedir, "renpy-version.txt"), "w") as f:
-                    f.write("8") 
-                interface.info(_("Set the Ren'Py mode version to Ren'Py 8."))
+            with open(os.path.join(project.current.gamedir, "renpy-version.txt"), "w") as f:
+                f.write(str(renpy.version_tuple[0])) 
+            interface.info(_("Set the Ren'Py mode version to Ren'Py {}.".format(str(renpy.version_tuple[0]))))
         else:
-            interface.info(_("The Ren'Py mode version is already set to Ren'Py 8."))
+            interface.info(_("The Ren'Py mode version is already set to Ren'Py {}.".format(str(renpy.version_tuple[0]))))
     
     jump front_page
