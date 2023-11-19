@@ -13,7 +13,7 @@ class MMakerTool():
     def __init__(self, name, acronym, creator, desc, restart=False, tool=True):
         for x in (name, acronym, creator, desc):
             if not isinstance(x, basestring):
-                raise Exception("A argurment provided is not type string")
+                raise Exception("A argurment provided is not type basestring.")
             
         install_path = config.gamedir + "/mmupdater/data/{}".format(acronym)
 
@@ -69,7 +69,7 @@ class MMakerTool():
 
 class MMakerGithubTool(MMakerTool):
     def __init__(self, github_name, github_branch, package_name, name = None, acronym = None, creator = None, desc = None, restart=False, tool=True, extra=False):
-        if not isinstance(github_name, str):
+        if not isinstance(github_name, basestring):
             raise Exception("Github Repo Name must be provided.")
 
         if len(github_name.split("/")) != 2:
@@ -78,7 +78,7 @@ class MMakerGithubTool(MMakerTool):
             raise Exception("Github Branch Name must be provided.")
         if extra and (name is None or acronym is None or desc is None):
             raise Exception("Name/Acronym/Description of Extra must be provided if this is a Github Extra Mod Package.")
-        if not isinstance(package_name, str):
+        if not isinstance(package_name, basestring):
             raise Exception("package name is not a type string.")
         
         self.github_name = github_name
