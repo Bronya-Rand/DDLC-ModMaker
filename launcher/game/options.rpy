@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2022 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2023 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -52,7 +52,7 @@ init -1 python hide:
     # These control the name and version of the game, that are reported
     # with tracebacks and other debugging logs.
     config.name = "Doki Doki Mod Maker"
-    config.version = "1.5.3"
+    config.version = "1.6.0"
 
     #####################
     # Themes
@@ -270,22 +270,8 @@ init python:
     build.classify_renpy("**/thumbs.db", None)
     build.classify_renpy("**/.*", None)
 
-    # Atom rules. These have to be very early, since Atom uses names like
-    # tmp for packages.
-    build.classify_renpy("atom/", "atom-all")
-    build.classify_renpy("atom/default-dot-atom/**", "atom-all")
-    build.classify_renpy("atom/atom-windows/**", "atom-windows")
-    build.classify_renpy("atom/Atom.app/**", "atom-mac")
-    build.classify_renpy("atom/atom-linux**", "atom-linux")
-
-    try:
-        with open(os.path.join(config.renpy_base, "atom", "executable.txt")) as f:
-            for l in f:
-                build.executable(l.strip())
-    except Exception:
-        pass
-
     build.classify_renpy("rapt/**/libLive2DCubismCore.so", None)
+    build.classify_renpy("rapt/symbols/", None)
     build.classify_renpy("rapt/**", "rapt")
     build.executable("rapt/prototype/gradlew")
 
@@ -351,16 +337,26 @@ init python:
 
         build.classify_renpy(pattern + "/**.rpyc", binary)
         build.classify_renpy(pattern + "/**.rpymc", binary)
+
+        build.classify_renpy(pattern + "/**/" + renpy.script.BYTECODE_FILE, binary)
+        build.classify_renpy(pattern + "/**/cache/bytecode-*.rpyb", None)
+
         build.classify_renpy(pattern + "/**/cache/*", binary)
 
         build.classify_renpy(pattern + "/**", source)
 
+
     build.classify_renpy("renpy.py", "binary")
+    build.classify_renpy("renpy.sh", "binary")
     source_and_binary("renpy")
 
     # games.
     build.classify_renpy("launcher/game/theme/", None)
-    build.classify_renpy("gui/game/gui/", None)
+
+    build.classify_renpy("gui/game/gui/", "source")
+    build.classify_renpy("gui/game/gui/bubble.png", "source")
+    build.classify_renpy("gui/game/gui/thoughtbubble.png", "source")
+    build.classify_renpy("gui/game/gui/*", None)
 
     source_and_binary("launcher", py=False)
     source_and_binary("gui", binary=None, py=False)
@@ -401,6 +397,7 @@ init python:
     build.classify_renpy("module/pysdlsound/*.pyx", "source")
     build.classify_renpy("module/fribidi-src/**", "source")
     build.classify_renpy("module/tinyfiledialogs/**", "source")
+    build.classify_renpy("module/libhydrogen/**", "source")
 
     # all-platforms binary.
     build.classify_renpy("lib/**/*steam_api*", "steam")
@@ -421,11 +418,6 @@ init python:
 
     build.classify_renpy("lib/", "binary")
 
-    # renpy.app is now built from scratch from distribute.rpy.
-
-    # jedit rules.
-    build.classify_renpy("jedit/**", "jedit")
-
     # Packages.
     build.packages = [ ]
 
@@ -434,16 +426,12 @@ init python:
     build.package("source", "tar.bz2", "source source_only", update=False)
     build.package("steam", "zip", "steam", dlc=True)
 
-    build.package("jedit", "zip", "jedit", dlc=True)
-
-    build.package("atom-linux", "tar.bz2", "atom-all atom-linux", dlc=True)
-    build.package("atom-mac", "zip", "atom-all atom-mac", dlc=True)
-    build.package("atom-windows", "zip", "atom-all atom-windows", dlc=True)
-
     build.package("rapt", "zip", "rapt", dlc=True)
     build.package("renios", "zip", "renios", dlc=True)
     build.package("web", "zip", "web", dlc=True)
 
+# The identifier for the SDK.
+define build.mac_info_plist["CFBundleIdentifier"] = "org.renpy.sdk"
 
 # Enable the special launcher translation mode.
 define config.translate_launcher = True
@@ -464,3 +452,6 @@ python early:
 # Since the launcher can be run directly or can be run from the SDK directory,
 # uneliding files needs to be handled slightly differently.
 define config.alternate_unelide_path = os.path.join(config.basedir, "launcher")
+
+# Disable skipping.
+define config.allow_skipping = False

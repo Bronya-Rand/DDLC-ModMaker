@@ -1,4 +1,4 @@
-﻿# Copyright 2004-2022 Tom Rothamel <pytom@bishoujo.us>
+﻿# Copyright 2004-2023 Tom Rothamel <pytom@bishoujo.us>
 #
 # Permission is hereby granted, free of charge, to any person
 # obtaining a copy of this software and associated documentation files
@@ -52,7 +52,7 @@ init python:
         if state is not None:
             base_name = state.get("sdk", {}).get('base_name', '')
 
-            if "-nightly-" in base_name:
+            if "+nightly" in base_name:
                 dlc_url = "http://nightly.renpy.org/{}/updates.json".format(base_name[6:])
 
         return renpy.invoke_in_new_context(updater.update, dlc_url, add=[name], public_key=PUBLIC_KEY, simulate=UPDATE_SIMULATE, restart=restart)
@@ -73,11 +73,17 @@ init python:
     _("Experimental")
     _("Experimental versions of Ren'Py. You shouldn't select this channel unless asked by a Ren'Py developer.")
 
+    _("Nightly Fix")
+    _("Nightly Fix (Ren'Py 8, Python 3)")
+    _("Nightly Fix (Ren'Py 7, Python 2)")
+    _("A nightly build of fixes to the release version of Ren'Py.")
+
     _("Nightly")
     _("Nightly (Ren'Py 8, Python 3)")
     _("Nightly (Ren'Py 7, Python 2)")
     _("The bleeding edge of Ren'Py development. This may have the latest features, or might not run at all.")
 
+default allow_repair_update = False
 
 screen update_channel(channels):
 
@@ -108,8 +114,8 @@ screen update_channel(channels):
 
                     for c in channels:
 
-                        if c["split_version"] != list(renpy.version_tuple):
-                            $ action = [SetField(persistent, "has_update", None), SetField(persistent, "last_update_check", None), updater.Update(c["url"], simulate=UPDATE_SIMULATE, public_key=PUBLIC_KEY, confirm=False)]
+                        if c["split_version"] != list(renpy.version_tuple) or allow_repair_update:
+                            $ action = [SetField(persistent, "has_update", None), SetField(persistent, "last_update_check", None), updater.Update(c["url"], simulate=UPDATE_SIMULATE, public_key=PUBLIC_KEY, confirm=False, force=allow_repair_update)]
 
                             if c["channel"].startswith("Release"):
                                 $ current = _("• {a=https://www.renpy.org/doc/html/changelog.html}View change log{/a}")

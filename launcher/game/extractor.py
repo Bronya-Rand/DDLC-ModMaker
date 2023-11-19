@@ -59,7 +59,3 @@ class Extractor:
 
         if not copy:
             shutil.rmtree(game_dir)
-
-    def installation(self, filePath, modFolder):
-        with ZipFile(filePath, "r") as z:
-            z.extractall(modFolder)
