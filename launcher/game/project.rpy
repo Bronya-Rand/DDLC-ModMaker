@@ -874,14 +874,12 @@ label auto_extract:
 label delete_folder:
 
     python:
-        confirm_delete = False
         interface.yesno(
             label=_("Deleting a Project"),
             message=_("Are you sure you want to delete '[project.current.name!q]'?"),
             filename=False,
             no=Jump("front_page"),
             cancel=Jump("front_page"))
-
         
         interface.processing(_("Deleting [project.current.name]..."))
         
