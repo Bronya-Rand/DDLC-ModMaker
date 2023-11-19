@@ -7,7 +7,7 @@ class ModTool(MMakerGithubTool):
 
     def __init__(self):
         super(ModTool, self).__init__(
-                        github_name="GanstaKingofSA/DDLCModTemplate2.0", 
+                        github_name="Bronya-Rand/DDLCModTemplate2.0", 
                         github_branch="python-2",
                         name="DDLC Mod Template 2.0 - Extras",
                         acronym="DDMT-Extras",
